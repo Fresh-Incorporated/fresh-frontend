@@ -9,13 +9,13 @@ module.exports = {
     "./error.vue",
   ],
   theme: {
-    colors: {
-      main: {
-        light: "#fff",
-        dark: "#191919",
-      }
-    },
     extend: {
+      colors: {
+        main: {
+          light: "#fff",
+          dark: "#191919",
+        }
+      },
       fontFamily: {
         'montserrat': ['Montserrat', "none"],
         'rubik': ['Rubik', "none"],
