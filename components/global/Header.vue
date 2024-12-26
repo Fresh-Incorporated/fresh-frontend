@@ -21,7 +21,7 @@ watch(isDark, () => {
       <div class="flex h-full">
         <div class="flex items-center h-full gap-1 w-60">
 <!--          <img class="h-8" src="/logo.svg" alt="">-->
-          <p class="font-rubik text-xl">FreshMarket</p>
+          <p class="font-rubik text-xl">Fresh Inc.</p>
         </div>
         <div class="w-full flex justify-center items-center gap-2">
           <NuxtLink to="/">
@@ -36,9 +36,9 @@ watch(isDark, () => {
             </ElButton>
           </NuxtLink>
 
-          <NuxtLink to="/">
+          <NuxtLink to="/freshmarket">
             <ElButton text round>
-              Другое
+              FreshMarket
             </ElButton>
           </NuxtLink>
 

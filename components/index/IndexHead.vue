@@ -4,7 +4,7 @@ import ProjectOverview from "~/components/index/ProjectOverview.vue";
 </script>
 
 <template>
-  <div class="w-full h-full relative flex">
+  <div class="w-full h-full relative flex border-b border-b-neutral-800 bg-gradient-to-t from-primary-dark/[0.1] via-transparent">
     <div
         class="absolute inset-0 h-full w-full bg-[linear-gradient(to_right,#aaaaaa1a_1px,transparent_1px),linear-gradient(to_bottom,#aaaaaa1a_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#8080801a_1px,transparent_1px),linear-gradient(to_bottom,#8080801a_1px,transparent_1px)] bg-[size:64px_64px]"
     ></div>
@@ -29,7 +29,7 @@ import ProjectOverview from "~/components/index/ProjectOverview.vue";
     </div>
     <div class="min-h-96 flex items-center md:pl-72">
       <div class="animation-opacity-r-l">
-        <h1 class="text-primary-light dark:text-primary-dark text-4xl font-onest font-bold relative z-10">FreshMarket</h1>
+        <h1 class="text-primary-light dark:text-primary-dark text-4xl font-onest font-bold relative z-10">Fresh Inc.</h1>
         <!--        <div class="relative z-0">-->
         <!--          <div class="absolute w-24 h-2 bottom-0.5">-->
         <!--            <div class="absolute bg-primary-dark h-2 w-full blur animation-line-init"></div>-->
