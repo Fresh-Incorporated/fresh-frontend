@@ -1,5 +1,6 @@
 @import "light.css";
 @import "dark.css";
+@import "primeicons/primeicons.css";
 
 @tailwind base;
 @tailwind components;
