@@ -1,3 +1,4 @@
+import animDelay from 'tailwindcss-animation-delay'
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -14,6 +15,10 @@ module.exports = {
         main: {
           light: "#fff",
           dark: "#191919",
+        },
+        primary: {
+          light: "#0094ff",
+          dark: "#0094ff",
         }
       },
       fontFamily: {
@@ -24,5 +29,7 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    animDelay,
+  ],
 }
