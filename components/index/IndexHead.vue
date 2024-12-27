@@ -8,7 +8,7 @@ import ProjectOverview from "~/components/index/ProjectOverview.vue";
     <div
         class="absolute inset-0 h-full w-full bg-[linear-gradient(to_right,#aaaaaa1a_1px,transparent_1px),linear-gradient(to_bottom,#aaaaaa1a_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#8080801a_1px,transparent_1px),linear-gradient(to_bottom,#8080801a_1px,transparent_1px)] bg-[size:64px_64px]"
     ></div>
-    <div class="relative">
+    <div class="relative hidden md:block">
       <div class="animation-opacity absolute w-4 h-4 top-32 left-64">
         <div class="absolute -left-2 -top-2 w-4 h-4 flex justify-center items-center aspect-square">
           <i class="absolute pi pi-map-marker text-sm blur animate-[pulse_5s_infinite_ease-in-out] animation-delay-150"></i>
@@ -27,7 +27,7 @@ import ProjectOverview from "~/components/index/ProjectOverview.vue";
         <div class="animation-opacity absolute -left-20 h-px w-16 bg-gradient-to-l dark:from-white from-neutral-400"></div>
       </div>
     </div>
-    <div class="min-h-96 flex items-center md:pl-72">
+    <div class="min-h-64 md:min-h-96 flex items-center justify-center w-full md:justify-start md:pl-72">
       <div class="animation-opacity-r-l">
         <h1 class="text-primary-light dark:text-primary-dark text-4xl font-onest font-bold relative z-10">Fresh Inc.</h1>
         <!--        <div class="relative z-0">-->
@@ -36,12 +36,12 @@ import ProjectOverview from "~/components/index/ProjectOverview.vue";
         <!--            <div class="bg-white h-2 w-full animation-line-init"></div>-->
         <!--          </div>-->
         <!--        </div>-->
-        <p class="text-black dark:text-white opacity-80 text-nowrap">
+        <p class="text-black dark:text-white opacity-80 md:text-nowrap">
           Инновационная идея в мире Minecraft!
         </p>
       </div>
     </div>
-    <div class="w-full h-96">
+    <div class="w-full h-96 hidden lg:block">
       <ProjectOverview />
     </div>
   </div>
