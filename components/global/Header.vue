@@ -3,6 +3,7 @@ const colorMode = useColorMode()
 
 const isDark = ref(false)
 const route = useRoute()
+const { user, userLoading } = useUser();
 
 onMounted(() => {
   isDark.value = colorMode.preference === 'dark' || colorMode.preference === 'system'
@@ -81,10 +82,35 @@ const mobileNav = ref(false)
               </div>
             </template>
           </el-switch>
-          <ElButton>
-            <div class="flex gap-1">
-              <i class="pi pi-user"></i>
-              Войти
+          <div v-if="user && !userLoading" class="h-full flex items-center justify-end gap-2 py-1 px-1 border rounded-lg border-neutral-200 dark:border-neutral-800 bg-neutral-900 hover:bg-neutral-950/[0.25] duration-500 select-none cursor-pointer">
+            <div class="h-full">
+              <p class="text-sm max-w-24 sm:max-w-52 md:max-w-24 lg:max-w-48 lg:min-w-24 truncate font-medium text-right">_zaralX_</p>
+              <div class="grid grid-cols-2">
+                <div class="flex items-center justify-end gap-0.5">
+                  <p class="font-rubik text-xs text-cyan-500 text-nowrap">9999</p>
+                  <img class="w-3 h-3" src="https://img.zaralx.ru/v1/minecraft/deepslate_diamond_ore" alt="">
+                </div>
+                <div>
+                  <p class="font-rubik text-xs text-green-500 text-nowrap text-right">999 <i class="pi pi-asterisk text-[0.6rem]"></i></p>
+                </div>
+              </div>
+            </div>
+            <div class="w-10">
+              <img class="w-10 rounded-md pointer-events-none" src="https://img.zaralx.ru/v1/minecraft/user/face/full/_zaralX_" alt="">
+            </div>
+          </div>
+          <ElButton v-if="userLoading || !user" :disabled="userLoading">
+            <div>
+              <transition>
+                <div v-if="userLoading">
+                  <i class="pi pi-spinner animate-spin text-xs"></i>
+                  Входим
+                </div>
+                <div v-else class="flex gap-1">
+                  <i class="pi pi-user"></i>
+                  Войти
+                </div>
+              </transition>
             </div>
           </ElButton>
         </div>
@@ -94,5 +120,20 @@ const mobileNav = ref(false)
 </template>
 
 <style scoped>
+.v-enter-active,
+.v-leave-active {
+  transition: all 0.5s ease;
+  @apply scale-100;
+}
 
+.v-leave-active,
+.v-leave-to {
+  position: absolute;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+  @apply scale-0;
+}
 </style>

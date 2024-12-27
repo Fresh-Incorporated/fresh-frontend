@@ -1,5 +1,10 @@
 <script setup lang="ts">
 const colorMode = useColorMode()
+const { tryLoadUser } = useUser()
+
+onMounted( () => {
+  tryLoadUser()
+})
 </script>
 
 <template>
