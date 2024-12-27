@@ -1,5 +1,6 @@
 import animDelay from 'tailwindcss-animation-delay'
 import transforms from '@xpd/tailwind-3dtransforms'
+import strokes from '@designbycode/tailwindcss-text-stroke'
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -46,5 +47,6 @@ module.exports = {
     plugins: [
         animDelay,
         transforms,
+        strokes
     ],
 }
