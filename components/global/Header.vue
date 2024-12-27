@@ -51,11 +51,11 @@ const mobileNav = ref(false)
             <i class="pi pi-bars"></i>
           </button>
         </div>
-        <div class="flex items-center h-full gap-1 md:w-60 ml-2 md:ml-0">
+        <NuxtLink to="/" class="flex items-center h-full gap-1 md:w-60 ml-2 md:ml-0">
 <!--          <img class="h-8" src="/logo.svg" alt="">-->
           <p class="absolute font-rubik text-xl blur-sm opacity-50 select-none">Fresh Inc.</p>
           <p class="font-rubik text-xl text-nowrap">Fresh Inc.</p>
-        </div>
+        </NuxtLink>
         <div class="w-full hidden md:flex justify-center items-center gap-2">
           <NuxtLink v-for="link in links" :to="link.to">
             <ElButton text round :bg="route.path === link.to">
