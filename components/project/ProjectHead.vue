@@ -8,7 +8,7 @@ import ProjectOverview from "~/components/index/ProjectOverview.vue";
     <div
         class="absolute inset-0 h-full w-full bg-[linear-gradient(to_right,#aaaaaa1a_1px,transparent_1px),linear-gradient(to_bottom,#aaaaaa1a_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#8080801a_1px,transparent_1px),linear-gradient(to_bottom,#8080801a_1px,transparent_1px)] bg-[size:64px_64px]"
     ></div>
-    <div class="h-full">
+    <div class="h-full hidden lg:block">
       <div class="absolute w-full h-full grid grid-cols-2 px-8 py-16 gap-8">
         <div class="relative p-1 shadow-lg max-w-96 transform rotate-y-12 rotate-x-12 min-w-96 hover:rotate-y-0 duration-500 group">
           <div class="absolute bg-primary-dark rounded-xl w-full h-full blur-lg opacity-50 group-hover:rotate-y-0 group-hover:rotate-x-0 duration-500">
@@ -86,16 +86,10 @@ import ProjectOverview from "~/components/index/ProjectOverview.vue";
         </div>
       </div>
     </div>
-    <div class="min-h-96 flex justify-center items-center text-center">
+    <div class="min-h-64 md:min-h-96 flex justify-center items-center text-center">
       <div class="animation-opacity-r-l">
-        <h1 class="text-primary-light dark:text-primary-dark text-6xl font-onest font-bold relative z-10">FreshMarket</h1>
-        <!--        <div class="relative z-0">-->
-        <!--          <div class="absolute w-24 h-2 bottom-0.5">-->
-        <!--            <div class="absolute bg-primary-dark h-2 w-full blur animation-line-init"></div>-->
-        <!--            <div class="bg-white h-2 w-full animation-line-init"></div>-->
-        <!--          </div>-->
-        <!--        </div>-->
-        <p class="text-black dark:text-white opacity-80 text-nowrap">
+        <h1 class="text-primary-light dark:text-primary-dark text-4xl md:text-6xl font-onest font-bold relative z-10">FreshMarket</h1>
+        <p class="text-black dark:text-white opacity-80 md:text-nowrap text-xs md:text-base">
           Первый в мире майнкрафт маркетплейс
         </p>
 
@@ -103,13 +97,13 @@ import ProjectOverview from "~/components/index/ProjectOverview.vue";
           <div class="cursor-pointer select-none relative mt-4 border border-primary-dark rounded-lg flex justify-center text-primary-dark font-bold group">
             <div class="absolute w-full h-full">
               <div class="absolute w-full h-0 group-hover:h-full flex justify-center items-center overflow-hidden duration-1000">
-                <p class="text-white text-nowrap overflow-hidden">Начать покупки</p>
+                <p class="text-white text-nowrap overflow-hidden text-sm md:text-base">Начать покупки</p>
               </div>
               <div class="w-0 group-hover:w-full duration-1000 h-full bg-primary-dark rounded-md flex justify-center text-white overflow-clip">
               </div>
             </div>
             <div class="py-1 px-8 flex justify-center">
-              <p class="">Начать покупки</p>
+              <p class="text-sm md:text-base">Начать покупки</p>
               <i class="absolute pi pi-chevron-down animate-bounce mt-9 text-xs group-hover:text-base duration-1000 group-hover:text-white"></i>
               <i class="absolute pi pi-chevron-down animate-bounce mt-10 group-hover:text-xl duration-1000 group-hover:text-white"></i>
             </div>
