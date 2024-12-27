@@ -2,6 +2,7 @@
 const colorMode = useColorMode()
 
 const isDark = ref(false)
+const route = useRoute()
 
 onMounted(() => {
   isDark.value = colorMode.preference === 'dark'
@@ -10,6 +11,21 @@ onMounted(() => {
 watch(isDark, () => {
   colorMode.preference = isDark.value ? 'dark' : 'light';
 })
+
+const links = [
+  {
+    title: "Главная",
+    to: "/"
+  },
+  {
+    title: "Тест",
+    to: "/test"
+  },
+  {
+    title: "FreshMarket",
+    to: "/freshmarket"
+  }
+]
 </script>
 
 <template>
@@ -25,27 +41,9 @@ watch(isDark, () => {
           <p class="font-rubik text-xl">Fresh Inc.</p>
         </div>
         <div class="w-full flex justify-center items-center gap-2">
-          <NuxtLink to="/">
-            <ElButton text round bg>
-              Главная
-            </ElButton>
-          </NuxtLink>
-
-          <NuxtLink to="/test">
-            <ElButton text round>
-              Тест
-            </ElButton>
-          </NuxtLink>
-
-          <NuxtLink to="/freshmarket">
-            <ElButton text round>
-              FreshMarket
-            </ElButton>
-          </NuxtLink>
-
-          <NuxtLink to="/">
-            <ElButton text round>
-              Другое
+          <NuxtLink v-for="link in links" :to="link.to">
+            <ElButton text round :bg="route.path === link.to">
+              {{link.title}}
             </ElButton>
           </NuxtLink>
         </div>
