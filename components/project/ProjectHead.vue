@@ -1,6 +1,7 @@
 <script setup lang="ts">
-
-import ProjectOverview from "~/components/index/ProjectOverview.vue";
+const scroll = ():void => {
+  window.scrollTo(0, 400)
+}
 </script>
 
 <template>
@@ -94,7 +95,7 @@ import ProjectOverview from "~/components/index/ProjectOverview.vue";
         </p>
 
         <div class="relative flex justify-center">
-          <div class="cursor-pointer select-none relative mt-4 border border-primary-dark rounded-lg flex justify-center text-primary-dark font-bold group">
+          <div @click="scroll" class="cursor-pointer select-none relative mt-4 border border-primary-dark rounded-lg flex justify-center text-primary-dark font-bold group">
             <div class="absolute w-full h-full">
               <div class="absolute w-full h-0 group-hover:h-full flex justify-center items-center overflow-hidden duration-1000">
                 <p class="text-white text-nowrap overflow-hidden text-sm md:text-base">Начать покупки</p>

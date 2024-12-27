@@ -14,7 +14,6 @@ const load = () => {
     productsModel.value.loading = false;
   }, 1000)
 }
-
 </script>
 
 <template>

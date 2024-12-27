@@ -6,7 +6,11 @@ const model = defineModel()
 
 <template>
 <div class="w-full h-full overflow-auto my-4">
-  <div class="md:w-11/12 mx-auto grid gap-2 md:gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+  <div class="md:w-11/12 mx-auto grid gap-2 md:gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 overflow-hidden">
+<!--    <div class="h-96 col-span-2 border border-neutral-800 bg-neutral-900 flex flex-col justify-center items-center">-->
+<!--      <p class="text-3xl">Здесь могла быть ваша реклама</p>-->
+<!--      <p class="text-xl opacity-50">Тут одиноко..</p>-->
+<!--    </div>-->
     <FMProduct v-for="product in model.products" />
   </div>
   <transition>
