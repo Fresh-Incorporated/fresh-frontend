@@ -5,30 +5,26 @@ const model = defineModel()
 </script>
 
 <template>
-<div class="w-full h-full overflow-auto mt-4">
+<div class="w-full h-full overflow-auto my-4">
   <div class="md:w-11/12 mx-auto grid gap-2 md:gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
     <FMProduct v-for="product in model.products" />
   </div>
+  <transition>
+    <div v-if="model.loading" class="transform duration-500 flex justify-center my-4 text-xl items-center gap-2"><i class="pi pi-spinner animate-spin"></i>Загружаем больше товаров</div>
+  </transition>
 </div>
 </template>
 
 <style scoped>
-.infinite-list {
-  height: 300px;
-  padding: 0;
-  margin: 0;
-  list-style: none;
+.v-enter-active,
+.v-leave-active {
+  transition: all 0.5s ease;
+  @apply scale-100;
 }
-.infinite-list .infinite-list-item {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 50px;
-  background: var(--el-color-primary-light-9);
-  margin: 10px;
-  color: var(--el-color-primary);
-}
-.infinite-list .infinite-list-item + .list-item {
-  margin-top: 10px;
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+  @apply scale-0;
 }
 </style>

@@ -2,10 +2,17 @@
 import ProjectHead from "~/components/project/ProjectHead.vue";
 import FMProductsList from "~/components/freshmarket/FMProductsList.vue";
 
-const productsModel = ref({products: []})
+const productsModel = ref({products: [], loading: false});
 
 const load = () => {
-  productsModel.value.products.push(1)
+  if (productsModel.value.loading) return;
+  productsModel.value.loading = true;
+  setTimeout(() => {
+    for (let i = 0; i < 5; i++) {
+      productsModel.value.products.push(1)
+    }
+    productsModel.value.loading = false;
+  }, 1000)
 }
 
 </script>

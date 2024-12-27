@@ -6,7 +6,7 @@ const props = defineProps({
 
 <template>
   <div class="w-full h-96 border border-neutral-800 bg-neutral-900 shadow-lg flex flex-col items-center rounded-lg">
-    <div class="w-48 flex justify-center p-2">
+    <div class="w-48 h-48 flex justify-center p-2">
       <img class="aspect-square" src="https://img.zaralx.ru/v1/minecraft/carrot" alt="">
     </div>
     <div class="flex-1 flex flex-col h-full w-full px-4 py-2">
@@ -29,7 +29,8 @@ const props = defineProps({
       </div>
     </div>
     <div class="w-full">
-      <button class="py-2 bg-secondary-light dark:bg-secondary-dark hover:bg-primary-dark duration-200 w-full rounded-lg font-semibold font-montserrat"><i class="pi pi-shopping-cart"></i>  2 Января</button>
+      <button class="py-2 bg-secondary-light dark:bg-secondary-dark hover:bg-primary-dark duration-200 w-full rounded-lg font-semibold font-montserrat"><i class="pi pi-shopping-cart"></i>
+         9999 АР</button>
     </div>
   </div>
 </template>
