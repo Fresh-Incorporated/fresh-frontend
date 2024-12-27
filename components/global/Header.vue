@@ -5,7 +5,7 @@ const isDark = ref(false)
 const route = useRoute()
 
 onMounted(() => {
-  isDark.value = colorMode.preference === 'dark'
+  isDark.value = colorMode.preference === 'dark' || colorMode.preference === 'system'
 })
 
 watch(isDark, () => {
