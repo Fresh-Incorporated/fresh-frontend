@@ -5,7 +5,7 @@ definePageMeta({
 </script>
 
 <template>
-Cabinet content
+<div>Cabinet content</div>
 </template>
 
 <style scoped>

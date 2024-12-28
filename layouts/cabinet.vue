@@ -4,8 +4,6 @@ import type {TabsPaneContext} from "element-plus";
 
 const route = useRoute()
 
-console.log(route.path)
-
 const activeCategory = ref('main')
 
 const links = {
@@ -55,7 +53,7 @@ const handleCategory = async (tab: TabsPaneContext, event: Event) => {
         </template>
       </el-tab-pane>
     </el-tabs>
-    <slot />
+    <slot></slot>
   </div>
   <Footer />
 </div>

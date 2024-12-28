@@ -5,7 +5,7 @@ definePageMeta({
 </script>
 
 <template>
-Fm business content
+<div>Fm business content</div>
 </template>
 
 <style scoped>
