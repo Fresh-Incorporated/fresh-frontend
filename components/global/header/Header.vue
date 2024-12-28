@@ -131,14 +131,14 @@ onBeforeUnmount(() => {
                     <div class="relative">
                       <div class="absolute w-4 h-4 bg-white rounded-full blur-xl"></div>
                     </div>
-                    <NuxtLink to="/">
+                    <NuxtLink to="/cabinet">
                       <div class="w-full font-medium">
                         <p :class="'text-primary-dark'"
                            class="text-center py-2 hover:bg-white/[0.05] duration-500 rounded-t-lg flex justify-end items-center gap-1 px-2">
                           <i class="pi pi-home"></i> <span class="flex-1">Кабинет</span></p>
                       </div>
                     </NuxtLink>
-                    <NuxtLink to="/">
+                    <NuxtLink to="/cabinet">
                       <div class="w-full font-medium">
                         <p :class="'text-neutral-300'"
                            class="text-center py-2 hover:bg-white/[0.05] duration-500 rounded-b-lg flex justify-end items-center gap-1 px-2">
