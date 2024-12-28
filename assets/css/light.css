@@ -75,6 +75,7 @@ html.light {
     --el-overlay-color-lighter: rgba(0, 0, 0, 0.5);
     --el-mask-color: rgba(255, 255, 255, 0.9);
     --el-mask-color-extra-light: rgba(255, 255, 255, 0.3);
+    --el-menu-item-height: auto;
 }
 
 html.light .el-button {

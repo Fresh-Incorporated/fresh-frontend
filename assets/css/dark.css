@@ -68,7 +68,8 @@ html.dark {
     --el-fill-color-extra-light: #191919;
     --el-fill-color-blank: transparent;
     --el-mask-color: rgba(0, 0, 0, 0.8);
-    --el-mask-color-extra-light: rgba(0, 0, 0, 0.3)
+    --el-mask-color-extra-light: rgba(0, 0, 0, 0.3);
+    --el-menu-item-height: auto;
 }
 
 html.dark .el-button {
