@@ -17,6 +17,12 @@
         <p class="absolute text-sky-500 font-rubik text-2xl blur-sm opacity-50">9999 АР</p>
         <p class="text-sky-500 font-rubik text-2xl">9999 АР</p>
       </div>
+      <div class="relative w-full mt-2">
+        <div class="absolute w-full flex justify-center gap-2">
+          <button class="border w-6 h-6 flex justify-center items-center text-xs rounded-md shadow-lg border-green-600 text-green-600 hover:text-white hover:bg-green-600 duration-200"><i class="pi pi-arrow-up"></i></button>
+          <button class="border w-6 h-6 flex justify-center items-center text-xs rounded-md shadow-lg border-red-600 text-red-600 hover:text-white hover:bg-red-600 duration-200"><i class="pi pi-arrow-down"></i></button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
