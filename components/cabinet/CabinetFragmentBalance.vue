@@ -1,5 +1,5 @@
 <script setup lang="ts">
-
+const {user} = useUser()
 </script>
 
 <template>
@@ -14,8 +14,8 @@
         <p class="text-lg">Ваш баланс</p>
       </div>
       <div>
-        <p class="absolute text-sky-500 font-rubik text-2xl blur-sm opacity-50">9999 АР</p>
-        <p class="text-sky-500 font-rubik text-2xl">9999 АР</p>
+        <p class="absolute text-sky-500 font-rubik text-2xl blur-sm opacity-50">{{user.balance}} АР</p>
+        <p class="text-sky-500 font-rubik text-2xl">{{user.balance}} АР</p>
       </div>
       <div class="relative w-full mt-2">
         <div class="absolute w-full flex justify-center gap-2">

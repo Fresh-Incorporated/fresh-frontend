@@ -108,21 +108,21 @@ onBeforeUnmount(() => {
                class="h-full flex flex-col items-center justify-center border rounded-lg border-neutral-200 dark:border-neutral-800 bg-neutral-900 hover:bg-neutral-950/[0.25] duration-500 select-none">
             <div ref="userMenuButton" @click="userMenu = !userMenu" class="flex items-center gap-2 py-1 px-1 cursor-pointer">
               <div class="h-full max-w-24 sm:max-w-52 md:max-w-24 lg:max-w-48 lg:min-w-24">
-                <p class="text-sm truncate font-medium text-right">_zaralX_</p>
+                <p class="text-sm truncate font-medium text-right">{{ user.nickname }}</p>
                 <div class="grid grid-cols-2">
                   <div class="flex items-center justify-end gap-0.5">
-                    <p class="font-rubik text-xs text-cyan-500 text-nowrap">9999</p>
+                    <p class="font-rubik text-xs text-cyan-500 text-nowrap">{{ user.balance }}</p>
                     <img class="w-3 h-3" src="https://img.zaralx.ru/v1/minecraft/deepslate_diamond_ore" alt="">
                   </div>
                   <div>
-                    <p class="font-rubik text-xs text-green-500 text-nowrap text-right">999 <i
+                    <p class="font-rubik text-xs text-green-500 text-nowrap text-right">{{ user.bonuses }} <i
                         class="pi pi-asterisk text-[0.6rem]"></i></p>
                   </div>
                 </div>
               </div>
               <div class="w-10">
                 <img class="w-10 rounded-md pointer-events-none"
-                     src="https://img.zaralx.ru/v1/minecraft/user/face/full/_zaralX_" alt="">
+                     :src="useXIS().getFullFace(user.uuid)" alt="">
               </div>
             </div>
             <div class="relative w-full">

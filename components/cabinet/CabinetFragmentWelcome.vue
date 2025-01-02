@@ -1,4 +1,14 @@
 <script setup lang="ts">
+const {user} = useUser()
+
+function getFormattedDate() {
+  const now = new Date();
+  const day = String(now.getDate()).padStart(2, '0');
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const year = now.getFullYear();
+
+  return `${day}.${month}.${year}`;
+}
 
 </script>
 
@@ -8,8 +18,8 @@
     <div class="absolute w-4 h-4 bg-white blur-2xl bottom-0 right-0"></div>
     <div class="flex flex-col justify-center w-full h-full px-16">
       <div>
-        <p class="text-3xl font-medium text-neutral-200">Добрый день, _zaralX_!</p>
-        <p class="text-neutral-300">Сегодня: 28.11.2024</p>
+        <p class="text-3xl font-medium text-neutral-200">Добрый день, {{user.nickname}}!</p>
+        <p class="text-neutral-300">Сегодня: {{ getFormattedDate() }}</p>
       </div>
     </div>
   </div>
