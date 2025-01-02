@@ -3,7 +3,7 @@
 </script>
 
 <template>
-
+<slot />
 </template>
 
 <style scoped>

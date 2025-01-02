@@ -1,20 +1,38 @@
 import { ref } from 'vue';
+import { http, loginDiscord } from '~/composables/useHttp';
 
 const user = ref(null); // Реактивное состояние пользователя
 const userLoading = ref<boolean>(true); // Состояние загрузки
 
 export const useUser = () => {
-    function tryLoadUser() {
+
+    async function updateUser() {
+        const response = await http.post('/users/@me');
+        user.value = response.data;
+    }
+
+    async function tryLoadUser() {
         userLoading.value = true;
-        setTimeout(() => {
-            user.value = { nickname: '_zaralX_' };
+        try {
+            await updateUser()
             userLoading.value = false;
-        }, 1000);
+        } catch (error) { console.error(error); userLoading.value = false; }
+        if (user.value) {
+            UserLoaded.value = true;
+        }
+    }
+
+    async function logout() {
+        await http.post(`/users/@me/logout`).then(() => {
+            window.location.href = '/'
+        })
     }
 
     return {
         user,
         userLoading,
         tryLoadUser,
+        updateUser,
+        logout,
     };
 };

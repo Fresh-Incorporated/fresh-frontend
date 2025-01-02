@@ -3,7 +3,7 @@ const colorMode = useColorMode()
 
 const isDark = ref(false)
 const route = useRoute()
-const {user, userLoading} = useUser();
+const {user, userLoading, logout} = useUser();
 
 onMounted(() => {
   isDark.value = colorMode.preference === 'dark' || colorMode.preference === 'system'
@@ -31,9 +31,10 @@ const links = [
 const mobileNav = ref(false)
 const userMenu = ref(false)
 const userMenuButton = ref(null);
+const exitMenuButton = ref(null);
 
 const handleClickOutside = (event) => {
-  if (userMenuButton.value && !userMenuButton.value.contains(event.target)) {
+  if (userMenuButton.value && !userMenuButton.value.contains(event.target) && exitMenuButton.value && !exitMenuButton.value.contains(event.target)) {
     userMenu.value = false;
   }
 };
@@ -141,10 +142,32 @@ onBeforeUnmount(() => {
                     <NuxtLink to="/cabinet">
                       <div class="w-full font-medium">
                         <p :class="'text-neutral-300'"
-                           class="text-center py-2 hover:bg-white/[0.05] duration-500 rounded-b-lg flex justify-end items-center gap-1 px-2">
+                           class="text-center py-2 hover:bg-white/[0.05] duration-500 flex justify-end items-center gap-1 px-2">
                           <i class="pi pi-cog"></i> <span class="flex-1">Настройки</span></p>
                       </div>
                     </NuxtLink>
+                    <el-popconfirm @confirm="logout" hide-icon title="Вы уверены что хотите выйти?">
+                      <template #reference>
+                        <div ref="exitMenuButton" class="w-full font-medium cursor-pointer">
+                          <p :class="'text-red-500'"
+                             class="text-center py-2 hover:bg-white/[0.05] duration-500 rounded-b-lg flex justify-end items-center gap-1 px-2">
+                            <i class="pi pi-cog"></i> <span class="flex-1">Выйти</span></p>
+                        </div>
+                      </template>
+                      <template #actions="{ confirm, cancel }">
+                        <div>
+                          <el-button size="small" @click="cancel">Нет</el-button>
+                          <el-button
+                              type="danger"
+                              plain
+                              size="small"
+                              @click="confirm"
+                          >
+                            Да
+                          </el-button>
+                        </div>
+                      </template>
+                    </el-popconfirm>
                     <div class="relative">
                       <div class="absolute w-4 h-4 bg-white rounded-full blur-xl right-0"></div>
                     </div>
@@ -153,7 +176,7 @@ onBeforeUnmount(() => {
               </div>
             </div>
           </div>
-          <ElButton v-if="userLoading || !user" :disabled="userLoading">
+          <ElButton tag="a" :href="$freshConfig.discordAuth" v-if="userLoading || !user" :disabled="userLoading">
             <div>
               <transition>
                 <div v-if="userLoading">
