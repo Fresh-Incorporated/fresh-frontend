@@ -17,10 +17,7 @@ definePageMeta({
   <div class="bg-neutral-900 rounded-xl shadow-lg border border-neutral-800 h-64">
 
   </div>
-  <div class="bg-neutral-900 rounded-xl shadow-lg border border-neutral-800 h-64">
-
-  </div>
-  <div class="bg-neutral-900 rounded-xl shadow-lg border border-neutral-800 h-64 col-span-3">
+  <div class="bg-neutral-900 rounded-xl shadow-lg border border-neutral-800 h-64 lg:col-span-3">
 
   </div>
   <div class="bg-neutral-900 rounded-xl shadow-lg border border-neutral-800 h-64">
