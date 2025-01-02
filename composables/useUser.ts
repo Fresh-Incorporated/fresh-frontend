@@ -15,11 +15,8 @@ export const useUser = () => {
         userLoading.value = true;
         try {
             await updateUser()
-            userLoading.value = false;
-        } catch (error) { console.error(error); userLoading.value = false; }
-        if (user.value) {
-            UserLoaded.value = true;
-        }
+        } catch (error) { console.error(error); }
+        userLoading.value = false;
     }
 
     async function logout() {
