@@ -6,17 +6,16 @@ definePageMeta({
   layout: 'cabinet'
 })
 
-const selectedShop = ref("v1")
+const selectedShop = ref(null)
 
-const shops = [{
-  key: 1,
-  label: "l1",
-  value: "v1"
-}, {
-  key: 2,
-  label: "l2",
-  value: "v2"
-}]
+const { shops, updateShops } = useUser()
+const updatingShops = ref(true)
+
+onMounted(async () => {
+  await updateShops()
+  updatingShops.value = false;
+  if (shops.value.length > 0) selectedShop.value = shops.value[0].id
+})
 
 const openedCreateMenu = ref(false);
 </script>
@@ -24,7 +23,7 @@ const openedCreateMenu = ref(false);
 <template>
   <div>
     <CreateShopMenu v-model="openedCreateMenu" />
-    <div class="hidden">
+    <div v-if="shops.length > 0">
       <div class="flex items-center gap-2 mb-4">
         <p>Выбран магазин:</p>
         <el-select
@@ -34,10 +33,16 @@ const openedCreateMenu = ref(false);
         >
           <el-option
               v-for="item in shops"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id"
           />
+
+          <template #footer>
+            <el-button class="w-full" size="small" @click="openedCreateMenu = true">
+              Создать новый
+            </el-button>
+          </template>
         </el-select>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8">
@@ -50,7 +55,7 @@ const openedCreateMenu = ref(false);
         </div>
       </div>
     </div>
-    <div class="flex flex-col items-center justify-center">
+    <div v-else class="flex flex-col items-center justify-center">
       <p class="text-xl">У вас нет ни единого магазина</p>
       <el-button @click="openedCreateMenu = true" type="success" plain>
         <p><i class="pi pi-plus text-xs"></i>  Создать</p>

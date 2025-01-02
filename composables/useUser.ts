@@ -1,14 +1,20 @@
 import { ref } from 'vue';
 import { http, loginDiscord } from '~/composables/useHttp';
 
-const user = ref(null); // Реактивное состояние пользователя
-const userLoading = ref<boolean>(true); // Состояние загрузки
+const user = ref(null);
+const shops = ref([]);
+const userLoading = ref<boolean>(true);
 
 export const useUser = () => {
 
     async function updateUser() {
-        const response = await http.post('/users/@me');
+        const response = await http.get('/users/@me');
         user.value = response.data;
+    }
+
+    async function updateShops() {
+        const response = await http.get('/users/@me/shops');
+        shops.value = response.data;
     }
 
     async function tryLoadUser() {
@@ -31,5 +37,7 @@ export const useUser = () => {
         tryLoadUser,
         updateUser,
         logout,
+        shops,
+        updateShops,
     };
 };

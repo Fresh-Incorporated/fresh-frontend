@@ -2,7 +2,7 @@
 import {http} from "~/composables/useHttp"
 
 const model = defineModel()
-const {user} = useUser()
+const {user, shops} = useUser()
 
 const handleClose = (done: () => void) => {
   ElMessageBox.confirm('Вы точно хотите закрыть меню создания магазина? Всё будет утеряно.', {autofocus: false})
@@ -90,7 +90,7 @@ const handleFileChange = (event) => {
       />
       <template #footer>
         <div style="flex: auto">
-          <el-button type="primary" @click="createShop">Создать магазин</el-button>
+          <el-button type="primary" @click="createShop">Создать магазин {{16 + Math.pow(16, shops.length) * shops.length}} АР</el-button>
         </div>
       </template>
     </el-drawer>
