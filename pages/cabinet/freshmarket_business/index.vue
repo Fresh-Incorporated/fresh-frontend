@@ -3,6 +3,7 @@ import FMCabinetFragmentSells from "~/components/cabinet/freshmarket/FMCabinetFr
 import CreateShopMenu from "~/components/cabinet/freshmarket/CreateShopMenu.vue";
 import FMCabinetFragmetProducts from "~/components/cabinet/freshmarket/FMCabinetFragmetProducts.vue";
 import FMCabinetFragmentCreateProduct from "~/components/cabinet/freshmarket/FMCabinetFragmentCreateProduct.vue";
+import FMCabinetFragmetSettings from "~/components/cabinet/freshmarket/FMCabinetFragmetSettings.vue";
 
 definePageMeta({
   layout: 'cabinet'
@@ -64,6 +65,7 @@ const openedCreateMenu = ref(false);
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8">
         <FMCabinetFragmetProducts />
         <FMCabinetFragmentCreateProduct />
+        <FMCabinetFragmetSettings />
         <div class="bg-neutral-900 rounded-xl shadow-lg border border-neutral-800 h-64">
 
         </div>
