@@ -37,7 +37,21 @@ const openedCreateMenu = ref(false);
               :key="item.id"
               :label="item.name"
               :value="item.id"
-          />
+          >
+            <template #default>
+              <div class="flex items-center gap-2">
+                <img class="w-4 h-4" :src="item.icon" alt="">
+                <p>{{item.name}}</p>
+              </div>
+            </template>
+          </el-option>
+
+          <template #label="scope">
+            <div class="flex items-center gap-2">
+              <img class="w-4 h-4" :src="shops.find(shop => shop.id === scope.value)?.icon" alt="">
+              <p>{{scope.label}}</p>
+            </div>
+          </template>
 
           <template #footer>
             <el-button class="w-full" size="small" @click="openedCreateMenu = true">
