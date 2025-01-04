@@ -33,7 +33,7 @@ const createShop = async () => {
   formData.append('description', description.value);
 
   try {
-    const response = await http.post('/freshmarket/shops/create', formData, {
+    const response = await http.post('/freshmarket/shop/create', formData, {
       params: {
         name: name.value,
         description: description.value,
