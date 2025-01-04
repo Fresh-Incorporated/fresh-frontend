@@ -34,6 +34,11 @@ const stackCountMarks = reactive<Marks>({
   16: '16',
   64: '64',
 })
+const slotsCount = ref(1)
+const slotsCountMarks = reactive<Marks>({
+  1: '1',
+  27: '27',
+})
 const price = ref(1)
 
 onMounted(() => {
@@ -48,6 +53,7 @@ const createShop = async () => {
   formData.append('name', name.value);
   formData.append('description', description.value);
   formData.append('stack_count', stackCount.value);
+  formData.append('slots_count', slotsCount.value);
   formData.append('price', price.value);
 
   try {
@@ -56,6 +62,7 @@ const createShop = async () => {
         name: name.value,
         description: description.value,
         stack_count: stackCount.value,
+        slots_count: slotsCount.value,
         price: price.value
       },
       headers: {
@@ -109,6 +116,7 @@ const handleFileChange = (event) => {
           type="textarea"
       />
       <el-slider v-model="stackCount" :step="1" :max="64" :min="1" :marks="stackCountMarks" />
+      <el-slider v-model="slotsCount" :step="1" :max="64" :min="1" :marks="slotsCountMarks" />
       <div class="h-8"></div>
       <el-input-number v-model="price" :precision="1" :step="1" :min="0.5" :max="1000" />
 
