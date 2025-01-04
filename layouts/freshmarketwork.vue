@@ -1,6 +1,7 @@
 <script setup lang="ts">
 
 const route = useRoute()
+const {user} = useUser()
 
 const path = route.path.split("/")
 path.splice(0, path.indexOf("work")+1)
@@ -31,7 +32,7 @@ const handleSelect = async (key: string, keyPath: string[]) => {
         <el-menu-item index="">
           <div class="h-8 flex items-center gap-2 text-base"><i class="pi pi-crown"></i>Главная</div>
         </el-menu-item>
-        <el-sub-menu index="1">
+        <el-sub-menu index="1" :disabled="user?.fm_worker < 4">
           <template #title>
             <div class="h-8 flex items-center gap-2 text-base"><i class="pi pi-crown"></i>Директор</div>
           </template>
@@ -49,17 +50,17 @@ const handleSelect = async (key: string, keyPath: string[]) => {
             <el-menu-item index="1-4-1">item one</el-menu-item>
           </el-sub-menu>
         </el-sub-menu>
-        <el-sub-menu index="secretary">
+        <el-sub-menu index="secretary" :disabled="user?.fm_worker < 3">
           <template #title>
             <div class="h-8 flex items-center gap-2 text-base" :class="fullPath.includes('secretary') ? 'text-[var(--el-color-primary)]' : ''"><i class="pi pi-crown"></i>Секретарь</div>
           </template>
           <el-menu-item index="secretary-verify_shops">Проверка магазинов</el-menu-item>
           <el-menu-item index="secretary-verify_products">Проверка товаров</el-menu-item>
         </el-sub-menu>
-        <el-menu-item index="logic">
+        <el-menu-item index="logic" :disabled="user?.fm_worker < 2">
           <div class="h-8 flex items-center gap-2 text-base"><i class="pi pi-crown"></i>Логист</div>
         </el-menu-item>
-        <el-menu-item index="delivery">
+        <el-menu-item index="delivery" :disabled="user?.fm_worker < 1">
           <div class="h-8 flex items-center gap-2 text-base"><i class="pi pi-crown"></i>Курьер</div>
         </el-menu-item>
       </el-menu>

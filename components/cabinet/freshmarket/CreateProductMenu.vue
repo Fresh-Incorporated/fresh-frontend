@@ -28,8 +28,8 @@ const size = ref("30%")
 const file = ref(null);
 const name = ref("")
 const description = ref("")
-const count = ref(1)
-const countMarks = reactive<Marks>({
+const stackCount = ref(1)
+const stackCountMarks = reactive<Marks>({
   1: '1',
   16: '16',
   64: '64',
@@ -47,7 +47,7 @@ const createShop = async () => {
   formData.append('icon', file.value);
   formData.append('name', name.value);
   formData.append('description', description.value);
-  formData.append('count', count.value);
+  formData.append('stack_count', stackCount.value);
   formData.append('price', price.value);
 
   try {
@@ -55,7 +55,7 @@ const createShop = async () => {
       params: {
         name: name.value,
         description: description.value,
-        count: count.value,
+        stack_count: stackCount.value,
         price: price.value
       },
       headers: {
@@ -108,7 +108,7 @@ const handleFileChange = (event) => {
           :parser="(value) => value.replace(/[\r\n]+/g, '')"
           type="textarea"
       />
-      <el-slider v-model="count" :step="1" :max="64" :min="1" :marks="countMarks" />
+      <el-slider v-model="stackCount" :step="1" :max="64" :min="1" :marks="stackCountMarks" />
       <div class="h-8"></div>
       <el-input-number v-model="price" :precision="1" :step="1" :min="0.5" :max="1000" />
 
