@@ -116,6 +116,7 @@ const handleFileChange = (event) => {
           type="textarea"
       />
       <el-slider v-model="stackCount" :step="1" :max="64" :min="1" :marks="stackCountMarks" />
+      <div class="h-8"></div>
       <el-slider v-model="slotsCount" :step="1" :max="27" :min="1" :marks="slotsCountMarks" />
       <div class="h-8"></div>
       <el-input-number v-model="price" :precision="1" :step="1" :min="0.5" :max="1000" />
