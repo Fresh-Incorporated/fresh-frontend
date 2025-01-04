@@ -134,18 +134,18 @@ onBeforeUnmount(() => {
                     </div>
                     <NuxtLink to="/cabinet">
                       <div class="w-full font-medium">
-                        <p :class="'text-primary-dark'"
+                        <p :class="route.path.startsWith('/cabinet') ? 'text-primary-dark' : ''"
                            class="text-center py-2 hover:bg-white/[0.05] duration-500 rounded-t-lg flex justify-end items-center gap-1 px-2">
                           <i class="pi pi-home"></i> <span class="flex-1">Кабинет</span></p>
                       </div>
                     </NuxtLink>
-                    <NuxtLink to="/cabinet">
-                      <div class="w-full font-medium">
-                        <p :class="'text-neutral-300'"
-                           class="text-center py-2 hover:bg-white/[0.05] duration-500 flex justify-end items-center gap-1 px-2">
-                          <i class="pi pi-cog"></i> <span class="flex-1">Настройки</span></p>
-                      </div>
-                    </NuxtLink>
+<!--                    <NuxtLink to="/cabinet">-->
+<!--                      <div class="w-full font-medium">-->
+<!--                        <p :class="'text-neutral-300'"-->
+<!--                           class="text-center py-2 hover:bg-white/[0.05] duration-500 flex justify-end items-center gap-1 px-2">-->
+<!--                          <i class="pi pi-cog"></i> <span class="flex-1">Настройки</span></p>-->
+<!--                      </div>-->
+<!--                    </NuxtLink>-->
                     <el-popconfirm @confirm="logout" hide-icon title="Вы уверены что хотите выйти?">
                       <template #reference>
                         <div ref="exitMenuButton" class="w-full font-medium cursor-pointer">
