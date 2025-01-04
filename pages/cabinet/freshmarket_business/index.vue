@@ -63,7 +63,7 @@ const openedCreateMenu = ref(false);
         </el-select>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8">
-        <FMCabinetFragmetProducts />
+        <FMCabinetFragmetProducts :shop="selectedShop" />
         <FMCabinetFragmentCreateProduct :shop="selectedShop" />
         <FMCabinetFragmetSettings />
         <div class="bg-neutral-900 rounded-xl shadow-lg border border-neutral-800 h-64">
