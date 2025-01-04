@@ -11,7 +11,14 @@ const model = defineModel()
 <!--      <p class="text-3xl">Здесь могла быть ваша реклама</p>-->
 <!--      <p class="text-xl opacity-50">Тут одиноко..</p>-->
 <!--    </div>-->
-    <FMProduct v-for="product in model.products" />
+    <FMProduct v-for="product in model.products"
+               :name="product.name"
+               :description="product.description"
+               :icon="product.icon"
+               :price="product.price"
+               :shop_icon="product.shop.icon"
+               :shop_name="product.shop.name"
+    />
   </div>
   <transition>
     <div v-if="model.loading" class="transform duration-500 flex justify-center my-4 text-xl items-center gap-2"><i class="pi pi-spinner animate-spin"></i>Загружаем больше товаров</div>
