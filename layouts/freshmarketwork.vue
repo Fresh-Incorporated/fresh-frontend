@@ -56,10 +56,10 @@ const handleSelect = async (key: string, keyPath: string[]) => {
           <el-menu-item index="secretary-verify_shops">Проверка магазинов</el-menu-item>
           <el-menu-item index="secretary-verify_products">Проверка товаров</el-menu-item>
         </el-sub-menu>
-        <el-menu-item index="3">
+        <el-menu-item index="logic">
           <div class="h-8 flex items-center gap-2 text-base"><i class="pi pi-crown"></i>Логист</div>
         </el-menu-item>
-        <el-menu-item index="4">
+        <el-menu-item index="delivery">
           <div class="h-8 flex items-center gap-2 text-base"><i class="pi pi-crown"></i>Курьер</div>
         </el-menu-item>
       </el-menu>
