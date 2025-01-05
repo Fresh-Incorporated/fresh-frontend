@@ -9,7 +9,10 @@ export const http: AxiosInstance = axios.create({
 
 // Настройка interceptor для обработки ошибок
 http.interceptors.response.use(
-    (response: AxiosResponse) => response,
+    (response: AxiosResponse) => {
+        if (response.data.message) ElMessage.success(response.data.message);
+        return response;
+    },
     async (error: AxiosError) => {
         if (!error.response) return Promise.reject(error);
         const originalRequest = error.config;
@@ -21,6 +24,8 @@ http.interceptors.response.use(
             } catch (refreshError) {
                 return Promise.reject(refreshError);
             }
+        } else {
+            ElMessage.error(error.response.data.message || 'Произошла ошибка');
         }
 
         return Promise.reject(error);

@@ -15,18 +15,107 @@ onMounted(async () => {
 })
 
 const selectedLocationId = ref(0)
-const imageDialog = ref(false)
+const imagesDialog = ref(false)
+const cellsDialog = ref(false)
+const cellsGeneratorDialog = ref(false)
+const newCellsLetters = ref("A-D")
+const newCellsNumbers = ref("1-10")
+const newCells = ref([])
 
-const showImageDialog = (id: number) => {
+const showImagesDialog = (id: number) => {
   selectedLocationId.value = id;
-  imageDialog.value = true;
+  imagesDialog.value = true;
+}
+
+const showCellsDialog = (id: number) => {
+  selectedLocationId.value = id;
+  cellsDialog.value = true;
+  updateNewCells();
+}
+
+const updateNewCells = () => {
+  newCells.value = generateCombinations(newCellsLetters.value, newCellsNumbers.value)
+}
+
+function generateCombinations(letters, numbers) {
+  // Разделяем строки на массивы, используя разделитель '-'
+  const letterArray = letters.split('-');
+  const numberArray = numbers.split('-');
+
+  // Получаем диапазоны для букв и чисел
+  const letterRange = [letterArray[0], letterArray[1]];
+  const numberRange = [parseInt(numberArray[0]), parseInt(numberArray[1])];
+
+  const result = [];
+
+  // Генерируем все комбинации
+  for (let i = letterRange[0].charCodeAt(0); i <= letterRange[1].charCodeAt(0); i++) {
+    for (let j = numberRange[0]; j <= numberRange[1]; j++) {
+      result.push({letter: String.fromCharCode(i), number: j});
+    }
+  }
+
+  return result;
+}
+
+const confirmNewCells = async () => {
+  await http.post(`/freshmarket/work/director/location/${locations.value[selectedLocationId.value].id}/cells/add`, {cells: newCells.value})
 }
 </script>
 
 <template>
+  <el-drawer v-model="cellsGeneratorDialog" title="Создание ячеек" direction="rtl">
+    <template #default>
+      <div>
+        <el-input
+            v-model="newCellsLetters"
+            placeholder="Letters (A-Z)"
+            :formatter="(value) => value.replace(/[^a-zA-Z-]+/g, '').toUpperCase()"
+            :parser="(value) => value.replace(/[^a-zA-Z-]+/g, '').toUpperCase()"
+            type="text"
+            @change="updateNewCells"
+        />
+        <el-input
+            v-model="newCellsNumbers"
+            placeholder="Numbers (1-100)"
+            :formatter="(value) => value.replace(/[^\d-]+/g, '').toUpperCase()"
+            :parser="(value) => value.replace(/[^\d-]+/g, '').toUpperCase()"
+            type="text"
+            @change="updateNewCells"
+        />
+      </div>
+      <div class="grid grid-cols-10">
+        <p v-for="cell in newCells">{{cell.letter}}-{{cell.number}}</p>
+      </div>
+    </template>
+    <template #footer>
+      <div style="flex: auto">
+        <el-button @click="cellsGeneratorDialog = false">Отменить</el-button>
+        <el-button type="primary" @click="confirmNewCells">Создать</el-button>
+      </div>
+    </template>
+  </el-drawer>
   <div class="w-full">
     <el-dialog
-        v-model="imageDialog"
+        v-model="cellsDialog"
+        title="Ячейки"
+        width="800"
+    >
+      <div class="overflow-y-scroll max-h-[60vh]">
+        <div class="grid grid-cols-12">
+          <div v-for="cell in locations[selectedLocationId]?.cells">
+            {{cell.letter}}-{{cell.number}}
+          </div>
+        </div>
+        <div>
+          <el-button @click="cellsGeneratorDialog = true">
+            Добавить ячейки
+          </el-button>
+        </div>
+      </div>
+    </el-dialog>
+    <el-dialog
+        v-model="imagesDialog"
         title="Изображения"
         width="800"
     >
@@ -60,12 +149,12 @@ const showImageDialog = (id: number) => {
       </el-table-column>
       <el-table-column prop="images" label="Изображения" width="140">
         <template #default="scope">
-          <el-button @click="showImageDialog(scope.$index)">Показать</el-button>
+          <el-button @click="showImagesDialog(scope.$index)">Показать</el-button>
         </template>
       </el-table-column>
       <el-table-column prop="cells" label="Ячейки" width="140">
         <template #default="scope">
-          <el-button>Показать</el-button>
+          <el-button @click="showCellsDialog(scope.$index)">Показать</el-button>
         </template>
       </el-table-column>
     </el-table>
