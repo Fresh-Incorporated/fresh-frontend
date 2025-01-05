@@ -74,7 +74,6 @@ const createShop = async () => {
     model.value = false;
   } catch (error) {
     console.error('Ошибка при создании магазина:', error);
-    ElMessage.error(error.response.data.message || 'Ошибка создания магазина');
   }
 };
 

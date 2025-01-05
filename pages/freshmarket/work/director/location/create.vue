@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import {http} from "~/composables/useHttp"
 import { ref } from 'vue';
-import { ElMessage } from 'element-plus';
 
 definePageMeta({
   layout: 'freshmarketwork'
@@ -54,7 +53,6 @@ const create = async () => {
     model.value = false;
   } catch (error) {
     console.error('Ошибка при создании локации:', error);
-    ElMessage.error(error.response?.data?.message || 'Ошибка создания локации');
   }
 };
 
