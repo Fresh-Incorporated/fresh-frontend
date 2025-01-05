@@ -12,7 +12,7 @@ const handleSelect = async (key: string, keyPath: string[]) => {
   selected.value = key;
 
   fullPath.value = ["", ...keyPath];
-  const link = "/freshmarket/work/" + key.replace("-", "/")
+  const link = "/freshmarket/work/" + key.replaceAll("-", "/")
 
   await navigateTo(link)
 }
@@ -32,9 +32,9 @@ const handleSelect = async (key: string, keyPath: string[]) => {
         <el-menu-item index="">
           <div class="h-8 flex items-center gap-2 text-base"><i class="pi pi-crown"></i>Главная</div>
         </el-menu-item>
-        <el-sub-menu index="1" :disabled="user?.fm_worker < 4">
+        <el-sub-menu index="director" :disabled="user?.fm_worker < 4">
           <template #title>
-            <div class="h-8 flex items-center gap-2 text-base"><i class="pi pi-crown"></i>Директор</div>
+            <div class="h-8 flex items-center gap-2 text-base" :class="fullPath.includes('director') ? 'text-[var(--el-color-primary)]' : ''"><i class="pi pi-crown"></i>Директор</div>
           </template>
           <el-menu-item index="1-0">Общее</el-menu-item>
           <el-menu-item-group title="Информация">
@@ -42,13 +42,9 @@ const handleSelect = async (key: string, keyPath: string[]) => {
             <el-menu-item index="1-2">Пользователь</el-menu-item>
             <el-menu-item index="1-2">Локация</el-menu-item>
           </el-menu-item-group>
-          <el-menu-item-group title="Group Two">
-            <el-menu-item index="1-3">item three</el-menu-item>
+          <el-menu-item-group title="Локации">
+            <el-menu-item index="director-location-create">Создать новую</el-menu-item>
           </el-menu-item-group>
-          <el-sub-menu index="1-4">
-            <template #title>item four</template>
-            <el-menu-item index="1-4-1">item one</el-menu-item>
-          </el-sub-menu>
         </el-sub-menu>
         <el-sub-menu index="secretary" :disabled="user?.fm_worker < 3">
           <template #title>
