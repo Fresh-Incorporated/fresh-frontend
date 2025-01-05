@@ -37,18 +37,24 @@ const create = async () => {
     formData.append(`images[${index}]`, file);
   });
 
+  formData.append("name", name.value)
+  formData.append("description", description.value)
+  formData.append("coordinates", JSON.stringify(coordinates.value))
+  formData.append("type", type.value)
+  formData.append("city", city.value)
+
   try {
-    const response = await http.post(`/freshmarket/shop/${props.shop}/product/create`, formData, {
+    const response = await http.post(`/freshmarket/work/director/location/create`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
     });
 
-    console.log('Магазин создан:', response.data);
+    console.log('Локация создана:', response.data);
     model.value = false;
   } catch (error) {
-    console.error('Ошибка при создании магазина:', error);
-    ElMessage.error(error.response?.data?.message || 'Ошибка создания магазина');
+    console.error('Ошибка при создании локации:', error);
+    ElMessage.error(error.response?.data?.message || 'Ошибка создания локации');
   }
 };
 
@@ -148,7 +154,7 @@ const handleFileChange = (event) => {
         placeholder="Город (При наличии)"
         type="text"
     />
-    <el-button>
+    <el-button @click="create">
       Создать
     </el-button>
   </div>

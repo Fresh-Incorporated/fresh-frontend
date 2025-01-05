@@ -4,7 +4,7 @@ import axios, { AxiosInstance, AxiosResponse, AxiosError } from 'axios';
 export const http: AxiosInstance = axios.create({
     baseURL:  "http://localhost:3000/",
     withCredentials: true,
-    timeout: 15000,
+    timeout: 30000,
 });
 
 // Настройка interceptor для обработки ошибок
