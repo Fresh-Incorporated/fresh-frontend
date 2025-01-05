@@ -44,6 +44,7 @@ const handleSelect = async (key: string, keyPath: string[]) => {
           </el-menu-item-group>
           <el-menu-item-group title="Локации">
             <el-menu-item index="director-location-create">Создать новую</el-menu-item>
+            <el-menu-item index="director-location-list">Список</el-menu-item>
           </el-menu-item-group>
         </el-sub-menu>
         <el-sub-menu index="secretary" :disabled="user?.fm_worker < 3">
