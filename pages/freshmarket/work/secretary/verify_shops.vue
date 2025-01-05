@@ -21,9 +21,10 @@ const decline = async (id: number) => {
 </script>
 
 <template>
-<div>
+<div class="grid grid-cols-5 gap-4">
   <div v-for="shop in shops" class="flex flex-col">
-    <p>{{shop.name}}</p>
+    <img :src="shop.icon" class="w-full aspect-square" alt="">
+    <p class="font-semibold">{{shop.name}}</p>
     <p>{{shop.description}}</p>
     <el-button @click="accept(shop.id)">Подтвердить</el-button>
     <el-button @click="decline(shop.id)">Отклонить</el-button>
