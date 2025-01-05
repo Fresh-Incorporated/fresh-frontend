@@ -61,6 +61,14 @@ function generateCombinations(letters, numbers) {
 const confirmNewCells = async () => {
   await http.post(`/freshmarket/work/director/location/${locations.value[selectedLocationId.value].id}/cells/add`, {cells: newCells.value})
 }
+
+const enableLocation = async (id: number) => {
+  await http.post(`/freshmarket/work/director/location/${id}/enable`)
+}
+
+const disableLocation = async (id: number) => {
+  await http.post(`/freshmarket/work/director/location/${id}/disable`)
+}
 </script>
 
 <template>
@@ -133,7 +141,14 @@ const confirmNewCells = async () => {
       <el-table-column prop="enabled" label="Включено?" width="120">
         <template #default="scope">
           <div class="ml-5">
-            <el-switch v-model="scope.row.enabled" :disabled="scope.row.cells == null ? true : scope.row.cells.length === 0" />
+            <el-switch @change="async ($event) => {
+              scope.row.loading = true
+              if ($event) await enableLocation(scope.row.id).catch(() => {
+                scope.row.enabled = false;
+              })
+              else await disableLocation(scope.row.id)
+              scope.row.loading = false
+            }" v-model="scope.row.enabled" :loading="scope.row.loading" :disabled="scope.row.cells == null ? true : scope.row.cells.length === 0" />
           </div>
         </template>
       </el-table-column>
