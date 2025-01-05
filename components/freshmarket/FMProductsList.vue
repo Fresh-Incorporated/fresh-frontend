@@ -16,6 +16,7 @@ const model = defineModel()
                :description="product.description"
                :icon="product.icon"
                :price="product.price"
+               :count="product.count"
                :shop_icon="product.shop.icon"
                :shop_name="product.shop.name"
     />
