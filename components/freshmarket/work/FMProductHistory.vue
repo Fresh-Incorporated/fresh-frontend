@@ -42,8 +42,16 @@ const props = defineProps({
               </div>
               <p>{{activity.message}}</p>
             </div>
-            <div v-if="activity.action_type === 'accepted'">
+            <div v-else-if="activity.action_type === 'accepted'">
               <p class="text-lg font-medium text-green-500">Товар проверен</p>
+              <div class="flex gap-2">
+                <p>Пользователь:</p>
+                <img :src="useXIS().getFullFace(activity.user.uuid)" class="w-4 h-4" alt="">
+                <p>{{activity.user.nickname}}</p>
+              </div>
+            </div>
+            <div v-else>
+              <p class="text-lg font-medium text-neutral-500">{{activity.action_type}}</p>
               <div class="flex gap-2">
                 <p>Пользователь:</p>
                 <img :src="useXIS().getFullFace(activity.user.uuid)" class="w-4 h-4" alt="">
