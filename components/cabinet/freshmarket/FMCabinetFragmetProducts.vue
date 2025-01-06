@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import {http} from "~/composables/useHttp"
 const {shops} = useUser()
 
 const props = defineProps({
@@ -12,6 +13,10 @@ const tableRowClassName = ({row, rowIndex}) => {
     return 'danger-row'
   }
   return ''
+}
+
+const refill = async (id) => {
+  await http.post(`/freshmarket/shop/${props.shop}/product/${id}/refill`)
 }
 </script>
 
@@ -31,7 +36,7 @@ const tableRowClassName = ({row, rowIndex}) => {
       <el-table-column prop="refill" label="" width="140">
         <template #default="scope">
           <div class="flex justify-center">
-            <el-button>
+            <el-button @click="refill(scope.row.id)">
               Пополнить
             </el-button>
           </div>
