@@ -28,6 +28,8 @@ const decline = async (id: number) => {
       <p>{{product.description}}</p>
       <p>Кол-во в стаке: {{product.stack_count}}</p>
       <p>Кол-во слотов: {{product.slots_count}}</p>
+      <p>Ячейка: {{product.cell?.letter}}-{{product.cell?.number}}</p>
+      <p>Склад: {{product.cell?.location?.name}}</p>
       <el-button @click="accept(product.id)">Подтвердить</el-button>
       <el-button @click="decline(product.id)">Отклонить</el-button>
     </div>
