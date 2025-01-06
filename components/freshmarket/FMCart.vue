@@ -2,6 +2,38 @@
 const {cart, putInCart} = useUser()
 
 const opened = ref(false)
+
+const deliveryTypes = [{
+  label: "Филиал",
+  value: "branch"
+},{
+  label: "Координаты",
+  value: "cords",
+  disabled: true
+}]
+const deliveryType = ref("branch")
+
+const deliveryWorlds = [
+  {
+    label: "Верхний мир",
+    value: "overworld"
+  },
+  {
+    label: "Адский мир",
+    value: "nether"
+  },
+  {
+    label: "Эндер мир",
+    value: "the_end"
+  }
+]
+
+const deliveryCordsData = ref({
+  world: "overworld",
+  x: 0,
+  y: 64,
+  z: 0
+})
 </script>
 
 <template>
@@ -44,7 +76,37 @@ const opened = ref(false)
           </el-scrollbar>
         </div>
         <div class="w-full">
+          <div class="relative">
+            <el-segmented v-model="deliveryType" :options="deliveryTypes" block />
+            <transition>
+              <div v-if="deliveryType === 'branch'" class="mt-2 w-full">
+                <el-button class="w-full" type="primary" size="small">Выбрать филиал</el-button>
+              </div>
+              <div v-else-if="deliveryType === 'cords'" class="mt-2 w-full flex">
+                <el-select
+                    v-model="deliveryCordsData.world"
+                    placeholder="Мир"
+                    size="small"
+                    style="width: 25%"
+                >
+                  <el-option
+                      v-for="item in deliveryWorlds"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value"
+                  />
+                </el-select>
+                <el-input style="width: 25%" v-model="deliveryCordsData.x" type="number" :max="9_999_999" size="small" />
+                <el-input style="width: 25%" v-model="deliveryCordsData.y" type="number" :max="9_999_999" size="small" />
+                <el-input style="width: 25%" v-model="deliveryCordsData.z" type="number" :max="9_999_999" size="small" />
+              </div>
+            </transition>
+          </div>
           <div class="bg-neutral-900 rounded-lg p-4 my-4">
+            <div class="font-rubik flex text-base font-extralight opacity-75">
+              <p class="flex-1">Доставка</p>
+              <p>Бесплатно</p>
+            </div>
             <div class="font-rubik flex text-base font-extralight opacity-75">
               <p class="flex-1">Товары, {{cart.reduce((sum, product) => sum + product.picked, 0)}} шт.</p>
               <p>{{ cart.reduce((sum, product) => sum + product.price * product.picked, 0) }} АР</p>
@@ -55,7 +117,7 @@ const opened = ref(false)
               <p>{{ cart.reduce((sum, product) => sum + product.price * product.picked, 0) }} АР</p>
             </div>
           </div>
-          <el-button class="w-full">Заказать</el-button>
+          <el-button class="w-full" type="primary" size="large">Заказать</el-button>
         </div>
       </div>
     </el-drawer>
@@ -72,5 +134,17 @@ const opened = ref(false)
 </template>
 
 <style scoped>
+.v-enter-active,
+.v-leave-active {
+  transition: all 0.5s ease;
+}
 
+.v-leave-active {
+  position: absolute;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
 </style>
