@@ -3,6 +3,7 @@ import { http, loginDiscord } from '~/composables/useHttp';
 
 const user = ref(null);
 const shops = ref([]);
+const cart = ref([]);
 const userLoading = ref<boolean>(true);
 
 export const useUser = () => {
@@ -31,6 +32,19 @@ export const useUser = () => {
         })
     }
 
+    function putInCart(product, count) {
+        const inCartProduct = cart.value.find(_product => _product.id === product.id);
+        if (inCartProduct) {
+            if (inCartProduct.count < inCartProduct.picked + count) {
+                inCartProduct.picked = inCartProduct.count;
+            } else inCartProduct.picked += count;
+        } else {
+            cart.value.push({...product, picked: count});
+        }
+
+        cart.value = cart.value.filter(_product => _product.picked > 0);
+    }
+
     return {
         user,
         userLoading,
@@ -39,5 +53,7 @@ export const useUser = () => {
         logout,
         shops,
         updateShops,
+        cart,
+        putInCart
     };
 };

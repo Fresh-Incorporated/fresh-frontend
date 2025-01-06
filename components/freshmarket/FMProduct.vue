@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const props = defineProps({
+  id: Number,
   name: String,
   description: String,
   price: Number,
@@ -8,6 +9,8 @@ const props = defineProps({
   shop_icon: String,
   count: Number,
 })
+
+const {putInCart, cart} = useUser()
 </script>
 
 <template>
@@ -39,8 +42,15 @@ const props = defineProps({
       </div>
     </div>
     <div class="w-full">
-      <button class="py-2 bg-secondary-light dark:bg-secondary-dark hover:bg-primary-dark duration-200 w-full rounded-lg font-semibold font-montserrat"><i class="pi pi-shopping-cart"></i>
+      <button v-if="!cart.find(product => product.id === props.id)" @click="putInCart(props, 1)" class="py-2 bg-secondary-light dark:bg-secondary-dark hover:bg-primary-dark duration-200 w-full rounded-lg font-semibold font-montserrat"><i class="pi pi-shopping-cart"></i>
          {{props.price}} АР</button>
+<!--      <div v-else class="bg-secondary-light h-10 dark:bg-secondary-dark duration-200 w-full rounded-lg font-semibold font-montserrat flex">-->
+<!--        <button @click="putInCart(props, -1)" class="hover:bg-primary-dark h-full aspect-square rounded-l-lg border-r-2 border-white/[0.25] flex justify-center items-center text-sm"><i class="pi pi-minus"></i></button>-->
+<!--        <div class="w-full h-full flex justify-center items-center">{{ cart.find(product => product.id === props.id)?.picked }}</div>-->
+<!--        <button @click="putInCart(props, 1)" class="hover:bg-primary-dark h-full aspect-square rounded-r-lg border-l-2 border-white/[0.25] flex justify-center items-center text-sm"><i class="pi pi-plus"></i></button>-->
+<!--      </div>-->
+      <button v-else @click="putInCart(props, -10000)" class="py-2 bg-secondary-light dark:bg-secondary-dark hover:bg-primary-dark duration-200 w-full rounded-lg font-semibold font-montserrat"><i class="pi pi-shopping-cart"></i>
+         В корзине - {{props.price}} АР</button>
     </div>
   </div>
 </template>

@@ -12,6 +12,7 @@ const model = defineModel()
 <!--      <p class="text-xl opacity-50">Тут одиноко..</p>-->
 <!--    </div>-->
     <FMProduct v-for="product in model.products"
+               :id="product.id"
                :name="product.name"
                :description="product.description"
                :icon="product.icon"
