@@ -18,6 +18,10 @@ const tableRowClassName = ({row, rowIndex}) => {
 const refill = async (id) => {
   await http.post(`/freshmarket/shop/${props.shop}/product/${id}/refill`)
 }
+
+const refillEnd = async (id) => {
+  await http.post(`/freshmarket/shop/${props.shop}/product/${id}/refill/end`)
+}
 </script>
 
 <template>
@@ -35,9 +39,19 @@ const refill = async (id) => {
       <el-table-column prop="description" label="Описание"/>
       <el-table-column prop="refill" label="" width="140">
         <template #default="scope">
-          <div class="flex justify-center">
+          <div v-if="scope.row.refill_status == 0" class="flex justify-center">
             <el-button @click="refill(scope.row.id)">
               Пополнить
+            </el-button>
+          </div>
+          <div v-else-if="scope.row.refill_status == 1" class="flex justify-center">
+            <el-button @click="refillEnd(scope.row.id)">
+              Завершить {{scope.row.refillCell?.letter}}-{{scope.row.refillCell?.number}}
+            </el-button>
+          </div>
+          <div v-else-if="scope.row.refill_status == 2" class="flex justify-center">
+            <el-button loading>
+              В процессе
             </el-button>
           </div>
         </template>
