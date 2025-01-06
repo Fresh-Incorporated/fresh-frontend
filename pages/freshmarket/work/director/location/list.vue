@@ -72,76 +72,77 @@ const disableLocation = async (id: number) => {
 </script>
 
 <template>
-  <el-drawer v-model="cellsGeneratorDialog" title="Создание ячеек" direction="rtl">
-    <template #default>
-      <div>
-        <el-input
-            v-model="newCellsLetters"
-            placeholder="Letters (A-Z)"
-            :formatter="(value) => value.replace(/[^a-zA-Z-]+/g, '').toUpperCase()"
-            :parser="(value) => value.replace(/[^a-zA-Z-]+/g, '').toUpperCase()"
-            type="text"
-            @change="updateNewCells"
-        />
-        <el-input
-            v-model="newCellsNumbers"
-            placeholder="Numbers (1-100)"
-            :formatter="(value) => value.replace(/[^\d-]+/g, '').toUpperCase()"
-            :parser="(value) => value.replace(/[^\d-]+/g, '').toUpperCase()"
-            type="text"
-            @change="updateNewCells"
-        />
-      </div>
-      <div class="grid grid-cols-10">
-        <p v-for="cell in newCells">{{cell.letter}}-{{cell.number}}</p>
-      </div>
-    </template>
-    <template #footer>
-      <div style="flex: auto">
-        <el-button @click="cellsGeneratorDialog = false">Отменить</el-button>
-        <el-button type="primary" @click="confirmNewCells">Создать</el-button>
-      </div>
-    </template>
-  </el-drawer>
-  <div class="w-full">
-    <el-dialog
-        v-model="cellsDialog"
-        title="Ячейки"
-        width="800"
-    >
-      <div class="overflow-y-scroll max-h-[60vh]">
-        <div class="grid grid-cols-12">
-          <div v-for="cell in locations[selectedLocationId]?.cells">
-            {{cell.letter}}-{{cell.number}}
+  <div>
+    <el-drawer v-model="cellsGeneratorDialog" title="Создание ячеек" direction="rtl">
+      <template #default>
+        <div>
+          <el-input
+              v-model="newCellsLetters"
+              placeholder="Letters (A-Z)"
+              :formatter="(value) => value.replace(/[^a-zA-Z-]+/g, '').toUpperCase()"
+              :parser="(value) => value.replace(/[^a-zA-Z-]+/g, '').toUpperCase()"
+              type="text"
+              @change="updateNewCells"
+          />
+          <el-input
+              v-model="newCellsNumbers"
+              placeholder="Numbers (1-100)"
+              :formatter="(value) => value.replace(/[^\d-]+/g, '').toUpperCase()"
+              :parser="(value) => value.replace(/[^\d-]+/g, '').toUpperCase()"
+              type="text"
+              @change="updateNewCells"
+          />
+        </div>
+        <div class="grid grid-cols-10">
+          <p v-for="cell in newCells">{{cell.letter}}-{{cell.number}}</p>
+        </div>
+      </template>
+      <template #footer>
+        <div style="flex: auto">
+          <el-button @click="cellsGeneratorDialog = false">Отменить</el-button>
+          <el-button type="primary" @click="confirmNewCells">Создать</el-button>
+        </div>
+      </template>
+    </el-drawer>
+    <div class="w-full">
+      <el-dialog
+          v-model="cellsDialog"
+          title="Ячейки"
+          width="800"
+      >
+        <div class="overflow-y-scroll max-h-[60vh]">
+          <div class="grid grid-cols-12">
+            <div v-for="cell in locations[selectedLocationId]?.cells">
+              {{cell.letter}}-{{cell.number}}
+            </div>
+          </div>
+          <div>
+            <el-button @click="cellsGeneratorDialog = true">
+              Добавить ячейки
+            </el-button>
           </div>
         </div>
-        <div>
-          <el-button @click="cellsGeneratorDialog = true">
-            Добавить ячейки
-          </el-button>
+      </el-dialog>
+      <el-dialog
+          v-model="imagesDialog"
+          title="Изображения"
+          width="800"
+      >
+        <div class="overflow-y-scroll max-h-[60vh]">
+          <div v-for="image in locations[selectedLocationId]?.images">
+            <img :src="image.image" alt="image">
+          </div>
         </div>
-      </div>
-    </el-dialog>
-    <el-dialog
-        v-model="imagesDialog"
-        title="Изображения"
-        width="800"
-    >
-      <div class="overflow-y-scroll max-h-[60vh]">
-        <div v-for="image in locations[selectedLocationId]?.images">
-          <img :src="image.image" alt="image">
-        </div>
-      </div>
-    </el-dialog>
-    <el-table :data="locations" style="width: 100%">
-      <el-table-column prop="name" label="Название" />
-      <el-table-column prop="description" label="Описание" />
-      <el-table-column prop="type" label="Тип" width="120" />
-      <el-table-column prop="city" label="Город" />
-      <el-table-column prop="enabled" label="Включено?" width="120">
-        <template #default="scope">
-          <div class="ml-5">
-            <el-switch @change="async ($event) => {
+      </el-dialog>
+      <el-table :data="locations" style="width: 100%">
+        <el-table-column prop="name" label="Название" />
+        <el-table-column prop="description" label="Описание" />
+        <el-table-column prop="type" label="Тип" width="120" />
+        <el-table-column prop="city" label="Город" />
+        <el-table-column prop="enabled" label="Включено?" width="120">
+          <template #default="scope">
+            <div class="ml-5">
+              <el-switch @change="async ($event) => {
               scope.row.loading = true
               if ($event) await enableLocation(scope.row.id).catch(() => {
                 scope.row.enabled = false;
@@ -149,30 +150,31 @@ const disableLocation = async (id: number) => {
               else await disableLocation(scope.row.id)
               scope.row.loading = false
             }" v-model="scope.row.enabled" :loading="scope.row.loading" :disabled="scope.row.cells == null ? true : scope.row.cells.length === 0" />
-          </div>
-        </template>
-      </el-table-column>
-      <el-table-column prop="coordinates" label="Координаты" width="400">
-        <template #default="scope">
-          <div v-for="coordinate in scope.row.coordinates" class="grid grid-cols-4">
-            <p>{{coordinate.world}}</p>
-            <p>{{coordinate.x}}</p>
-            <p>{{coordinate.y}}</p>
-            <p>{{coordinate.z}}</p>
-          </div>
-        </template>
-      </el-table-column>
-      <el-table-column prop="images" label="Изображения" width="140">
-        <template #default="scope">
-          <el-button @click="showImagesDialog(scope.$index)">Показать</el-button>
-        </template>
-      </el-table-column>
-      <el-table-column prop="cells" label="Ячейки" width="140">
-        <template #default="scope">
-          <el-button @click="showCellsDialog(scope.$index)">Показать</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column prop="coordinates" label="Координаты" width="400">
+          <template #default="scope">
+            <div v-for="coordinate in scope.row.coordinates" class="grid grid-cols-4">
+              <p>{{coordinate.world}}</p>
+              <p>{{coordinate.x}}</p>
+              <p>{{coordinate.y}}</p>
+              <p>{{coordinate.z}}</p>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column prop="images" label="Изображения" width="140">
+          <template #default="scope">
+            <el-button @click="showImagesDialog(scope.$index)">Показать</el-button>
+          </template>
+        </el-table-column>
+        <el-table-column prop="cells" label="Ячейки" width="140">
+          <template #default="scope">
+            <el-button @click="showCellsDialog(scope.$index)">Показать</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
   </div>
 </template>
 
