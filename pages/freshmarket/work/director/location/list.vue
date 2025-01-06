@@ -72,7 +72,7 @@ const disableLocation = async (id: number) => {
 </script>
 
 <template>
-  <div>
+  <div class="w-full">
     <el-drawer v-model="cellsGeneratorDialog" title="Создание ячеек" direction="rtl">
       <template #default>
         <div>
