@@ -5,6 +5,9 @@ definePageMeta({
   layout: 'freshmarketwork'
 })
 
+const declineMessage = ref("")
+const declineDialog = ref(false)
+
 const products = ref([])
 
 onMounted(async () => {
@@ -16,12 +19,34 @@ const accept = async (id: number) => {
 }
 
 const decline = async (id: number) => {
-  await http.post(`freshmarket/work/secretary/product/${id}/decline`)
+  await http.post(`freshmarket/work/secretary/product/${id}/decline`, {
+    message: declineMessage.value,
+  })
 }
 </script>
 
 <template>
   <div class="grid grid-cols-5 gap-4">
+    <el-dialog
+        v-model="declineDialog"
+        title="Отклонение товара"
+        width="800"
+    >
+      <div>
+        <el-input
+            v-model="declineMessage"
+            type="textarea"
+            placeholder="Напишите причину отклонения.."
+            :maxlength="120"
+            show-word-limit
+            :formatter="(value) => `${value}`.replace(/[\r\n]+/g, '')"
+            :parser="(value) => value.replace(/[\r\n]+/g, '')"
+        />
+        <el-button @click="decline(product.id)">
+          Отклонить
+        </el-button>
+      </div>
+    </el-dialog>
     <div v-for="product in products" class="flex flex-col">
       <img :src="product.icon" class="w-full aspect-square" alt="">
       <p class="font-semibold">{{product.name}}</p>
@@ -31,7 +56,7 @@ const decline = async (id: number) => {
       <p>Ячейка: {{product.cell?.letter}}-{{product.cell?.number}}</p>
       <p>Склад: {{product.cell?.location?.name}}</p>
       <el-button @click="accept(product.id)">Подтвердить</el-button>
-      <el-button @click="decline(product.id)">Отклонить</el-button>
+      <el-button @click="declineDialog = true">Отклонить</el-button>
     </div>
   </div>
 </template>
