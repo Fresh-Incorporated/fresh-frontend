@@ -54,9 +54,12 @@ const handleSelect = async (key: string, keyPath: string[]) => {
           <el-menu-item index="secretary-verify_shops">Проверка магазинов</el-menu-item>
           <el-menu-item index="secretary-verify_products">Проверка товаров</el-menu-item>
         </el-sub-menu>
-        <el-menu-item index="logic" :disabled="user?.fm_worker < 2">
-          <div class="h-8 flex items-center gap-2 text-base"><i class="pi pi-crown"></i>Логист</div>
-        </el-menu-item>
+        <el-sub-menu index="logic" :disabled="user?.fm_worker < 2">
+          <template #title>
+            <div class="h-8 flex items-center gap-2 text-base" :class="fullPath.includes('logic') ? 'text-[var(--el-color-primary)]' : ''"><i class="pi pi-crown"></i>Логист</div>
+          </template>
+          <el-menu-item index="logic-refill">Пополнение товара</el-menu-item>
+        </el-sub-menu>
         <el-menu-item index="delivery" :disabled="user?.fm_worker < 1">
           <div class="h-8 flex items-center gap-2 text-base"><i class="pi pi-crown"></i>Курьер</div>
         </el-menu-item>
