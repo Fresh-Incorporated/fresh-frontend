@@ -12,7 +12,7 @@ const props = defineProps({
 
 <template>
   <div class="w-full h-96 border border-neutral-800 bg-neutral-900 shadow-lg flex flex-col items-center rounded-lg relative">
-    <div class="absolute w-full h-full bg-neutral-900/[0.75] z-10 rounded-lg flex justify-center items-center">
+    <div v-if="count === 0" class="absolute w-full h-full bg-neutral-900/[0.75] z-10 rounded-lg flex justify-center items-center">
       <p class="absolute blur-md text-3xl text-center font-semibold text-red-600">Товар закончился</p>
       <p class="text-3xl text-center font-semibold text-red-600">Товар закончился</p>
     </div>
