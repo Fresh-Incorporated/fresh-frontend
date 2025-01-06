@@ -8,6 +8,8 @@ definePageMeta({
 const declineMessage = ref("")
 const declineDialog = ref(false)
 
+const selectedId = ref(0)
+
 const products = ref([])
 
 onMounted(async () => {
@@ -18,8 +20,8 @@ const accept = async (id: number) => {
   await http.post(`freshmarket/work/secretary/product/${id}/accept`)
 }
 
-const decline = async (id: number) => {
-  await http.post(`freshmarket/work/secretary/product/${id}/decline`, {
+const decline = async () => {
+  await http.post(`freshmarket/work/secretary/product/${selectedId.value}/decline`, {
     message: declineMessage.value,
   })
 }
@@ -42,7 +44,7 @@ const decline = async (id: number) => {
             :formatter="(value) => `${value}`.replace(/[\r\n]+/g, '')"
             :parser="(value) => value.replace(/[\r\n]+/g, '')"
         />
-        <el-button @click="decline(product.id)">
+        <el-button @click="decline">
           Отклонить
         </el-button>
       </div>
@@ -56,7 +58,7 @@ const decline = async (id: number) => {
       <p>Ячейка: {{product.cell?.letter}}-{{product.cell?.number}}</p>
       <p>Склад: {{product.cell?.location?.name}}</p>
       <el-button @click="accept(product.id)">Подтвердить</el-button>
-      <el-button @click="declineDialog = true">Отклонить</el-button>
+      <el-button @click="selectedId = product.id; declineDialog = true">Отклонить</el-button>
     </div>
   </div>
 </template>
