@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import {http} from "~/composables/useHttp"
+
 const {cart, putInCart} = useUser()
 
 const opened = ref(false)
@@ -34,6 +36,13 @@ const deliveryCordsData = ref({
   y: 64,
   z: 0
 })
+
+const buy = async () => {
+  await http.post("/freshmarket/order/new/instant", {
+    type: deliveryType.value,
+    products: cart.value.map(({ id, picked }) => ({ id, count: picked }))
+  })
+}
 </script>
 
 <template>
@@ -117,7 +126,7 @@ const deliveryCordsData = ref({
               <p>{{ cart.reduce((sum, product) => sum + product.price * product.picked, 0) }} АР</p>
             </div>
           </div>
-          <el-button class="w-full" type="primary" size="large">Заказать</el-button>
+          <el-button @click="buy" class="w-full" type="primary" size="large">Заказать</el-button>
         </div>
       </div>
     </el-drawer>
