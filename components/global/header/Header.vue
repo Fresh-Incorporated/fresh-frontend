@@ -3,7 +3,7 @@ const colorMode = useColorMode()
 
 const isDark = ref(false)
 const route = useRoute()
-const {user, userLoading, logout} = useUser();
+const {user, userLoading, logout, orders} = useUser();
 
 onMounted(() => {
   isDark.value = colorMode.preference === 'dark' || colorMode.preference === 'system'
@@ -85,6 +85,15 @@ onBeforeUnmount(() => {
           </NuxtLink>
         </div>
         <div class="flex h-full w-full md:w-60 justify-end items-center gap-4">
+          <el-tooltip trigger="hover" content="Доставки" placement="bottom" effect="light">
+            <el-badge :value="orders.orders.reduce((sum, order) => sum + (order.status < 5 ? 1 : 0), 0)" :max="9">
+              <NuxtLink to="/freshmarket/orders">
+                <el-button>
+                  <i class="pi pi-truck"></i>
+                </el-button>
+              </NuxtLink>
+            </el-badge>
+          </el-tooltip>
           <el-switch
               v-model="isDark"
               style="--el-switch-on-color: #2c2c2c; --el-switch-off-color: #ffffff"

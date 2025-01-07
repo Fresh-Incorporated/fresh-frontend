@@ -4,6 +4,7 @@ import { http, loginDiscord } from '~/composables/useHttp';
 const user = ref(null);
 const shops = ref([]);
 const cart = ref([]);
+const orders = ref({orders: [], products: []});
 const userLoading = ref<boolean>(true);
 
 export const useUser = () => {
@@ -18,10 +19,16 @@ export const useUser = () => {
         shops.value = response.data;
     }
 
+    async function updateOrders() {
+        const response = await http.get('/users/@me/orders');
+        orders.value = response.data;
+    }
+
     async function tryLoadUser() {
         userLoading.value = true;
         try {
             await updateUser()
+            await updateOrders()
         } catch (error) { console.error(error); }
         userLoading.value = false;
     }
@@ -54,6 +61,8 @@ export const useUser = () => {
         shops,
         updateShops,
         cart,
-        putInCart
+        putInCart,
+        orders,
+        updateOrders,
     };
 };
