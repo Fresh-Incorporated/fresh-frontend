@@ -94,12 +94,12 @@ const refillEnd = async (id: number) => {
       </div>
       <div class="flex flex-col justify-center items-end w-32">
         <div class="w-full">
-          <el-button class="w-full" :loading="product.refill_status > 1" :type="product.refill_status === 1 ? 'warning' : product.refill_status > 1 ? 'primary' : ''" @click="selectedProduct = product; refillWindow = true" size="small" plain>
+          <el-button :disabled="product.verify_status != 1" class="w-full" :loading="product.refill_status > 1" :type="product.refill_status === 1 ? 'warning' : product.refill_status > 1 ? 'primary' : ''" @click="selectedProduct = product; refillWindow = true" size="small" plain>
             {{product.refill_status === 1 ? 'Пополнение' : product.refill_status > 1 ? 'Пополнение' : 'Пополнить'}}
           </el-button>
         </div>
         <div class="w-full">
-          <el-button class="w-full" size="small" plain>
+          <el-button :disabled="product.verify_status != 1" class="w-full" size="small" plain>
             Информация
           </el-button>
         </div>

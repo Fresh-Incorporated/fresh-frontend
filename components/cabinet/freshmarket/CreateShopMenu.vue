@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {http} from "~/composables/useHttp"
+import IconUpload from "~/components/global/upload/IconUpload.vue";
 
 const model = defineModel()
 const {user, shops} = useUser()
@@ -50,9 +51,6 @@ const createShop = async () => {
   }
 };
 
-const handleFileChange = (event) => {
-  file.value = event.target.files[0]; // Получаем объект файла
-};
 </script>
 
 <template>
@@ -62,31 +60,29 @@ const handleFileChange = (event) => {
         title="Новый магазин"
         direction="rtl"
         :size="size"
-
     >
-      <input
-          type="file"
-          @change="handleFileChange"
-          accept="image/*"
-          class="w-full"
-      />
-      <el-input
-          v-model="name"
-          minlength="3"
-          maxlength="16"
-          placeholder="Название магазина"
-          show-word-limit
-          type="text"
-      />
-      <el-input
-          v-model="description"
-          maxlength="240"
-          placeholder="Описание магазина"
-          show-word-limit
-          :formatter="(value) => `${value}`.replace(/[\r\n]+/g, '')"
-          :parser="(value) => value.replace(/[\r\n]+/g, '')"
-          type="textarea"
-      />
+      <div class="flex flex-col">
+        <IconUpload v-model="file" />
+        <p class="mt-2 text-neutral-200">Название магазина</p>
+        <el-input
+            v-model="name"
+            minlength="3"
+            maxlength="16"
+            placeholder="Название магазина"
+            show-word-limit
+            type="text"
+        />
+        <p class="mt-2 text-neutral-200">Описание магазина</p>
+        <el-input
+            v-model="description"
+            maxlength="240"
+            placeholder="Описание магазина"
+            show-word-limit
+            :formatter="(value) => `${value}`.replace(/[\r\n]+/g, '')"
+            :parser="(value) => value.replace(/[\r\n]+/g, '')"
+            type="textarea"
+        />
+      </div>
       <template #footer>
         <div style="flex: auto">
           <el-button type="primary" @click="createShop">Создать магазин {{16 + Math.pow(16, shops.length) * shops.length}} АР</el-button>
