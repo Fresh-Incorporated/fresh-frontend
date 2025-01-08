@@ -59,6 +59,7 @@ const handleSelect = async (key: string, keyPath: string[]) => {
             <div class="h-8 flex items-center gap-2 text-base" :class="fullPath.includes('logic') ? 'text-[var(--el-color-primary)]' : ''"><i class="pi pi-crown"></i>Логист</div>
           </template>
           <el-menu-item index="logic-refill">Пополнение товара</el-menu-item>
+          <el-menu-item index="logic-collect">Сбор заказов</el-menu-item>
         </el-sub-menu>
         <el-menu-item index="delivery" :disabled="user?.fm_worker < 1">
           <div class="h-8 flex items-center gap-2 text-base"><i class="pi pi-crown"></i>Курьер</div>
