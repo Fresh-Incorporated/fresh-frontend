@@ -62,6 +62,7 @@ const createShop = async () => {
         :size="size"
     >
       <div class="flex flex-col">
+        <p class="mt-2 text-neutral-200">Иконка магазина</p>
         <IconUpload v-model="file" />
         <p class="mt-2 text-neutral-200">Название магазина</p>
         <el-input
