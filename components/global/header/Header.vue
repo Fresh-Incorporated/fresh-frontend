@@ -59,7 +59,7 @@ onBeforeUnmount(() => {
       </ElButton>
     </NuxtLink>
   </div>
-  <el-affix class="z-10">
+  <el-affix class="z-30">
     <div
         class="h-14 w-full bg-black/[.05] dark:bg-black/[.2] backdrop-blur border-b-[1px] border-neutral-200 dark:border-neutral-800 shadow-sm dark:shadow-lg py-1 px-2 md:px-16 z-10">
       <div
@@ -86,7 +86,7 @@ onBeforeUnmount(() => {
         </div>
         <div class="flex h-full w-full md:w-60 justify-end items-center gap-4">
           <el-tooltip trigger="hover" content="Доставки" placement="bottom" effect="light">
-            <el-badge :value="orders.orders.reduce((sum, order) => sum + (order.status < 5 ? 1 : 0), 0)" :max="9">
+            <el-badge :value="orders.orders.reduce((sum, order) => sum + (order.status < 5 ? 1 : 0), 0)" :hidden="orders.orders.reduce((sum, order) => sum + (order.status < 5 ? 1 : 0), 0) < 1" :max="9">
               <NuxtLink to="/freshmarket/orders">
                 <el-button>
                   <i class="pi pi-truck"></i>
