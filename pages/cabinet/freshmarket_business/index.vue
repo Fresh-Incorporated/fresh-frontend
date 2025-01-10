@@ -61,6 +61,14 @@ const openedCreateMenu = ref(false);
             </el-button>
           </template>
         </el-select>
+        <div class="flex-1 flex justify-end">
+          <div v-if="shops.find(shop => shop.id === selectedShop)?.verify_status === 0" class="bg-amber-500/[0.25] py-1 px-2 rounded-md border border-amber-400/[0.75] text-amber-300 flex">
+            <p class="text-sm"><i class="pi pi-exclamation-triangle text-xs"></i>  Этот магазин находится на проверке, ни один из товаров недоступен к покупке.</p>
+          </div>
+          <div v-if="shops.find(shop => shop.id === selectedShop)?.verify_status === -1" class="bg-red-500/[0.25] py-1 px-2 rounded-md border border-red-400/[0.75] text-red-300 flex">
+            <p class="text-sm"><i class="pi pi-exclamation-triangle text-xs"></i>  Магазин был отклонён при проверке!</p>
+          </div>
+        </div>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8">
         <FMCabinetFragmetProducts :shop="selectedShop" />
