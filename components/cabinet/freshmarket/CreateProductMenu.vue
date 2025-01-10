@@ -2,12 +2,14 @@
 import {http} from "~/composables/useHttp"
 import type {CSSProperties} from "vue";
 import IconUpload from "~/components/global/upload/IconUpload.vue";
+import SelectMinecraftImage from "~/components/global/SelectMinecraftImage.vue";
 
 const props = defineProps({
   shop: Number,
 })
 
 const model = defineModel()
+const showMinecraftImageSelect = ref(false)
 
 const {user, shops} = useUser()
 
@@ -24,9 +26,11 @@ const handleClose = (done: () => void) => {
       .catch(() => {})
 }
 
-const size = ref("30%")
+const size = ref("40%")
+const size2 = ref("30%")
 
 const file = ref(null);
+const minecraftIcon = ref()
 const name = ref("")
 const description = ref("")
 const stackCount = ref(1)
@@ -43,9 +47,18 @@ const slotsCountMarks = reactive<Marks>({
 const price = ref(1)
 
 onMounted(() => {
-  if (window.innerWidth > 1200) size.value = "30%"
-  else if (window.innerWidth > 800) size.value = "50%"
-  else size.value = "100%"
+  if (window.innerWidth > 1200) {
+    size.value = "40%";
+    size2.value = "30%"
+  }
+  else if (window.innerWidth > 800) {
+    size.value = "60%"
+    size2.value = "50%"
+  }
+  else {
+    size.value = "100%"
+    size2.value = "100%"
+  }
 })
 
 const createShop = async () => {
@@ -56,6 +69,7 @@ const createShop = async () => {
   formData.append('stack_count', stackCount.value);
   formData.append('slots_count', slotsCount.value);
   formData.append('price', price.value);
+  formData.append('minecraft_icon', minecraftIcon.value);
 
   try {
     const response = await http.post(`/freshmarket/shop/${props.shop}/product/create`, formData, {
@@ -64,7 +78,8 @@ const createShop = async () => {
         description: description.value,
         stack_count: stackCount.value,
         slots_count: slotsCount.value,
-        price: price.value
+        price: price.value,
+        minecraft_icon: minecraftIcon.value
       },
       headers: {
         'Content-Type': 'multipart/form-data',
@@ -77,6 +92,33 @@ const createShop = async () => {
     console.error('Ошибка при создании магазина:', error);
   }
 };
+
+const isInternalChange = ref(false);
+
+watch(minecraftIcon, (newValue) => {
+  if (!isInternalChange.value) {
+    isInternalChange.value = true;
+    showMinecraftImageSelect.value = false;
+    file.value = null;
+
+    // Откладываем сброс флага
+    nextTick(() => {
+      isInternalChange.value = false;
+    });
+  }
+});
+
+watch(file, (newValue) => {
+  if (!isInternalChange.value) {
+    isInternalChange.value = true;
+    minecraftIcon.value = null;
+
+    // Откладываем сброс флага
+    nextTick(() => {
+      isInternalChange.value = false;
+    });
+  }
+});
 </script>
 
 <template>
@@ -86,11 +128,21 @@ const createShop = async () => {
         title="Новый товар"
         direction="rtl"
         :size="size"
-
     >
+      <el-drawer
+          v-model="showMinecraftImageSelect"
+          title="Изображение Minecraft"
+          direction="rtl"
+          :size="size2"
+      >
+        <SelectMinecraftImage v-model="minecraftIcon" />
+      </el-drawer>
       <div class="flex flex-col">
         <p class="mt-2 text-neutral-200">Иконка товара</p>
-        <IconUpload v-model="file" />
+        <IconUpload v-model="file" :current-image="`https://img.zaralx.ru/v1/minecraft/${minecraftIcon}`" :show-current-image="minecraftIcon" />
+        <el-button @click="showMinecraftImageSelect = true" class="mt-2">
+          Выбрать предмет из Minecraft
+        </el-button>
         <p class="mt-2 text-neutral-200">Название товара</p>
         <el-input
             v-model="name"
