@@ -74,9 +74,6 @@ const openedCreateMenu = ref(false);
         <FMCabinetFragmetProducts :shop="selectedShop" />
         <FMCabinetFragmentCreateProduct :shop="selectedShop" />
         <FMCabinetFragmetSettings />
-        <div class="bg-neutral-900 rounded-xl shadow-lg border border-neutral-800 h-64">
-
-        </div>
       </div>
     </div>
     <div v-else class="flex flex-col items-center justify-center">
