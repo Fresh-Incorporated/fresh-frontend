@@ -8,15 +8,21 @@ definePageMeta({
 const shops = ref([])
 
 onMounted(async () => {
-  shops.value = (await http.get(`freshmarket/work/secretary/shops`))?.data;
+  await updateShopsList()
 })
+
+async function updateShopsList() {
+  shops.value = (await http.get(`freshmarket/work/secretary/shops`))?.data;
+}
 
 const accept = async (id: number) => {
   await http.post(`freshmarket/work/secretary/shop/${id}/accept`)
+  await updateShopsList()
 }
 
 const decline = async (id: number) => {
   await http.post(`freshmarket/work/secretary/shop/${id}/decline`)
+  await updateShopsList()
 }
 </script>
 
