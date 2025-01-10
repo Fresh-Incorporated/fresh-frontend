@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
+const model = defineModel()
 const file = ref<File | null>(null);
 const fileUrl = ref<string | null>(null);
 const errorMessage = ref<string | null>(null);
@@ -18,6 +19,8 @@ const handleFileChange = (fileInput: File | null) => {
 
     // Установка нового файла и его URL
     file.value = fileInput;
+    model.value = fileInput
+
     fileUrl.value = file.value ? URL.createObjectURL(file.value) : null;
   } else {
     errorMessage.value = 'Допустимы только файлы JPG, JPEG, PNG';
