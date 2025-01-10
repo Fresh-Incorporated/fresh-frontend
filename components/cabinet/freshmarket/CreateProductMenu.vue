@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {http} from "~/composables/useHttp"
 import type {CSSProperties} from "vue";
+import IconUpload from "~/components/global/upload/IconUpload.vue";
 
 const props = defineProps({
   shop: Number,
@@ -76,10 +77,6 @@ const createShop = async () => {
     console.error('Ошибка при создании магазина:', error);
   }
 };
-
-const handleFileChange = (event) => {
-  file.value = event.target.files[0]; // Получаем объект файла
-};
 </script>
 
 <template>
@@ -91,34 +88,39 @@ const handleFileChange = (event) => {
         :size="size"
 
     >
-      <input
-          type="file"
-          @change="handleFileChange"
-          accept="image/*"
-          class="w-full"
-      />
-      <el-input
-          v-model="name"
-          minlength="3"
-          maxlength="24"
-          placeholder="Название товара"
-          show-word-limit
-          type="text"
-      />
-      <el-input
-          v-model="description"
-          maxlength="240"
-          placeholder="Описание товара"
-          show-word-limit
-          :formatter="(value) => `${value}`.replace(/[\r\n]+/g, '')"
-          :parser="(value) => value.replace(/[\r\n]+/g, '')"
-          type="textarea"
-      />
-      <el-slider v-model="stackCount" :step="1" :max="64" :min="1" :marks="stackCountMarks" />
-      <div class="h-8"></div>
-      <el-slider v-model="slotsCount" :step="1" :max="27" :min="1" :marks="slotsCountMarks" />
-      <div class="h-8"></div>
-      <el-input-number v-model="price" :precision="1" :step="1" :min="0.5" :max="1000" />
+      <div class="flex flex-col">
+        <p class="mt-2 text-neutral-200">Иконка товара</p>
+        <IconUpload v-model="file" />
+        <p class="mt-2 text-neutral-200">Название товара</p>
+        <el-input
+            v-model="name"
+            minlength="3"
+            maxlength="24"
+            placeholder="Название товара"
+            show-word-limit
+            type="text"
+        />
+        <p class="mt-2 text-neutral-200">Описание товара</p>
+        <el-input
+            v-model="description"
+            maxlength="240"
+            placeholder="Описание товара"
+            show-word-limit
+            :formatter="(value) => `${value}`.replace(/[\r\n]+/g, '')"
+            :parser="(value) => value.replace(/[\r\n]+/g, '')"
+            type="textarea"
+        />
+        <p class="mt-2 text-neutral-200">Кол-во едениц товара в 1 слоте</p>
+        <el-slider v-model="stackCount" :step="1" :max="64" :min="1" :marks="stackCountMarks" />
+        <p class="mt-4 text-neutral-200">Кол-во слотов которые занимает единица товара</p>
+        <el-slider v-model="slotsCount" :step="1" :max="27" :min="1" :marks="slotsCountMarks" />
+        <p class="mt-4 text-neutral-200">Цена товара</p>
+        <el-input-number v-model="price" :step="1" :min="1" :max="1000">
+          <template #suffix>
+            АР
+          </template>
+        </el-input-number>
+      </div>
 
       <template #footer>
         <div style="flex: auto">
