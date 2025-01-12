@@ -3,6 +3,7 @@ import ProjectHead from "~/components/project/ProjectHead.vue";
 import FMProductsList from "~/components/freshmarket/FMProductsList.vue";
 import {http} from "~/composables/useHttp"
 import FMCartButton from "~/components/freshmarket/FMCart.vue";
+import FMBranchSelectMap from "~/components/freshmarket/FMBranchSelectMap.vue";
 
 const productsModel = ref({
   products: [],
@@ -32,6 +33,7 @@ const load = async () => {
 
 <template>
 <div v-infinite-scroll="load">
+  <FMBranchSelectMap />
   <ProjectHead></ProjectHead>
   <FMCartButton />
   <FMProductsList v-model="productsModel" />
