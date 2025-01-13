@@ -1,47 +1,19 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 
-const branchs = [
-  {
-    name: "Филиал №1",
-    cords: [
-      {
-        world: "nether",
-        x: 100,
-        y: 64,
-        z: 50
-      }
-    ]
-  },
-  {
-    name: "Филиал №2",
-    cords: [
-      {
-        world: "nether",
-        x: 10,
-        y: 64,
-        z: -50
-      }
-    ]
-  },
-  {
-    name: "Филиал №3",
-    cords: [
-      {
-        world: "nether",
-        x: -10,
-        y: 64,
-        z: -40
-      }
-    ]
-  }
-]
+const opened = defineModel("opened")
+const branch = defineModel("branch")
+
+const props = defineProps({
+  branchs: Array<Object>,
+})
 
 // Настройки для канваса
 const canvasRef = ref<HTMLCanvasElement | null>(null);
 const scale = ref(5); // Масштаб камеры
 const offsetX = ref(0); // Сдвиг камеры по X
 const offsetY = ref(0); // Сдвиг камеры по Y
+const isSelected = ref(false)
 
 let isPanning = false; // Состояние перемещения камеры
 let lastMouseX = 0;
@@ -98,9 +70,8 @@ const draw = () => {
   ctx.fill();
 
   // Филиалы
-  // Филиалы
-  for (const branch of branchs) {
-    const netherCords = branch.cords.find(cord => cord.world === "nether");
+  for (const branch of props.branchs) {
+    const netherCords = branch.coordinates.find(cord => cord.world === "nether");
     if (!netherCords) continue;
 
     // Координаты точки филиала относительно центра
@@ -181,10 +152,56 @@ const onMouseDown = (event: MouseEvent) => {
   isPanning = true;
   lastMouseX = event.clientX;
   lastMouseY = event.clientY;
+
+  const canvas = canvasRef.value;
+  if (!canvas) return;
+
+  logCoordinates(event);
+
+  const rect = canvas.getBoundingClientRect();
+  const mouseX = (event.clientX - rect.left - canvas.width / 2 - offsetX.value) / scale.value;
+  const mouseY = (event.clientY - rect.top - canvas.height / 2 - offsetY.value) / scale.value;
+
+  isSelected.value = false;
+  for (const _branch of props.branchs) {
+    const netherCords = _branch.coordinates.find(cord => cord.world === "nether");
+    if (!netherCords) continue;
+
+    const branchX = netherCords.x;
+    const branchY = netherCords.z;
+
+    if (Math.abs(mouseX - branchX) < 2.5 && Math.abs(mouseY - branchY) < 2.5) {
+      branch.value = _branch.id
+      isSelected.value = true;
+    }
+  }
 };
 
 const onMouseMove = (event: MouseEvent) => {
+  const canvas = canvasRef.value;
+  if (!canvas) return;
+
   logCoordinates(event);
+
+  const rect = canvas.getBoundingClientRect();
+  const mouseX = (event.clientX - rect.left - canvas.width / 2 - offsetX.value) / scale.value;
+  const mouseY = (event.clientY - rect.top - canvas.height / 2 - offsetY.value) / scale.value;
+
+  for (const branch of props.branchs) {
+    const netherCords = branch.coordinates.find(cord => cord.world === "nether");
+    if (!netherCords) continue;
+
+    const branchX = netherCords.x;
+    const branchY = netherCords.z;
+
+    if (Math.abs(mouseX - branchX) < 2.5 && Math.abs(mouseY - branchY) < 2.5) {
+      canvas.style.cursor = "pointer"
+      break;
+    } else {
+      canvas.style.cursor = "default"
+    }
+  }
+
   if (!isPanning) return;
   const dx = event.clientX - lastMouseX;
   const dy = event.clientY - lastMouseY;
@@ -227,12 +244,56 @@ onMounted(() => {
   canvas.addEventListener("mousemove", onMouseMove);
   canvas.addEventListener("mouseup", onMouseUp);
   canvas.addEventListener("mouseout", onMouseUp);
+  updateCanvasSize();
+  draw();
 });
+
+watch(opened, () => {
+  setTimeout(() => {
+    updateCanvasSize();
+    draw();
+  }, 1000)
+})
 </script>
 
 <template>
-  <div class="fixed top-0 left-0 z-30 w-screen h-screen bg-neutral-950">
-    <canvas ref="canvasRef"></canvas>
+  <div>
+    <el-dialog
+        v-model="isSelected"
+        :title="props.branchs.find(b => b.id == branch)?.name"
+        width="500"
+        align-center
+    >
+      <div>
+        <div class="w-full aspect-video">
+          <el-carousel height="889" indicator-position="none">
+            <el-carousel-item v-for="image in props.branchs.find(b => b.id == branch)?.images" :key="item">
+              <img class="w-full h-full" :src="image?.image" alt="">
+            </el-carousel-item>
+          </el-carousel>
+        </div>
+        <div>
+          <p>Описание: {{props.branchs.find(b => b.id == branch)?.description}}</p>
+          <p>Город: <strong>{{props.branchs.find(b => b.id == branch)?.city}}</strong></p>
+          <div v-for="cord in props.branchs.find(b => b.id == branch)?.coordinates">
+            {{cord.world}} {{cord.x}} {{cord.y}} {{cord.z}}
+          </div>
+        </div>
+      </div>
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button type="primary" @click="isSelected = false; opened = false">
+            Выбрать этот филиал
+          </el-button>
+        </div>
+      </template>
+    </el-dialog>
+    <div :class="opened ? '' : 'scale-0 opacity-0'" class="fixed top-0 left-0 z-30 w-screen h-screen bg-neutral-950 transform duration-500">
+      <div @click="opened = false" class="absolute bg-neutral-800/[0.25] w-8 h-8 flex justify-center items-center top-2 left-2 cursor-pointer rounded-lg">
+        <i class="pi pi-times text-neutral-700"></i>
+      </div>
+      <canvas ref="canvasRef"></canvas>
+    </div>
   </div>
 </template>
 
