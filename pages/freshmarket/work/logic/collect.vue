@@ -28,7 +28,7 @@ const accept = async (id: number) => {
 }
 
 const finish = async (id: number) => {
-  await http.post(`freshmarket/work/logic/order/${id}/collect/end`)
+  const response =  await http.post(`freshmarket/work/logic/order/${id}/collect/end`)
   const index = orders.value.findIndex(item => item.id === id);
   if (index !== -1) {
     orders.value[index] = response.data.order;
