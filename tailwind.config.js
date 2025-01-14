@@ -16,6 +16,7 @@ module.exports = {
         extend: {
             animation: {
                 'border': 'border 4s linear infinite',
+                "clip-fluid": "clip-fluid 4s ease-in-out infinite"
             },
             keyframes: {
                 'border': {
@@ -49,4 +50,4 @@ module.exports = {
         transforms,
         strokes
     ],
-}
+};
