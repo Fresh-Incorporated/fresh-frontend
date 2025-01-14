@@ -4,7 +4,7 @@
 
 <template>
 <div class="relative">
-  <div class="bg-neutral-950/[0.75] h-32 w-full" style="clip-path: polygon(
+  <div class="bg-neutral-950/[0.75] h-32 w-full absolute transform -top-32" style="clip-path: polygon(
                 0% 60%,
                 15% 65%,
                 34% 66%,
