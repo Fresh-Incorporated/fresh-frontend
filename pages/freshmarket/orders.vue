@@ -32,6 +32,7 @@ const history = ref([])
             </div>
           </div>
           <p class="text-neutral-200">Город: {{order?.branch?.city}}</p>
+          <p class="text-neutral-200">Ячейка: <span class="text-blue-500">{{order?.branchCell?.letter}}-{{order?.branchCell?.number}}</span></p>
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 my-2">
             <div v-for="product in order?.products" class="border border-neutral-800 rounded-lg flex gap-2">
               <div class="w-12 h-12">
@@ -49,8 +50,13 @@ const history = ref([])
           <p>Цена: <strong class="text-blue-500">{{order?.price}} АР</strong></p>
           <div class="flex-1"></div>
           <p class="text-neutral-300">{{order?.data?.products?.reduce((sum, product) => sum + product.count, 0)}} товар</p>
-          <el-button v-if="order.status === 4" @click="confirm(order.id)" size="small" type="success" plain>Подтвердить получение</el-button>
-          <el-button @click="history = order?.history?.reverse(); openedHistory = true" size="small" type="info" text>История</el-button>
+          <div>
+            <div class="absolute blur-lg animate-ping">
+              <el-button v-if="order.status === 4" size="small" type="success" plain disabled class="!cursor-default">Подтвердить получение</el-button>
+            </div>
+            <el-button v-if="order.status === 4" @click="confirm(order.id)" size="small" type="success" plain class="relative">Подтвердить получение</el-button>
+          </div>
+          <el-button @click="history = order?.history?.reverse(); openedHistory = true" size="small" type="info" text class="relative">История</el-button>
         </div>
       </div>
     </div>
