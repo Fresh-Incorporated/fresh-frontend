@@ -110,7 +110,7 @@ onBeforeUnmount(() => {
             </template>
           </el-switch>
           <div v-if="user && !userLoading"
-               class="h-full flex flex-col items-center justify-center border rounded-lg border-neutral-200 dark:border-neutral-800 bg-neutral-900 hover:bg-neutral-950/[0.25] duration-500 select-none">
+               class="h-full flex flex-col items-center justify-center border rounded-lg border-neutral-200 dark:border-neutral-800 bg-neutral-900/[0.5] hover:bg-neutral-950/[0.25] duration-500 select-none">
             <div ref="userMenuButton" @click="userMenu = !userMenu" class="flex items-center gap-2 py-1 px-1 cursor-pointer">
               <div class="h-full max-w-24 sm:max-w-52 md:max-w-24 lg:max-w-48 lg:min-w-24">
                 <p class="text-sm truncate font-medium text-right">{{ user.nickname }}</p>
@@ -156,7 +156,7 @@ onBeforeUnmount(() => {
                         <div ref="exitMenuButton" class="w-full font-medium cursor-pointer">
                           <p :class="'text-red-500'"
                              class="text-center py-2 hover:bg-white/[0.05] duration-500 rounded-b-lg flex justify-end items-center gap-1 px-2">
-                            <i class="pi pi-cog"></i> <span class="flex-1">Выйти</span></p>
+                            <i class="pi pi-sign-out"></i> <span class="flex-1">Выйти</span></p>
                         </div>
                       </template>
                       <template #actions="{ confirm, cancel }">
