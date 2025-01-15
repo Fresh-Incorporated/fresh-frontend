@@ -36,18 +36,18 @@
       <div class="grid grid-cols-3 select-auto z-10 max-w-[40rem]">
         <div class="flex flex-col items-end justify-end">
           <strong class="text-sm text-neutral-400 pr-3">Документы</strong>
-          <el-button text size="small" round>Правила использования</el-button>
-          <el-button text size="small" round>Политика конфиденциальности</el-button>
+          <NuxtLink to="/info"><el-button text size="small" round>Правила использования</el-button></NuxtLink>
+          <NuxtLink to="/info"><el-button text size="small" round>Политика конфиденциальности</el-button></NuxtLink>
         </div>
         <div class="flex flex-col items-end justify-end">
           <strong class="text-sm text-neutral-400 pr-3">Информация</strong>
-          <el-button text size="small" round>О проекте</el-button>
-          <el-button text size="small" round>Что такое FreshMarket?</el-button>
+          <NuxtLink to="/info"><el-button text size="small" round>О проекте</el-button></NuxtLink>
+          <NuxtLink to="/info"><el-button text size="small" round>Что такое FreshMarket?</el-button></NuxtLink>
         </div>
         <div class="flex flex-col items-end justify-end">
           <strong class="text-sm text-neutral-400 pr-3">Связь</strong>
-          <el-button text size="small" round>Дискорд</el-button>
-          <el-button text size="small" round>Телеграм</el-button>
+          <a href="https://discord.gg/eGUxF7uwyV" target="_blank"><el-button text size="small" round>Дискорд</el-button></a>
+          <a href="https://t.me/underzaral" target="_blank"><el-button text size="small" round>Телеграм</el-button></a>
         </div>
       </div>
     </div>

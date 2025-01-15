@@ -19,10 +19,6 @@ const links = [
     to: "/"
   },
   {
-    title: "Тест",
-    to: "/test"
-  },
-  {
     title: "FreshMarket",
     to: "/freshmarket"
   }
