@@ -17,7 +17,10 @@ http.interceptors.response.use(
         if (!error.response) return Promise.reject(error);
         const originalRequest = error.config;
 
-        if (error.response.status === 401) {
+
+        if (error.response.request.responseURL.includes("refresh")) {
+            // skip
+        } else if (error.response.status === 401) {
             try {
                 await http.post('/users/@me/refresh');
                 return http(originalRequest!);
