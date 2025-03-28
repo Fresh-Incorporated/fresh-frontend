@@ -36,11 +36,11 @@ const handleSelect = async (key: string, keyPath: string[]) => {
           <template #title>
             <div class="h-8 flex items-center gap-2 text-base" :class="fullPath.includes('director') ? 'text-[var(--el-color-primary)]' : ''"><i class="pi pi-crown"></i>Директор</div>
           </template>
-          <el-menu-item index="1-0">Общее</el-menu-item>
+          <el-menu-item index="director">Общее</el-menu-item>
           <el-menu-item-group title="Информация">
-            <el-menu-item index="1-1">Ячейка</el-menu-item>
-            <el-menu-item index="1-2">Пользователь</el-menu-item>
-            <el-menu-item index="1-2">Локация</el-menu-item>
+            <el-menu-item index="director-cell">Ячейка</el-menu-item>
+            <el-menu-item index="director-user">Пользователь</el-menu-item>
+            <el-menu-item index="director-location">Локация</el-menu-item>
           </el-menu-item-group>
           <el-menu-item-group title="Локации">
             <el-menu-item index="director-location-create">Создать новую</el-menu-item>
