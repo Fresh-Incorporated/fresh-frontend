@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import InBeta from "~/components/global/InBeta.vue";
+
 const colorMode = useColorMode()
 const { tryLoadUser } = useUser()
 
@@ -12,6 +14,7 @@ onMounted( () => {
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
+    <InBeta />
   </div>
 </template>
 
