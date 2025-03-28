@@ -13,7 +13,16 @@ watch(isDark, () => {
   colorMode.preference = isDark.value ? 'dark' : 'light';
 })
 
-const links = [
+watch(user, (newValue) => {
+  if (newValue?.fm_worker > 0) {
+    links.value.push({
+      title: "Я работник",
+      to: "/freshmarket/work"
+    })
+  }
+})
+
+const links = ref([
   {
     title: "Главная",
     to: "/"
@@ -22,7 +31,7 @@ const links = [
     title: "FreshMarket",
     to: "/freshmarket"
   }
-]
+])
 
 const mobileNav = ref(false)
 const userMenu = ref(false)

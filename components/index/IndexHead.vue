@@ -42,7 +42,7 @@ import ProjectOverview from "~/components/index/ProjectOverview.vue";
       </div>
     </div>
     <div class="w-full h-96 hidden lg:block">
-      <ProjectOverview />
+<!--      <ProjectOverview />-->
     </div>
   </div>
 </template>

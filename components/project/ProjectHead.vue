@@ -11,84 +11,84 @@ const scroll = ():void => {
     ></div>
     <div class="h-full hidden lg:block">
       <div class="absolute w-full h-full grid grid-cols-2 px-8 py-16 gap-8">
-        <div class="relative p-1 shadow-lg max-w-96 transform rotate-y-12 rotate-x-12 min-w-96 hover:rotate-y-0 duration-500 group">
-          <div class="absolute bg-primary-dark rounded-xl w-full h-full blur-lg opacity-50 group-hover:rotate-y-0 group-hover:rotate-x-0 duration-500">
+<!--        <div class="relative p-1 shadow-lg max-w-96 transform rotate-y-12 rotate-x-12 min-w-96 hover:rotate-y-0 duration-500 group">-->
+<!--          <div class="absolute bg-primary-dark rounded-xl w-full h-full blur-lg opacity-50 group-hover:rotate-y-0 group-hover:rotate-x-0 duration-500">-->
 
-          </div>
-          <div class="bg-neutral-800 border border-primary-dark rounded-xl w-full h-full transform rotate-x-12s rotate-y-12 shadow-2xl overflow-hidden">
-            <div class="absolute bg-primary-dark w-32 h-32 blur-2xl opacity-50 rounded-full -translate-x-16 -translate-y-16">
+<!--          </div>-->
+<!--          <div class="bg-neutral-800 border border-primary-dark rounded-xl w-full h-full transform rotate-x-12s rotate-y-12 shadow-2xl overflow-hidden">-->
+<!--            <div class="absolute bg-primary-dark w-32 h-32 blur-2xl opacity-50 rounded-full -translate-x-16 -translate-y-16">-->
 
-            </div>
-            <div class="absolute bg-primary-dark bottom-0 right-0 w-32 h-32 blur-2xl opacity-50 rounded-full translate-x-16 translate-y-16">
+<!--            </div>-->
+<!--            <div class="absolute bg-primary-dark bottom-0 right-0 w-32 h-32 blur-2xl opacity-50 rounded-full translate-x-16 translate-y-16">-->
 
-            </div>
-            <div class="flex w-full h-full flex-col justify-center items-center font-fira gap-4">
-              <div class="flex items-center gap-2">
-                <div class="w-16 h-16 flex justify-center items-center bg-neutral-900 rounded-lg">
-                  <i class="pi pi-user text-4xl"></i>
-                </div>
-                <div class="h-16 flex flex-col py-1">
-                  <h1 class="text-2xl flex-1">Регистраций</h1>
-                  <p class="text-sm">
-                    <span class="font-medium text-primary-dark absolute blur-sm opacity-50">14888</span>
-                    <span class="font-medium text-primary-dark">14888</span> Пользователей</p>
-                </div>
-              </div>
-              <div class="flex items-center gap-2">
-                <div class="w-16 h-16 flex justify-center items-center bg-neutral-900 rounded-lg">
-                  <i class="pi pi-user text-4xl"></i>
-                </div>
-                <div class="h-16 flex flex-col py-1">
-                  <h1 class="text-2xl flex-1">Регистраций</h1>
-                  <p class="text-sm">
-                    <span class="font-medium text-primary-dark absolute blur-sm opacity-50">14888</span>
-                    <span class="font-medium text-primary-dark">14888</span> Пользователей</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="relative p-1 rounded-xl shadow-lg max-w-96 transform rotate-y-12 -rotate-x-12 hover:rotate-y-0 duration-500 group ml-auto mr-0 min-w-96">
-          <div class="absolute bg-primary-dark rounded-xl w-full h-full blur-lg opacity-50 transform rotate-y-12 -rotate-x-12 group-hover:rotate-y-0 group-hover:rotate-x-0 duration-500">
+<!--            </div>-->
+<!--            <div class="flex w-full h-full flex-col justify-center items-center font-fira gap-4">-->
+<!--              <div class="flex items-center gap-2">-->
+<!--                <div class="w-16 h-16 flex justify-center items-center bg-neutral-900 rounded-lg">-->
+<!--                  <i class="pi pi-user text-4xl"></i>-->
+<!--                </div>-->
+<!--                <div class="h-16 flex flex-col py-1">-->
+<!--                  <h1 class="text-2xl flex-1">Регистраций</h1>-->
+<!--                  <p class="text-sm">-->
+<!--                    <span class="font-medium text-primary-dark absolute blur-sm opacity-50">14888</span>-->
+<!--                    <span class="font-medium text-primary-dark">14888</span> Пользователей</p>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              <div class="flex items-center gap-2">-->
+<!--                <div class="w-16 h-16 flex justify-center items-center bg-neutral-900 rounded-lg">-->
+<!--                  <i class="pi pi-user text-4xl"></i>-->
+<!--                </div>-->
+<!--                <div class="h-16 flex flex-col py-1">-->
+<!--                  <h1 class="text-2xl flex-1">Регистраций</h1>-->
+<!--                  <p class="text-sm">-->
+<!--                    <span class="font-medium text-primary-dark absolute blur-sm opacity-50">14888</span>-->
+<!--                    <span class="font-medium text-primary-dark">14888</span> Пользователей</p>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="relative p-1 rounded-xl shadow-lg max-w-96 transform rotate-y-12 -rotate-x-12 hover:rotate-y-0 duration-500 group ml-auto mr-0 min-w-96">-->
+<!--          <div class="absolute bg-primary-dark rounded-xl w-full h-full blur-lg opacity-50 transform rotate-y-12 -rotate-x-12 group-hover:rotate-y-0 group-hover:rotate-x-0 duration-500">-->
 
-          </div>
-          <div class="bg-neutral-800 border border-primary-dark rounded-xl w-full h-full transform rotate-x-0 rotate-y-12 shadow-2xl overflow-hidden">
-            <div class="absolute bg-primary-dark w-32 h-32 blur-2xl opacity-50 rounded-full -translate-x-16 -translate-y-16">
+<!--          </div>-->
+<!--          <div class="bg-neutral-800 border border-primary-dark rounded-xl w-full h-full transform rotate-x-0 rotate-y-12 shadow-2xl overflow-hidden">-->
+<!--            <div class="absolute bg-primary-dark w-32 h-32 blur-2xl opacity-50 rounded-full -translate-x-16 -translate-y-16">-->
 
-            </div>
-            <div class="absolute bg-primary-dark bottom-0 right-0 w-32 h-32 blur-2xl opacity-50 rounded-full translate-x-16 translate-y-16">
+<!--            </div>-->
+<!--            <div class="absolute bg-primary-dark bottom-0 right-0 w-32 h-32 blur-2xl opacity-50 rounded-full translate-x-16 translate-y-16">-->
 
-            </div>
-            <div class="relative flex w-full h-full font-fira gap-4">
-              <div class="absolute blur-lg bottom-0 left-0 transform -translate-x-20">
-                <img class="h-48" src="/zaralx_3d.png" alt="">
-              </div>
-              <div class="absolute bottom-0 left-0 transform -translate-x-20">
-                <img class="h-48" src="/zaralx_3d.png" alt="">
-              </div>
-              <div class="blur-sm absolute right-0 transform p-4 text-3xl font-onest font-bold text-transparent text-stroke text-stroke-green-500">
-                ЛУЧШИЙ ПРОДАВЕЦ
-              </div>
-              <div class="absolute right-0 transform p-4 text-3xl font-onest font-bold text-transparent text-stroke text-stroke-green-500">
-                ЛУЧШИЙ ПРОДАВЕЦ
-              </div>
-              <div class="flex flex-col items-end justify-end w-full gap-2 px-8 py-4">
-                <div class="flex flex-col justify-center">
-                  <p class="text-sm font-onest text-right opacity-75">НИКНЕЙМ</p>
-                  <p class="text-xl font-medium text-right">_zaralX_</p>
-                </div>
-                <div class="flex flex-col justify-center">
-                  <p class="text-sm font-onest text-right opacity-75">ПРОДАНО</p>
-                  <p class="text-xl font-medium text-right">9999 Товаров</p>
-                </div>
-                <div class="flex flex-col justify-center">
-                  <p class="text-sm font-onest text-right opacity-75">ПЕРИОД</p>
-                  <p class="text-xl font-medium text-right">Декабрь</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+<!--            </div>-->
+<!--            <div class="relative flex w-full h-full font-fira gap-4">-->
+<!--              <div class="absolute blur-lg bottom-0 left-0 transform -translate-x-20">-->
+<!--                <img class="h-48" src="/zaralx_3d.png" alt="">-->
+<!--              </div>-->
+<!--              <div class="absolute bottom-0 left-0 transform -translate-x-20">-->
+<!--                <img class="h-48" src="/zaralx_3d.png" alt="">-->
+<!--              </div>-->
+<!--              <div class="blur-sm absolute right-0 transform p-4 text-3xl font-onest font-bold text-transparent text-stroke text-stroke-green-500">-->
+<!--                ЛУЧШИЙ ПРОДАВЕЦ-->
+<!--              </div>-->
+<!--              <div class="absolute right-0 transform p-4 text-3xl font-onest font-bold text-transparent text-stroke text-stroke-green-500">-->
+<!--                ЛУЧШИЙ ПРОДАВЕЦ-->
+<!--              </div>-->
+<!--              <div class="flex flex-col items-end justify-end w-full gap-2 px-8 py-4">-->
+<!--                <div class="flex flex-col justify-center">-->
+<!--                  <p class="text-sm font-onest text-right opacity-75">НИКНЕЙМ</p>-->
+<!--                  <p class="text-xl font-medium text-right">_zaralX_</p>-->
+<!--                </div>-->
+<!--                <div class="flex flex-col justify-center">-->
+<!--                  <p class="text-sm font-onest text-right opacity-75">ПРОДАНО</p>-->
+<!--                  <p class="text-xl font-medium text-right">9999 Товаров</p>-->
+<!--                </div>-->
+<!--                <div class="flex flex-col justify-center">-->
+<!--                  <p class="text-sm font-onest text-right opacity-75">ПЕРИОД</p>-->
+<!--                  <p class="text-xl font-medium text-right">Декабрь</p>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
       </div>
     </div>
     <div class="min-h-64 md:min-h-96 flex justify-center items-center text-center">

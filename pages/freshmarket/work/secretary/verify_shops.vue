@@ -31,7 +31,7 @@ const decline = async (id: number) => {
   <div v-for="shop in shops" class="flex flex-col">
     <img :src="shop.icon" class="w-full aspect-square" alt="">
     <p>Название: <strong>{{shop.name}}</strong></p>
-    <p>Описание: {{shop.description?.length > 0 ? '' : 'Отсутствует'}}</p>
+    <p>Описание: {{shop.description?.length > 0 ? shop.description : 'Отсутствует'}}</p>
     <div class="w-full flex">
       <el-popconfirm
           confirm-button-text="Подтвердить"
