@@ -1,8 +1,9 @@
-import axios, { AxiosInstance, AxiosResponse, AxiosError } from 'axios';
+import axios, { AxiosError } from 'axios';
+import type { AxiosResponse, AxiosInstance } from 'axios';
 
 // Создаем экземпляр axios
 export const http: AxiosInstance = axios.create({
-    baseURL:  "http://localhost:3000/",
+    baseURL: import.meta.dev ? "http://localhost:3000/" : "https://api.fresh.zaralx.ru",
     withCredentials: true,
     timeout: 30000,
 });
@@ -28,7 +29,7 @@ http.interceptors.response.use(
                 return Promise.reject(refreshError);
             }
         } else {
-            ElMessage.error(error.response.data.message || 'Произошла ошибка');
+            ElMessage.error(error?.response?.data?.message || 'Произошла ошибка');
         }
 
         return Promise.reject(error);
