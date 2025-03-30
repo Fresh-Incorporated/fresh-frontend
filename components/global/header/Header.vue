@@ -8,7 +8,7 @@ const {user, userLoading, logout, orders} = useUser();
 onMounted(() => {
   isDark.value = colorMode.preference === 'dark' || colorMode.preference === 'system'
 
-  if (user?.fm_worker > 0) {
+  if (user.value?.fm_worker > 0) {
     links.value.push({
       title: "Я работник",
       to: "/freshmarket/work"
