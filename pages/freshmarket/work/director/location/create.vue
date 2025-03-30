@@ -142,11 +142,31 @@ const handleFileChange = (event) => {
           type="number"
       />
     </div>
-    <el-input
+    <el-select
         v-model="type"
         placeholder="Тип локации"
-        type="text"
-    />
+    >
+      <el-option
+          key="storage"
+          label="Склад"
+          value="storage"
+      />
+      <el-option
+          key="refill"
+          label="Ячейки пополнения"
+          value="refill"
+      />
+      <el-option
+          key="branch"
+          label="Филиал"
+          value="branch"
+      />
+      <el-option
+          key="deliver"
+          label="Ячейки доставки"
+          value="deliver"
+      />
+    </el-select>
     <el-input
         v-model="city"
         placeholder="Город (При наличии)"
