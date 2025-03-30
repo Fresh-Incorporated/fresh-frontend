@@ -16,20 +16,28 @@ const selectedId = ref(0)
 const products = ref([])
 
 onMounted(async () => {
+  await updateProductsList();
+})
+
+async function updateProductsList() {
   products.value = (await http.get(`freshmarket/work/secretary/products`))?.data;
   for (const product of products.value) {
     product?.history?.reverse()
   }
-})
+}
 
 const accept = async (id: number) => {
   await http.post(`freshmarket/work/secretary/product/${id}/accept`)
+  await updateProductsList();
 }
 
 const decline = async () => {
   await http.post(`freshmarket/work/secretary/product/${selectedId.value}/decline`, {
     message: declineMessage.value,
   })
+  declineDialog.value = false;
+  declineMessage.value = "";
+  await updateProductsList();
 }
 </script>
 

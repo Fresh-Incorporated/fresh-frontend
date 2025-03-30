@@ -16,14 +16,19 @@ const selectedId = ref(0)
 const products = ref([])
 
 onMounted(async () => {
+  await updateProductsList();
+})
+
+async function updateProductsList() {
   products.value = (await http.get(`freshmarket/work/logic/list/refill`))?.data;
   for (const product of products.value) {
     product?.history?.reverse()
   }
-})
+}
 
 const accept = async (id: number) => {
   await http.post(`freshmarket/work/logic/product/${id}/refill`)
+  await updateProductsList();
 }
 
 const confirm = async () => {
@@ -31,6 +36,8 @@ const confirm = async () => {
     add: refillCount.value,
     message: refillMessage.value.length === 0 ? null : refillMessage.value,
   })
+  await updateProductsList();
+  refillDialog.value = false
 }
 </script>
 

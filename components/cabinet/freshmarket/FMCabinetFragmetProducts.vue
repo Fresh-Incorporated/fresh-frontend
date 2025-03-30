@@ -28,7 +28,7 @@ const refill = async (id: number) => {
       shops.value[shopIndex].products[productIndex] = {
         ...shops.value[shopIndex].products[productIndex],
         refill_status: 1,
-        refillCell: response.cell,
+        refillCell: response.data.cell,
       };
       selectedProduct.value = shops.value[shopIndex].products[productIndex];
     }
