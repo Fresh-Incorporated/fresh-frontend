@@ -21,6 +21,14 @@ onMounted(async () => {
 })
 
 const openedCreateMenu = ref(false);
+
+watch(openedCreateMenu, (newValue) => {
+  if (!newValue) {
+    if (!selectedShop.value && shops.value.length > 0) {
+      selectedShop.value = shops.value[0].id;
+    }
+  }
+})
 </script>
 
 <template>

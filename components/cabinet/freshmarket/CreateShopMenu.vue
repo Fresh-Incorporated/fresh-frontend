@@ -45,8 +45,8 @@ const createShop = async () => {
     });
 
     console.log('Магазин создан:', response.data);
-    model.value = false;
     shops.value.push(response.data?.shop);
+    model.value = false;
   } catch (error) {
     console.error('Ошибка при создании магазина:', error);
   }

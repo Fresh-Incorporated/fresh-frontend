@@ -86,8 +86,10 @@ const createShop = async () => {
       },
     });
 
-    console.log('Магазин создан:', response.data);
+    console.log('Товар создан:', response.data);
     model.value = false;
+    const shop = shops.value.find(s => s.id == props.shop);
+    shop.products.push(response.data.product);
   } catch (error) {
     console.error('Ошибка при создании магазина:', error);
   }
