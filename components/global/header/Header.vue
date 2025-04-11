@@ -58,6 +58,8 @@ onMounted(() => {
 onBeforeUnmount(() => {
   document.removeEventListener('click', handleClickOutside);
 });
+
+const isDev = import.meta.dev;
 </script>
 
 <template>
@@ -197,7 +199,10 @@ onBeforeUnmount(() => {
               </div>
             </div>
           </div>
-          <ElButton tag="a" :href="$freshConfig.discordAuth" v-if="userLoading || !user" :disabled="userLoading">
+          <ElButton tag="a" :href="isDev ?
+          'https://discord.com/oauth2/authorize?client_id=1053625870272704613&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3001%2Fauth%2Fdiscord%2Fend&scope=identify' :
+          'https://discord.com/oauth2/authorize?client_id=1053625870272704613&response_type=code&redirect_uri=http%3A%2F%2Ffresh.zaralx.ru%2Fauth%2Fdiscord%2Fend&scope=identify'"
+                    v-if="userLoading || !user" :disabled="userLoading">
             <div>
               <transition>
                 <div v-if="userLoading">
