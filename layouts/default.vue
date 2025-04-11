@@ -1,5 +1,6 @@
 <script setup lang="ts">
 
+import InBeta from "~/components/global/InBeta.vue";
 </script>
 
 <template>
@@ -9,6 +10,7 @@
     <slot />
   </div>
   <Footer />
+  <InBeta />
 </div>
 </template>
 

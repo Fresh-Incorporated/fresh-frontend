@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import type {TabsPaneContext} from "element-plus";
+import InBeta from "~/components/global/InBeta.vue";
 
 const route = useRoute()
 
@@ -47,6 +48,7 @@ const handleCategory = async (tab: TabsPaneContext, event: Event) => {
     <slot></slot>
   </div>
   <Footer />
+  <InBeta />
 </div>
 </template>
 

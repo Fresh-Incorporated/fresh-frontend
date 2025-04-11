@@ -14,7 +14,6 @@ onMounted( () => {
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
-    <InBeta />
   </div>
 </template>
 

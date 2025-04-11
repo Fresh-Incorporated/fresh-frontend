@@ -1,5 +1,7 @@
 <script setup lang="ts">
 
+import InBeta from "~/components/global/InBeta.vue";
+
 const route = useRoute()
 const {user} = useUser()
 
@@ -68,6 +70,7 @@ const handleSelect = async (key: string, keyPath: string[]) => {
       <slot />
     </div>
     <Footer />
+    <InBeta />
   </div>
 </template>
 
