@@ -4,6 +4,9 @@ definePageMeta({
 })
 
 onMounted(() => {
+  if (window.opener) {
+    window.opener.postMessage('payment_closed', '*')
+  }
   window.close()
 })
 </script>

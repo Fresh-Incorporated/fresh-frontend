@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {http} from "~/composables/useHttp";
 
-const {user} = useUser()
+const {user, updateUser} = useUser()
 
 const openedDepositDialog = ref(false)
 const depositValue = ref(1)
@@ -23,6 +23,20 @@ const deposit = async () => {
   })
   openedDepositDialog.value = false;
 }
+
+async function handleMessage(event: MessageEvent) {
+  if (event.data === 'payment_closed') {
+    await updateUser()
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('message', handleMessage)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('message', handleMessage)
+})
 </script>
 
 <template>
