@@ -34,6 +34,7 @@ const withdraw = async () => {
     amount: withdrawValue.value,
   })
   openedWithdrawDialog.value = false;
+  await updateUser();
 }
 
 async function handleMessage(event: MessageEvent) {
