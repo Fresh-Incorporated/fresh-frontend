@@ -1,4 +1,8 @@
 <script setup lang="ts">
+const props = defineProps({
+  sells: Array,
+});
+
 const options = {
   chart: {
     id: 'char',
@@ -68,19 +72,20 @@ const options = {
   },
   tooltip: {
     theme: 'none',
-    custom: function({series, seriesIndex, dataPointIndex, w}) {
+    custom: function({_series, seriesIndex, dataPointIndex, w}) {
       const currentDate = new Date();
       const moscowTime = new Date(currentDate.toLocaleString("en-US", { timeZone: "Europe/Moscow" }));
       const date = new Date(moscowTime.setDate(moscowTime.getDate() - (6 - dataPointIndex)));
       const formattedDate = date.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' });
 
       let infoFields = '';
-      for (let i = 0; i < shop.series.length; i++) {
-        infoFields += '<div class="flex items-center gap-2"><div class="rounded-full w-3 h-3" style="background: '+w.globals.colors[i]+';"></div>'+w.globals.seriesNames[i]+': <p class="font-bold ml-auto mr-0 pl-2">'+shop.series[i].data[dataPointIndex]+'</p></div>';
+      console.log(series.value);
+      for (let i = 0; i < series.value.length; i++) {
+        infoFields += '<div class="flex items-center gap-2"><div class="rounded-full w-3 h-3" style="background: '+w.globals.colors[i]+';"></div>'+w.globals.seriesNames[i]+': <p class="font-bold ml-auto mr-0 pl-2">'+series.value[i].data[dataPointIndex]+'</p></div>';
       }
-      return '<div class="backdrop-blur-sm">' +
-          '<div class="bg-themeBackgroundThird p-2 opacity-90">'+formattedDate+'</div>' +
-          '<div class="bg-themeBackgroundThird p-2 opacity-75">' +
+      return '<div class="backdrop-blur-sm shadow">' +
+          '<div class="bg-themeBackgroundThird p-1 opacity-90">'+formattedDate+'</div>' +
+          '<div class="bg-themeBackgroundThird p-1 opacity-75">' +
           infoFields +
           '</div>' +
           '</div>'
@@ -89,13 +94,17 @@ const options = {
   }
 }
 
-const series = [{
-  name: 'Продажи',
-  data: [10, 41, 35, 51, 49, 62, 69, 91, 148].reverse(),
-},{
-  name: 'Посещения',
-  data: [10, 41, 35, 51, 49, 62, 69, 91, 148],
-}]
+const series = ref([{
+  name: 'Доход [АР]',
+  data: [0,0,0,1,0,0,0],
+}])
+
+onMounted(() => {
+  series.value = [{
+    name: 'Доход [АР]',
+    data: props?.sells?.map(i => i.total),
+  }]
+})
 </script>
 
 <template>
