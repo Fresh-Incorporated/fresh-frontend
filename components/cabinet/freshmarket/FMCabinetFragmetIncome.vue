@@ -7,7 +7,7 @@ const props = defineProps({
   shop: Number,
 })
 
-const {shops} = useUser()
+const {shops, updateUser, updateShops} = useUser()
 
 const shop = ref()
 const lastSells = ref([])
@@ -39,6 +39,12 @@ onMounted(async () => {
   sevenDaysSells.value = last7Days;
   loadedSellsData.value = true;
 })
+
+const withdraw = async () => {
+  await http.post("/freshmarket/shop/"+props.shop+"/withdraw")
+  await updateUser()
+  await updateShops()
+}
 </script>
 
 <template>
@@ -49,7 +55,7 @@ onMounted(async () => {
         <p class="text-sm opacity-50">за неделю</p>
       </div>
       <div class="p-2 flex flex-col items-end ml-auto mr-0">
-        <el-button type="primary" plain size="small">
+        <el-button type="primary" plain size="small" @click="withdraw">
           Вывести средства
         </el-button>
         <div class="flex items-center gap-1">
