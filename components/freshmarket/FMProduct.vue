@@ -31,7 +31,7 @@ const {putInCart, cart} = useUser()
         <img class="w-5 h-5" :src="props.shop_icon" alt="">
         <p class="font-medium">{{props.shop_name}}</p>
         <div class="flex-1 flex justify-end">
-          <p class="text-xs font-rubik opacity-75"><i class="pi pi-star-fill text-yellow-400"></i> <span>4.7</span> <span>999 Оценок</span></p>
+<!--          <p class="text-xs font-rubik opacity-75"><i class="pi pi-star-fill text-yellow-400"></i> <span>4.7</span> <span>999 Оценок</span></p>-->
         </div>
       </div>
       <div class="flex-1 flex items-end" v-if="props.count < 10">
