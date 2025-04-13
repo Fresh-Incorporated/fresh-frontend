@@ -201,7 +201,7 @@ const isDev = import.meta.dev;
           </div>
           <ElButton tag="a" :href="isDev ?
           'https://discord.com/oauth2/authorize?client_id=1053625870272704613&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3001%2Fauth%2Fdiscord%2Fend&scope=identify' :
-          'https://discord.com/oauth2/authorize?client_id=1053625870272704613&response_type=code&redirect_uri=http%3A%2F%2Ffresh.zaralx.ru%2Fauth%2Fdiscord%2Fend&scope=identify'"
+          'https://discord.com/oauth2/authorize?client_id=1053625870272704613&response_type=code&redirect_uri=https%3A%2F%2Ffresh.zaralx.ru%2Fauth%2Fdiscord%2Fend&scope=identify'"
                     v-if="userLoading || !user" :disabled="userLoading">
             <div>
               <transition>
