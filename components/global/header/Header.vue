@@ -7,38 +7,33 @@ const {user, userLoading, logout, orders} = useUser();
 
 onMounted(() => {
   isDark.value = colorMode.preference === 'dark' || colorMode.preference === 'system'
-
-  if (user.value?.fm_worker > 0) {
-    links.value.push({
-      title: "Я работник",
-      to: "/freshmarket/work"
-    })
-  }
 })
 
 watch(isDark, () => {
   colorMode.preference = isDark.value ? 'dark' : 'light';
 })
 
-watch(user, (newValue) => {
-  if (newValue?.fm_worker > 0) {
-    links.value.push({
+const links = computed(() => {
+  let defaultLinks = [
+    {
+      title: "Главная",
+      to: "/"
+    },
+    {
+      title: "FreshMarket",
+      to: "/freshmarket"
+    }
+  ]
+
+  if (user.value?.fm_worker > 0) {
+    defaultLinks.push({
       title: "Я работник",
       to: "/freshmarket/work"
     })
   }
-})
 
-const links = ref([
-  {
-    title: "Главная",
-    to: "/"
-  },
-  {
-    title: "FreshMarket",
-    to: "/freshmarket"
-  }
-])
+  return defaultLinks
+})
 
 const mobileNav = ref(false)
 const userMenu = ref(false)
