@@ -14,7 +14,9 @@ const lastSells = ref([])
 const sevenDaysSells = ref([])
 const loadedSellsData = ref(false)
 
-onMounted(async () => {
+const loadMenu = async () => {
+  loadedSellsData.value = false;
+
   shop.value = shops.value?.find(i => i?.id === props?.shop);
   lastSells.value = (await http.get("/freshmarket/shop/"+props.shop+"/sells")).data;
 
@@ -38,6 +40,14 @@ onMounted(async () => {
 
   sevenDaysSells.value = last7Days;
   loadedSellsData.value = true;
+}
+
+onMounted(async () => {
+  await loadMenu();
+})
+
+watch(() => props.shop, async () => {
+  await loadMenu();
 })
 
 const withdraw = async () => {
