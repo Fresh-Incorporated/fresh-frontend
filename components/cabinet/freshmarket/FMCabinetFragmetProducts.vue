@@ -88,8 +88,10 @@ const deleteProduct = async () => {
       <div class="space-y-2">
         <strong>ВЫ ХОТИТЕ УДАЛИТЬ ТОВАР <span class="underline">{{ selectedProduct?.name }}</span>
           <br> ЭТО ДЕЙСТВИЕ НЕЛЬЗЯ ОТМЕНИТЬ.</strong>
-        <p>Если на складе есть товар - это действие нельзя выполнить. (Если вам очень нужно удалить товар - выкупите его)</p>
-        <p>Бывает такое, что товар недавно купили и его ещё не доставили - по этой причине вы не сможете удалить его. (Попробуйте позже)</p>
+        <p>Если на складе есть товар - это действие нельзя выполнить. (Если вам очень нужно удалить товар - выкупите
+          его)</p>
+        <p>Бывает такое, что товар недавно купили и его ещё не доставили - по этой причине вы не сможете удалить его.
+          (Попробуйте позже)</p>
       </div>
       <template #footer>
         <div class="dialog-footer">
@@ -170,36 +172,36 @@ const deleteProduct = async () => {
               <Icon name="uil:history" size="24"/>
             </button>
           </el-tooltip>
-          <el-tooltip
-              effect="light"
-              content="Удалить"
-              placement="top-start"
+          <el-popconfirm
+              confirm-button-text="Да, удалить"
+              cancel-button-text="Отмена"
+              hide-icon
+              title="Вы уверены что хотите удалить товар? Это действие нельзя будет отменить!"
+              @confirm="selectedProduct = product; productDeleteWindow = true"
+              :width="250"
           >
-            <el-popconfirm
-                confirm-button-text="Да, удалить"
-                cancel-button-text="Отмена"
-                hide-icon
-                title="Вы уверены что хотите удалить товар? Это действие нельзя будет отменить!"
-                @confirm="selectedProduct = product; productDeleteWindow = true"
-                :width="250"
-            >
-              <template #reference>
+            <template #reference>
+              <el-tooltip
+                  effect="light"
+                  content="Удалить"
+                  placement="top-start"
+              >
                 <button class="w-6 h-6 flex justify-center items-center text-red-500">
                   <Icon name="uil:trash-alt" size="24"/>
                 </button>
-              </template>
-              <template #actions="{ confirm, cancel }">
-                <el-button size="small" @click="cancel">Отмена</el-button>
-                <el-button
-                    type="danger"
-                    size="small"
-                    @click="confirm"
-                >
-                  Подтвердить
-                </el-button>
-              </template>
-            </el-popconfirm>
-          </el-tooltip>
+              </el-tooltip>
+            </template>
+            <template #actions="{ confirm, cancel }">
+              <el-button size="small" @click="cancel">Отмена</el-button>
+              <el-button
+                  type="danger"
+                  size="small"
+                  @click="confirm"
+              >
+                Подтвердить
+              </el-button>
+            </template>
+          </el-popconfirm>
         </div>
         <div class="flex justify-center items-center">
           <img :src="product.icon" class="w-1/2 aspect-square" alt="">
