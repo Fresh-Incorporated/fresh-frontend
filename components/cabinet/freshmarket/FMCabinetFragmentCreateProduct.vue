@@ -10,9 +10,18 @@ const props = defineProps({
 const opened = ref(false);
 const shop = ref({})
 
-onMounted(() => {
+const initWindow = async () => {
   shop.value = shops?.value?.find(s => s.id == props.shop)
+}
+
+onMounted(async () => {
+  await initWindow()
 })
+
+watch(() => props.shop, async () => {
+  await initWindow()
+})
+
 </script>
 
 <template>
