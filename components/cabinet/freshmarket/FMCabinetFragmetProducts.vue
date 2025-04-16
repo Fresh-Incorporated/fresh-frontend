@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {http} from "~/composables/useHttp"
-import FMProductHistory from "~/components/freshmarket/work/FMProductHistory.vue";
+import FMProductHistory from "~/components/freshmarket/FMProductHistory.vue";
 
 const {shops, updateShops} = useUser()
 
