@@ -11,30 +11,27 @@ const {user} = useUser()
 const orders = ref([])
 const products = ref([])
 
-onMounted(async () => {
+
+const updateData = async () => {
   const responseData = (await http.get(`freshmarket/work/logic/list/orders`))?.data;
   orders.value = responseData?.orders;
   products.value = responseData?.products;
+}
+
+onMounted(async () => {
+  await updateData();
 })
 
 const accept = async (id: number) => {
-  const response = await http.post(`freshmarket/work/logic/order/${id}/collect`)
-  const index = orders.value.findIndex(item => item.id === id);
-  if (index !== -1) {
-    orders.value[index] = response.data.order;
-  } else {
-    orders.value.push(response.data.order)
-  }
+  await http.post(`freshmarket/work/logic/order/${id}/collect`).finally(async () => {
+    await updateData();
+  })
 }
 
 const finish = async (id: number) => {
-  const response =  await http.post(`freshmarket/work/logic/order/${id}/collect/end`)
-  const index = orders.value.findIndex(item => item.id === id);
-  if (index !== -1) {
-    orders.value[index] = response.data.order;
-  } else {
-    orders.value.push(response.data.order)
-  }
+  await http.post(`freshmarket/work/logic/order/${id}/collect/end`).finally(async () => {
+    await updateData();
+  })
 }
 </script>
 
