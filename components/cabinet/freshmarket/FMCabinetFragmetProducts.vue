@@ -172,36 +172,36 @@ const deleteProduct = async () => {
               <Icon name="uil:history" size="24"/>
             </button>
           </el-tooltip>
-          <el-popconfirm
-              confirm-button-text="Да, удалить"
-              cancel-button-text="Отмена"
-              hide-icon
-              title="Вы уверены что хотите удалить товар? Это действие нельзя будет отменить!"
-              @confirm="selectedProduct = product; productDeleteWindow = true"
-              :width="250"
+          <el-tooltip
+              effect="light"
+              content="Удалить"
+              placement="top-start"
           >
-            <template #reference>
-              <el-tooltip
-                  effect="light"
-                  content="Удалить"
-                  placement="top-start"
-              >
+            <el-popconfirm
+                confirm-button-text="Да, удалить"
+                cancel-button-text="Отмена"
+                hide-icon
+                title="Вы уверены что хотите удалить товар? Это действие нельзя будет отменить!"
+                @confirm="selectedProduct = product; productDeleteWindow = true"
+                :width="250"
+            >
+              <template #reference>
                 <button class="w-6 h-6 flex justify-center items-center text-red-500">
                   <Icon name="uil:trash-alt" size="24"/>
                 </button>
-              </el-tooltip>
-            </template>
-            <template #actions="{ confirm, cancel }">
-              <el-button size="small" @click="cancel">Отмена</el-button>
-              <el-button
-                  type="danger"
-                  size="small"
-                  @click="confirm"
-              >
-                Подтвердить
-              </el-button>
-            </template>
-          </el-popconfirm>
+              </template>
+              <template #actions="{ confirm, cancel }">
+                <el-button size="small" @click="cancel">Отмена</el-button>
+                <el-button
+                    type="danger"
+                    size="small"
+                    @click="confirm"
+                >
+                  Подтвердить
+                </el-button>
+              </template>
+            </el-popconfirm>
+          </el-tooltip>
         </div>
         <div class="flex justify-center items-center">
           <img :src="product.icon" class="w-1/2 aspect-square" alt="">
