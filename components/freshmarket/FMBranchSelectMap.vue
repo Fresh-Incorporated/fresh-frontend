@@ -397,15 +397,15 @@ function getNearestBranch(x, z) {
           <div class="w-full">
             <h1 class="text-center text-white text-lg">Как добраться?</h1>
             <div class="w-full">
-              <div v-if="branch.coordinates.some((someBranch) => someBranch.world == 'nether')" class="w-full flex justify-between">
+              <div v-if="branch?.coordinates.some((someBranch) => someBranch.world == 'nether')" class="w-full flex justify-between">
                 <span>Координаты в метро:</span>
                 <span>{{ getNearestBranch(branch.coordinates.find((someBranch) => someBranch.world == 'nether').x, branch.coordinates.find((someBranch) => someBranch.world == 'nether').z).translate }} {{ getNearestBranch(branch.coordinates.find((someBranch) => someBranch.world == 'nether').x, branch.coordinates.find((someBranch) => someBranch.world == 'nether').z).amount }}</span>
               </div>
-              <div v-if="branch.coordinates.some((someBranch) => someBranch.world == 'the_end')" class="w-full flex justify-between">
+              <div v-if="branch?.coordinates.some((someBranch) => someBranch.world == 'the_end')" class="w-full flex justify-between">
                 <span>Координаты в энде:</span>
                 <span>{{ branch.coordinates.find((someBranch) => someBranch.world == 'the_end').x }} {{branch.coordinates.find((someBranch) => someBranch.world == 'overworld').y }} {{branch.coordinates.find((someBranch) => someBranch.world == 'overworld').z }}</span>
               </div>
-              <div v-if="branch.coordinates.some((someBranch) => someBranch.world == 'overworld')" class="w-full flex justify-between">
+              <div v-if="branch?.coordinates.some((someBranch) => someBranch.world == 'overworld')" class="w-full flex justify-between">
                 <span>Координаты в верхнем мире:</span>
                 <span>{{ branch.coordinates.find((someBranch) => someBranch.world == 'overworld').x }}  {{branch.coordinates.find((someBranch) => someBranch.world == 'overworld').y }} {{branch.coordinates.find((someBranch) => someBranch.world == 'overworld').z }}</span>
               </div>

@@ -110,7 +110,7 @@ onMounted(async () => {
             <el-segmented v-model="deliveryType" :options="deliveryTypes" block />
             <transition>
               <div v-if="deliveryType === 'branch'" class="mt-2 w-full">
-                <el-button @click="openedBranchSelection = true; opened = false;" class="w-full" size="small" :type="branchs.find(b => b.id == selectedBranch) ? 'success' : 'primary'">{{ selectedBranch ? `Выбран филиал: ${selectedBranch?.name}` : 'Выбрать филиал' }}</el-button>
+                <el-button @click="openedBranchSelection = true; opened = false;" class="w-full" size="small" :type="branchs.find(b => b.id == selectedBranch?.id) ? 'success' : 'primary'">{{ selectedBranch ? `Выбран филиал: ${selectedBranch?.name}` : 'Выбрать филиал' }}</el-button>
               </div>
               <div v-else-if="deliveryType === 'cords'" class="mt-2 w-full flex">
                 <el-select
