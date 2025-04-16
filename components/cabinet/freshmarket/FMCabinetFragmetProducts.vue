@@ -66,7 +66,7 @@ const showHistory = async () => {
   productHistory.value = [];
   const response = await http.get(`/freshmarket/shop/${props.shop}/product/${selectedProduct.value.id}/history`)
 
-  productHistory.value = response.data
+  productHistory.value = response.data.reverse()
   productHistoryLoading.value = false;
 }
 
