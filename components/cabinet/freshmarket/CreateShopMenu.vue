@@ -87,7 +87,7 @@ const createShop = async () => {
       </div>
       <template #footer>
         <div style="flex: auto">
-          <el-button type="primary" @click="createShop">Создать магазин {{16 + Math.pow(16, shops.length) * shops.length}} АР</el-button>
+          <el-button type="primary" @click="createShop">Создать магазин {{16 + 64 * shops.length}} АР</el-button>
         </div>
       </template>
     </el-drawer>

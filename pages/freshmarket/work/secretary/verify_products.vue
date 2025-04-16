@@ -15,6 +15,7 @@ const selectedId = ref(0)
 
 const products = ref([])
 
+
 onMounted(async () => {
   await updateProductsList();
 })
@@ -27,24 +28,27 @@ async function updateProductsList() {
 }
 
 const accept = async (id: number) => {
-  await http.post(`freshmarket/work/secretary/product/${id}/accept`)
-  await updateProductsList();
+  await http.post(`freshmarket/work/secretary/product/${id}/accept`).finally(async () => {
+    await updateProductsList();
+  })
 }
 
 const decline = async () => {
   await http.post(`freshmarket/work/secretary/product/${selectedId.value}/decline`, {
     message: declineMessage.value,
+  }).finally(async () => {
+    declineDialog.value = false;
+    declineMessage.value = "";
+    await updateProductsList();
   })
-  declineDialog.value = false;
-  declineMessage.value = "";
-  await updateProductsList();
+
 }
 </script>
 
 <template>
-  <div class="w-full">
+  <div class="w-full p-4">
     <FMProductHistory v-model="showProductHistory" :history="products?.find(product => product.id === selectedId)?.history" />
-    <div class="grid grid-cols-5 gap-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 gap-2">
       <el-dialog
           v-model="declineDialog"
           title="Отклонение товара"
@@ -73,9 +77,13 @@ const decline = async () => {
         <p>Кол-во слотов: {{product.slots_count}}</p>
         <p>Ячейка: {{product.cell?.letter}}-{{product.cell?.number}}</p>
         <p>Склад: {{product.cell?.location?.name}}</p>
-        <el-button @click="selectedId = product.id; showProductHistory = true">Показать историю товара [{{product.history.length}}шт]</el-button>
-        <el-button @click="accept(product.id)">Подтвердить</el-button>
-        <el-button @click="selectedId = product.id; declineDialog = true">Отклонить</el-button>
+        <div class="flex flex-col gap-1">
+          <el-button @click="selectedId = product.id; showProductHistory = true" plain>Показать историю товара [{{product.history.length}}шт]</el-button>
+          <div class="flex">
+            <el-button class="w-full" @click="accept(product.id)" type="success" plain>Подтвердить</el-button>
+            <el-button class="w-full" @click="selectedId = product.id; declineDialog = true" type="danger" plain>Отклонить</el-button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
