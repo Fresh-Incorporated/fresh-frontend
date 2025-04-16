@@ -74,15 +74,15 @@ onMounted(async () => {
         <div class="flex-1">
           <el-scrollbar height="100%">
             <div v-for="product in cart" class="bg-neutral-900 flex rounded-lg p-2 gap-2 mb-2 relative">
-              <div class="w-24 h-24">
+              <div class="min-w-24 min-h-24">
                 <img :src="product.icon" class="w-full h-full rounded-lg" alt="">
               </div>
-              <div class="flex-1">
+              <div class="w-full h-full flex flex-col">
                 <p class="text-lg font-onest">{{ product.name }}</p>
-                <p class="text-xs line-clamp-4">
-                  {{ product.description }}{{ product.description }}{{ product.description }}</p>
+                <p class="text-xs line-clamp-6 break-all text-neutral-400">
+                  {{ product.description }}</p>
               </div>
-              <div class="h-full w-24">
+              <div class="h-full min-w-24">
                 <div class="flex w-full">
                   <button @click="putInCart(product, -1)"
                           class="w-6 h-6 rounded-lg flex justify-center items-center text-xs bg-neutral-800">
