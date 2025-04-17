@@ -221,7 +221,7 @@ const handleProductAction = (product: Product, action: 'refill' | 'history' | 'd
       <div v-for="product in currentShop?.products"
            :key="product.id"
            :class="[
-         'w-full aspect-square border p-2 rounded-lg shadow bg-neutral-950/[0.25] relative flex flex-col gap-2',
+         'w-full h-full aspect-square border p-2 rounded-lg shadow bg-neutral-950/[0.25] relative flex flex-col gap-2',
          notificationByProductId.get(product.id)?.type === 'info' ? 'border-blue-500' :
          notificationByProductId.get(product.id)?.type === 'warning' ? 'border-yellow-500' :
          notificationByProductId.get(product.id)?.type === 'danger' ? 'border-red-500' :
@@ -230,7 +230,7 @@ const handleProductAction = (product: Product, action: 'refill' | 'history' | 'd
         <div class="flex">
           <div class="">
             <p class="text-base font-medium">{{ product.name }}</p>
-            <p class="text-xs opacity-75 line-clamp-2">{{ product.description }}</p>
+            <p class="text-xs opacity-75 line-clamp-2 break-all">{{ product.description }}</p>
           </div>
           <div class="ml-auto mr-0 flex">
             <el-tooltip
