@@ -9,12 +9,44 @@ const confirm = async (id: number) => {
 }
 
 const openedHistory = ref(false)
+const openedBranchInfo = ref(false)
+const branchInfo = ref({})
 const history = ref([])
 </script>
 
 <template>
 <div>
   <FMOrderHistory v-model="openedHistory" :history="history" />
+  <el-dialog
+      v-model="openedBranchInfo"
+      :title="branchInfo?.name"
+      width="500"
+      align-center
+  >
+    <div>
+      <div class="w-full aspect-video">
+        <el-carousel height="889" indicator-position="none">
+          <el-carousel-item v-for="image in branchInfo?.images" :key="item">
+            <img class="w-full h-full" :src="image?.image" alt="">
+          </el-carousel-item>
+        </el-carousel>
+      </div>
+      <div>
+        <p>Описание: {{branchInfo?.description}}</p>
+        <p>Город: <strong>{{branchInfo?.city}}</strong></p>
+        <div v-for="cord in branchInfo?.coordinates">
+          {{cord.world}} {{cord.x}} {{cord.y}} {{cord.z}}
+        </div>
+      </div>
+    </div>
+    <template #footer>
+      <div class="dialog-footer">
+        <el-button type="info" plain @click="openedBranchInfo = false">
+          Закрыть
+        </el-button>
+      </div>
+    </template>
+  </el-dialog>
   <div class="px-2 md:px-16 my-4 md:my-8">
     <h2 class="text-xl font-onest">Текущие доставки</h2>
     <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 mt-1">
@@ -31,12 +63,14 @@ const history = ref([])
               <div v-else-if="order?.status == 4" class="bg-green-500/[0.25] border border-green-500 rounded-lg px-2 py-0.5 text-sm text-green-300">Доставлен</div>
             </div>
           </div>
-          <p class="text-neutral-200">Город: {{order?.branch?.city}}</p>
-          <p class="text-neutral-200">Ячейка: <span class="text-blue-500">{{order?.branchCell?.letter}}-{{order?.branchCell?.number}}</span></p>
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 my-2">
+          <div class="flex gap-2 items-end">
+            <button @click="branchInfo = order?.branch; openedBranchInfo = true" class="text-neutral-200 hover:underline">Филиал: {{order?.branch?.name}}</button>
+          </div>
+          <p v-if="order?.status == 4" class="text-neutral-200">Ячейка: <span class="text-blue-500">{{order?.branchCell?.letter}}-{{order?.branchCell?.number}}</span></p>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 my-2 gap-2">
             <div v-for="product in order?.products" class="border border-neutral-800 rounded-lg flex gap-2">
-              <div class="w-12 h-12">
-                <img :src="orders?.products?.find(p => p.id == product.id)?.icon" class="w-12 h-12" alt="">
+              <div class="w-12 h-12 aspect-square">
+                <img :src="orders?.products?.find(p => p.id == product.id)?.icon" class="w-12 h-12 aspect-square" alt="">
               </div>
               <div class="w-full truncate relative">
                 <p class="truncate">{{orders?.products?.find(p => p.id == product.id)?.name}}</p>
