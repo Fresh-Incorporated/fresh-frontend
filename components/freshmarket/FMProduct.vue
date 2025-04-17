@@ -8,6 +8,7 @@ const props = defineProps({
   shop_name: String,
   shop_icon: String,
   count: Number,
+  slots_count: Number,
 })
 
 const {putInCart, cart} = useUser()
