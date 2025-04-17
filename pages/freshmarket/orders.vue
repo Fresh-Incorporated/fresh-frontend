@@ -2,10 +2,11 @@
 import {http} from "~/composables/useHttp"
 import FMOrderHistory from "~/components/freshmarket/FMOrderHistory.vue";
 
-const {orders} = useUser();
+const {orders, updateOrders} = useUser();
 
 const confirm = async (id: number) => {
   await http.post(`/freshmarket/order/${id}/confirm`)
+  await updateOrders()
 }
 
 const openedHistory = ref(false)
