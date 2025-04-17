@@ -92,7 +92,9 @@ const refreshNotifications = () => {
       notifications.value.push({
         id: product.id,
         type: "danger",
-        tooltip: "Товар не прошёл проверку"
+        tooltip: "Товар не прошёл проверку",
+        action: () => {console.log("Открыть меню изменения товара")},
+        disabled: false
       })
     }
     if (product.refill_status == 1) {
@@ -100,21 +102,24 @@ const refreshNotifications = () => {
         id: product.id,
         type: "warning",
         tooltip: "Вы не завершили пополнение",
-        // action: () => {}
+        action: () => {selectedProduct.value = product; refillWindow.value = true},
+        disabled: false
       });
     }
     if (product.refill_status >= 2) {
       notifications.value.push({
         id: product.id,
         type: "info",
-        tooltip: "Товар пополняется"
+        tooltip: "Товар пополняется",
+        disabled: true
       })
     }
     if (product.verify_status === 0) {
       notifications.value.push({
         id: product.id,
         type: "info",
-        tooltip: "Товар на проверке"
+        tooltip: "Товар на проверке",
+        disabled: true
       })
     }
   }
@@ -178,6 +183,9 @@ const refreshNotifications = () => {
         </div>
       </template>
     </el-dialog>
+    <div v-if="shops.find(_shop => _shop.id === shop)?.products?.length == 0" class="flex justify-center items-center">
+      <p>В этом магазине нет не одного товара!</p>
+    </div>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 p-4">
       <div v-for="product in shops.find(_shop => _shop.id === shop)?.products"
            :class="notifications.filter(notify => notify.id == product.id).length == 0 ? 'border-neutral-800' :
@@ -197,7 +205,7 @@ const refreshNotifications = () => {
                 :content="notify?.tooltip"
                 placement="top-start"
             >
-              <button v-if="notify?.id == product?.id" :class="notify.type == 'warning' ? 'text-yellow-500' :
+              <button :disabled="notify?.disabled" @click="notify?.action" v-if="notify?.id == product?.id" :class="notify.type == 'warning' ? 'text-yellow-500' :
                                                                 notify.type == 'info' ? 'text-blue-500' :
                                                                 notify.type == 'danger' ? 'text-red-500' : ''" class="w-6 h-6 flex justify-center items-center relative">
                 <div class="blur-sm absolute h-5">
