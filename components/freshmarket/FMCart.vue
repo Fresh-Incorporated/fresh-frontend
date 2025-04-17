@@ -120,6 +120,10 @@ onBeforeUnmount(() => {
                           class="w-6 h-6 rounded-lg flex justify-center items-center text-xs bg-neutral-800">
                     <i class="pi pi-plus"></i></button>
                 </div>
+                <div class="font-montserrat absolute bottom-8 right-4 text-right">
+                  <!--                  <p class="text-sm font-medium">Цена</p>-->
+                  <p class="text-neutral-400 font-rubik text-sm">{{product.slots_count * product.picked}} слотов</p>
+                </div>
                 <div class="font-montserrat absolute bottom-2 right-4 text-right">
 <!--                  <p class="text-sm font-medium">Цена</p>-->
                   <p class="text-primary-dark font-onest text-lg font-semibold">{{product.price * product.picked}} АР</p>
@@ -157,12 +161,16 @@ onBeforeUnmount(() => {
           </div>
           <div class="bg-neutral-900 rounded-lg p-4 my-4">
             <div class="font-rubik flex text-base font-extralight opacity-75">
+              <p class="flex-1">Товары, {{cart.reduce((sum, product) => sum + product.picked, 0)}} шт.</p>
+              <p>{{ cart.reduce((sum, product) => sum + product.price * product.picked, 0) }} АР</p>
+            </div>
+            <div class="font-rubik flex text-base font-extralight opacity-75">
               <p class="flex-1">Доставка</p>
               <p>Бесплатно</p>
             </div>
             <div class="font-rubik flex text-base font-extralight opacity-75">
-              <p class="flex-1">Товары, {{cart.reduce((sum, product) => sum + product.picked, 0)}} шт.</p>
-              <p>{{ cart.reduce((sum, product) => sum + product.price * product.picked, 0) }} АР</p>
+              <p class="flex-1">Упаковка [На {{cart.reduce((sum, product) => sum + product.slots_count * product.picked, 0)}} слотов]</p>
+              <p>Бесплатно</p>
             </div>
             <el-divider border-style="dashed" />
             <div class="font-rubik flex text-2xl">
