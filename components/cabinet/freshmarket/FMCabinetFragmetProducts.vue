@@ -214,8 +214,8 @@ const handleProductAction = (product: Product, action: 'refill' | 'history' | 'd
         </div>
       </template>
     </el-dialog>
-    <div v-if="currentShop?.products?.length === 0" class="flex justify-center items-center">
-      <p>В этом магазине нет ни одного товара!</p>
+    <div v-if="currentShop?.products?.length === 0" class="flex justify-center items-center h-full">
+      <p>В этом магазине нет товаров!</p>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 p-4">
       <div v-for="product in currentShop?.products"
