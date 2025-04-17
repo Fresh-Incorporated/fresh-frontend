@@ -8,6 +8,8 @@ const props = defineProps({
   shop: Number,
 })
 
+const notifications = ref([])
+
 const refillWindow = ref(false)
 const selectedProduct = ref({})
 
@@ -16,6 +18,10 @@ const productHistoryLoading = ref(false)
 const productHistory = ref([])
 
 const productDeleteWindow = ref(false)
+
+onMounted(() => {
+  refreshNotifications();
+})
 
 const tableRowClassName = ({row, rowIndex}) => {
   if (row.verify_status == 0) {
@@ -41,6 +47,7 @@ const refill = async (id: number) => {
       selectedProduct.value = shops.value[shopIndex].products[productIndex];
     }
   }
+  refreshNotifications();
 }
 
 const refillEnd = async (id: number) => {
@@ -58,6 +65,7 @@ const refillEnd = async (id: number) => {
     }
   }
   refillWindow.value = false;
+  refreshNotifications();
 }
 
 const showHistory = async () => {
@@ -73,6 +81,44 @@ const showHistory = async () => {
 const deleteProduct = async () => {
   await http.post(`/freshmarket/shop/${props.shop}/product/${selectedProduct.value.id}/delete`)
   await updateShops();
+  refreshNotifications();
+}
+
+const refreshNotifications = () => {
+  if (props.shop == null) return;
+  notifications.value = [];
+  for (const product of shops.value.find(_shop => _shop.id === props.shop)?.products) {
+    console.log(product.refill_status);
+    if (product.refill_status == 1) {
+      notifications.value.push({
+        id: product.id,
+        type: "warning",
+        tooltip: "Вы не завершили пополнение",
+        // action: () => {}
+      });
+    }
+    if (product.refill_status >= 2) {
+      notifications.value.push({
+        id: product.id,
+        type: "info",
+        tooltip: "Товар пополняется"
+      })
+    }
+    if (product.verify_status === 0) {
+      notifications.value.push({
+        id: product.id,
+        type: "info",
+        tooltip: "Товар на проверке"
+      })
+    }
+    if (product.verify_status === -1) {
+      notifications.value.push({
+        id: product.id,
+        type: "danger",
+        tooltip: "Товар не прошёл проверку"
+      })
+    }
+  }
 }
 </script>
 
@@ -136,29 +182,55 @@ const deleteProduct = async () => {
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 p-4">
       <div v-for="product in shops.find(_shop => _shop.id === shop)?.products"
            class="w-full aspect-square border border-neutral-800 p-2 rounded-lg shadow bg-neutral-950/[0.25] relative flex flex-col gap-2">
-        <div class="absolute right-2 top-2">
-          <el-tooltip
-              effect="light"
-              content="Изменить"
-              placement="top-start"
-          >
-            <button class="w-6 h-6 flex justify-center items-center">
-              <Icon name="uil:pen" size="20"/>
-            </button>
-          </el-tooltip>
-        </div>
-        <div class="">
-          <p class="text-base font-medium">{{ product.name }}</p>
-          <p class="text-xs opacity-75 line-clamp-2">{{ product.description }}</p>
+        <div class="flex">
+          <div class="">
+            <p class="text-base font-medium">{{ product.name }}</p>
+            <p class="text-xs opacity-75 line-clamp-2">{{ product.description }}</p>
+          </div>
+          <div class="ml-auto mr-0 flex">
+            <el-tooltip
+                v-for="notify in notifications"
+                effect="light"
+                :content="notify?.tooltip"
+                placement="top-start"
+            >
+              <button v-if="notify?.id == product?.id" :class="notify.type == 'warning' ? 'text-yellow-500' :
+                                                                notify.type == 'info' ? 'text-blue-500' :
+                                                                notify.type == 'danger' ? 'text-red-500' : ''" class="w-6 h-6 flex justify-center items-center relative">
+                <div class="blur-sm absolute h-5">
+                  <Icon v-if="notify.type == 'warning'" name="uil:exclamation-triangle" size="20"/>
+                  <Icon v-else-if="notify.type == 'info'" name="uil:exclamation-circle" size="20"/>
+                  <Icon v-else-if="notify.type == 'danger'" name="uil:exclamation-octagon" size="20"/>
+                </div>
+                <Icon v-if="notify.type == 'warning'" name="uil:exclamation-triangle" size="20"/>
+                <Icon v-else-if="notify.type == 'info'" name="uil:exclamation-circle" size="20"/>
+                <Icon v-else-if="notify.type == 'danger'" name="uil:exclamation-octagon" size="20"/>
+
+              </button>
+            </el-tooltip>
+            <el-tooltip
+                effect="light"
+                content="Изменить"
+                placement="top-start"
+            >
+              <button class="w-6 h-6 flex justify-center items-center">
+                <Icon name="uil:pen" size="20"/>
+              </button>
+            </el-tooltip>
+          </div>
         </div>
         <div class="flex gap-1">
           <el-tooltip
               effect="light"
-              content="Пополнить"
+              :content="product.refill_status < 2 ? 'Пополнить' : 'Товар пополняется'"
               placement="top-start"
           >
-            <button @click="selectedProduct = product; refillWindow = true"
-                    class="w-6 h-6 flex justify-center items-center text-green-400">
+            <button :disabled="product.refill_status >= 2" @click="() =>  {
+              if (product.refill_status < 2) {
+                selectedProduct = product; refillWindow = true
+              }
+            }"
+                    class="w-6 h-6 flex justify-center items-center text-green-400 disabled:opacity-50">
               <Icon name="material-symbols:deployed-code-update-outline" size="24"/>
             </button>
           </el-tooltip>
