@@ -25,7 +25,7 @@ watch(() => props.shop, async () => {
 </script>
 
 <template>
-  <div class="bg-neutral-900 rounded-xl shadow-lg border border-neutral-800 h-64 flex flex-col justify-center items-center">
+  <div class="bg-neutral-900 rounded-xl shadow-lg border border-neutral-800 h-[18.5rem]  flex flex-col justify-center items-center">
     <CreateProductMenu :shop="props.shop" v-model="opened" />
     <el-button @click="opened = true" plain type="success">
       Создать товар

@@ -78,7 +78,7 @@ const cancel = async () => {
 </script>
 
 <template>
-  <div class="bg-neutral-900 rounded-xl shadow-lg border border-neutral-800 h-64 col-span-2 p-3 flex flex-col">
+  <div class="bg-neutral-900 rounded-xl shadow-lg border border-neutral-800 h-[18.5rem] col-span-2 p-3 flex flex-col gap-2">
     <div class="flex gap-2">
       <IconUpload v-model="newIcon" :current-image="icon" :show-current-image="newIcon == null" />
       <div class="w-full flex flex-col">
