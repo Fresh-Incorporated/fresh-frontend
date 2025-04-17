@@ -39,6 +39,8 @@ const draw = () => {
   // Очистка канваса
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+
+
   // Центр канваса
   const centerX = canvas.width / 2 + offsetX.value;
   const centerY = canvas.height / 2 + offsetY.value;
@@ -49,36 +51,50 @@ const draw = () => {
   ctx.scale(scale.value, scale.value);
   ctx.translate(-centerX, -centerY);
 
-  // Рисуем оси
-  ctx.strokeStyle = colors.green; // Линия X положительная
-  ctx.beginPath();
-  ctx.moveTo(centerX, centerY);
-  ctx.lineTo(canvas.width, centerY);
-  ctx.stroke();
 
-  ctx.strokeStyle = colors.blue; // Линия X отрицательная
-  ctx.beginPath();
-  ctx.moveTo(centerX, centerY);
-  ctx.lineTo(0, centerY);
-  ctx.stroke();
 
-  ctx.strokeStyle = colors.yellow; // Линия Y положительная
-  ctx.beginPath();
-  ctx.moveTo(centerX, centerY);
-  ctx.lineTo(centerX, canvas.height);
-  ctx.stroke();
+  if (selectedWorld.value == 'nether') {
+    // Рисуем оси
+    ctx.strokeStyle = colors.green; // Линия X положительная
+    ctx.beginPath();
+    ctx.moveTo(centerX, centerY);
+    ctx.lineTo(canvas.width, centerY);
+    ctx.stroke();
 
-  ctx.strokeStyle = colors.red; // Линия Y отрицательная
-  ctx.beginPath();
-  ctx.moveTo(centerX, centerY);
-  ctx.lineTo(centerX, 0);
-  ctx.stroke();
+    ctx.strokeStyle = colors.blue; // Линия X отрицательная
+    ctx.beginPath();
+    ctx.moveTo(centerX, centerY);
+    ctx.lineTo(-canvas.width, centerY);
+    ctx.stroke();
 
-  // Круг
-  ctx.beginPath();
-  ctx.fillStyle = "#7A494A";
-  ctx.arc(centerX, centerY, 5, 0, Math.PI * 2);
-  ctx.fill();
+    ctx.strokeStyle = colors.yellow; // Линия Y положительная
+    ctx.beginPath();
+    ctx.moveTo(centerX, centerY);
+    ctx.lineTo(centerX, canvas.height);
+    ctx.stroke();
+
+    ctx.strokeStyle = colors.red; // Линия Y отрицательная
+    ctx.beginPath();
+    ctx.moveTo(centerX, centerY);
+    ctx.lineTo(centerX, -canvas.height);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.fillStyle = "#7A494A";
+    ctx.arc(centerX, centerY, 5, 0, Math.PI * 2);
+    ctx.fill();
+  } else if (selectedWorld.value == 'overworld') {
+    ctx.beginPath();
+    ctx.fillStyle = "#59BA53";
+    ctx.arc(centerX, centerY, 5, 0, Math.PI * 2);
+    ctx.fill();
+  } else {
+    ctx.beginPath();
+    ctx.fillStyle = "#E6EEAC";
+    ctx.arc(centerX, centerY, 5, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
 
   // Филиалы
   for (const branch of props.branchs) {
@@ -97,30 +113,36 @@ const draw = () => {
     const branchX = centerX + coords.x;
     const branchY = centerY + coords.z;
 
-    const distToX = Math.abs(coords.z);
-    const distToY = Math.abs(coords.x);
+    if (selectedWorld.value == 'nether') {
+      const distToX = Math.abs(coords.z);
+      const distToY = Math.abs(coords.x);
 
 
-    // Отрисовка линии к ближайшей оси
-    ctx.beginPath();
-    ctx.strokeStyle = lineColor;
+      // Отрисовка линии к ближайшей оси
+      ctx.beginPath();
+      ctx.strokeStyle = lineColor;
 
-    if (distToX < distToY) {
-      // Ближайшая ось — X (горизонтальная)
-      ctx.moveTo(branchX, branchY);
-      ctx.lineTo(branchX, centerY); // Вертикальная линия к оси X
-    } else {
-      // Ближайшая ось — Y (вертикальная)
-      ctx.moveTo(branchX, branchY);
-      ctx.lineTo(centerX, branchY); // Горизонтальная линия к оси Y
-    }
-    ctx.stroke();
+      if (distToX < distToY) {
+        // Ближайшая ось — X (горизонтальная)
+        ctx.moveTo(branchX, branchY);
+        ctx.lineTo(branchX, centerY); // Вертикальная линия к оси X
+      } else {
+        // Ближайшая ось — Y (вертикальная)
+        ctx.moveTo(branchX, branchY);
+        ctx.lineTo(centerX, branchY); // Горизонтальная линия к оси Y
+      }
+      ctx.stroke();
+    } else if (selectedWorld.value == 'overworld') lineColor = "#59BA53"
+    else lineColor = "#E6EEAC"
 
-    // Отрисовка точки филиала
+
     ctx.beginPath();
     ctx.fillStyle = lineColor;
     ctx.arc(branchX, branchY, 2, 0, Math.PI * 2);
-    ctx.fill();
+    if (selectedWorld.value != 'nether') {
+      ctx.arc(branchX, branchY, 1, 0, Math.PI * 2, true);
+    }
+    ctx.fill('evenodd');
 
     ctx.fillStyle = "#fff";
     ctx.font = "3px montserrat";
