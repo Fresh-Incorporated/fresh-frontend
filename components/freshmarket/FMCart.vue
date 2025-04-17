@@ -41,16 +41,37 @@ const deliveryCordsData = ref({
   y: 64,
   z: 0
 })
-
+const openedDepositDialog = ref(false)
 const buy = async () => {
   await http.post("/freshmarket/order/new/instant", {
     type: deliveryType.value,
     branch: selectedBranch.value,
     products: cart.value.map(({ id, picked }) => ({ id, count: picked }))
+  }).catch(async (error) => {
+    const data = error.response.data;
+    if (data.url) {
+      await navigateTo(data.url, {
+        open: {
+          target: '_blank',
+          windowFeatures: {
+            width: 500,
+            height: 700
+          }
+        }
+      })
+      openedDepositDialog.value = false;
+    }
+    throw new Error("need money?")
   })
   cart.value = [];
   opened.value = false;
   await updateOrders();
+}
+
+async function handleMessage(event: MessageEvent) {
+  if (event.data === 'payment_closed') {
+    await buy()
+  }
 }
 
 watch(openedBranchSelection, (newValue) => {
@@ -58,7 +79,12 @@ watch(openedBranchSelection, (newValue) => {
 })
 
 onMounted(async () => {
+  window.addEventListener('message', handleMessage)
   branchs.value = (await http.get("/freshmarket/branchs")).data
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('message', handleMessage)
 })
 </script>
 
