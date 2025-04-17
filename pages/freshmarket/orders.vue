@@ -97,7 +97,7 @@ const history = ref([])
     </div>
     <h2 class="text-xl font-onest mt-8">Вы уже заказывали</h2>
     <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 mt-1">
-      <div class="bg-neutral-900 rounded-lg shadow-lg border border-neutral-800" v-for="order in orders?.orders.filter(o => o.status == 5).sort((a, b) => a.status < b.status ? -1 : 1)">
+      <div class="bg-neutral-900 rounded-lg shadow-lg border border-neutral-800 flex flex-col" v-for="order in orders?.orders.filter(o => o.status == 5).sort((a, b) => a.status < b.status ? -1 : 1)">
         <div class="p-2">
           <div class="flex">
             <p class="font-onest text-neutral-500 font-medium"><i class="pi pi-warehouse text-sm"></i>  ПУНКТ ВЫДАЧИ ЗАКАЗОВ</p>
@@ -126,7 +126,7 @@ const history = ref([])
           </div>
         </div>
 
-        <div class="border-t border-neutral-800 p-2 flex gap-4">
+        <div class="border-t border-neutral-800 p-2 flex gap-4 mt-auto mb-0">
           <p>Цена: <strong class="text-blue-500">{{order?.price}} АР</strong></p>
           <div class="flex-1"></div>
           <p class="text-neutral-300">{{order?.data?.products?.reduce((sum, product) => sum + product.count, 0)}} товар</p>
