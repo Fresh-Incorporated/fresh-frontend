@@ -88,7 +88,13 @@ const refreshNotifications = () => {
   if (props.shop == null) return;
   notifications.value = [];
   for (const product of shops.value.find(_shop => _shop.id === props.shop)?.products) {
-    console.log(product.refill_status);
+    if (product.verify_status === -1) {
+      notifications.value.push({
+        id: product.id,
+        type: "danger",
+        tooltip: "Товар не прошёл проверку"
+      })
+    }
     if (product.refill_status == 1) {
       notifications.value.push({
         id: product.id,
@@ -109,13 +115,6 @@ const refreshNotifications = () => {
         id: product.id,
         type: "info",
         tooltip: "Товар на проверке"
-      })
-    }
-    if (product.verify_status === -1) {
-      notifications.value.push({
-        id: product.id,
-        type: "danger",
-        tooltip: "Товар не прошёл проверку"
       })
     }
   }
@@ -181,7 +180,11 @@ const refreshNotifications = () => {
     </el-dialog>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 p-4">
       <div v-for="product in shops.find(_shop => _shop.id === shop)?.products"
-           class="w-full aspect-square border border-neutral-800 p-2 rounded-lg shadow bg-neutral-950/[0.25] relative flex flex-col gap-2">
+           :class="notifications.filter(notify => notify.id == product.id).length == 0 ? 'border-neutral-800' :
+                    notifications.filter(notify => notify.id == product.id)[0]?.type == 'info' ? 'border-blue-500' :
+                    notifications.filter(notify => notify.id == product.id)[0]?.type == 'warning' ? 'border-yellow-500' :
+                    notifications.filter(notify => notify.id == product.id)[0]?.type == 'danger' ? 'border-red-500' : ''"
+           class="w-full aspect-square border p-2 rounded-lg shadow bg-neutral-950/[0.25] relative flex flex-col gap-2">
         <div class="flex">
           <div class="">
             <p class="text-base font-medium">{{ product.name }}</p>
