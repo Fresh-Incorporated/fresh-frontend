@@ -320,7 +320,11 @@ const handleProductAction = (product: Product, action: 'refill' | 'history' | 'd
             </el-popconfirm>
           </el-tooltip>
         </div>
-        <div class="flex justify-center items-center">
+        <div class="flex justify-center items-center relative">
+          <div v-if="product.refill_status == 1" class="absolute w-1/2 aspect-square bg-black/[0.75] rounded-lg flex flex-col justify-center items-center">
+            <p class="text-yellow-400 font-semibold">Пополнение</p>
+            <p>Ячейка: <strong class="absolute blur-sm">{{ product?.refillCell?.letter }}-{{ product?.refillCell?.number }}</strong><strong>{{ product?.refillCell?.letter }}-{{ product?.refillCell?.number }}</strong></p>
+          </div>
           <img :src="product.icon" class="w-1/2 aspect-square" alt="">
         </div>
         <div class="mb-0 mt-auto flex">
