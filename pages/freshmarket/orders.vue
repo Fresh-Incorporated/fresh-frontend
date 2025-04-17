@@ -2,23 +2,64 @@
 import {http} from "~/composables/useHttp"
 import FMOrderHistory from "~/components/freshmarket/FMOrderHistory.vue";
 
-const {orders} = useUser();
+const {orders, updateOrders} = useUser();
 
 const confirm = async (id: number) => {
   await http.post(`/freshmarket/order/${id}/confirm`)
+  await updateOrders()
 }
 
 const openedHistory = ref(false)
+const openedBranchInfo = ref(false)
+const branchInfo = ref({})
 const history = ref([])
 </script>
 
 <template>
 <div>
   <FMOrderHistory v-model="openedHistory" :history="history" />
+  <el-dialog
+      v-model="openedBranchInfo"
+      :title="branchInfo?.name"
+      width="500"
+      align-center
+  >
+    <div>
+      <div class="w-full aspect-video">
+        <el-carousel height="889" indicator-position="none">
+          <el-carousel-item v-for="image in branchInfo?.images" :key="item">
+            <img class="w-full h-full" :src="image?.image" alt="">
+          </el-carousel-item>
+        </el-carousel>
+      </div>
+      <div>
+        <p>Описание: {{branchInfo?.description}}</p>
+        <p>Город: <strong>{{branchInfo?.city}}</strong></p>
+        <div v-for="cord in branchInfo?.coordinates">
+          {{cord.world}} {{cord.x}} {{cord.y}} {{cord.z}}
+        </div>
+      </div>
+    </div>
+    <template #footer>
+      <div class="dialog-footer">
+        <el-button type="info" plain @click="openedBranchInfo = false">
+          Закрыть
+        </el-button>
+      </div>
+    </template>
+  </el-dialog>
   <div class="px-2 md:px-16 my-4 md:my-8">
     <h2 class="text-xl font-onest">Текущие доставки</h2>
+    <div v-if="orders?.orders.filter(o => o.status < 5)?.length == 0">
+      <el-empty description="Похоже, тут ничего нет :(">
+        <template #description>
+          <p class="text-neutral-500 text-sm">Похоже, тут ничего нет :(
+            <br>Время сделать новый заказ!</p>
+        </template>
+      </el-empty>
+    </div>
     <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 mt-1">
-      <div class="bg-neutral-900 rounded-lg shadow-lg border border-neutral-800" v-for="order in orders?.orders.filter(o => o.status < 5).sort((a, b) => a.status < b.status ? -1 : 1)">
+      <div class="bg-neutral-900 rounded-lg shadow-lg border border-neutral-800 flex flex-col" v-for="order in orders?.orders.filter(o => o.status < 5).sort((a, b) => a.status < b.status ? -1 : 1)">
         <div class="p-2">
           <div class="flex">
             <p class="font-onest text-neutral-500 font-medium"><i class="pi pi-warehouse text-sm"></i>  ПУНКТ ВЫДАЧИ ЗАКАЗОВ</p>
@@ -31,12 +72,14 @@ const history = ref([])
               <div v-else-if="order?.status == 4" class="bg-green-500/[0.25] border border-green-500 rounded-lg px-2 py-0.5 text-sm text-green-300">Доставлен</div>
             </div>
           </div>
-          <p class="text-neutral-200">Город: {{order?.branch?.city}}</p>
-          <p class="text-neutral-200">Ячейка: <span class="text-blue-500">{{order?.branchCell?.letter}}-{{order?.branchCell?.number}}</span></p>
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 my-2">
+          <div class="flex gap-2 items-end">
+            <button @click="branchInfo = order?.branch; openedBranchInfo = true" class="text-neutral-200 hover:underline">Филиал: {{order?.branch?.name}}</button>
+          </div>
+          <p v-if="order?.status == 4" class="text-neutral-200">Ячейка: <span class="text-blue-500">{{order?.branchCell?.letter}}-{{order?.branchCell?.number}}</span></p>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 my-2 gap-2">
             <div v-for="product in order?.products" class="border border-neutral-800 rounded-lg flex gap-2">
-              <div class="w-12 h-12">
-                <img :src="orders?.products?.find(p => p.id == product.id)?.icon" class="w-12 h-12" alt="">
+              <div class="w-12 h-12 aspect-square">
+                <img :src="orders?.products?.find(p => p.id == product.id)?.icon" class="w-12 h-12 aspect-square" alt="">
               </div>
               <div class="w-full truncate relative">
                 <p class="truncate">{{orders?.products?.find(p => p.id == product.id)?.name}}</p>
@@ -46,7 +89,7 @@ const history = ref([])
           </div>
         </div>
 
-        <div class="border-t border-neutral-800 p-2 flex gap-4">
+        <div class="border-t border-neutral-800 p-2 flex gap-4 mt-auto mb-0">
           <p>Цена: <strong class="text-blue-500">{{order?.price}} АР</strong></p>
           <div class="flex-1"></div>
           <p class="text-neutral-300">{{order?.data?.products?.reduce((sum, product) => sum + product.count, 0)}} товар</p>
@@ -60,9 +103,9 @@ const history = ref([])
         </div>
       </div>
     </div>
-    <h2 class="text-xl font-onest mt-8">Вы уже заказывали</h2>
+    <h2 class="text-xl font-onest mt-8" v-if="orders?.orders.filter(o => o.status == 5)?.length > 0">Вы уже заказывали</h2>
     <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 mt-1">
-      <div class="bg-neutral-900 rounded-lg shadow-lg border border-neutral-800" v-for="order in orders?.orders.filter(o => o.status == 5).sort((a, b) => a.status < b.status ? -1 : 1)">
+      <div class="bg-neutral-900 rounded-lg shadow-lg border border-neutral-800 flex flex-col" v-for="order in orders?.orders.filter(o => o.status == 5).sort((a, b) => a.status < b.status ? -1 : 1)">
         <div class="p-2">
           <div class="flex">
             <p class="font-onest text-neutral-500 font-medium"><i class="pi pi-warehouse text-sm"></i>  ПУНКТ ВЫДАЧИ ЗАКАЗОВ</p>
@@ -75,8 +118,10 @@ const history = ref([])
               <div v-else-if="order?.status == 4" class="bg-green-500/[0.25] border border-green-500 rounded-lg px-2 py-0.5 text-sm text-green-300">Доставлен</div>
             </div>
           </div>
-          <p class="text-neutral-200">Город: {{order?.branch?.city}}</p>
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 my-2">
+          <div class="flex gap-2 items-end">
+            <button @click="branchInfo = order?.branch; openedBranchInfo = true" class="text-neutral-200 hover:underline">Филиал: {{order?.branch?.name}}</button>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 my-2 gap-2">
             <div v-for="product in order?.products" class="border border-neutral-800 rounded-lg flex gap-2">
               <div class="w-12 h-12">
                 <img :src="orders?.products?.find(p => p.id == product.id)?.icon" class="w-12 h-12" alt="">
@@ -89,7 +134,7 @@ const history = ref([])
           </div>
         </div>
 
-        <div class="border-t border-neutral-800 p-2 flex gap-4">
+        <div class="border-t border-neutral-800 p-2 flex gap-4 mt-auto mb-0">
           <p>Цена: <strong class="text-blue-500">{{order?.price}} АР</strong></p>
           <div class="flex-1"></div>
           <p class="text-neutral-300">{{order?.data?.products?.reduce((sum, product) => sum + product.count, 0)}} товар</p>
