@@ -1,80 +1,162 @@
 <script setup lang="ts">
-import {http} from "~/composables/useHttp"
-import FMProductHistory from "~/components/freshmarket/FMProductHistory.vue";
+import { ref, onMounted, computed } from 'vue'
+import { http } from '~/composables/useHttp'
+import { useUser } from '~/composables/useUser'
+import type { Product, ProductHistoryEntry } from '~/types/freshmarket'
+import FMProductHistory from '~/components/freshmarket/FMProductHistory.vue'
 
-const {shops, updateShops} = useUser()
+const { shops, updateShops } = useUser()
 
-const props = defineProps({
-  shop: Number,
-})
+const props = defineProps<{
+  shop: number
+}>()
 
-const refillWindow = ref(false)
-const selectedProduct = ref({})
+type NotificationType = 'info' | 'warning' | 'danger'
 
-const productHistoryWindow = ref(false)
-const productHistoryLoading = ref(false)
-const productHistory = ref([])
-
-const productDeleteWindow = ref(false)
-
-const tableRowClassName = ({row, rowIndex}) => {
-  if (row.verify_status == 0) {
-    return 'warning-row'
-  } else if (row.verify_status == -1) {
-    return 'danger-row'
-  }
-  return ''
+interface Notification {
+  id: number
+  type: NotificationType
+  tooltip: string
+  action?: () => void
+  disabled: boolean
 }
 
-const refill = async (id: number) => {
-  const response = await http.post(`/freshmarket/shop/${props.shop}/product/${id}/refill`)
-  const shopIndex = shops.value.findIndex(_shop => _shop.id === props.shop);
-  if (shopIndex !== -1) {
-    const productIndex = shops.value[shopIndex].products?.findIndex(product => product.id === id);
-    if (productIndex !== -1) {
-      // Обновляем объект продукта через создание нового объекта
-      shops.value[shopIndex].products[productIndex] = {
-        ...shops.value[shopIndex].products[productIndex],
-        refill_status: 1,
-        refillCell: response.data.cell,
-      };
-      selectedProduct.value = shops.value[shopIndex].products[productIndex];
+const notifications = ref<Notification[]>([])
+const refillWindow = ref(false)
+const productDeleteWindow = ref(false)
+const productHistoryWindow = ref(false)
+const productHistoryLoading = ref(false)
+
+const selectedProduct = ref<Product | null>(null)
+const productHistory = ref<ProductHistoryEntry[]>([])
+
+const currentShop = computed(() => shops.value.find(s => s.id === props.shop))
+const products = computed(() => currentShop.value?.products ?? [])
+
+const refreshNotifications = () => {
+  if (!props.shop) return
+  notifications.value = []
+
+  for (const product of products.value) {
+    if (product.verify_status === -1) {
+      notifications.value.push({
+        id: product.id,
+        type: 'danger',
+        tooltip: 'Товар не прошёл проверку',
+        action: () => console.log('Открыть меню изменения товара'),
+        disabled: false,
+      })
+    }
+
+    if (product.refill_status === 1) {
+      notifications.value.push({
+        id: product.id,
+        type: 'warning',
+        tooltip: 'Вы не завершили пополнение',
+        action: () => {
+          selectedProduct.value = product
+          refillWindow.value = true
+        },
+        disabled: false,
+      })
+    }
+
+    if (product.refill_status >= 2) {
+      notifications.value.push({
+        id: product.id,
+        type: 'info',
+        tooltip: 'Товар пополняется',
+        disabled: true,
+      })
+    }
+
+    if (product.verify_status === 0) {
+      notifications.value.push({
+        id: product.id,
+        type: 'info',
+        tooltip: 'Товар на проверке',
+        disabled: true,
+      })
     }
   }
+}
+
+const refill = async (id: number | null) => {
+  const response = await http.post(`/freshmarket/shop/${props.shop}/product/${id}/refill`)
+  const shop = currentShop.value
+  if (!shop) return
+
+  const product = shop.products?.find(p => p.id === id)
+  if (!product) return
+
+  product.refill_status = 1
+  product.refillCell = response.data.cell
+  selectedProduct.value = { ...product }
+
+  refreshNotifications()
 }
 
 const refillEnd = async (id: number) => {
-  const response = await http.post(`/freshmarket/shop/${props.shop}/product/${id}/refill/end`)
-  const shopIndex = shops.value.findIndex(_shop => _shop.id === props.shop);
-  if (shopIndex !== -1) {
-    const productIndex = shops.value[shopIndex].products?.findIndex(product => product.id === id);
-    if (productIndex !== -1) {
-      // Обновляем объект продукта через создание нового объекта
-      shops.value[shopIndex].products[productIndex] = {
-        ...shops.value[shopIndex].products[productIndex],
-        refill_status: 2,
-      };
-      selectedProduct.value = shops.value[shopIndex].products[productIndex];
-    }
-  }
-  refillWindow.value = false;
+  await http.post(`/freshmarket/shop/${props.shop}/product/${id}/refill/end`)
+  const shop = currentShop.value
+  if (!shop) return
+
+  const product = shop.products?.find(p => p.id === id)
+  if (!product) return
+
+  product.refill_status = 2
+  selectedProduct.value = { ...product }
+
+  refillWindow.value = false
+  refreshNotifications()
 }
 
 const showHistory = async () => {
-  productHistoryWindow.value = true;
-  productHistoryLoading.value = true;
-  productHistory.value = [];
-  const response = await http.get(`/freshmarket/shop/${props.shop}/product/${selectedProduct.value.id}/history`)
+  if (!selectedProduct.value?.id) return
+  productHistoryWindow.value = true
+  productHistoryLoading.value = true
 
-  productHistory.value = response.data.reverse()
-  productHistoryLoading.value = false;
+  const { data } = await http.get(`/freshmarket/shop/${props.shop}/product/${selectedProduct.value.id}/history`)
+  productHistory.value = data.reverse()
+
+  productHistoryLoading.value = false
 }
 
 const deleteProduct = async () => {
+  if (!selectedProduct.value?.id) return
   await http.post(`/freshmarket/shop/${props.shop}/product/${selectedProduct.value.id}/delete`)
-  await updateShops();
+  await updateShops()
+  refreshNotifications()
+}
+
+onMounted(() => {
+  refreshNotifications()
+})
+
+const notificationByProductId = computed(() => {
+  const map = new Map<number, Notification>()
+  for (const n of notifications.value) {
+    map.set(n.id, n)
+  }
+  return map
+})
+
+const handleProductAction = (product: Product, action: 'refill' | 'history' | 'delete') => {
+  selectedProduct.value = product
+  switch (action) {
+    case 'refill':
+      refillWindow.value = true
+      break
+    case 'history':
+      showHistory()
+      break
+    case 'delete':
+      productDeleteWindow.value = true
+      break
+  }
 }
 </script>
+
 
 <template>
   <div
@@ -106,59 +188,95 @@ const deleteProduct = async () => {
         v-model="refillWindow"
         :title="`Пополнение '${selectedProduct?.name}'`"
         width="500"
-        :before-close="handleClose"
     >
-      <p v-if="selectedProduct.refill_status === 0">После нажатия на кнопку "Запросить пополнение" вам будет выделена
+      <p v-if="selectedProduct?.refill_status === 0">После нажатия на кнопку "Запросить пополнение" вам будет выделена
         ячейка в зоне пополнения продавцов, постарайтесь принести туда товар в течении 6 часов после запроса пополнения
         и после не забудьте подтвердить пополнение, иначе, пополнение может быть не засчитано и вы потеряете свои
         ресурсы</p>
-      <p v-if="selectedProduct.refill_status === 1">Для пополнения товара вам необходимо придти в зону пополнения
+      <p v-if="selectedProduct?.refill_status === 1">Для пополнения товара вам необходимо придти в зону пополнения
         продавцов [Портал: СВ133]
         <br>Положите товар в выделеную ячейку и завершите пополнение</p>
 
-      <div v-if="selectedProduct.refill_status === 1">
+      <div v-if="selectedProduct?.refill_status === 1">
         <p class="text-primary-dark text-lg">Ячейка:
           <strong>{{ selectedProduct?.refillCell?.letter }}-{{ selectedProduct?.refillCell?.number }}</strong></p>
       </div>
       <template #footer>
         <div class="dialog-footer">
           <el-button plain type="info" @click="refillWindow = false">Отмена</el-button>
-          <el-button v-if="selectedProduct.refill_status === 0" type="warning" @click="refill(selectedProduct?.id)">
+          <el-button v-if="selectedProduct?.refill_status === 0" type="warning" @click="refill(selectedProduct?.id)">
             Запросить пополнение
           </el-button>
-          <el-button v-else-if="selectedProduct.refill_status === 1" type="success"
+          <el-button v-else-if="selectedProduct?.refill_status === 1" type="success"
                      @click="refillEnd(selectedProduct?.id)">
             Завершить пополнение
           </el-button>
         </div>
       </template>
     </el-dialog>
+    <div v-if="currentShop?.products?.length === 0" class="flex justify-center items-center h-full">
+      <p>В этом магазине нет товаров!</p>
+    </div>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 p-4">
-      <div v-for="product in shops.find(_shop => _shop.id === shop)?.products"
-           class="w-full aspect-square border border-neutral-800 p-2 rounded-lg shadow bg-neutral-950/[0.25] relative flex flex-col gap-2">
-        <div class="absolute right-2 top-2">
-          <el-tooltip
-              effect="light"
-              content="Изменить"
-              placement="top-start"
-          >
-            <button class="w-6 h-6 flex justify-center items-center">
-              <Icon name="uil:pen" size="20"/>
-            </button>
-          </el-tooltip>
-        </div>
-        <div class="">
-          <p class="text-base font-medium">{{ product.name }}</p>
-          <p class="text-xs opacity-75 line-clamp-2">{{ product.description }}</p>
+      <div v-for="product in currentShop?.products"
+           :key="product.id"
+           :class="[
+         'w-full h-full aspect-square border p-2 rounded-lg shadow bg-neutral-950/[0.25] relative flex flex-col gap-2',
+         notificationByProductId.get(product.id)?.type === 'info' ? 'border-blue-500' :
+         notificationByProductId.get(product.id)?.type === 'warning' ? 'border-yellow-500' :
+         notificationByProductId.get(product.id)?.type === 'danger' ? 'border-red-500' :
+         'border-neutral-800'
+       ]">
+        <div class="flex">
+          <div class="">
+            <p class="text-base font-medium">{{ product.name }}</p>
+            <p class="text-xs opacity-75 line-clamp-2 break-all">{{ product.description }}</p>
+          </div>
+          <div class="ml-auto mr-0 flex">
+            <el-tooltip
+                v-for="notify in notifications.filter(n => n.id === product.id)"
+                effect="light"
+                :content="notify.tooltip"
+                placement="top-start"
+            >
+              <button :disabled="notify.disabled" @click="notify.action" :class="[
+                'w-6 h-6 flex justify-center items-center relative',
+                {
+                  'text-yellow-500': notify.type === 'warning',
+                  'text-blue-500': notify.type === 'info',
+                  'text-red-500': notify.type === 'danger'
+                }
+              ]">
+                <div class="blur-sm absolute h-5">
+                  <Icon :name="notify.type === 'warning' ? 'uil:exclamation-triangle' :
+                         notify.type === 'info' ? 'uil:exclamation-circle' :
+                         'uil:exclamation-octagon'" size="20"/>
+                </div>
+                <Icon :name="notify.type === 'warning' ? 'uil:exclamation-triangle' :
+                       notify.type === 'info' ? 'uil:exclamation-circle' :
+                       'uil:exclamation-octagon'" size="20"/>
+              </button>
+            </el-tooltip>
+            <el-tooltip
+                effect="light"
+                content="Изменить"
+                placement="top-start"
+            >
+              <button class="w-6 h-6 flex justify-center items-center">
+                <Icon name="uil:pen" size="20"/>
+              </button>
+            </el-tooltip>
+          </div>
         </div>
         <div class="flex gap-1">
           <el-tooltip
               effect="light"
-              content="Пополнить"
+              :content="product.refill_status < 2 ? 'Пополнить' : 'Товар пополняется'"
               placement="top-start"
           >
-            <button @click="selectedProduct = product; refillWindow = true"
-                    class="w-6 h-6 flex justify-center items-center text-green-400">
+            <button :disabled="product.refill_status >= 2" @click="() => handleProductAction(product, 'refill')"
+                    class="w-6 h-6 flex justify-center items-center text-green-400 disabled:opacity-50">
+              <div v-if="product.refill_status == 1" class="w-6 h-6 bg-green-500 absolute blur-sm rounded-full opacity-50"></div>
               <Icon name="material-symbols:deployed-code-update-outline" size="24"/>
             </button>
           </el-tooltip>
@@ -167,7 +285,7 @@ const deleteProduct = async () => {
               content="История"
               placement="top-start"
           >
-            <button @click="selectedProduct = product; showHistory()"
+            <button @click="() => handleProductAction(product, 'history')"
                     class="w-6 h-6 flex justify-center items-center text-neutral-400">
               <Icon name="uil:history" size="24"/>
             </button>
@@ -182,7 +300,7 @@ const deleteProduct = async () => {
                 cancel-button-text="Отмена"
                 hide-icon
                 title="Вы уверены что хотите удалить товар? Это действие нельзя будет отменить!"
-                @confirm="selectedProduct = product; productDeleteWindow = true"
+                @confirm="() => handleProductAction(product, 'delete')"
                 :width="250"
             >
               <template #reference>
@@ -203,21 +321,14 @@ const deleteProduct = async () => {
             </el-popconfirm>
           </el-tooltip>
         </div>
-        <div class="flex justify-center items-center">
+        <div class="flex justify-center items-center relative">
+          <div v-if="product.refill_status == 1" class="absolute w-1/2 aspect-square bg-black/[0.75] rounded-lg flex flex-col justify-center items-center">
+            <p class="text-yellow-400 font-semibold">Пополнение</p>
+            <p>Ячейка: <strong class="absolute blur-sm">{{ product?.refillCell?.letter }}-{{ product?.refillCell?.number }}</strong><strong>{{ product?.refillCell?.letter }}-{{ product?.refillCell?.number }}</strong></p>
+            <el-button @click="handleProductAction(product, 'refill')" class="absolute bottom-4" size="small" type="success" plain>Открыть</el-button>
+          </div>
           <img :src="product.icon" class="w-1/2 aspect-square" alt="">
         </div>
-        <!--        <div class="flex flex-col justify-center items-end w-32">-->
-        <!--          <div class="w-full">-->
-        <!--            <el-button :disabled="product.verify_status != 1" class="w-full" :loading="product.refill_status > 1" :type="product.refill_status === 1 ? 'warning' : product.refill_status > 1 ? 'primary' : ''" @click="selectedProduct = product; refillWindow = true" size="small" plain>-->
-        <!--              {{product.refill_status === 1 ? 'Пополнение' : product.refill_status > 1 ? 'Пополнение' : 'Пополнить'}}-->
-        <!--            </el-button>-->
-        <!--          </div>-->
-        <!--          <div class="w-full">-->
-        <!--            <el-button :disabled="product.verify_status != 1" class="w-full" size="small" plain>-->
-        <!--              Информация-->
-        <!--            </el-button>-->
-        <!--          </div>-->
-        <!--        </div>-->
         <div class="mb-0 mt-auto flex">
           <div class="w-full">
             <p class="text-xs opacity-75">Цена</p>

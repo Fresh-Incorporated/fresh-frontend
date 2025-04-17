@@ -1,8 +1,9 @@
 import { ref } from 'vue';
 import { http, loginDiscord } from '~/composables/useHttp';
+import type {Shop} from '~/types/freshmarket';
 
 const user = ref(null);
-const shops = ref([]);
+const shops = ref<Shop[]>([]);
 const cart = ref([]);
 const orders = ref({orders: [], products: []});
 const userLoading = ref<boolean>(true);
