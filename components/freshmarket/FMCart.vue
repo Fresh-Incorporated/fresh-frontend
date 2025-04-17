@@ -74,7 +74,7 @@ onMounted(async () => {
         <div class="flex-1">
           <el-scrollbar height="100%">
             <div v-for="product in cart" class="bg-neutral-900 flex rounded-lg p-2 gap-2 mb-2 relative">
-              <div class="min-w-24 min-h-24">
+              <div class="min-w-24 max-w-24 min-h-24 max-h-24">
                 <img :src="product.icon" class="w-full h-full rounded-lg" alt="">
               </div>
               <div class="w-full h-full flex flex-col">
