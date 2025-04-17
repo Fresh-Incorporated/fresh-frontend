@@ -50,6 +50,14 @@ const history = ref([])
   </el-dialog>
   <div class="px-2 md:px-16 my-4 md:my-8">
     <h2 class="text-xl font-onest">Текущие доставки</h2>
+    <div v-if="orders?.orders.filter(o => o.status < 5)?.length == 0">
+      <el-empty description="Похоже, тут ничего нет :(">
+        <template #description>
+          <p class="text-neutral-500 text-sm">Похоже, тут ничего нет :(
+            <br>Время сделать новый заказ!</p>
+        </template>
+      </el-empty>
+    </div>
     <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 mt-1">
       <div class="bg-neutral-900 rounded-lg shadow-lg border border-neutral-800 flex flex-col" v-for="order in orders?.orders.filter(o => o.status < 5).sort((a, b) => a.status < b.status ? -1 : 1)">
         <div class="p-2">
@@ -95,7 +103,7 @@ const history = ref([])
         </div>
       </div>
     </div>
-    <h2 class="text-xl font-onest mt-8">Вы уже заказывали</h2>
+    <h2 class="text-xl font-onest mt-8" v-if="orders?.orders.filter(o => o.status == 5)?.length > 0">Вы уже заказывали</h2>
     <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 mt-1">
       <div class="bg-neutral-900 rounded-lg shadow-lg border border-neutral-800 flex flex-col" v-for="order in orders?.orders.filter(o => o.status == 5).sort((a, b) => a.status < b.status ? -1 : 1)">
         <div class="p-2">
