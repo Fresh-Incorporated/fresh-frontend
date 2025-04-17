@@ -276,6 +276,7 @@ const handleProductAction = (product: Product, action: 'refill' | 'history' | 'd
           >
             <button :disabled="product.refill_status >= 2" @click="() => handleProductAction(product, 'refill')"
                     class="w-6 h-6 flex justify-center items-center text-green-400 disabled:opacity-50">
+              <div v-if="product.refill_status == 1" class="w-6 h-6 bg-green-500 absolute blur-sm rounded-full opacity-50"></div>
               <Icon name="material-symbols:deployed-code-update-outline" size="24"/>
             </button>
           </el-tooltip>
@@ -324,6 +325,7 @@ const handleProductAction = (product: Product, action: 'refill' | 'history' | 'd
           <div v-if="product.refill_status == 1" class="absolute w-1/2 aspect-square bg-black/[0.75] rounded-lg flex flex-col justify-center items-center">
             <p class="text-yellow-400 font-semibold">Пополнение</p>
             <p>Ячейка: <strong class="absolute blur-sm">{{ product?.refillCell?.letter }}-{{ product?.refillCell?.number }}</strong><strong>{{ product?.refillCell?.letter }}-{{ product?.refillCell?.number }}</strong></p>
+            <el-button @click="handleProductAction(product, 'refill')" class="absolute bottom-4" size="small" type="success" plain>Открыть</el-button>
           </div>
           <img :src="product.icon" class="w-1/2 aspect-square" alt="">
         </div>
