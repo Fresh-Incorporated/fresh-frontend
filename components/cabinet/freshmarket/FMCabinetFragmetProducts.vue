@@ -5,6 +5,7 @@ import { useUser } from '~/composables/useUser'
 import type { Product, ProductHistoryEntry } from '~/types/freshmarket'
 import FMProductHistory from '~/components/freshmarket/FMProductHistory.vue'
 import FMCabinetEditProductMenu from "~/components/cabinet/freshmarket/FMCabinetEditProductMenu.vue";
+import FMCabinetFragmetSettings from "~/components/cabinet/freshmarket/FMCabinetFragmetSettings.vue";
 
 const { shops, updateShops } = useUser()
 
@@ -157,13 +158,28 @@ const handleProductAction = (product: Product, action: 'refill' | 'history' | 'd
       break
   }
 }
+
+watch(shops, (shops) => {
+  refreshNotifications()
+})
 </script>
 
 
 <template>
   <div
       class="bg-neutral-900 rounded-xl shadow-lg border border-neutral-800 col-span-1 md:col-span-2 lg:col-span-3 xl:col-span-4 2xl:col-span-5">
-    <FMCabinetEditProductMenu v-model="productEditWindow" />
+    <FMCabinetEditProductMenu
+        v-model="productEditWindow"
+        v-if="selectedProduct != null"
+        :icon="selectedProduct?.icon"
+        :name="selectedProduct?.name"
+        :description="selectedProduct?.description"
+        :price="selectedProduct?.price"
+        :slots_count="selectedProduct?.slots_count"
+        :stack_count="selectedProduct?.stack_count"
+        :product="selectedProduct?.id"
+        :shop="shop"
+    />
     <FMProductHistory v-model="productHistoryWindow" v-model:loading="productHistoryLoading" :history="productHistory"/>
     <el-dialog
         v-model="productDeleteWindow"
@@ -279,7 +295,7 @@ const handleProductAction = (product: Product, action: 'refill' | 'history' | 'd
           >
             <button :disabled="product.refill_status >= 2" @click="() => handleProductAction(product, 'refill')"
                     class="w-6 h-6 flex justify-center items-center text-green-400 disabled:opacity-50">
-              <div v-if="product.refill_status == 1" class="w-6 h-6 bg-green-500 absolute blur-sm rounded-full opacity-50"></div>
+              <div v-if="product.refill_status == 1" class="w-6 h-6 bg-green-500 absolute blur-sm rounded-full opacity-25"></div>
               <Icon name="material-symbols:deployed-code-update-outline" size="24"/>
             </button>
           </el-tooltip>
