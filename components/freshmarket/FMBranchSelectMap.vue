@@ -175,7 +175,7 @@ const onWheel = (event: WheelEvent) => {
   scale.value *= scaleDelta;
 
   if (scale.value > 10) scale.value = 10;
-  else if (scale.value < 4) scale.value = 4;
+  else if (scale.value < 2) scale.value = 2;
   else {
     offsetX.value -= mouseX * (scaleDelta - 1);
     offsetY.value -= mouseY * (scaleDelta - 1);
@@ -350,7 +350,6 @@ onMounted(() => {
   if (!canvasRef.value) return;
   const canvas = canvasRef.value;
 
-
   updateCanvasSize();
 
   const context = canvas.getContext("2d");
@@ -369,6 +368,23 @@ onMounted(() => {
   updateCanvasSize();
   draw();
 });
+
+onUnmounted(() => {
+  window.removeEventListener("resize", updateCanvasSize);
+
+  if (!canvasRef.value) return;
+  const canvas = canvasRef.value;
+
+  canvas.removeEventListener("wheel", onWheel);
+  canvas.removeEventListener("mousedown", onMouseDown);
+  canvas.removeEventListener("mousemove", onMouseMove);
+  canvas.removeEventListener("mouseup", onMouseUp);
+  canvas.removeEventListener("mouseout", onMouseUp);
+
+  canvas.removeEventListener("touchmove", onTouchMove);
+  canvas.removeEventListener("touchstart", onTouchStart);
+  canvas.removeEventListener("touchend", onTouchEnd);
+})
 
 
 watch(opened, () => {
