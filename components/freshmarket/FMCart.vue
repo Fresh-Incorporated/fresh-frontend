@@ -5,7 +5,7 @@ import FMBranchSelectMap from "~/components/freshmarket/FMBranchSelectMap.vue";
 const {cart, putInCart, updateOrders} = useUser()
 
 const openedBranchSelection = ref(false)
-const selectedBranch = ref(-1)
+const selectedBranch = ref(null)
 const branchs = ref([])
 
 const opened = ref(false)
@@ -43,9 +43,12 @@ const deliveryCordsData = ref({
 })
 const openedDepositDialog = ref(false)
 const buy = async () => {
+  if (selectedBranch.value == null) {
+    return ElMessage.error("Вы не выбрали филиал!");
+  }
   await http.post("/freshmarket/order/new/instant", {
     type: deliveryType.value,
-    branch: selectedBranch.value,
+    branch: selectedBranch.value.id,
     products: cart.value.map(({ id, picked }) => ({ id, count: picked }))
   }).catch(async (error) => {
     const data = error.response.data;
@@ -137,7 +140,7 @@ onBeforeUnmount(() => {
             <el-segmented v-model="deliveryType" :options="deliveryTypes" block />
             <transition>
               <div v-if="deliveryType === 'branch'" class="mt-2 w-full">
-                <el-button @click="openedBranchSelection = true; opened = false;" class="w-full" size="small" :type="branchs.find(b => b.id == selectedBranch) ? 'success' : 'primary'">{{ branchs.find(b => b.id == selectedBranch) ? `Выбран филиал: ${branchs.find(b => b.id == selectedBranch)?.name}` : 'Выбрать филиал' }}</el-button>
+                <el-button @click="openedBranchSelection = true; opened = false;" class="w-full" size="small" :type="branchs.find(b => b.id == selectedBranch?.id) ? 'success' : 'primary'">{{ selectedBranch ? `Выбран филиал: ${selectedBranch?.name}` : 'Выбрать филиал' }}</el-button>
               </div>
               <div v-else-if="deliveryType === 'cords'" class="mt-2 w-full flex">
                 <el-select
