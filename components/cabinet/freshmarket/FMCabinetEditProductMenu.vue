@@ -91,7 +91,7 @@ const slotsCountMarks = reactive({
   <div>
     <div class="flex flex-col gap-2 items-center">
       <div class="w-full h-full flex gap-2">
-        <IconUpload v-model="newIcon" :current-image="icon" :show-current-image="newIcon == null"/>
+        <IconUpload unique="edit-product" v-model="newIcon" :current-image="icon" :show-current-image="newIcon == null"/>
 <!--        <p class="mt-2 text-neutral-200">Кол-во едениц товара в 1 слоте</p>-->
         <div class="flex-1 w-full grid grid-cols-2">
           <div class="flex items-center justify-end">
