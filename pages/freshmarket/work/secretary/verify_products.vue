@@ -75,6 +75,7 @@ const decline = async () => {
         <p>{{product.description}}</p>
         <p>Кол-во в стаке: {{product.stack_count}}</p>
         <p>Кол-во слотов: {{product.slots_count}}</p>
+        <p>Цена: {{product.price}} АР</p>
         <p>Ячейка: {{product.cell?.letter}}-{{product.cell?.number}}</p>
         <p>Склад: {{product.cell?.location?.name}}</p>
         <div class="flex flex-col gap-1">
