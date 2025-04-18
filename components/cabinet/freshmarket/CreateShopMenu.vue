@@ -3,7 +3,7 @@ import {http} from "~/composables/useHttp"
 import IconUpload from "~/components/global/upload/IconUpload.vue";
 
 const model = defineModel()
-const {user, shops} = useUser()
+const {user, shops, updateUser, updateShops} = useUser()
 
 const handleClose = (done: () => void) => {
   ElMessageBox.confirm('Вы точно хотите закрыть меню создания магазина? Всё будет утеряно.', {autofocus: false})
@@ -45,8 +45,9 @@ const createShop = async () => {
     });
 
     console.log('Магазин создан:', response.data);
-    shops.value.push(response.data?.shop);
     model.value = false;
+    await updateUser();
+    await updateShops();
   } catch (error) {
     console.error('Ошибка при создании магазина:', error);
   }
@@ -64,7 +65,7 @@ const createShop = async () => {
     >
       <div class="flex flex-col">
         <p class="mt-2 text-neutral-200">Иконка магазина</p>
-        <IconUpload v-model="file" />
+        <IconUpload unique="create-shop" v-model="file" />
         <p class="mt-2 text-neutral-200">Название магазина</p>
         <el-input
             v-model="name"

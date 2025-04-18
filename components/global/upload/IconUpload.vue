@@ -5,6 +5,7 @@ const model = defineModel()
 const props = defineProps({
   currentImage: String,
   showCurrentImage: Boolean,
+  unique: String,
 })
 const file = ref<File | null>(null);
 const fileUrl = ref<string | null>(null);
@@ -52,7 +53,7 @@ const handleDragOver = (event: DragEvent) => {
       @drop="handleDrop"
       @dragover="handleDragOver"
   >
-    <label for="dropzone-file" class="w-full h-full flex justify-center">
+    <label :for="'dropzone-file-' + unique" class="w-full h-full flex justify-center">
       <div
           v-if="!file && !showCurrentImage"
           class="w-full h-full bg-neutral-800 rounded-lg cursor-pointer flex flex-col justify-center items-center text-neutral-500 hover:bg-neutral-900 hover:text-neutral-600 border-2 border-neutral-700 border-dashed"
@@ -74,7 +75,7 @@ const handleDragOver = (event: DragEvent) => {
         <img :src="showCurrentImage ? currentImage : fileUrl" class="w-full h-full rounded-lg" alt="Загруженное изображение">
       </div>
       <input
-          id="dropzone-file"
+          :id="'dropzone-file-' + unique"
           type="file"
           accept="image/jpeg, image/png, image/jpg"
           @change="event => handleFileChange(event.target.files ? event.target.files[0] : null)"

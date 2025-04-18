@@ -82,7 +82,7 @@ const cancel = async () => {
       <p>Магазин на проверке</p>
     </div>
     <div class="flex gap-2">
-      <IconUpload v-model="newIcon" :current-image="icon" :show-current-image="newIcon == null"/>
+      <IconUpload unique="shop-settings" v-model="newIcon" :current-image="icon" :show-current-image="newIcon == null"/>
       <div class="w-full flex flex-col">
         <el-input
             v-model="newName"

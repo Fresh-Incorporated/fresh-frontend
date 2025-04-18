@@ -141,7 +141,7 @@ watch(file, (newValue) => {
       </el-drawer>
       <div class="flex flex-col">
         <p class="mt-2 text-neutral-200">Иконка товара</p>
-        <IconUpload v-model="file" :current-image="`https://img.zaralx.ru/v1/minecraft/${minecraftIcon}`" :show-current-image="minecraftIcon" />
+        <IconUpload unique="create-product" v-model="file" :current-image="`https://img.zaralx.ru/v1/minecraft/${minecraftIcon}`" :show-current-image="minecraftIcon" />
         <el-button @click="showMinecraftImageSelect = true" class="mt-2">
           Выбрать предмет из Minecraft
         </el-button>
