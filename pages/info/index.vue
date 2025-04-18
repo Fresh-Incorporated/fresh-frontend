@@ -3,232 +3,632 @@
 </script>
 
 <template>
-<div>
-  <div class="xl:px-48 py-8 flex flex-col gap-8">
-    <div class="bg-neutral-800/[0.5] rounded-xl p-4 shadow-lg">
-      <h2 class="text-2xl font-medium">Что такое Fresh Inc?</h2>
-      <div class="w-full h-px bg-neutral-700 my-2"></div>
-      <p>Fresh Inc. — это инновационный IT-проект, созданный для воплощения самых амбициозных идей и предоставления уникальных решений для пользователей сервера СПм.
-        <br> Наша миссия — объединить технологии, креативность и практичность, чтобы создавать удобные, современные и полезные инструменты для всех участников экосистемы.</p>
-      <a href="https://www.donationalerts.com/r/zaralx" target="_blank">
-        <el-button type="warning" text>
-          <div class="flex gap-2 items-center">
-            <img src="/DA_Alert_Color.svg" class="w-4" alt="">
-            <p>Поддержать проект</p>
-          </div>
-        </el-button>
-      </a>
-    </div>
-    <div class="bg-neutral-800/[0.5] rounded-xl p-4 shadow-lg">
-      <h2 class="text-2xl font-medium">Авторы</h2>
-      <div class="w-full h-px bg-neutral-700 my-2"></div>
-      <div class="grid grid-cols-2 gap-4">
-        <div class="bg-neutral-900 rounded-xl relative overflow-hidden h-44 border border-orange-500">
-          <div class="w-20 h-20 bg-orange-500 blur-3xl absolute transform -translate-x-1/2 -translate-y-1/2"></div>
-          <div class="w-44 h-20 bg-orange-500 blur-3xl absolute transform translate-x-1/2 translate-y-1/2 bottom-0 right-0"></div>
-          <div>
-            <img src="https://vzge.me/bust/_zaralX_" class="w-40 transform -translate-x-10 translate-y-12 absolute blur" alt="">
-            <img src="https://vzge.me/bust/_zaralX_" class="w-40 transform -translate-x-10 translate-y-12 absolute" alt="">
-          </div>
-          <div class="py-4 pl-32">
-            <div class="flex gap-2">
-              <div class="bg-neutral-950/[0.5] rounded-lg px-2 text-sm text-orange-400 border border-orange-500/[0.5]"><i class="pi pi-check text-xs"></i> Основатель</div>
-              <div class="bg-neutral-950/[0.5] rounded-lg px-2 text-sm text-orange-400 border border-orange-500/[0.5]"><i class="pi pi-check text-xs"></i> Программист</div>
-              <div class="bg-neutral-950/[0.5] rounded-lg px-2 text-sm text-orange-400 border border-orange-500/[0.5]"><i class="pi pi-check text-xs"></i> Идея</div>
-            </div>
-            <p class="text-2xl font-medium mt-4 text-orange-400">_zaralX_</p>
-            <p class="text-sm font-medium text-orange-400">Первый и единственный на данный момент <br> разработчик проекта Fresh Inc.</p>
-            <div class="mt-2 flex gap-2">
-              <a href="https://zaralx.ru" target="_blank">
-                <el-button type="warning" plain size="small"><i class="pi pi-external-link text-xs"></i> <p class="text-sm ml-2">Сайт</p></el-button>
-              </a>
-              <a href="https://underzaral.t.me" target="_blank">
-                <el-button type="warning" plain size="small"><i class="pi pi-external-link text-xs"></i> <p class="text-sm ml-2">Телеграм канал</p></el-button>
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="bg-neutral-900 rounded-xl relative overflow-hidden h-44 border border-teal-500">
-          <div class="w-20 h-20 bg-teal-500 blur-3xl absolute transform -translate-x-1/2 -translate-y-1/2"></div>
-          <div class="w-44 h-20 bg-teal-500 blur-3xl absolute transform translate-x-1/2 translate-y-1/2 bottom-0 right-0"></div>
-          <div>
-            <img src="https://vzge.me/bust/Elsham1r" class="w-40 transform -translate-x-10 translate-y-12 absolute blur" alt="">
-            <img src="https://vzge.me/bust/Elsham1r" class="w-40 transform -translate-x-10 translate-y-12 absolute" alt="">
-          </div>
-          <div class="py-4 pl-32">
-            <div class="flex gap-2">
-              <div class="bg-neutral-950/[0.5] rounded-lg px-2 text-sm text-teal-400 border border-teal-500/[0.5]"><i class="pi pi-check text-xs"></i> Основатель</div>
-            </div>
-            <p class="text-2xl font-medium mt-4 text-teal-400">Elsham1r</p>
-            <p class="text-sm font-medium text-teal-400">Вторая рука основателя, тот кто решает большинство проблем <br> когда на это нет времени у _zaralX_</p>
-            <div class="mt-2 flex gap-2">
-              <p class="opacity-50 text-xs">У этого бро даже нет ссылок</p>
-<!--              <a href="https://zaralx.ru" target="_blank">-->
-<!--                <el-button type="primary" plain size="small"><i class="pi pi-external-link text-xs"></i> <p class="text-sm ml-2">Сайт</p></el-button>-->
-<!--              </a>-->
-<!--              <a href="https://underzaral.t.me" target="_blank">-->
-<!--                <el-button type="primary" plain size="small"><i class="pi pi-external-link text-xs"></i> <p class="text-sm ml-2">Телеграм канал</p></el-button>-->
-<!--              </a>-->
-            </div>
-          </div>
-        </div>
-      </div>
-      <p class="mt-4">Отдельная благодарность</p>
-      <div class="w-full h-px bg-neutral-700 my-2"></div>
-      <div class="flex gap-2">
-        <div class="bg-neutral-900 rounded-lg overflow-hidden p-1 flex gap-2 relative border border-neutral-700">
-          <div class="w-12 h-8 bg-neutral-300 blur-2xl absolute transform -translate-x-1/2 -translate-y-1/2"></div>
-          <div class="w-12 h-8 bg-neutral-300 blur-2xl absolute transform translate-x-1/2 translate-y-1/2 bottom-0 right-0"></div>
-          <img src="https://img.zaralx.ru/v1/minecraft/user/face/full/_Anchester_" class="w-16 h-16 rounded-lg" alt="">
-          <div class="flex flex-col py-1">
-            <p class="font-fira flex-1">_Anchester_</p>
-            <p class="font-onest text-xs opacity-75">Большой вклад в <br> доработку идеи FreshMarket</p>
-          </div>
-          <div>
-            <el-tooltip content="Отсутствует" effect="light" placement="top">
-              <el-button size="small" circle disabled><i class="pi pi-external-link"></i></el-button>
-            </el-tooltip>
-          </div>
-        </div>
-        <div class="bg-neutral-900 rounded-lg overflow-hidden p-1 flex gap-2 relative border border-neutral-700">
-          <div class="w-12 h-8 bg-neutral-300 blur-2xl absolute transform -translate-x-1/2 -translate-y-1/2"></div>
-          <div class="w-12 h-8 bg-neutral-300 blur-2xl absolute transform translate-x-1/2 translate-y-1/2 bottom-0 right-0"></div>
-          <img src="https://img.zaralx.ru/v1/minecraft/user/face/full/SilentPaltos" class="w-16 h-16 rounded-lg" alt="">
-          <div class="flex flex-col py-1">
-            <p class="font-fira flex-1">SilentPaltos</p>
-            <p class="font-onest text-xs opacity-75">Помощь с различными <br> постройками</p>
-          </div>
-          <div>
-            <el-tooltip content="Телеграм канал" effect="light" placement="top">
-              <a href="https://t.me/c50_silentpaltos" target="_blank">
-                <el-button size="small" circle><i class="pi pi-external-link"></i></el-button>
-              </a>
-            </el-tooltip>
-          </div>
-        </div>
-        <div class="bg-neutral-900 rounded-lg overflow-hidden p-1 flex gap-2 relative border border-neutral-700">
-          <div class="w-12 h-8 bg-neutral-300 blur-2xl absolute transform -translate-x-1/2 -translate-y-1/2"></div>
-          <div class="w-12 h-8 bg-neutral-300 blur-2xl absolute transform translate-x-1/2 translate-y-1/2 bottom-0 right-0"></div>
-          <img src="https://img.zaralx.ru/v1/minecraft/user/face/full/Moksy44" class="w-16 h-16 rounded-lg" alt="">
-          <div class="flex flex-col py-1">
-            <p class="font-fira flex-1">Moksy44</p>
-            <p class="font-onest text-xs opacity-75">Почти в соло<br>тащил FM 2 месяца</p>
-          </div>
-          <div>
-            <el-tooltip content="Телеграм канал" effect="light" placement="top">
-              <a href="https://moksy44.t.me/" target="_blank">
-                <el-button size="small" circle><i class="pi pi-external-link"></i></el-button>
-              </a>
-            </el-tooltip>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="grid grid-cols-1 gap-4">
+  <div>
+    <div class="xl:px-48 py-8 flex flex-col gap-8">
       <div class="bg-neutral-800/[0.5] rounded-xl p-4 shadow-lg">
-        <h2 class="text-2xl font-medium">Что такое FreshMarket?</h2>
+        <h2 class="text-2xl font-medium">Что такое Fresh Inc?</h2>
         <div class="w-full h-px bg-neutral-700 my-2"></div>
-        <p>FreshMarket — это маркетплейс в майнкрафте, позволяющий покупать и продавать различные товары.
-          <br>Покупатель - собирает корзину, и после оплаты наши работники доставят его в указаное в заказе место.
-          <br>Продавец - создаёт магазин, создаёт товары, пополняет товары в специальной зоне и получает прибыль с каждого проданого товара</p>
-        <div class="flex gap-4">
-          <NuxtLink to="/cabinet/freshmarket_business">
-            <el-button type="success" plain size="small">
-              Стать продавцом
-            </el-button>
-          </NuxtLink>
-          <NuxtLink to="/freshmarket">
-            <el-button type="primary" plain size="small">
-              Начать покупки
-            </el-button>
-          </NuxtLink>
+        <p>Fresh Inc. — это инновационный IT-проект, созданный для воплощения самых амбициозных идей и предоставления
+          уникальных решений для пользователей сервера СПм.
+          <br> Наша миссия — объединить технологии, креативность и практичность, чтобы создавать удобные, современные и
+          полезные инструменты для всех участников экосистемы.</p>
+        <a href="https://www.donationalerts.com/r/zaralx" target="_blank">
+          <el-button type="warning" text>
+            <div class="flex gap-2 items-center">
+              <img src="/DA_Alert_Color.svg" class="w-4" alt="">
+              <p>Поддержать проект</p>
+            </div>
+          </el-button>
+        </a>
+      </div>
+      <div class="bg-neutral-800/[0.5] rounded-xl p-4 shadow-lg">
+        <h2 class="text-2xl font-medium">Авторы</h2>
+        <div class="w-full h-px bg-neutral-700 my-2"></div>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="bg-neutral-900 rounded-xl relative overflow-hidden h-44 border border-orange-500">
+            <div class="w-20 h-20 bg-orange-500 blur-3xl absolute transform -translate-x-1/2 -translate-y-1/2"></div>
+            <div
+                class="w-44 h-20 bg-orange-500 blur-3xl absolute transform translate-x-1/2 translate-y-1/2 bottom-0 right-0"></div>
+            <div>
+              <img src="https://vzge.me/bust/_zaralX_"
+                   class="w-40 transform -translate-x-10 translate-y-12 absolute blur" alt="">
+              <img src="https://vzge.me/bust/_zaralX_" class="w-40 transform -translate-x-10 translate-y-12 absolute"
+                   alt="">
+            </div>
+            <div class="py-4 pl-32">
+              <div class="flex gap-2">
+                <div
+                    class="bg-neutral-950/[0.5] rounded-lg px-2 text-sm text-orange-400 border border-orange-500/[0.5]">
+                  <i class="pi pi-check text-xs"></i> Основатель
+                </div>
+                <div
+                    class="bg-neutral-950/[0.5] rounded-lg px-2 text-sm text-orange-400 border border-orange-500/[0.5]">
+                  <i class="pi pi-check text-xs"></i> Программист
+                </div>
+                <div
+                    class="bg-neutral-950/[0.5] rounded-lg px-2 text-sm text-orange-400 border border-orange-500/[0.5]">
+                  <i class="pi pi-check text-xs"></i> Идея
+                </div>
+              </div>
+              <p class="text-2xl font-medium mt-4 text-orange-400">_zaralX_</p>
+              <p class="text-sm font-medium text-orange-400">Первый и единственный на данный момент <br> разработчик
+                проекта Fresh Inc.</p>
+              <div class="mt-2 flex gap-2">
+                <a href="https://zaralx.ru" target="_blank">
+                  <el-button type="warning" plain size="small"><i class="pi pi-external-link text-xs"></i>
+                    <p class="text-sm ml-2">Сайт</p></el-button>
+                </a>
+                <a href="https://underzaral.t.me" target="_blank">
+                  <el-button type="warning" plain size="small"><i class="pi pi-external-link text-xs"></i>
+                    <p class="text-sm ml-2">Телеграм канал</p></el-button>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="bg-neutral-900 rounded-xl relative overflow-hidden h-44 border border-teal-500">
+            <div class="w-20 h-20 bg-teal-500 blur-3xl absolute transform -translate-x-1/2 -translate-y-1/2"></div>
+            <div
+                class="w-44 h-20 bg-teal-500 blur-3xl absolute transform translate-x-1/2 translate-y-1/2 bottom-0 right-0"></div>
+            <div>
+              <img src="https://vzge.me/bust/Elsham1r"
+                   class="w-40 transform -translate-x-10 translate-y-12 absolute blur" alt="">
+              <img src="https://vzge.me/bust/Elsham1r" class="w-40 transform -translate-x-10 translate-y-12 absolute"
+                   alt="">
+            </div>
+            <div class="py-4 pl-32">
+              <div class="flex gap-2">
+                <div class="bg-neutral-950/[0.5] rounded-lg px-2 text-sm text-teal-400 border border-teal-500/[0.5]"><i
+                    class="pi pi-check text-xs"></i> Основатель
+                </div>
+              </div>
+              <p class="text-2xl font-medium mt-4 text-teal-400">Elsham1r</p>
+              <p class="text-sm font-medium text-teal-400">Вторая рука основателя, тот кто решает большинство проблем
+                <br> когда на это нет времени у _zaralX_</p>
+              <div class="mt-2 flex gap-2">
+                <p class="opacity-50 text-xs">У этого бро даже нет ссылок</p>
+                <!--              <a href="https://zaralx.ru" target="_blank">-->
+                <!--                <el-button type="primary" plain size="small"><i class="pi pi-external-link text-xs"></i> <p class="text-sm ml-2">Сайт</p></el-button>-->
+                <!--              </a>-->
+                <!--              <a href="https://underzaral.t.me" target="_blank">-->
+                <!--                <el-button type="primary" plain size="small"><i class="pi pi-external-link text-xs"></i> <p class="text-sm ml-2">Телеграм канал</p></el-button>-->
+                <!--              </a>-->
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="mt-4">Отдельная благодарность</p>
+        <div class="w-full h-px bg-neutral-700 my-2"></div>
+        <div class="flex gap-2">
+          <div class="bg-neutral-900 rounded-lg overflow-hidden p-1 flex gap-2 relative border border-neutral-700">
+            <div class="w-12 h-8 bg-neutral-300 blur-2xl absolute transform -translate-x-1/2 -translate-y-1/2"></div>
+            <div
+                class="w-12 h-8 bg-neutral-300 blur-2xl absolute transform translate-x-1/2 translate-y-1/2 bottom-0 right-0"></div>
+            <img src="https://img.zaralx.ru/v1/minecraft/user/face/full/_Anchester_" class="w-16 h-16 rounded-lg"
+                 alt="">
+            <div class="flex flex-col py-1">
+              <p class="font-fira flex-1">_Anchester_</p>
+              <p class="font-onest text-xs opacity-75">Большой вклад в <br> доработку идеи FreshMarket</p>
+            </div>
+            <div>
+              <el-tooltip content="Отсутствует" effect="light" placement="top">
+                <el-button size="small" circle disabled><i class="pi pi-external-link"></i></el-button>
+              </el-tooltip>
+            </div>
+          </div>
+          <div class="bg-neutral-900 rounded-lg overflow-hidden p-1 flex gap-2 relative border border-neutral-700">
+            <div class="w-12 h-8 bg-neutral-300 blur-2xl absolute transform -translate-x-1/2 -translate-y-1/2"></div>
+            <div
+                class="w-12 h-8 bg-neutral-300 blur-2xl absolute transform translate-x-1/2 translate-y-1/2 bottom-0 right-0"></div>
+            <img src="https://img.zaralx.ru/v1/minecraft/user/face/full/SilentPaltos" class="w-16 h-16 rounded-lg"
+                 alt="">
+            <div class="flex flex-col py-1">
+              <p class="font-fira flex-1">SilentPaltos</p>
+              <p class="font-onest text-xs opacity-75">Помощь с различными <br> постройками</p>
+            </div>
+            <div>
+              <el-tooltip content="Телеграм канал" effect="light" placement="top">
+                <a href="https://t.me/c50_silentpaltos" target="_blank">
+                  <el-button size="small" circle><i class="pi pi-external-link"></i></el-button>
+                </a>
+              </el-tooltip>
+            </div>
+          </div>
+          <div class="bg-neutral-900 rounded-lg overflow-hidden p-1 flex gap-2 relative border border-neutral-700">
+            <div class="w-12 h-8 bg-neutral-300 blur-2xl absolute transform -translate-x-1/2 -translate-y-1/2"></div>
+            <div
+                class="w-12 h-8 bg-neutral-300 blur-2xl absolute transform translate-x-1/2 translate-y-1/2 bottom-0 right-0"></div>
+            <img src="https://img.zaralx.ru/v1/minecraft/user/face/full/Moksy44" class="w-16 h-16 rounded-lg" alt="">
+            <div class="flex flex-col py-1">
+              <p class="font-fira flex-1">Moksy44</p>
+              <p class="font-onest text-xs opacity-75">Почти в соло<br>тащил FM 2 месяца</p>
+            </div>
+            <div>
+              <el-tooltip content="Телеграм канал" effect="light" placement="top">
+                <a href="https://moksy44.t.me/" target="_blank">
+                  <el-button size="small" circle><i class="pi pi-external-link"></i></el-button>
+                </a>
+              </el-tooltip>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="bg-neutral-800/[0.5] rounded-xl p-4 shadow-lg">
-      <h2 class="text-2xl font-medium">Документы</h2>
-      <div class="w-full h-px bg-neutral-700 my-2"></div>
-      <el-collapse>
-        <el-collapse-item title="Пользовательское соглашение" name="1">
-          <div>
-            <h2>Соглашение</h2>
-            Пожалуйста, внимательно прочитайте Условия использования перед использованием вами Сервиса. Если вы не согласны с Условиями использования полностью или частично, пожалуйста, не используйте Сервис.
-            Сервис не является настоящим маркетплейсом. FreshMarket — игровая симуляция онлайн магазина. Все платежи осуществляются в игровой валюте на сервере майнкрафт СПм.
-
-            <h2>СОГЛАШЕНИЕ</h2>
-            Авторизируясь на сервисе FreshMarket и используя Сервис, вы соглашаетесь соблюдать настоящие Условия использования и Политику возвратов, которые составляют соглашение между вами («вы» или «Пользователь») и FreshMarket и регулируют использование вами Сервиса («Соглашение»), А так же подтверждаете что территория на сервере spm.spworlds.ru на координатах верхнего мира 475 38 110 радиусом 256 блоков (По координам X и Z) является собственностью Elsham1r (Директора FreshMarket).
-            Администрация проекта (Elsham1r) имеет большую силу, чем правила. Администрация проекта оставляет за собой право не разъяснять свои действия игрокам. Администрация проекта не понимает шутки (рофлы, приколы)
-
-            <h2>СЕРВИС FreshMarket</h2>
-            FreshMarket предоставляет платформу, на которой Пользователи договариваются о передаче друг другу игровых предметов майнкрафт (далее — предметов), через посредника, в лице сотрудников/сервиса FreshMarket.
-            FreshMarket выступает посредником между Пользователями, организуя процесс обмена.
-            FreshMarket не имеет отношения к азартным играм в Интернете.
-            FreshMarket не предоставляет никаких крипто-фиатных, фиатно-крипто- или любых других услуг по обмену валюты и не выступает в роли средства такого обмена.
-            FreshMarket не связана с Mojang и Остером.
-
-            <h2>Переводы АРов и Передача предметов</h2>
-            Каждый ваш перевод на сайте https://spx.zaralx.ru/freshmarket, и передача ваших ресурсов является пожертвованием.
-
-            <h2>ПРЕДОСТАВЛЕНИЕ ЛИЦЕНЗИИ</h2>
-            Платформа является программным продуктом. Настоящим мы предоставляем вам неисключительную международную лицензию на использование Платформы и ее функций исключительно в целях и на условиях, изложенных в настоящих Условиях использования.
-
-            <h2>ОБМЕН ПРЕДМЕТАМИ</h2>
-            На Платформе FreshMarket вы можете обменять, продать и/или купить любой доступный предмет (или комплект предметов).
-
-            <h2>ЗАКАЗЫ</h2>
-            Заказы поступают в выбраный покупателем филиал и после доставки на главной странице FreshMarket отобращается ссылка с меткой филлиала и подтверждение заказа, в случае если пользователь не забрал заказ или не подтвердил его в течении 3х дней после доставки, компания в праве забрать его ресурсы без уведомления.
-
-            <h2>Требования ко всем Пользователям</h2>
-            Для выставления предметов на продажу, обмена или покупки предметов вы должны:
-            -> Быть авторизованным на Платформе и принять все условия и политики;
-            -> Не быть заблокированным на сервере СПм;
-            -> Быть готовым передать предметы для продажи на склад FreshMarket;
-            Запрещается:
-            -> Использовать любые программы, механизмы, чтобы обойти какие-либо правила, скрыть свою личность и/или местонахождение;
-            -> Предпринимать действия, которые могут исказить и/или повлиять на производительность, безопасность, справедливость и целостность Платформы и Сервиса;
-            -> Использовать любые уязвимости Платформы для получения прибыли;
-            -> Использовать несколько учетных записей, чтобы монополизировать рынок или любым другим способом манипулировать ценами;
-            -> Выставление продукта в виде "Шалкер без шалкера" т.е. с использованием 27 слотов для 1 продукта.
-
-            <h2>Требования к пользователям со статусом "Продавец"</h2>
-            При выставлении предметов на продажу вы должны соблюдать следующие условия:
-            -> Запрещается введение в заблуждение в описании, название или изображении товара;
-            -> Запрещается использование изображение товаров с авторским правом, 18+ контентом;
-
-            <h2>СТАТУС "НЕАКТИВНЫЙ"</h2>
-            Если у продавца длительное время не покупается товар, администрация сервиса FreshMaket обязана связаться с продавцом и вернуть ему товар при этом удалив его из системы, если пользователь не отвечает на протяжении 3х дней FreshMarket в праве присвоить себе весь товар.
-
-            <h2>КОМИССИЯ FreshMarket И ДОПОЛНИТЕЛЬНЫЕ УСЛУГИ</h2>
-            Комиссия с продаж взимается в соответствии с активным тарифом с округлением до меньшего. Сервис может также взимать дополнительные комиссионные платежи или предоставлять платные услуги, связанные с сервисом.
-
-            <h2>ВОЗВРАТЫ, ОТМЕНЫ, ПОТЕРЯ ТОВАРА</h2>
-            По общему правилу все сделки осуществляемые на Платформе, являются окончательными и не подлежат возврату, возмещению и/или отмене. Администрация, владельцы и пр. лица, связанные с сервисом не несут ответственность за непредвиденные обстоятельства при передаче предметов.
-
-            <h2>ИНТЕЛЛЕКТУАЛЬНАЯ СОБСТВЕННОСТЬ</h2>
-            Никто за исключением spworlds.ru не имеет право копировать, имитировать, продавать, лицензировать, модифицировать, распространять, воспроизводить, передавать, публично демонстрировать, публично исполнять, публиковать, адаптировать, редактировать, реконструировать, декомпилировать, извлекать исходный код или создавать производные работы на его основе любой интеллектуальной собственности FreshMarket.
-
-            <h2>ОТСУТСТВИЕ ГАРАНТИЙ</h2>
-            Сервис предоставляются «как есть», мы не даем никаких явных или подразумеваемых гарантий, и настоящим мы отказываемся от любых гарантий, включая, помимо прочего, условия пригодности Сервиса для определенной цели. Кроме того, мы не гарантируем и не делаем никаких заявлений относительно точности, вероятных результатов или надежности использования Сервиса.
-            Запрещается заключать какие-либо соглашения, затрагивающие права FreshMarket, без предварительного письменного согласия FreshMarket.
-
-            <h2>ИЗМЕНЕНИЕ СОГЛАШЕНИЯ</h2>
-            Мы можем изменять, приостанавливать и/или прекращать работу Сервиса, предоставлять новые возможности и/или функции и время от времени вносить изменения в настоящее Соглашение без предварительного уведомления. Если вы продолжаете пользоваться Сервисом после вступления изменений в силу, вы соглашаетесь с новой редакцией Соглашения.
-
-            <h2>УСТУПКА ПРАВ</h2>
-            FreshMarket может переуступать или иным образом передавать и изменять свои права и / или обязательства по настоящему Соглашению без уведомления вас или получения вашего согласия. Вы не можете переуступать или иным образом передавать свои права и / или обязанности по настоящему Соглашению.
+      <div class="grid grid-cols-1 gap-4">
+        <div class="bg-neutral-800/[0.5] rounded-xl p-4 shadow-lg">
+          <h2 class="text-2xl font-medium">Что такое FreshMarket?</h2>
+          <div class="w-full h-px bg-neutral-700 my-2"></div>
+          <p>FreshMarket — это маркетплейс в майнкрафте, позволяющий покупать и продавать различные товары.
+            <br>Покупатель - собирает корзину, и после оплаты наши работники доставят его в указаное в заказе место.
+            <br>Продавец - создаёт магазин, создаёт товары, пополняет товары в специальной зоне и получает прибыль с
+            каждого проданого товара</p>
+          <div class="flex gap-4">
+            <NuxtLink to="/cabinet/freshmarket_business">
+              <el-button type="success" plain size="small">
+                Стать продавцом
+              </el-button>
+            </NuxtLink>
+            <NuxtLink to="/freshmarket">
+              <el-button type="primary" plain size="small">
+                Начать покупки
+              </el-button>
+            </NuxtLink>
           </div>
-        </el-collapse-item>
-        <el-collapse-item title="Политика конфиденциальности" name="2">
+        </div>
+      </div>
+      <div class="bg-neutral-800/[0.5] rounded-xl p-4 shadow-lg">
+        <h2 class="text-2xl font-medium">Документы</h2>
+        <div class="w-full h-px bg-neutral-700 my-2"></div>
+        <el-collapse>
+          <el-collapse-item title="Пользовательское соглашение" name="1">
+            <div>
+              Пожалуйста, внимательно прочитайте Условия использования перед использованием вами сайта Fresh
+              Incorporated. Если вы не согласны с Условиями использования полностью или частично, пожалуйста, не
+              используйте сайт Fresh Incorporated.
+              Авторизируясь на сайте вы автоматически соглашаетесь с пользовательским соглашением.
+              Сервис FreshMarket не является настоящим маркетплейсом. FreshMarket — игровая симуляция онлайн магазина.
+              Все платежи осуществляются в игровой валюте на сервере майнкрафт СПм.
 
-        </el-collapse-item>
-      </el-collapse>
+              <h2>СОГЛАШЕНИЕ</h2>
+              Авторизируясь на сайте Fresh Incorporated и используя его сервисы, вы соглашаетесь соблюдать настоящие
+              Условия использования и Политику возвратов, которые составляют соглашение между вами («Вы» или
+              «Пользователь») и FreshMarket и регулируют использование вами Сервиса («Соглашение»), А так же
+              подтверждаете что территория на сервере spm.spworlds.ru на координатах верхнего мира -1058 31 -94 радиусом
+              256 блоков (По координам X и Z) является собственностью _zaralX_ (Директора сервиса FreshMarket).
+              Администрация проекта (_zaralX_) имеет большую силу, чем правила. Администрация проекта Fresh Incorporated
+              оставляет за собой право не разъяснять свои действия игрокам. Администрация проекта Fresh Incorporated не
+              понимает шутки (рофлы, приколы)
+
+              <h2>ПРОЕКТ Fresh Incorporated</h2>
+              FreshIncorporated не имеет отношения к азартным играм в Интернете.
+              FreshIncorporated не предоставляет никаких крипто-фиатных, фиатно-крипто- или любых других услуг по обмену
+              валюты и не выступает в роли средства такого обмена.
+              FreshIncorporated не связана с Mojang и Администрацией проекта SPWorlds.ru.
+
+              <h2>СЕРВИС Fresh Market</h2>
+              FreshMarket предоставляет платформу, на которой Пользователи договариваются о передаче друг другу игровых
+              предметов майнкрафт (далее — предметов), через посредника, в лице сотрудников/сервиса FreshMarket.
+              FreshMarket выступает посредником между Пользователями, организуя процесс обмена.
+
+              <h2>ПЕРЕВОДЫ ИГРОВОЙ ВАЛЮТЫ ПРЕДМЕТОВ</h2>
+              Каждый ваш перевод игровой варюты (АР) на сайте https://fresh.zaral.ru или передача игровых предметов
+              осуществляемая через майнкрафт сервер (spm.spworlds.ru) является добровольным пожертвованием.
+
+              <h2>ПРЕДОСТАВЛЕНИЕ ЛИЦЕНЗИИ</h2>
+              Платформа является программным продуктом. Настоящим мы предоставляем вам неисключительную международную
+              лицензию на использование Платформы и ее функций исключительно в целях и на условиях, изложенных в
+              настоящих Условиях использования.
+
+              <h2>ЗАКАЗЫ FreshMarket</h2>
+              Заказы поступают в выбраный покупателем филиал и после доставки на главной странице FreshMarket
+              отобращается ссылка с меткой филлиала и подтверждение заказа, в случае если пользователь не забрал заказ
+              или не подтвердил его в течении 3х дней после доставки, компания в праве забрать его ресурсы без
+              уведомления.
+
+              <h2>ТРЕБОВАНИЯ КО ВСЕМ ПОЛЬЗОВАТЕЛЯМ Fresh Incorporated</h2>
+              Для выставления предметов на продажу, обмена или покупки предметов вы должны:
+              <br>
+              -> Быть авторизованным на Платформе и принять все условия и политики;
+              <br>
+              -> Не быть заблокированным на сервере СПм;
+              <br>
+              Запрещается:
+              -> Использовать любые программы, механизмы, чтобы обойти какие-либо правила, скрыть свою личность и/или
+              местонахождение;
+              <br>
+              -> Предпринимать действия, которые могут исказить и/или повлиять на производительность, безопасность,
+              справедливость и целостность Платформы и Сервиса;
+              <br>
+              -> Использовать любые уязвимости Платформы для получения прибыли;
+              <br>
+              -> Использовать несколько учетных записей, чтобы монополизировать рынок или любым другим способом
+              манипулировать ценами;
+              <br>
+              -> Выставление продукта на сервисе FreshMarket в виде "Шалкер без шалкера" т.е. с использованием 27 слотов
+              для 1 продукта.
+
+              <h2>ТРЕБОВАНИЯ К ПРОДАВЦАМ СЕРВИСА Fresh Market</h2>
+              При выставлении предметов на продажу и создании магазина вы должны соблюдать следующие условия:
+              <br>
+              -> Запрещается введение в заблуждение в описании, название или изображении товара;
+              <br>
+              -> Запрещается использование изображение товаров с авторским правом, 18+ контентом;
+
+              <h2>СТАТУС "НЕАКТИВНЫЙ"</h2>
+              Если у продавца длительное время не покупается товар, администрация сервиса FreshMarket обязана связаться
+              с продавцом и вернуть ему товар при этом удалив его из системы, если пользователь не отвечает на
+              протяжении 3х дней FreshMarket в праве присвоить себе весь товар.
+
+              <h2>КОМИССИЯ FreshMarket И ДОПОЛНИТЕЛЬНЫЕ УСЛУГИ</h2>
+              Комиссия с продаж взимается в виде 10% от выкупленого товара. Сервис может также взимать дополнительные
+              комиссионные платежи или предоставлять платные услуги, связанные с сервисом FreshMarket.
+
+              <h2>ВОЗВРАТЫ, ОТМЕНЫ, ПОТЕРЯ ТОВАРА НА СЕРВИСЕ FreshMarket</h2>
+              По общему правилу все сделки осуществляемые на Платформе, являются окончательными и не подлежат возврату,
+              возмещению и/или отмене. Администрация, владельцы и пр. лица, связанные с сервисом FreshMarket не несут
+              ответственность за непредвиденные обстоятельства при передаче предметов.
+
+              <h2>ИНТЕЛЛЕКТУАЛЬНАЯ СОБСТВЕННОСТЬ</h2>
+              Никто за исключением spworlds.ru не имеет право копировать, имитировать, продавать, лицензировать,
+              модифицировать, воспроизводить, передавать, адаптировать, редактировать, реконструировать,
+              декомпилировать, извлекать исходный код или создавать производные работы на его основе любой
+              интеллектуальной собственности Fresh Incorporated.
+
+              <h2>ОТСУТСТВИЕ ГАРАНТИЙ</h2>
+              Проект предоставляются «как есть», мы не даем никаких явных или подразумеваемых гарантий, и настоящим мы
+              отказываемся от любых гарантий, включая, помимо прочего, условия пригодности проекта для определенной
+              цели. Кроме того, мы не гарантируем и не делаем никаких заявлений относительно точности, вероятных
+              результатов или надежности использования проекта Fresh Incorporated.
+              Запрещается заключать какие-либо соглашения, затрагивающие права Fresh Incorporated и его сервисов, без
+              предварительного письменного согласия администрации проекта Fresh Incorporated (В лице _zaralX_).
+
+              <h2>ИЗМЕНЕНИЕ СОГЛАШЕНИЯ</h2>
+              Мы можем изменять, приостанавливать и/или прекращать работу проекта Fresh Incorporated и его сервисов,
+              предоставлять новые возможности и/или функции и время от времени вносить изменения в настоящее Соглашение
+              без предварительного уведомления. Если вы продолжаете пользоваться Сервисами Fresh Incorporated после
+              вступления изменений в силу, вы соглашаетесь с новой редакцией Соглашения.
+
+              <h2>УСТУПКА ПРАВ</h2>
+              Fresh Incorporated может переуступать или иным образом передавать и изменять свои права и / или
+              обязательства по настоящему Соглашению без уведомления вас или получения вашего согласия. Вы не можете
+              переуступать или иным образом передавать свои права и / или обязанности по настоящему Соглашению.
+            </div>
+          </el-collapse-item>
+          <el-collapse-item title="Политика конфиденциальности" name="2">
+            <h2>1. Общие положения</h2>
+            <p>Настоящая политика обработки персональных данных составлена в соответствии с требованиями Федерального
+              закона от 27.07.2006. № 152-ФЗ «О персональных данных» (далее — Закон о персональных данных) и определяет
+              порядок обработки персональных данных и меры по обеспечению безопасности персональных данных,
+              предпринимаемые Fresh Incorporated (далее — Оператор).</p>
+
+            <p>1.1. Оператор ставит своей важнейшей целью и условием осуществления своей деятельности соблюдение прав и
+              свобод человека и гражданина при обработке его персональных данных, в том числе защиты прав на
+              неприкосновенность частной жизни, личную и семейную тайну.</p>
+
+            <p>1.2. Настоящая политика Оператора в отношении обработки персональных данных (далее — Политика) применяется ко
+              всей информации, которую Оператор может получить о посетителях веб-сайта <a
+                  href="https://fresh.zaralx.ru">https://fresh.zaralx.ru</a>.</p>
+
+            <h2>2. Основные понятия, используемые в Политике</h2>
+
+            <p>2.1.<strong>Автоматизированная обработка персональных данных</strong> — обработка персональных данных с
+              помощью средств вычислительной техники.</p>
+
+            <p>2.2.<strong>Блокирование персональных данных</strong> — временное прекращение обработки персональных данных
+              (за исключением случаев, если обработка необходима для уточнения персональных данных).</p>
+
+            <p>2.3.<strong>Веб-сайт</strong> — совокупность графических и информационных материалов, а также программ для
+              ЭВМ и баз данных, обеспечивающих их доступность в сети интернет по сетевому адресу <a
+                  href="https://fresh.zaralx.ru">https://fresh.zaralx.ru</a>.</p>
+
+            <p>2.4. <strong>Информационная система персональных данных</strong> — совокупность содержащихся в базах данных
+              персональных данных и обеспечивающих их обработку информационных технологий и технических средств.</p>
+
+            <p>2.5. <strong>Обезличивание персональных данных</strong> — действия, в результате которых невозможно определить
+              без использования дополнительной информации принадлежность персональных данных конкретному Пользователю
+              или иному субъекту персональных данных.</p>
+
+            <p>2.6. <strong>Обработка персональных данных</strong> — любое действие (операция) или совокупность действий
+              (операций), совершаемых с использованием средств автоматизации или без использования таких средств с
+              персональными данными, включая сбор, запись, систематизацию, накопление, хранение, уточнение (обновление,
+              изменение), извлечение, использование, передачу (распространение, предоставление, доступ), обезличивание,
+              блокирование, удаление, уничтожение персональных данных.</p>
+
+            <p>2.7. <strong>Оператор</strong> — государственный орган, муниципальный орган, юридическое или физическое лицо,
+              самостоятельно или совместно с другими лицами организующие и/или осуществляющие обработку персональных
+              данных, а также определяющие цели обработки персональных данных, состав персональных данных, подлежащих
+              обработке, действия (операции), совершаемые с персональными данными.</p>
+
+            <p>2.8. <strong>Персональные данные</strong> — любая информация, относящаяся прямо или косвенно к определенному
+              или определяемому Пользователю веб-сайта <a href="https://fresh.zaralx.ru">https://fresh.zaralx.ru</a>.
+            </p>
+
+            <p>2.9. <strong>Персональные данные, разрешенные субъектом персональных данных для распространения</strong> —
+              персональные данные, доступ неограниченного круга лиц к которым предоставлен субъектом персональных данных
+              путем дачи согласия на обработку персональных данных, разрешенных субъектом персональных данных для
+              распространения в порядке, предусмотренном Законом о персональных данных (далее — персональные данные,
+              разрешенные для распространения).</p>
+
+            <p>2.10. <strong>Пользователь</strong> — любой посетитель веб-сайта <a href="https://fresh.zaralx.ru">https://fresh.zaralx.ru</a>.
+            </p>
+
+            <p>2.11. <strong>Предоставление персональных данных</strong> — действия, направленные на раскрытие персональных
+              данных определенному лицу или определенному кругу лиц.</p>
+
+            <p>2.12. <strong>Распространение персональных данных</strong> — любые действия, направленные на раскрытие
+              персональных данных неопределенному кругу лиц (передача персональных данных) или на ознакомление с
+              персональными данными неограниченного круга лиц, в том числе обнародование персональных данных в средствах
+              массовой информации, размещение в информационно-телекоммуникационных сетях или предоставление доступа к
+              персональным данным каким-либо иным способом.</p>
+
+            <p>2.13. <strong>Трансграничная передача персональных данных</strong> — передача персональных данных на территорию
+              иностранного государства органу власти иностранного государства, иностранному физическому или иностранному
+              юридическому лицу.</p>
+
+            <p>2.14. <strong>Уничтожение персональных данных</strong> — любые действия, в результате которых персональные
+              данные уничтожаются безвозвратно с невозможностью дальнейшего восстановления содержания персональных
+              данных в информационной системе персональных данных и/или уничтожаются материальные носители персональных
+              данных.</p>
+
+            <h2>3. Основные права и обязанности Оператора</h2>
+
+            <h3>3.1. Оператор имеет право:</h3>
+            <ul>
+              <li>получать от субъекта персональных данных достоверные информацию и/или документы, содержащие
+                персональные данные;
+              </li>
+              <li>в случае отзыва субъектом персональных данных согласия на обработку персональных данных, а также,
+                направления обращения с требованием о прекращении обработки персональных данных, Оператор вправе
+                продолжить обработку персональных данных без согласия субъекта персональных данных при наличии
+                оснований, указанных в Законе о персональных данных;
+              </li>
+              <li>самостоятельно определять состав и перечень мер, необходимых и достаточных для обеспечения выполнения
+                обязанностей, предусмотренных Законом о персональных данных и принятыми в соответствии с ним
+                нормативными правовыми актами, если иное не предусмотрено Законом о персональных данных или другими
+                федеральными законами.
+              </li>
+            </ul>
+
+            <h3>3.2. Оператор обязан:</h3>
+            <ul>
+              <li>предоставлять субъекту персональных данных по его просьбе информацию, касающуюся обработки его
+                персональных данных;
+              </li>
+              <li>организовывать обработку персональных данных в порядке, установленном действующим законодательством
+                РФ;
+              </li>
+              <li>отвечать на обращения и запросы субъектов персональных данных и их законных представителей в
+                соответствии с требованиями Закона о персональных данных;
+              </li>
+              <li>сообщать в уполномоченный орган по защите прав субъектов персональных данных по запросу этого органа
+                необходимую информацию в течение 10 дней с даты получения такого запроса;
+              </li>
+              <li>публиковать или иным образом обеспечивать неограниченный доступ к настоящей Политике в отношении
+                обработки персональных данных;
+              </li>
+              <li>принимать правовые, организационные и технические меры для защиты персональных данных от
+                неправомерного или случайного доступа к ним, уничтожения, изменения, блокирования, копирования,
+                предоставления, распространения персональных данных, а также от иных неправомерных действий в отношении
+                персональных данных;
+              </li>
+              <li>прекратить передачу (распространение, предоставление, доступ) персональных данных, прекратить
+                обработку и уничтожить персональные данные в порядке и случаях, предусмотренных Законом о персональных
+                данных;
+              </li>
+              <li>исполнять иные обязанности, предусмотренные Законом о персональных данных.</li>
+            </ul>
+
+            <h2>4. Основные права и обязанности субъектов персональных данных</h2>
+
+            <h3>4.1. Субъекты персональных данных имеют право:</h3>
+            <ul>
+              <li>получать информацию, касающуюся обработки его персональных данных, за исключением случаев,
+                предусмотренных федеральными законами. Сведения предоставляются субъекту персональных данных Оператором
+                в доступной форме, и в них не должны содержаться персональные данные, относящиеся к другим субъектам
+                персональных данных, за исключением случаев, когда имеются законные основания для раскрытия таких
+                персональных данных. Перечень информации и порядок ее получения установлен Законом о персональных
+                данных;
+              </li>
+              <li>требовать от оператора уточнения его персональных данных, их блокирования или уничтожения в случае,
+                если персональные данные являются неполными, устаревшими, неточными, незаконно полученными или не
+                являются необходимыми для заявленной цели обработки, а также принимать предусмотренные законом меры по
+                защите своих прав;
+              </li>
+              <li>выдвигать условие предварительного согласия при обработке персональных данных в целях продвижения на
+                рынке товаров, работ и услуг;
+              </li>
+              <li>на отзыв согласия на обработку персональных данных, а также, на направление требования о прекращении
+                обработки персональных данных;
+              </li>
+              <li>обжаловать в уполномоченный орган по защите прав субъектов персональных данных или в судебном порядке
+                неправомерные действия или бездействие Оператора при обработке его персональных данных;
+              </li>
+              <li>на осуществление иных прав, предусмотренных законодательством РФ.</li>
+            </ul>
+
+            <h3>4.2. Субъекты персональных данных обязаны:</h3>
+            <ul>
+              <li>предоставлять Оператору достоверные данные о себе;</li>
+              <li>сообщать Оператору об уточнении (обновлении, изменении) своих персональных данных.</li>
+            </ul>
+
+            <p>4.3. Лица, передавшие Оператору недостоверные сведения о себе, либо сведения о другом субъекте персональных
+              данных без согласия последнего, несут ответственность в соответствии с законодательством РФ.</p>
+
+            <h2>5. Принципы обработки персональных данных</h2>
+
+            <p>5.1. Обработка персональных данных осуществляется на законной и справедливой основе.</p>
+
+            <p>5.2. Обработка персональных данных ограничивается достижением конкретных, заранее определенных и законных
+              целей. Не допускается обработка персональных данных, несовместимая с целями сбора персональных данных.</p>
+
+            <p>5.3. Не допускается объединение баз данных, содержащих персональные данные, обработка которых осуществляется в
+              целях, несовместимых между собой.</p>
+
+            <p>5.4. Обработке подлежат только персональные данные, которые отвечают целям их обработки.</p>
+
+            <p>5.5. Содержание и объем обрабатываемых персональных данных соответствуют заявленным целям обработки. Не
+              допускается избыточность обрабатываемых персональных данных по отношению к заявленным целям их
+              обработки.</p>
+
+            <p>5.6. При обработке персональных данных обеспечивается точность персональных данных, их достаточность, а в
+              необходимых случаях и актуальность по отношению к целям обработки персональных данных. Оператор принимает
+              необходимые меры и/или обеспечивает их принятие по удалению или уточнению неполных или неточных
+              данных.</p>
+
+            <p>5.7. Хранение персональных данных осуществляется в форме, позволяющей определить субъекта персональных данных,
+              не дольше, чем этого требуют цели обработки персональных данных, если срок хранения персональных данных не
+              установлен федеральным законом, договором, стороной которого, выгодоприобретателем или поручителем по
+              которому является субъект персональных данных. Обрабатываемые персональные данные уничтожаются либо
+              обезличиваются по достижении целей обработки или в случае утраты необходимости в достижении этих целей,
+              если иное не предусмотрено федеральным законом.</p>
+
+            <h2>6. Цели обработки персональных данных</h2>
+            <div class="highlight">
+              <p><strong>Цель обработки:</strong> информирование Пользователя посредством отправки электронных писем</p>
+              <p><strong>Персональные данные:</strong> философские убеждения</p>
+              <p><strong>Правовые основания:</strong> Федеральный закон «Об информации, информационных технологиях и о
+                защите информации» от 27.07.2006 N 149-ФЗ</p>
+              <p><strong>Виды обработки персональных данных:</strong> Передача персональных данных</p>
+            </div>
+
+            <h2>7. Условия обработки персональных данных</h2>
+
+            <p>7.1. Обработка персональных данных осуществляется с согласия субъекта персональных данных на обработку его
+              персональных данных.</p>
+
+            <p>7.2. Обработка персональных данных необходима для достижения целей, предусмотренных международным договором
+              Российской Федерации или законом, для осуществления возложенных законодательством Российской Федерации на
+              оператора функций, полномочий и обязанностей.</p>
+
+            <p>7.3. Обработка персональных данных необходима для осуществления правосудия, исполнения судебного акта, акта
+              другого органа или должностного лица, подлежащих исполнению в соответствии с законодательством Российской
+              Федерации об исполнительном производстве.</p>
+
+            <p>7.4. Обработка персональных данных необходима для исполнения договора, стороной которого либо
+              выгодоприобретателем или поручителем по которому является субъект персональных данных, а также для
+              заключения договора по инициативе субъекта персональных данных или договора, по которому субъект
+              персональных данных будет являться выгодоприобретателем или поручителем.</p>
+
+            <p>7.5. Обработка персональных данных необходима для осуществления прав и законных интересов оператора или
+              третьих лиц либо для достижения общественно значимых целей при условии, что при этом не нарушаются права и
+              свободы субъекта персональных данных.</p>
+
+            <p>7.6. Осуществляется обработка персональных данных, доступ неограниченного круга лиц к которым предоставлен
+              субъектом персональных данных либо по его просьбе (далее — общедоступные персональные данные).</p>
+
+            <p>7.7. Осуществляется обработка персональных данных, подлежащих опубликованию или обязательному раскрытию в
+              соответствии с федеральным законом.</p>
+
+            <h2>8. Порядок сбора, хранения, передачи и других видов обработки персональных данных</h2>
+            <p>Безопасность персональных данных, которые обрабатываются Оператором, обеспечивается путем реализации
+              правовых, организационных и технических мер, необходимых для выполнения в полном объеме требований
+              действующего законодательства в области защиты персональных данных.</p>
+
+            <p>8.1. Оператор обеспечивает сохранность персональных данных и принимает все возможные меры, исключающие доступ
+              к персональным данным неуполномоченных лиц.</p>
+
+            <p>8.2. Персональные данные Пользователя никогда, ни при каких условиях не будут переданы третьим лицам, за
+              исключением случаев, связанных с исполнением действующего законодательства либо в случае, если субъектом
+              персональных данных дано согласие Оператору на передачу данных третьему лицу для исполнения обязательств
+              по гражданско-правовому договору.</p>
+
+            <p>8.3. В случае выявления неточностей в персональных данных, Пользователь может актуализировать их
+              самостоятельно, путем направления Оператору уведомление на адрес электронной почты Оператора <a
+                  href="mailto:admin@zaralx.ru">admin@zaralx.ru</a> с пометкой «Актуализация персональных данных».</p>
+
+            <p>8.4. Срок обработки персональных данных определяется достижением целей, для которых были собраны персональные
+              данные, если иной срок не предусмотрен договором или действующим законодательством.</p>
+            <p>Пользователь может в любой момент отозвать свое согласие на обработку персональных данных, направив
+              Оператору уведомление посредством электронной почты на электронный адрес Оператора <a
+                  href="mailto:admin@zaralx.ru">admin@zaralx.ru</a> с пометкой «Отзыв согласия на обработку персональных
+              данных».</p>
+
+            <p>8.5. Вся информация, которая собирается сторонними сервисами, в том числе платежными системами, средствами
+              связи и другими поставщиками услуг, хранится и обрабатывается указанными лицами (Операторами) в
+              соответствии с их Пользовательским соглашением и Политикой конфиденциальности. Субъект персональных данных
+              и/или с указанными документами. Оператор не несет ответственность за действия третьих лиц, в том числе
+              указанных в настоящем пункте поставщиков услуг.</p>
+
+            <p>8.6. Установленные субъектом персональных данных запреты на передачу (кроме предоставления доступа), а также
+              на обработку или условия обработки (кроме получения доступа) персональных данных, разрешенных для
+              распространения, не действуют в случаях обработки персональных данных в государственных, общественных и
+              иных публичных интересах, определенных законодательством РФ.</p>
+
+            <p>8.7. Оператор при обработке персональных данных обеспечивает конфиденциальность персональных данных.</p>
+
+            <p>8.8. Оператор осуществляет хранение персональных данных в форме, позволяющей определить субъекта персональных
+              данных, не дольше, чем этого требуют цели обработки персональных данных, если срок хранения персональных
+              данных не установлен федеральным законом, договором, стороной которого, выгодоприобретателем или
+              поручителем по которому является субъект персональных данных.</p>
+
+            <p>8.9. Условием прекращения обработки персональных данных может являться достижение целей обработки персональных
+              данных, истечение срока действия согласия субъекта персональных данных, отзыв согласия субъектом
+              персональных данных или требование о прекращении обработки персональных данных, а также выявление
+              неправомерной обработки персональных данных.</p>
+
+            <h2>9. Перечень действий, производимых Оператором с полученными персональными данными</h2>
+
+            <p>9.1. Оператор осуществляет сбор, запись, систематизацию, накопление, хранение, уточнение (обновление,
+              изменение), извлечение, использование, передачу (распространение, предоставление, доступ), обезличивание,
+              блокирование, удаление и уничтожение персональных данных.</p>
+
+            <p>9.2.Оператор осуществляет автоматизированную обработку персональных данных с получением и/или передачей
+              полученной информации по информационно-телекоммуникационным сетям или без таковой.</p>
+
+            <h2>10. Трансграничная передача персональных данных</h2>
+
+            <p>10.1.Оператор до начала осуществления деятельности по трансграничной передаче персональных данных обязан
+              уведомить уполномоченный орган по защите прав субъектов персональных данных о своем намерении осуществлять
+              трансграничную передачу персональных данных (такое уведомление направляется отдельно от уведомления о
+              намерении осуществлять обработку персональных данных).</p>
+
+            <p>10.2. Оператор до подачи вышеуказанного уведомления, обязан получить от органов власти иностранного
+              государства, иностранных физических лиц, иностранных юридических лиц, которым планируется трансграничная
+              передача персональных данных, соответствующие сведения.</p>
+
+            <h2>11. Конфиденциальность персональных данных</h2>
+            <p>Оператор и иные лица, получившие доступ к персональным данным, обязаны не раскрывать третьим лицам и не
+              распространять персональные данные без согласия субъекта персональных данных, если иное не предусмотрено
+              федеральным законом.</p>
+
+            <h2>12. Заключительные положения</h2>
+
+            <p>12.1. Пользователь может получить любые разъяснения по интересующим вопросам, касающимся обработки его
+              персональных данных, обратившись к Оператору с помощью электронной почты <a href="mailto:admin@zaralx.ru">admin@zaralx.ru</a>.
+            </p>
+
+            <p>12.2. В данном документе будут отражены любые изменения политики обработки персональных данных Оператором.
+              Политика действует бессрочно до замены ее новой версией.</p>
+
+            <p>12.3. Актуальная версия Политики в свободном доступе расположена в сети Интернет по адресу <a
+                href="https://fresh.zaralx.ru/info">https://fresh.zaralx.ru/info</a>.</p>
+          </el-collapse-item>
+        </el-collapse>
+      </div>
     </div>
   </div>
-</div>
 </template>
 
 <style scoped>
 h2 {
   @apply text-lg font-medium;
+}
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+h3 {
+  margin-top: 20px;
+}
+ul {
+  padding-left: 20px;
+}
+li {
+  margin-bottom: 5px;
+}
+.highlight {
+  background-color: #151515;
+  padding: 15px;
+  border-radius: 4px;
+  margin: 15px 0;
 }
 </style>
