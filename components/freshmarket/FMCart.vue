@@ -2,7 +2,7 @@
 import {http} from "~/composables/useHttp"
 import FMBranchSelectMap from "~/components/freshmarket/FMBranchSelectMap.vue";
 
-const {cart, putInCart, updateOrders} = useUser()
+const {cart, putInCart, updateOrders, updateUser} = useUser()
 
 const openedBranchSelection = ref(false)
 const selectedBranch = ref(null)
@@ -69,6 +69,7 @@ const buy = async () => {
   cart.value = [];
   opened.value = false;
   await updateOrders();
+  await updateUser()
 }
 
 async function handleMessage(event: MessageEvent) {
