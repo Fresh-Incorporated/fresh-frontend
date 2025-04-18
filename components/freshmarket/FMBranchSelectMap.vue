@@ -372,6 +372,11 @@ onMounted(() => {
 
 
 watch(opened, () => {
+  if (opened.value) {
+    document.body.style.overflow = "hidden";
+  } else {
+    document.body.style.overflow = null;
+  }
   setTimeout(() => {
     updateCanvasSize();
     draw();
