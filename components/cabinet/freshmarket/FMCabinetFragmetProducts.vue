@@ -4,6 +4,7 @@ import { http } from '~/composables/useHttp'
 import { useUser } from '~/composables/useUser'
 import type { Product, ProductHistoryEntry } from '~/types/freshmarket'
 import FMProductHistory from '~/components/freshmarket/FMProductHistory.vue'
+import FMCabinetEditProductMenu from "~/components/cabinet/freshmarket/FMCabinetEditProductMenu.vue";
 
 const { shops, updateShops } = useUser()
 
@@ -26,6 +27,7 @@ const refillWindow = ref(false)
 const productDeleteWindow = ref(false)
 const productHistoryWindow = ref(false)
 const productHistoryLoading = ref(false)
+const productEditWindow = ref(false)
 
 const selectedProduct = ref<Product | null>(null)
 const productHistory = ref<ProductHistoryEntry[]>([])
@@ -161,6 +163,7 @@ const handleProductAction = (product: Product, action: 'refill' | 'history' | 'd
 <template>
   <div
       class="bg-neutral-900 rounded-xl shadow-lg border border-neutral-800 col-span-1 md:col-span-2 lg:col-span-3 xl:col-span-4 2xl:col-span-5">
+    <FMCabinetEditProductMenu v-model="productEditWindow" />
     <FMProductHistory v-model="productHistoryWindow" v-model:loading="productHistoryLoading" :history="productHistory"/>
     <el-dialog
         v-model="productDeleteWindow"
@@ -262,7 +265,7 @@ const handleProductAction = (product: Product, action: 'refill' | 'history' | 'd
                 content="Изменить"
                 placement="top-start"
             >
-              <button class="w-6 h-6 flex justify-center items-center">
+              <button @click="selectedProduct = product; productEditWindow = true" class="w-6 h-6 flex justify-center items-center">
                 <Icon name="uil:pen" size="20"/>
               </button>
             </el-tooltip>
