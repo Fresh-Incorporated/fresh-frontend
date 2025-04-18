@@ -59,7 +59,13 @@ onBeforeUnmount(() => {
         title="Пополнение баланса"
         width="300"
     >
-      <el-input-number v-model="depositValue" placeholder="Value" :min="1" :max="1728" />
+      <div class="flex flex-col gap-2 items-center justify-center">
+        <el-input-number v-model="depositValue" :min="1" :max="1728">
+          <template #suffix>
+            АР
+          </template>
+        </el-input-number>
+      </div>
       <template #footer>
         <div class="flex justify-end">
           <el-button type="primary" @click="deposit">
@@ -70,11 +76,17 @@ onBeforeUnmount(() => {
     </el-dialog>
     <el-dialog
         v-model="openedWithdrawDialog"
-        title="Пополнение баланса"
-        width="300"
+        title="Вывод средств"
+        width="400"
     >
-      <el-input-number v-model="withdrawValue" placeholder="Value" :min="1" :max="1728" />
-      <el-input v-model="withdrawCard" placeholder="Value" :minlength="5" :maxlength="5" />
+      <div class="flex w-full gap-2">
+        <el-input v-model="withdrawCard" placeholder="Номер счёта" :minlength="5" :maxlength="5" :formatter="(value) => value.slice(0, 5)"  :parser="(value) => value.replace(/[^\d]/g, '').slice(0, 5)"/>
+        <el-input-number v-model="withdrawValue" :min="1" :max="1728" class="min-w-32">
+          <template #suffix>
+            АР
+          </template>
+        </el-input-number>
+      </div>
       <template #footer>
         <div class="flex justify-end">
           <el-button type="primary" @click="withdraw">
