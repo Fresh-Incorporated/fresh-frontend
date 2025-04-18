@@ -106,13 +106,7 @@ const draw = () => {
     let coords = original ? JSON.parse(JSON.stringify(original)) : null; // КОПИРУЮ ОБЪЕКТ ЧТОБЫ НЕ ПЕРЕЗАПИСЫВАЛ props
     if (!coords) continue;
 
-
     let lineColor = colors[getNearestBranch(coords.x,coords.z).color];
-
-    if (selectedWorld.value == 'the_end' || selectedWorld.value == 'overworld') {
-      coords.x = coords.x / 8;
-      coords.z = coords.z / 8;
-    }
 
     const branchX = centerX + coords.x;
     const branchY = centerY + coords.z;
@@ -211,11 +205,6 @@ const onMouseDown = (event: MouseEvent) => {
     let coords = original ? JSON.parse(JSON.stringify(original)) : null; // КОПИРУЮ ОБЪЕКТ ЧТОБЫ НЕ ПЕРЕЗАПИСЫВАЛ props
     if (!coords) continue;
 
-    if (selectedWorld.value == 'the_end' || selectedWorld.value == 'overworld') {
-      coords.x = coords.x / 8;
-      coords.z = coords.z / 8;
-    }
-
     const branchX = coords.x;
     const branchY = coords.z;
 
@@ -241,15 +230,8 @@ const onMouseMove = (event: MouseEvent) => {
     let coords = original ? JSON.parse(JSON.stringify(original)) : null; // КОПИРУЮ ОБЪЕКТ ЧТОБЫ НЕ ПЕРЕЗАПИСЫВАЛ props
     if (!coords) continue;
 
-    if (selectedWorld.value == 'the_end' || selectedWorld.value == 'overworld') {
-      coords.x = coords.x / 8;
-      coords.z = coords.z / 8;
-    }
-
     const branchX = coords.x;
     const branchY = coords.z;
-
-
 
     if (Math.abs(mouseX - branchX) < pointSize && Math.abs(mouseY - branchY) < pointSize) {
       canvas.style.cursor = "pointer"
@@ -308,11 +290,6 @@ const onTouchStart = (event: TouchEvent) => {
     const original = _branch.coordinates.find(cord => cord.world == selectedWorld.value)
     let coords = original ? JSON.parse(JSON.stringify(original)) : null; // КОПИРУЮ ОБЪЕКТ ЧТОБЫ НЕ ПЕРЕЗАПИСЫВАЛ props
     if (!coords) continue;
-
-    if (selectedWorld.value == 'the_end' || selectedWorld.value == 'overworld') {
-      coords.x = coords.x / 8;
-      coords.z = coords.z / 8;
-    }
 
     const branchX = coords.x;
     const branchY = coords.z;
