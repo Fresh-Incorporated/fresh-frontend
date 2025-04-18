@@ -20,15 +20,18 @@ const props = defineProps({
 
 // Настройки для канваса
 const canvasRef = ref<HTMLCanvasElement | null>(null);
-const scale = ref(5); // Масштаб камеры
+const scale = ref(2); // Масштаб камеры
 const offsetX = ref(0); // Сдвиг камеры по X
 const offsetY = ref(0); // Сдвиг камеры по Y
 const isSelected = ref(false)
+const pointSize = 5
+const lineWidth = 3
 
 let isPanning = false; // Состояние перемещения камеры
 let lastMouseX = 0;
 let lastMouseY = 0;
 
+const cursorPoint = ref({x: 0, y: 0});
 
 const draw = () => {
   if (!canvasRef.value) return;
@@ -56,6 +59,7 @@ const draw = () => {
   if (selectedWorld.value == 'nether') {
     // Рисуем оси
     ctx.strokeStyle = colors.green; // Линия X положительная
+    ctx.lineWidth = lineWidth;
     ctx.beginPath();
     ctx.moveTo(centerX, centerY);
     ctx.lineTo(canvas.width, centerY);
@@ -81,17 +85,17 @@ const draw = () => {
 
     ctx.beginPath();
     ctx.fillStyle = "#7A494A";
-    ctx.arc(centerX, centerY, 5, 0, Math.PI * 2);
+    ctx.arc(centerX, centerY, pointSize * 2.5, 0, Math.PI * 2);
     ctx.fill();
   } else if (selectedWorld.value == 'overworld') {
     ctx.beginPath();
     ctx.fillStyle = "#59BA53";
-    ctx.arc(centerX, centerY, 5, 0, Math.PI * 2);
+    ctx.arc(centerX, centerY, pointSize * 2.5, 0, Math.PI * 2);
     ctx.fill();
   } else {
     ctx.beginPath();
     ctx.fillStyle = "#E6EEAC";
-    ctx.arc(centerX, centerY, 5, 0, Math.PI * 2);
+    ctx.arc(centerX, centerY, pointSize * 2.5, 0, Math.PI * 2);
     ctx.fill();
   }
 
@@ -138,15 +142,15 @@ const draw = () => {
 
     ctx.beginPath();
     ctx.fillStyle = lineColor;
-    ctx.arc(branchX, branchY, 2, 0, Math.PI * 2);
+    ctx.arc(branchX, branchY, pointSize, 0, Math.PI * 2);
     if (selectedWorld.value != 'nether') {
-      ctx.arc(branchX, branchY, 1, 0, Math.PI * 2, true);
+      ctx.arc(branchX, branchY, pointSize / 2, 0, Math.PI * 2, true);
     }
     ctx.fill('evenodd');
 
     ctx.fillStyle = "#fff";
-    ctx.font = "3px montserrat";
-    ctx.fillText(branch.name, branchX - (branch.name.length * 0.8), branchY - 3);
+    ctx.font = (pointSize * 2) + "px montserrat";
+    ctx.fillText(branch.name, branchX - (branch.name.length * (pointSize - 2)), branchY - pointSize - 2);
   }
 
   ctx.restore();
@@ -174,8 +178,8 @@ const onWheel = (event: WheelEvent) => {
   const scaleDelta = Math.exp(delta);
   scale.value *= scaleDelta;
 
-  if (scale.value > 10) scale.value = 10;
-  else if (scale.value < 2) scale.value = 2;
+  if (scale.value > 5) scale.value = 5;
+  else if (scale.value < 1) scale.value = 1;
   else {
     offsetX.value -= mouseX * (scaleDelta - 1);
     offsetY.value -= mouseY * (scaleDelta - 1);
@@ -215,7 +219,7 @@ const onMouseDown = (event: MouseEvent) => {
     const branchX = coords.x;
     const branchY = coords.z;
 
-    if (Math.abs(mouseX - branchX) < 2.5 && Math.abs(mouseY - branchY) < 2.5) {
+    if (Math.abs(mouseX - branchX) < pointSize && Math.abs(mouseY - branchY) < pointSize) {
       branch.value = _branch
       isSelected.value = true;
     }
@@ -247,7 +251,7 @@ const onMouseMove = (event: MouseEvent) => {
 
 
 
-    if (Math.abs(mouseX - branchX) < 2.5 && Math.abs(mouseY - branchY) < 2.5) {
+    if (Math.abs(mouseX - branchX) < pointSize && Math.abs(mouseY - branchY) < pointSize) {
       canvas.style.cursor = "pointer"
       break;
     } else {
@@ -313,7 +317,7 @@ const onTouchStart = (event: TouchEvent) => {
     const branchX = coords.x;
     const branchY = coords.z;
 
-    if (Math.abs(mouseX - branchX) < 2.5 && Math.abs(mouseY - branchY) < 2.5) {
+    if (Math.abs(mouseX - branchX) < pointSize && Math.abs(mouseY - branchY) < pointSize) {
       branch.value = _branch;
       isSelected.value = true;
     }
@@ -333,7 +337,7 @@ const logCoordinates = (event) => {
     mouseY = (event.touches[0].clientY - rect.top - canvas.height / 2 - offsetY.value) / scale.value;
   }
 
-  // console.log(`Координаты относительно круга: X: ${mouseX.toFixed(2)}, Y: ${mouseY.toFixed(2)}`);
+  cursorPoint.value = {x: mouseX, y: mouseY};
 };
 
 const onMouseUp = () => {
@@ -475,6 +479,10 @@ function getNearestBranch(x, z) {
           <el-option label="Верхний мир" value="overworld"/>
           <el-option label="Энд" value="the_end"/>
         </el-select>
+      </div>
+      <div class="fixed bottom-2 right-2">
+        <p>X: {{Math.floor(cursorPoint.x)}}</p>
+        <p>Z: {{Math.floor(cursorPoint.y)}}</p>
       </div>
       <canvas ref="canvasRef"></canvas>
 
