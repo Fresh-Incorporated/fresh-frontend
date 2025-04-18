@@ -16,19 +16,21 @@ async function updateShopsList() {
 }
 
 const accept = async (id: number) => {
-  await http.post(`freshmarket/work/secretary/shop/${id}/accept`)
-  await updateShopsList()
+  await http.post(`freshmarket/work/secretary/shop/${id}/accept`).finally(async () => {
+    await updateShopsList();
+  })
 }
 
 const decline = async (id: number) => {
-  await http.post(`freshmarket/work/secretary/shop/${id}/decline`)
-  await updateShopsList()
+  await http.post(`freshmarket/work/secretary/shop/${id}/decline`).finally(async () => {
+    await updateShopsList();
+  })
 }
 </script>
 
 <template>
-<div class="grid grid-cols-5 gap-4 p-4">
-  <div v-for="shop in shops" class="flex flex-col">
+  <div class="grid grid-cols-5 gap-4 p-4">
+    <div v-for="shop in shops" class="flex flex-col">
     <img :src="shop.icon" class="w-full aspect-square" alt="">
     <p>Название: <strong>{{shop.name}}</strong></p>
     <p>Описание: {{shop.description?.length > 0 ? shop.description : 'Отсутствует'}}</p>
@@ -46,13 +48,7 @@ const decline = async (id: number) => {
         </template>
         <template #actions="{ confirm, cancel }">
           <el-button size="small" @click="cancel">Отмена</el-button>
-          <el-button
-              type="danger"
-              size="small"
-              @click="confirm"
-          >
-            Подтвердить
-          </el-button>
+          <el-button size="small" type="danger" @click="confirm">Подтвердить</el-button>
         </template>
       </el-popconfirm>
       <el-popconfirm

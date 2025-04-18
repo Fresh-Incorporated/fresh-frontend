@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {http} from "~/composables/useHttp"
-import FMProductHistory from "~/components/freshmarket/work/FMProductHistory.vue";
+import FMProductHistory from "~/components/freshmarket/FMProductHistory.vue";
 
 definePageMeta({
   layout: 'freshmarketwork'
@@ -10,29 +10,26 @@ const {user} = useUser()
 
 const orders = ref([])
 
-onMounted(async () => {
+const updateData = async () => {
   const responseData = (await http.get(`freshmarket/work/delivery/list/orders`))?.data;
   orders.value = responseData?.orders;
+}
+
+onMounted(async () => {
+  await updateData();
 })
 
 const accept = async (id: number) => {
-  const response = await http.post(`freshmarket/work/delivery/order/${id}/deliver`)
-  const index = orders.value.findIndex(item => item?.id === id);
-  if (index !== -1) {
-    orders.value[index] = response.data.order;
-  } else {
-    orders.value.push(response.data.order)
-  }
+  await http.post(`freshmarket/work/delivery/order/${id}/deliver`).finally(async () => {
+    await updateData();
+  })
+
 }
 
 const finish = async (id: number) => {
-  const response = await http.post(`freshmarket/work/delivery/order/${id}/deliver/end`)
-  const index = orders.value.findIndex(item => item?.id === id);
-  if (index !== -1) {
-    orders.value[index] = response.data.order;
-  } else {
-    orders.value.push(response.data.order)
-  }
+  await http.post(`freshmarket/work/delivery/order/${id}/deliver/end`).finally(async () => {
+    await updateData();
+  })
 }
 </script>
 

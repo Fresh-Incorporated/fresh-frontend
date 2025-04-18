@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {http} from "~/composables/useHttp"
-import FMProductHistory from "~/components/freshmarket/work/FMProductHistory.vue";
+import FMProductHistory from "~/components/freshmarket/FMProductHistory.vue";
 
 definePageMeta({
   layout: 'freshmarketwork'
@@ -78,12 +78,14 @@ const confirm = async () => {
         <p>Кол-во слотов: {{ product.slots_count }}</p>
         <p>Ячейка: {{ product.cell?.letter }}-{{ product.cell?.number }}</p>
         <p>Склад: {{ product.cell?.location?.name }}</p>
-        <el-button v-if="product?.currentRefiller?.id == user?.id"
-                   @click="selectedId = product.id; refillDialog = true">Открыть меню
-        </el-button>
-        <el-button @click="accept(product.id)"
-                   :disabled="product.refill_status != 2 || product?.currentRefiller != null">Принять
-        </el-button>
+        <div class="flex flex-col gap-1">
+          <el-button v-if="product?.currentRefiller?.id == user?.id"
+                     @click="selectedId = product.id; refillDialog = true">Открыть меню
+          </el-button>
+          <el-button @click="accept(product.id)" type="success" plain
+                     :disabled="product.refill_status != 2 || product?.currentRefiller != null">Принять
+          </el-button>
+        </div>
       </div>
     </div>
   </div>

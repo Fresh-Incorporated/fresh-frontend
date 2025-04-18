@@ -34,13 +34,13 @@ const minecraftIcon = ref()
 const name = ref("")
 const description = ref("")
 const stackCount = ref(1)
-const stackCountMarks = reactive<Marks>({
+const stackCountMarks = reactive({
   1: '1',
   16: '16',
   64: '64',
 })
 const slotsCount = ref(1)
-const slotsCountMarks = reactive<Marks>({
+const slotsCountMarks = reactive({
   1: '1',
   27: '27',
 })

@@ -5,7 +5,7 @@ import FMBranchSelectMap from "~/components/freshmarket/FMBranchSelectMap.vue";
 const {cart, putInCart, updateOrders} = useUser()
 
 const openedBranchSelection = ref(false)
-const selectedBranch = ref(-1)
+const selectedBranch = ref(null)
 const branchs = ref([])
 
 const opened = ref(false)
@@ -41,16 +41,40 @@ const deliveryCordsData = ref({
   y: 64,
   z: 0
 })
-
+const openedDepositDialog = ref(false)
 const buy = async () => {
+  if (selectedBranch.value == null) {
+    return ElMessage.error("Вы не выбрали филиал!");
+  }
   await http.post("/freshmarket/order/new/instant", {
     type: deliveryType.value,
-    branch: selectedBranch.value,
+    branch: selectedBranch.value.id,
     products: cart.value.map(({ id, picked }) => ({ id, count: picked }))
+  }).catch(async (error) => {
+    const data = error.response.data;
+    if (data.url) {
+      await navigateTo(data.url, {
+        open: {
+          target: '_blank',
+          windowFeatures: {
+            width: 500,
+            height: 700
+          }
+        }
+      })
+      openedDepositDialog.value = false;
+    }
+    throw new Error("need money?")
   })
   cart.value = [];
   opened.value = false;
   await updateOrders();
+}
+
+async function handleMessage(event: MessageEvent) {
+  if (event.data === 'payment_closed') {
+    await buy()
+  }
 }
 
 watch(openedBranchSelection, (newValue) => {
@@ -58,7 +82,12 @@ watch(openedBranchSelection, (newValue) => {
 })
 
 onMounted(async () => {
+  window.addEventListener('message', handleMessage)
   branchs.value = (await http.get("/freshmarket/branchs")).data
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('message', handleMessage)
 })
 </script>
 
@@ -74,15 +103,15 @@ onMounted(async () => {
         <div class="flex-1">
           <el-scrollbar height="100%">
             <div v-for="product in cart" class="bg-neutral-900 flex rounded-lg p-2 gap-2 mb-2 relative">
-              <div class="w-24 h-24">
+              <div class="min-w-24 max-w-24 min-h-24 max-h-24">
                 <img :src="product.icon" class="w-full h-full rounded-lg" alt="">
               </div>
-              <div class="flex-1">
+              <div class="w-full h-full flex flex-col">
                 <p class="text-lg font-onest">{{ product.name }}</p>
-                <p class="text-xs line-clamp-4">
-                  {{ product.description }}{{ product.description }}{{ product.description }}</p>
+                <p class="text-xs line-clamp-6 break-all text-neutral-400">
+                  {{ product.description }}</p>
               </div>
-              <div class="h-full w-24">
+              <div class="h-full min-w-24">
                 <div class="flex w-full">
                   <button @click="putInCart(product, -1)"
                           class="w-6 h-6 rounded-lg flex justify-center items-center text-xs bg-neutral-800">
@@ -93,6 +122,10 @@ onMounted(async () => {
                   <button @click="putInCart(product, 1)"
                           class="w-6 h-6 rounded-lg flex justify-center items-center text-xs bg-neutral-800">
                     <i class="pi pi-plus"></i></button>
+                </div>
+                <div class="font-montserrat absolute bottom-8 right-4 text-right">
+                  <!--                  <p class="text-sm font-medium">Цена</p>-->
+                  <p class="text-neutral-400 font-rubik text-sm">{{product.slots_count * product.picked}} слотов</p>
                 </div>
                 <div class="font-montserrat absolute bottom-2 right-4 text-right">
 <!--                  <p class="text-sm font-medium">Цена</p>-->
@@ -107,7 +140,7 @@ onMounted(async () => {
             <el-segmented v-model="deliveryType" :options="deliveryTypes" block />
             <transition>
               <div v-if="deliveryType === 'branch'" class="mt-2 w-full">
-                <el-button @click="openedBranchSelection = true; opened = false;" class="w-full" size="small" :type="branchs.find(b => b.id == selectedBranch) ? 'success' : 'primary'">{{ branchs.find(b => b.id == selectedBranch) ? `Выбран филиал: ${branchs.find(b => b.id == selectedBranch)?.name}` : 'Выбрать филиал' }}</el-button>
+                <el-button @click="openedBranchSelection = true; opened = false;" class="w-full" size="small" :type="branchs.find(b => b.id == selectedBranch?.id) ? 'success' : 'primary'">{{ selectedBranch ? `Выбран филиал: ${selectedBranch?.name}` : 'Выбрать филиал' }}</el-button>
               </div>
               <div v-else-if="deliveryType === 'cords'" class="mt-2 w-full flex">
                 <el-select
@@ -131,12 +164,16 @@ onMounted(async () => {
           </div>
           <div class="bg-neutral-900 rounded-lg p-4 my-4">
             <div class="font-rubik flex text-base font-extralight opacity-75">
+              <p class="flex-1">Товары, {{cart.reduce((sum, product) => sum + product.picked, 0)}} шт.</p>
+              <p>{{ cart.reduce((sum, product) => sum + product.price * product.picked, 0) }} АР</p>
+            </div>
+            <div class="font-rubik flex text-base font-extralight opacity-75">
               <p class="flex-1">Доставка</p>
               <p>Бесплатно</p>
             </div>
             <div class="font-rubik flex text-base font-extralight opacity-75">
-              <p class="flex-1">Товары, {{cart.reduce((sum, product) => sum + product.picked, 0)}} шт.</p>
-              <p>{{ cart.reduce((sum, product) => sum + product.price * product.picked, 0) }} АР</p>
+              <p class="flex-1">Упаковка [На {{cart.reduce((sum, product) => sum + product.slots_count * product.picked, 0)}} слотов]</p>
+              <p>Бесплатно</p>
             </div>
             <el-divider border-style="dashed" />
             <div class="font-rubik flex text-2xl">
