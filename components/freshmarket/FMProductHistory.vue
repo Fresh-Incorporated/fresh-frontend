@@ -24,6 +24,7 @@ const props = defineProps({
               :type="activity.action_type === 'created' ? 'success' :
                    activity.action_type === 'accepted' ? 'success' :
                    activity.action_type === 'declined' ? 'danger' :
+                   activity.action_type === 'edited' ? 'warning' :
                    ['refill_started', 'refill_waiting', 'refill_picked', 'refill_completed'].includes(activity.action_type) ? 'primary' : ''"
           >
             <div class="transform -translate-y-1">
@@ -97,6 +98,15 @@ const props = defineProps({
                   <p>{{activity?.data?.count}} ед. товара</p>
                 </div>
                 <p>Сообщение: <strong class="text-neutral-400">{{activity.message?.length > 0 ? activity.message : "Сообщение отсутствует"}}</strong></p>
+              </div>
+              <div v-else-if="activity.action_type === 'edited'">
+                <p class="text-lg font-medium text-yellow-500">Товар изменён</p>
+                <div class="flex gap-2">
+                  <p>Пользователь:</p>
+                  <img :src="useXIS().getFullFace(activity.user.uuid)" class="w-4 h-4" alt="">
+                  <p>{{activity.user.nickname}}</p>
+                </div>
+                <p>{{activity.data}}</p>
               </div>
               <div v-else>
                 <p class="text-lg font-medium text-neutral-500">{{activity.action_type}}</p>
