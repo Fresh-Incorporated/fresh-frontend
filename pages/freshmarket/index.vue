@@ -70,7 +70,7 @@ const searchInput = async () => {
     <ProjectHead></ProjectHead>
     <FMCartButton/>
     <div class="md:w-11/12 mx-auto mt-3">
-      <el-affix :offset="55">
+      <el-affix :offset="55" :z-index="20">
         <div class="bg-neutral-900/[.9] backdrop-blur rounded-b-lg shadow-lg p-2 flex gap-2 border border-neutral-800">
           <el-input placeholder="Поиск по названию" v-model="search" @input="searchInput" @change="changedFilters" />
           <el-select @change="changedFilters"
