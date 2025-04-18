@@ -109,7 +109,7 @@ const slotsCountMarks = reactive({
         <el-input
             v-model="newName"
             minlength="3"
-            maxlength="16"
+            maxlength="24"
             placeholder="Название товара"
             show-word-limit
             type="text"

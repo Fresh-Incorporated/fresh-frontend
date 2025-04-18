@@ -72,7 +72,7 @@ const decline = async () => {
       <div v-for="product in products" class="flex flex-col">
         <img :src="product.icon" class="w-full aspect-square" alt="">
         <p class="font-semibold">{{product.name}}</p>
-        <p>{{product.description}}</p>
+        <p class="break-all">{{product.description}}</p>
         <p>Кол-во в стаке: {{product.stack_count}}</p>
         <p>Кол-во слотов: {{product.slots_count}}</p>
         <p>Цена: {{product.price}} АР</p>
