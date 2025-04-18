@@ -2,6 +2,7 @@
 import IconUpload from "~/components/global/upload/IconUpload.vue";
 import {http} from "~/composables/useHttp";
 
+const {shops, updateShops} = useUser()
 const shop = defineModel()
 
 const props = defineProps({
@@ -9,8 +10,7 @@ const props = defineProps({
   icon: String,
   name: String,
   description: String,
-  tag: String,
-  updateShops: Function
+  tag: String
 })
 
 const newIcon = ref()
@@ -26,8 +26,6 @@ watch(props, () => {
 
   loading.value = false;
 })
-
-
 
 const inEdit = computed(() => {
   if (newName.value != props.name) return true
@@ -64,7 +62,7 @@ const editShop = async () => {
     console.error('Ошибка при создании магазина:', error);
   } finally {
     loading.value = false;
-    await props.updateShops();
+    await updateShops();
   }
 };
 
@@ -78,9 +76,13 @@ const cancel = async () => {
 </script>
 
 <template>
-  <div class="bg-neutral-900 rounded-xl shadow-lg border border-neutral-800 h-64 col-span-2 p-3 flex flex-col gap-2">
+  <div class="bg-neutral-900 rounded-xl shadow-lg border border-neutral-800 h-64 col-span-2 p-3 flex flex-col gap-2 relative">
+    <div class="absolute z-10 bg-neutral-950/[.75] w-full h-full top-0 left-0 rounded-xl flex flex-col justify-center items-center" v-if="shops.find(s => s.id === props.shop)?.verify_status == 0">
+      <p class="text-red-500 text-xl font-semibold">Редактирование не доступно</p>
+      <p>Магазин на проверке</p>
+    </div>
     <div class="flex gap-2">
-      <IconUpload v-model="newIcon" :current-image="icon" :show-current-image="newIcon == null" />
+      <IconUpload v-model="newIcon" :current-image="icon" :show-current-image="newIcon == null"/>
       <div class="w-full flex flex-col">
         <el-input
             v-model="newName"
@@ -90,6 +92,7 @@ const cancel = async () => {
             show-word-limit
             type="text"
             class="w-full"
+            :class="newName == props.name ? '' : 'edited'"
         />
         <el-input
             v-model="newDescription"
@@ -102,6 +105,7 @@ const cancel = async () => {
             class="w-full max-h-40 overflow-y-auto mt-auto mb-0"
             :rows="7"
             resize="none"
+            :class="newDescription == props.description ? '' : 'edited'"
         />
       </div>
     </div>
@@ -118,11 +122,39 @@ const cancel = async () => {
       >
         <template #prepend>fresh.zaralx.ru/freshmarket/shop/</template>
       </el-input>
-      <el-button :plain="!inEdit" type="success" :disabled="!inEdit" @click="editShop()" :loading="loading">Сохранить</el-button>
+      <el-popconfirm
+          confirm-button-text="Подтвердить"
+          cancel-button-text="Отмена"
+          hide-icon
+          title="Сохранить изменения? Магазин отправится на проверку, и товары станут недоступны для покупки."
+          @confirm="editShop"
+          @cancel="cancel"
+          :width="300"
+      >
+        <template #reference>
+          <el-button plain type="success" :disabled="!inEdit" :loading="loading">Сохранить</el-button>
+        </template>
+        <template #actions="{ confirm, cancel }">
+          <el-button size="small" @click="cancel">Отмена</el-button>
+          <el-button
+              type="danger"
+              size="small"
+              @click="confirm"
+          >
+            Сохранить
+          </el-button>
+        </template>
+      </el-popconfirm>
     </div>
   </div>
 </template>
 
 <style scoped>
+:deep(.edited .el-input__wrapper:not(:focus-within)) {
+  box-shadow: 0 0 0 1px var(--el-color-warning) inset !important;
+}
 
+:deep(.edited .el-textarea__inner:not(:focus-within)) {
+  box-shadow: 0 0 0 1px var(--el-color-warning) inset !important;
+}
 </style>
