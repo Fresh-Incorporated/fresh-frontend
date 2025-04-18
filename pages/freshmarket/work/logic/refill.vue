@@ -73,10 +73,11 @@ const confirm = async () => {
       <div v-for="product in products" class="flex flex-col">
         <img :src="product.icon" class="w-full aspect-square" alt="">
         <p class="font-semibold">{{ product.name }}</p>
-        <p>{{ product.description }}</p>
+        <p class="break-all">{{ product.description }}</p>
         <p>Кол-во в стаке: {{ product.stack_count }}</p>
         <p>Кол-во слотов: {{ product.slots_count }}</p>
-        <p>Ячейка: {{ product.cell?.letter }}-{{ product.cell?.number }}</p>
+        <p>Ячейка Пополнения: {{ product.refillCell?.letter }}-{{ product.refillCell?.number }}</p>
+        <p>Ячейка Склада: {{ product.cell?.letter }}-{{ product.cell?.number }}</p>
         <p>Склад: {{ product.cell?.location?.name }}</p>
         <div class="flex flex-col gap-1">
           <el-button v-if="product?.currentRefiller?.id == user?.id"
