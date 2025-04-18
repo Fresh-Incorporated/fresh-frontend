@@ -24,8 +24,8 @@ const props = defineProps({
               :type="activity.action_type === 'created' ? 'success' :
                    activity.action_type === 'accepted' ? 'success' :
                    activity.action_type === 'declined' ? 'danger' :
-                   activity.action_type === 'edited' ? 'warning' :
-                   ['refill_started', 'refill_waiting', 'refill_picked', 'refill_completed'].includes(activity.action_type) ? 'primary' : ''"
+                   activity.action_type === 'recheck' ? 'warning' :
+                   ['refill_started', 'refill_waiting', 'refill_picked', 'refill_completed', 'edited'].includes(activity.action_type) ? 'primary' : ''"
           >
             <div class="transform -translate-y-1">
               <div v-if="activity.action_type === 'created'">
@@ -99,8 +99,16 @@ const props = defineProps({
                 </div>
                 <p>Сообщение: <strong class="text-neutral-400">{{activity.message?.length > 0 ? activity.message : "Сообщение отсутствует"}}</strong></p>
               </div>
+              <div v-else-if="activity.action_type === 'recheck'">
+                <p class="text-lg font-medium text-yellow-500">Отправлено на проверку</p>
+                <div class="flex gap-2">
+                  <p>Пользователь:</p>
+                  <img :src="useXIS().getFullFace(activity.user.uuid)" class="w-4 h-4" alt="">
+                  <p>{{activity.user.nickname}}</p>
+                </div>
+              </div>
               <div v-else-if="activity.action_type === 'edited'">
-                <p class="text-lg font-medium text-yellow-500">Товар изменён</p>
+                <p class="text-lg font-medium text-blue-500">Товар изменён</p>
                 <div class="flex gap-2">
                   <p>Пользователь:</p>
                   <img :src="useXIS().getFullFace(activity.user.uuid)" class="w-4 h-4" alt="">
