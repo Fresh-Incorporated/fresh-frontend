@@ -167,7 +167,7 @@ watch(shops, (shops) => {
 
 <template>
   <div
-      class="bg-neutral-900 rounded-xl shadow-lg border border-neutral-800 col-span-1 md:col-span-2 lg:col-span-3 xl:col-span-4 2xl:col-span-5">
+      class="bg-neutral-50 dark:bg-neutral-900 rounded-xl shadow-lg border border-neutral-200 dark:border-neutral-800 col-span-1 md:col-span-2 lg:col-span-3 xl:col-span-4 2xl:col-span-5">
     <FMCabinetEditProductMenu
         v-model="productEditWindow"
         v-if="selectedProduct != null"
@@ -240,7 +240,7 @@ watch(shops, (shops) => {
       <div v-for="product in currentShop?.products"
            :key="product.id"
            :class="[
-         'w-full h-full aspect-square border p-2 rounded-lg shadow bg-neutral-950/[0.25] relative flex flex-col gap-2',
+         'w-full h-full aspect-square border p-2 rounded-lg shadow bg-neutral-200 dark:bg-neutral-950/[0.25] relative flex flex-col gap-2',
          notificationByProductId.get(product.id)?.type === 'info' ? 'border-blue-500' :
          notificationByProductId.get(product.id)?.type === 'warning' ? 'border-yellow-500' :
          notificationByProductId.get(product.id)?.type === 'danger' ? 'border-red-500' :
@@ -341,9 +341,9 @@ watch(shops, (shops) => {
           </el-tooltip>
         </div>
         <div class="flex justify-center items-center relative">
-          <div v-if="product.refill_status == 1" class="absolute w-1/2 aspect-square bg-black/[0.75] rounded-lg flex flex-col justify-center items-center">
-            <p class="text-yellow-400 font-semibold">Пополнение</p>
-            <p>Ячейка: <strong class="absolute blur-sm">{{ product?.refillCell?.letter }}-{{ product?.refillCell?.number }}</strong><strong>{{ product?.refillCell?.letter }}-{{ product?.refillCell?.number }}</strong></p>
+          <div v-if="product.refill_status == 1" class="absolute w-1/2 aspect-square bg-neutral-400/[0.75] dark:bg-black/[0.75] rounded-lg flex flex-col justify-center items-center">
+            <p class="text-orange-700 dark:text-yellow-400 font-semibold">Пополнение</p>
+            <p>Ячейка: <strong class="absolute blur-sm text-blue-700/[0.5] dark:text-black">{{ product?.refillCell?.letter }}-{{ product?.refillCell?.number }}</strong><strong class="text-blue-700 dark:text-black">{{ product?.refillCell?.letter }}-{{ product?.refillCell?.number }}</strong></p>
             <el-button @click="handleProductAction(product, 'refill')" class="absolute bottom-4" size="small" type="success" plain>Открыть</el-button>
           </div>
           <img :src="product.icon" class="w-1/2 aspect-square" alt="">

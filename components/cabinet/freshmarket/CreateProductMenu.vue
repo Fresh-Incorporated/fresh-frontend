@@ -140,12 +140,12 @@ watch(file, (newValue) => {
         <SelectMinecraftImage v-model="minecraftIcon" />
       </el-drawer>
       <div class="flex flex-col">
-        <p class="mt-2 text-neutral-200">Иконка товара</p>
+        <p class="mt-2 text-neutral-600 dark:text-neutral-200">Иконка товара</p>
         <IconUpload unique="create-product" v-model="file" :current-image="`https://img.zaralx.ru/v1/minecraft/${minecraftIcon}`" :show-current-image="minecraftIcon" />
         <el-button @click="showMinecraftImageSelect = true" class="mt-2">
           Выбрать предмет из Minecraft
         </el-button>
-        <p class="mt-2 text-neutral-200">Название товара</p>
+        <p class="mt-2 text-neutral-600 dark:text-neutral-200">Название товара</p>
         <el-input
             v-model="name"
             minlength="3"
@@ -154,7 +154,7 @@ watch(file, (newValue) => {
             show-word-limit
             type="text"
         />
-        <p class="mt-2 text-neutral-200">Описание товара</p>
+        <p class="mt-2 text-neutral-600 dark:text-neutral-200">Описание товара</p>
         <el-input
             v-model="description"
             maxlength="240"
@@ -164,11 +164,11 @@ watch(file, (newValue) => {
             :parser="(value) => value.replace(/[\r\n]+/g, '')"
             type="textarea"
         />
-        <p class="mt-2 text-neutral-200">Кол-во едениц товара в 1 слоте</p>
+        <p class="mt-2 text-neutral-600 dark:text-neutral-200">Кол-во едениц товара в 1 слоте</p>
         <el-slider v-model="stackCount" :step="1" :max="64" :min="1" :marks="stackCountMarks" />
-        <p class="mt-4 text-neutral-200">Кол-во слотов которые занимает единица товара</p>
+        <p class="mt-4 text-neutral-600 dark:text-neutral-200">Кол-во слотов которые занимает единица товара</p>
         <el-slider v-model="slotsCount" :step="1" :max="27" :min="1" :marks="slotsCountMarks" />
-        <p class="mt-4 text-neutral-200">Цена товара</p>
+        <p class="mt-4 text-neutral-600 dark:text-neutral-200">Цена товара</p>
         <el-input-number v-model="price" :step="1" :min="1" :max="1000">
           <template #suffix>
             АР

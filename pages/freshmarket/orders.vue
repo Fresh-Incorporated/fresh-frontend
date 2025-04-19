@@ -51,7 +51,7 @@ const history = ref([])
   <div class="px-2 md:px-16 my-4 md:my-8">
     <h2 class="text-xl font-onest">Текущие доставки</h2>
     <div v-if="orders?.orders.filter(o => o.status < 5)?.length == 0">
-      <el-empty description="Похоже, тут ничего нет :(">
+      <el-empty class="invert dark:invert-0" description="Похоже, тут ничего нет :(">
         <template #description>
           <p class="text-neutral-500 text-sm">Похоже, тут ничего нет :(
             <br>Время сделать новый заказ!</p>
@@ -59,25 +59,25 @@ const history = ref([])
       </el-empty>
     </div>
     <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 mt-1">
-      <div class="bg-neutral-900 rounded-lg shadow-lg border border-neutral-800 flex flex-col" v-for="order in orders?.orders.filter(o => o.status < 5).sort((a, b) => a.status < b.status ? -1 : 1)">
+      <div class="bg-neutral-50 dark:bg-neutral-900 rounded-lg shadow-lg border border-neutral-200 dark:border-neutral-800 flex flex-col" v-for="order in orders?.orders.filter(o => o.status < 5).sort((a, b) => a.status < b.status ? -1 : 1)">
         <div class="p-2">
           <div class="flex">
-            <p class="font-onest text-neutral-500 font-medium"><i class="pi pi-warehouse text-sm"></i>  ПУНКТ ВЫДАЧИ ЗАКАЗОВ</p>
+            <p class="font-onest text-neutral-700 dark:text-neutral-500 font-medium"><i class="pi pi-warehouse text-sm"></i>  ПУНКТ ВЫДАЧИ ЗАКАЗОВ</p>
             <div class="flex-1"></div>
             <div>
-              <div v-if="order?.status == 0" class="bg-neutral-800/[0.25] border border-neutral-800 rounded-lg px-2 py-0.5 text-sm text-neutral-300">Ожидает принятия</div>
-              <div v-else-if="order?.status == 1" class="bg-blue-500/[0.25] border border-blue-500/[0.75] rounded-lg px-2 py-0.5 text-sm text-blue-300">Собираем</div>
-              <div v-else-if="order?.status == 2" class="bg-yellow-800/[0.25] border border-yellow-800 rounded-lg px-2 py-0.5 text-sm text-orange-400">Ищем курьера</div>
-              <div v-else-if="order?.status == 3" class="bg-amber-800/[0.25] border border-amber-800 rounded-lg px-2 py-0.5 text-sm text-orange-300">Доставляем</div>
-              <div v-else-if="order?.status == 4" class="bg-green-500/[0.25] border border-green-500 rounded-lg px-2 py-0.5 text-sm text-green-300">Доставлен</div>
+              <div v-if="order?.status == 0" class="bg-neutral-200 dark:bg-neutral-800/[0.25] border border-neutral-300 dark:border-neutral-800 rounded-lg px-2 py-0.5 text-sm text-neutral-700 dark:text-neutral-300">Ожидает принятия</div>
+              <div v-else-if="order?.status == 1" class="bg-blue-200 dark:bg-blue-500/[0.25] border border-blue-300 dark:border-blue-500/[0.75] rounded-lg px-2 py-0.5 text-sm text-blue-700 dark:text-blue-300">Собираем</div>
+              <div v-else-if="order?.status == 2" class="bg-yellow-200 dark:bg-yellow-800/[0.25] border border-yellow-400 dark:border-yellow-800 rounded-lg px-2 py-0.5 text-sm text-orange-700 dark:text-orange-400">Ищем курьера</div>
+              <div v-else-if="order?.status == 3" class="bg-amber-200 dark:bg-amber-800/[0.25] border border-amber-300 dark:border-amber-800 rounded-lg px-2 py-0.5 text-sm text-orange-700 dark:text-orange-300">Доставляем</div>
+              <div v-else-if="order?.status == 4" class="bg-green-300 dark:bg-green-500/[0.25] border border-green-400 dark:border-green-500 rounded-lg px-2 py-0.5 text-sm text-green-700 dark:text-green-300">Доставлен</div>
             </div>
           </div>
           <div class="flex gap-2 items-end">
-            <button @click="branchInfo = order?.branch; openedBranchInfo = true" class="text-neutral-200 hover:underline">Филиал: {{order?.branch?.name}}</button>
+            <button @click="branchInfo = order?.branch; openedBranchInfo = true" class="dark:text-neutral-200 hover:underline">Филиал: {{order?.branch?.name}}</button>
           </div>
-          <p v-if="order?.status == 4" class="text-neutral-200">Ячейка: <span class="text-blue-500">{{order?.branchCell?.letter}}-{{order?.branchCell?.number}}</span></p>
+          <p v-if="order?.status == 4" class="text-neutral-500 dark:text-neutral-200">Ячейка: <span class="text-blue-500">{{order?.branchCell?.letter}}-{{order?.branchCell?.number}}</span></p>
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 my-2 gap-2">
-            <div v-for="product in order?.products" class="border border-neutral-800 rounded-lg flex gap-2">
+            <div v-for="product in order?.products" class="border border-neutral-300 dark:border-neutral-800 rounded-lg flex gap-2">
               <div class="w-12 h-12 aspect-square">
                 <img :src="orders?.products?.find(p => p.id == product.id)?.icon" class="w-12 h-12 aspect-square" alt="">
               </div>
@@ -89,13 +89,13 @@ const history = ref([])
           </div>
         </div>
 
-        <div class="border-t border-neutral-800 p-2 flex gap-4 mt-auto mb-0">
+        <div class="border-t border-neutral-300 dark:border-neutral-800 p-2 flex gap-4 mt-auto mb-0">
           <p>Цена: <strong class="text-blue-500">{{order?.price}} АР</strong></p>
           <div class="flex-1"></div>
-          <p class="text-neutral-300">{{order?.data?.products?.reduce((sum, product) => sum + product.count, 0)}} товар</p>
-          <div>
-            <div class="absolute blur-lg animate-ping">
-              <el-button v-if="order.status === 4" size="small" type="success" plain disabled class="!cursor-default">Подтвердить получение</el-button>
+          <p class="text-neutral-700 dark:text-neutral-300">{{order?.data?.products?.reduce((sum, product) => sum + product.count, 0)}} товар</p>
+          <div class="relative">
+            <div v-if="order.status === 4" class="absolute w-full h-full blur-lg animate-ping">
+              <div class="w-full h-full opacity-50 bg-green-500 dark:bg-green-900"></div>
             </div>
             <el-button v-if="order.status === 4" @click="confirm(order.id)" size="small" type="success" plain class="relative">Подтвердить получение</el-button>
           </div>
@@ -105,26 +105,19 @@ const history = ref([])
     </div>
     <h2 class="text-xl font-onest mt-8" v-if="orders?.orders.filter(o => o.status == 5)?.length > 0">Вы уже заказывали</h2>
     <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 mt-1">
-      <div class="bg-neutral-900 rounded-lg shadow-lg border border-neutral-800 flex flex-col" v-for="order in orders?.orders.filter(o => o.status == 5).sort((a, b) => a.status < b.status ? -1 : 1)">
+      <div class="bg-neutral-50 dark:bg-neutral-900 rounded-lg shadow-lg border border-neutral-200 dark:border-neutral-800 flex flex-col" v-for="order in orders?.orders.filter(o => o.status == 5).sort((a, b) => a.status < b.status ? -1 : 1)">
         <div class="p-2">
           <div class="flex">
             <p class="font-onest text-neutral-500 font-medium"><i class="pi pi-warehouse text-sm"></i>  ПУНКТ ВЫДАЧИ ЗАКАЗОВ</p>
             <div class="flex-1"></div>
-            <div>
-              <div v-if="order?.status == 0" class="bg-neutral-800/[0.25] border border-neutral-800 rounded-lg px-2 py-0.5 text-sm text-neutral-300">Ожидает принятия</div>
-              <div v-else-if="order?.status == 1" class="bg-blue-500/[0.25] border border-blue-500/[0.75] rounded-lg px-2 py-0.5 text-sm text-blue-300">Собираем</div>
-              <div v-else-if="order?.status == 2" class="bg-yellow-800/[0.25] border border-yellow-800 rounded-lg px-2 py-0.5 text-sm text-orange-400">Ищем курьера</div>
-              <div v-else-if="order?.status == 3" class="bg-amber-800/[0.25] border border-amber-800 rounded-lg px-2 py-0.5 text-sm text-orange-300">Доставляем</div>
-              <div v-else-if="order?.status == 4" class="bg-green-500/[0.25] border border-green-500 rounded-lg px-2 py-0.5 text-sm text-green-300">Доставлен</div>
-            </div>
           </div>
           <div class="flex gap-2 items-end">
-            <button @click="branchInfo = order?.branch; openedBranchInfo = true" class="text-neutral-200 hover:underline">Филиал: {{order?.branch?.name}}</button>
+            <button @click="branchInfo = order?.branch; openedBranchInfo = true" class="text-neutral-800 dark:text-neutral-200 hover:underline">Филиал: {{order?.branch?.name}}</button>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 my-2 gap-2">
-            <div v-for="product in order?.products" class="border border-neutral-800 rounded-lg flex gap-2">
-              <div class="w-12 h-12">
-                <img :src="orders?.products?.find(p => p.id == product.id)?.icon" class="w-12 h-12" alt="">
+            <div v-for="product in order?.products" class="border border-neutral-300 dark:border-neutral-800 rounded-lg flex gap-2">
+              <div class="min-w-12 min-h-12 max-w-12 max-h-12">
+                <img :src="orders?.products?.find(p => p.id == product.id)?.icon" class="w-full h-full" alt="">
               </div>
               <div class="w-full truncate relative">
                 <p class="truncate">{{orders?.products?.find(p => p.id == product.id)?.name}}</p>
@@ -134,10 +127,10 @@ const history = ref([])
           </div>
         </div>
 
-        <div class="border-t border-neutral-800 p-2 flex gap-4 mt-auto mb-0">
+        <div class="border-t border-neutral-300 dark:border-neutral-800 p-2 flex gap-4 mt-auto mb-0">
           <p>Цена: <strong class="text-blue-500">{{order?.price}} АР</strong></p>
           <div class="flex-1"></div>
-          <p class="text-neutral-300">{{order?.data?.products?.reduce((sum, product) => sum + product.count, 0)}} товар</p>
+          <p class="text-neutral-700 dark:text-neutral-300">{{order?.data?.products?.reduce((sum, product) => sum + product.count, 0)}} товар</p>
           <el-button v-if="order.status === 4" @click="confirm(order.id)" size="small" type="success" plain>Подтвердить получение</el-button>
           <el-button @click="history = order?.history?.reverse(); openedHistory = true" size="small" type="info" text>История</el-button>
         </div>

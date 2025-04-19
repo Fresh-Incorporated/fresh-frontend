@@ -25,8 +25,8 @@ onMounted(async () => {
 <template>
   <div class="w-full h-full rounded-lg" v-loading="loading">
     <div v-for="(category, category_id) in categories" :key="category_id" class="mt-2">
-      <p class="text-neutral-300">{{category.name}}</p>
-      <div class="h-px w-full bg-neutral-700 mb-2"></div>
+      <p class="text-neutral-600 dark:text-neutral-300">{{category.name}}</p>
+      <div class="h-px w-full border-b border-neutral-300 dark:bg-neutral-700 mb-2"></div>
       <div class="grid grid-cols-12 gap-2">
         <div v-for="(item, item_id) in category.items" :key="item_id">
           <div @click="model = item_id" class="cursor-pointer">

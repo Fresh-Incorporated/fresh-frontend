@@ -70,7 +70,7 @@ const isDev = import.meta.dev;
   </div>
   <el-affix class="z-30">
     <div
-        class="h-14 w-full bg-black/[.05] dark:bg-black/[.2] backdrop-blur border-b-[1px] border-neutral-200 dark:border-neutral-800 shadow-sm dark:shadow-lg py-1 px-2 md:px-16 z-10">
+        class="h-14 w-full bg-black/[.02] dark:bg-black/[.2] backdrop-blur border-b-[1px] border-neutral-200 dark:border-neutral-800 shadow-sm dark:shadow-lg py-1 px-2 md:px-16 z-10">
       <div
           class="absolute inset-0 h-full w-full bg-[linear-gradient(to_right,#80808009_1px,transparent_1px),linear-gradient(to_bottom,#80808009_1px,transparent_1px)] bg-[size:16px_16px] -z-10"
       ></div>
@@ -83,7 +83,7 @@ const isDev = import.meta.dev;
         </div>
         <NuxtLink to="/" class="flex items-center h-full gap-1 md:w-60 ml-2 md:ml-0">
           <!--          <img class="h-8" src="/logo.svg" alt="">-->
-          <p class="absolute font-rubik text-xl blur-sm opacity-50 select-none">Fresh Inc.</p>
+          <p class="absolute font-rubik text-xl blur-sm opacity-0 dark:opacity-50 select-none">Fresh Inc.</p>
           <p class="font-rubik text-xl text-nowrap">Fresh Inc.</p>
         </NuxtLink>
         <div class="w-full hidden md:flex justify-center items-center gap-2">
@@ -123,7 +123,7 @@ const isDev = import.meta.dev;
             </template>
           </el-switch>
           <div v-if="user && !userLoading"
-               class="h-full flex flex-col items-center justify-center border rounded-lg border-neutral-200 dark:border-neutral-800 bg-neutral-900/[0.5] hover:bg-neutral-950/[0.25] duration-500 select-none">
+               class="h-full flex flex-col items-center justify-center border rounded-lg border-neutral-200 dark:border-neutral-800 bg-neutral-100/[0.5] dark:bg-neutral-900/[0.5] hover:bg-neutral-300/[0.25] dark:hover:bg-neutral-950/[0.25] duration-500 select-none">
             <div ref="userMenuButton" @click="userMenu = !userMenu" class="flex items-center gap-2 py-1 px-1 cursor-pointer">
               <div class="h-full max-w-24 sm:max-w-52 md:max-w-24 lg:max-w-48 lg:min-w-24">
                 <p class="text-sm truncate font-medium text-right">{{ user.nickname }}</p>
@@ -146,7 +146,7 @@ const isDev = import.meta.dev;
             <div class="relative w-full">
               <div class="absolute w-full transform translate-y-2 z-50 overflow-hidden">
                 <transition name="usermenu">
-                  <div v-if="userMenu" class="w-full bg-neutral-900 rounded-lg border border-neutral-800 shadow-lg overflow-hidden">
+                  <div v-if="userMenu" class="w-full bg-neutral-100 dark:bg-neutral-900 rounded-lg border border-neutral-200 dark:border-neutral-800 shadow-lg overflow-hidden">
                     <div class="relative">
                       <div class="absolute w-4 h-4 bg-white rounded-full blur-xl"></div>
                     </div>
