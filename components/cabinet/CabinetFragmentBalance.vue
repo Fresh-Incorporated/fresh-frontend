@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {http} from "~/composables/useHttp";
 
-const {user, updateUser} = useUser()
+const {user, updateUser, userLoading} = useUser()
 
 const openedDepositDialog = ref(false)
 const depositValue = ref(1)
@@ -54,6 +54,7 @@ onBeforeUnmount(() => {
 
 <template>
   <div class="bg-neutral-50 dark:bg-neutral-900 rounded-xl shadow-lg border border-sky-200 dark:border-sky-900 h-64 relative overflow-hidden">
+    <Skeleton v-model="userLoading" class="w-full h-full absolute z-20" />
     <el-dialog
         v-model="openedDepositDialog"
         title="Пополнение баланса"

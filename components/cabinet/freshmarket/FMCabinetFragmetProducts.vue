@@ -343,7 +343,7 @@ watch(shops, (shops) => {
         <div class="flex justify-center items-center relative">
           <div v-if="product.refill_status == 1" class="absolute w-1/2 aspect-square bg-neutral-400/[0.75] dark:bg-black/[0.75] rounded-lg flex flex-col justify-center items-center">
             <p class="text-orange-700 dark:text-yellow-400 font-semibold">Пополнение</p>
-            <p>Ячейка: <strong class="absolute blur-sm text-blue-700/[0.5] dark:text-black">{{ product?.refillCell?.letter }}-{{ product?.refillCell?.number }}</strong><strong class="text-blue-700 dark:text-black">{{ product?.refillCell?.letter }}-{{ product?.refillCell?.number }}</strong></p>
+            <p>Ячейка: <strong class="absolute blur-sm text-blue-700/[0.5] dark:text-white">{{ product?.refillCell?.letter }}-{{ product?.refillCell?.number }}</strong><strong class="text-blue-700 dark:text-white">{{ product?.refillCell?.letter }}-{{ product?.refillCell?.number }}</strong></p>
             <el-button @click="handleProductAction(product, 'refill')" class="absolute bottom-4" size="small" type="success" plain>Открыть</el-button>
           </div>
           <img :src="product.icon" class="w-1/2 aspect-square" alt="">
