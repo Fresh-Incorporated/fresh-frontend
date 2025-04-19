@@ -126,6 +126,7 @@ onBeforeUnmount(() => {
                 </div>
                 <div class="font-montserrat absolute bottom-8 right-4 text-right">
                   <!--                  <p class="text-sm font-medium">Цена</p>-->
+                  <p class="text-neutral-500 font-rubik text-xs">{{product.stack_count * product.slots_count * product.picked}} предметов</p>
                   <p class="text-neutral-400 font-rubik text-sm">{{product.slots_count * product.picked}} слотов</p>
                 </div>
                 <div class="font-montserrat absolute bottom-2 right-4 text-right">
