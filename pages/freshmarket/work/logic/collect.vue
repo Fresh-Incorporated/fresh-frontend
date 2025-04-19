@@ -37,10 +37,10 @@ const finish = async (id: number) => {
 
 <template>
   <div class="w-full p-4">
-    <div v-for="order in orders.filter((_order) => _order?.currentWorkerId == user?.id)" class="flex flex-col w-full border rounded-lg border-neutral-700 mb-4">
+    <div v-for="order in orders.filter((_order) => _order?.currentWorkerId == user?.id)" class="flex flex-col w-full border rounded-lg border-neutral-200 dark:border-neutral-700 mb-4">
       <div class="p-2">
         <p class="font-semibold">ID: #{{ order.id }} [ПРИНЯТО ВАМИ]</p>
-        <p class="font-medium text-neutral-300">Ячейка курьера: <span class="text-primary-dark">{{ order?.deliverCell?.letter }}-{{ order?.deliverCell?.number }}</span></p>
+        <p class="font-medium text-neutral-600 dark:text-neutral-300">Ячейка курьера: <span class="text-primary-dark">{{ order?.deliverCell?.letter }}-{{ order?.deliverCell?.number }}</span></p>
         <el-table :data="order?.products" style="width: 100%; height: 200px">
           <el-table-column prop="icon" label="#">
             <template #default="{ row }">

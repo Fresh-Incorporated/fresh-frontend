@@ -56,7 +56,7 @@ const handleDragOver = (event: DragEvent) => {
     <label :for="'dropzone-file-' + unique" class="w-full h-full flex justify-center">
       <div
           v-if="!file && !showCurrentImage"
-          class="w-full h-full bg-neutral-800 rounded-lg cursor-pointer flex flex-col justify-center items-center text-neutral-500 hover:bg-neutral-900 hover:text-neutral-600 border-2 border-neutral-700 border-dashed"
+          class="w-full h-full bg-neutral-200 dark:bg-neutral-800 rounded-lg cursor-pointer flex flex-col justify-center items-center text-neutral-500 hover:bg-neutral-300 dark:hover:bg-neutral-900 hover:text-neutral-600 border-2 border-neutral-400 dark:border-neutral-700 border-dashed"
       >
         <i class="pi pi-image text-3xl"></i>
         <p class="font-onest">Иконка</p>
@@ -65,9 +65,9 @@ const handleDragOver = (event: DragEvent) => {
       </div>
       <div
           v-else
-          class="relative group w-full h-full bg-neutral-800 rounded-lg cursor-pointer flex flex-col justify-center items-center text-neutral-500 hover:bg-neutral-900 hover:text-neutral-600 border-2 border-neutral-700 border-dashed"
+          class="relative group w-full h-full bg-neutral-200 dark:bg-neutral-800 rounded-lg cursor-pointer flex flex-col justify-center items-center text-neutral-500 hover:bg-neutral-300 dark:hover:bg-neutral-900 hover:text-neutral-600 border-2 border-neutral-400 dark:border-neutral-700 border-dashed"
       >
-        <div class="absolute hidden w-full h-full bg-neutral-900/[0.75] z-20 group-hover:flex flex-col justify-center items-center text-neutral-400">
+        <div class="absolute hidden w-full h-full bg-neutral-900/[0.5] dark:bg-neutral-900/[0.75] z-20 group-hover:flex flex-col justify-center items-center text-neutral-400">
           <i class="pi pi-image text-3xl"></i>
           <p class="font-onest">Иконка</p>
           <p class="font-onest text-xs text-center">PNG, JPG, JPEG, SVG, WEBP (Макс. 2мб)</p>

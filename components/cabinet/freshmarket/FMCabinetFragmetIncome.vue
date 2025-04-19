@@ -58,7 +58,7 @@ const withdraw = async () => {
 </script>
 
 <template>
-  <div class="bg-neutral-900 rounded-xl shadow-lg border border-neutral-800 h-64  col-span-2 overflow-hidden relative">
+  <div class="bg-neutral-50 dark:bg-neutral-900 rounded-xl shadow-lg border bg-neutral-50 dark:border-neutral-800 h-64  col-span-2 overflow-hidden relative">
     <div class="flex">
       <div class="p-2">
         <p class="text-xl">Продажи</p>

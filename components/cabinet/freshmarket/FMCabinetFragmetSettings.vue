@@ -76,7 +76,7 @@ const cancel = async () => {
 </script>
 
 <template>
-  <div class="bg-neutral-900 rounded-xl shadow-lg border border-neutral-800 h-64 col-span-2 p-3 flex flex-col gap-2 relative">
+  <div class="bg-neutral-50 dark:bg-neutral-900 rounded-xl shadow-lg border bg-neutral-50 dark:border-neutral-800 h-64 col-span-2 p-3 flex flex-col gap-2 relative">
     <div class="absolute z-10 bg-neutral-950/[.75] w-full h-full top-0 left-0 rounded-xl flex flex-col justify-center items-center" v-if="shops.find(s => s.id === props.shop)?.verify_status == 0">
       <p class="text-red-500 text-xl font-semibold">Редактирование не доступно</p>
       <p>Магазин на проверке</p>

@@ -64,9 +64,9 @@ const createShop = async () => {
         :size="size"
     >
       <div class="flex flex-col">
-        <p class="mt-2 text-neutral-200">Иконка магазина</p>
+        <p class="mt-2 text-neutral-600 dark:text-neutral-200">Иконка магазина</p>
         <IconUpload unique="create-shop" v-model="file" />
-        <p class="mt-2 text-neutral-200">Название магазина</p>
+        <p class="mt-2 text-neutral-600 dark:text-neutral-200">Название магазина</p>
         <el-input
             v-model="name"
             minlength="3"
@@ -75,7 +75,7 @@ const createShop = async () => {
             show-word-limit
             type="text"
         />
-        <p class="mt-2 text-neutral-200">Описание магазина</p>
+        <p class="mt-2 text-neutral-600 dark:text-neutral-200">Описание магазина</p>
         <el-input
             v-model="description"
             maxlength="240"
