@@ -60,7 +60,7 @@ const decline = async () => {
               type="textarea"
               placeholder="Напишите причину отклонения.."
               :maxlength="120"
-              rows="6"
+              :rows="6"
               show-word-limit
               :formatter="(value) => `${value}`.replace(/[\r\n]+/g, '')"
               :parser="(value) => value.replace(/[\r\n]+/g, '')"
