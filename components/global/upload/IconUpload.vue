@@ -11,7 +11,7 @@ const file = ref<File | null>(null);
 const fileUrl = ref<string | null>(null);
 const errorMessage = ref<string | null>(null);
 
-const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp', 'image/svg+xml'];
 
 const handleFileChange = (fileInput: File | null) => {
   errorMessage.value = null;
@@ -28,7 +28,7 @@ const handleFileChange = (fileInput: File | null) => {
 
     fileUrl.value = file.value ? URL.createObjectURL(file.value) : null;
   } else {
-    errorMessage.value = 'Допустимы только файлы JPG, JPEG, PNG';
+    errorMessage.value = 'Допустимы только файлы JPG, JPEG, PNG, SVG, WEBP';
     file.value = null;
     fileUrl.value = null;
   }
@@ -60,7 +60,7 @@ const handleDragOver = (event: DragEvent) => {
       >
         <i class="pi pi-image text-3xl"></i>
         <p class="font-onest">Иконка</p>
-        <p class="font-onest text-xs">PNG, JPG, JPEG (Макс. 2мб)</p>
+        <p class="font-onest text-xs text-center">PNG, JPG, JPEG, SVG, WEBP (Макс. 2мб)</p>
         <p v-if="errorMessage" class="text-red-500 text-xs">{{ errorMessage }}</p>
       </div>
       <div
@@ -70,14 +70,14 @@ const handleDragOver = (event: DragEvent) => {
         <div class="absolute hidden w-full h-full bg-neutral-900/[0.75] z-20 group-hover:flex flex-col justify-center items-center text-neutral-400">
           <i class="pi pi-image text-3xl"></i>
           <p class="font-onest">Иконка</p>
-          <p class="font-onest text-xs">PNG, JPG, JPEG (Макс. 2мб)</p>
+          <p class="font-onest text-xs text-center">PNG, JPG, JPEG, SVG, WEBP (Макс. 2мб)</p>
         </div>
         <img :src="showCurrentImage ? currentImage : fileUrl" class="w-full h-full rounded-lg" alt="Загруженное изображение">
       </div>
       <input
           :id="'dropzone-file-' + unique"
           type="file"
-          accept="image/jpeg, image/png, image/jpg"
+          accept="image/jpeg, image/png, image/jpg, image/webp, image/svg+xml"
           @change="event => handleFileChange(event.target.files ? event.target.files[0] : null)"
           class="hidden"
       />
