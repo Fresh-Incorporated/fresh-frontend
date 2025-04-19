@@ -52,21 +52,37 @@ const decline = async () => {
       <el-dialog
           v-model="declineDialog"
           title="Отклонение товара"
-          width="800"
+          width="350"
       >
-        <div>
+        <div class="flex flex-col gap-2">
           <el-input
               v-model="declineMessage"
               type="textarea"
               placeholder="Напишите причину отклонения.."
               :maxlength="120"
+              :rows="6"
               show-word-limit
               :formatter="(value) => `${value}`.replace(/[\r\n]+/g, '')"
               :parser="(value) => value.replace(/[\r\n]+/g, '')"
           />
-          <el-button @click="decline">
-            Отклонить
-          </el-button>
+          <el-popconfirm
+              confirm-button-text="Подтвердить"
+              cancel-button-text="Отмена"
+              hide-icon
+              title="Вы уверены что хотите подтвердить этот товар?"
+              @confirm="decline"
+              :width="300"
+          >
+            <template #reference>
+              <el-button type="danger">
+                Отклонить
+              </el-button>
+            </template>
+            <template #actions="{ confirm, cancel }">
+              <el-button size="small" @click="cancel">Отмена</el-button>
+              <el-button size="small" type="danger" @click="confirm">Подтвердить</el-button>
+            </template>
+          </el-popconfirm>
         </div>
       </el-dialog>
       <div v-for="product in products" class="flex flex-col">
@@ -81,7 +97,22 @@ const decline = async () => {
         <div class="flex flex-col gap-1">
           <el-button @click="selectedId = product.id; showProductHistory = true" plain>Показать историю товара [{{product.history.length}}шт]</el-button>
           <div class="flex">
-            <el-button class="w-full" @click="accept(product.id)" type="success" plain>Подтвердить</el-button>
+            <el-popconfirm
+                confirm-button-text="Подтвердить"
+                cancel-button-text="Отмена"
+                hide-icon
+                title="Вы уверены что хотите подтвердить этот товар?"
+                @confirm="accept(product.id)"
+                :width="300"
+            >
+              <template #reference>
+                <el-button class="w-full" type="success" plain>Подтвердить</el-button>
+              </template>
+              <template #actions="{ confirm, cancel }">
+                <el-button size="small" @click="cancel">Отмена</el-button>
+                <el-button size="small" type="danger" @click="confirm">Подтвердить</el-button>
+              </template>
+            </el-popconfirm>
             <el-button class="w-full" @click="selectedId = product.id; declineDialog = true" type="danger" plain>Отклонить</el-button>
           </div>
         </div>
