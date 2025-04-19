@@ -175,7 +175,7 @@ const handleProductAction = (product: Product, action: 'refill' | 'history' | 'd
 
 watch(shops, (shops) => {
   refreshNotifications()
-})
+}, {deep: true})
 </script>
 
 

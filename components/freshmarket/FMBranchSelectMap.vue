@@ -404,7 +404,7 @@ function getNearestBranch(x, z) {
       <div>
         <div class="w-full aspect-video">
           <el-carousel height="889" indicator-position="none">
-            <el-carousel-item v-for="image in props.branchs.find(b => b.id == branch)?.images" :key="item">
+            <el-carousel-item v-for="image in branch?.images" :key="item">
               <img class="w-full h-full" :src="image?.image" alt="">
             </el-carousel-item>
           </el-carousel>
