@@ -79,7 +79,6 @@ const options = {
       const formattedDate = date.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' });
 
       let infoFields = '';
-      console.log(series.value);
       for (let i = 0; i < series.value.length; i++) {
         infoFields += '<div class="flex items-center gap-2"><div class="rounded-full w-3 h-3" style="background: '+w.globals.colors[i]+';"></div>'+w.globals.seriesNames[i]+': <p class="font-bold ml-auto mr-0 pl-2">'+series.value[i].data[dataPointIndex]+'</p></div>';
       }

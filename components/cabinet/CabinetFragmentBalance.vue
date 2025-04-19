@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {http} from "~/composables/useHttp";
 
-const {user, updateUser} = useUser()
+const {user, updateUser, userLoading} = useUser()
 
 const openedDepositDialog = ref(false)
 const depositValue = ref(1)
@@ -53,13 +53,20 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="bg-neutral-900 rounded-xl shadow-lg border border-sky-900 h-64 relative overflow-hidden">
+  <div class="bg-neutral-50 dark:bg-neutral-900 rounded-xl shadow-lg border border-sky-200 dark:border-sky-900 h-64 relative overflow-hidden">
+    <Skeleton v-model="userLoading" class="w-full h-full absolute z-20" />
     <el-dialog
         v-model="openedDepositDialog"
         title="Пополнение баланса"
         width="300"
     >
-      <el-input-number v-model="depositValue" placeholder="Value" :min="1" :max="1728" />
+      <div class="flex flex-col gap-2 items-center justify-center">
+        <el-input-number v-model="depositValue" :min="1" :max="1728">
+          <template #suffix>
+            АР
+          </template>
+        </el-input-number>
+      </div>
       <template #footer>
         <div class="flex justify-end">
           <el-button type="primary" @click="deposit">
@@ -70,11 +77,17 @@ onBeforeUnmount(() => {
     </el-dialog>
     <el-dialog
         v-model="openedWithdrawDialog"
-        title="Пополнение баланса"
-        width="300"
+        title="Вывод средств"
+        width="400"
     >
-      <el-input-number v-model="withdrawValue" placeholder="Value" :min="1" :max="1728" />
-      <el-input v-model="withdrawCard" placeholder="Value" :minlength="5" :maxlength="5" />
+      <div class="flex w-full gap-2">
+        <el-input v-model="withdrawCard" placeholder="Номер счёта" :minlength="5" :maxlength="5" :formatter="(value) => value.slice(0, 5)"  :parser="(value) => value.replace(/[^\d]/g, '').slice(0, 5)"/>
+        <el-input-number v-model="withdrawValue" :min="1" :max="1728" class="min-w-32">
+          <template #suffix>
+            АР
+          </template>
+        </el-input-number>
+      </div>
       <template #footer>
         <div class="flex justify-end">
           <el-button type="primary" @click="withdraw">
@@ -83,11 +96,11 @@ onBeforeUnmount(() => {
         </div>
       </template>
     </el-dialog>
-    <div class="absolute w-12 h-12 bg-sky-900 blur-2xl"></div>
+    <div class="absolute w-12 h-12 bg-sky-500 dark:bg-sky-900 blur-2xl"></div>
     <div class="absolute w-40 h-40 bottom-0 right-0 translate-x-10 translate-y-10 rotate-8">
       <img class="w-full h-full opacity-50" src="https://img.zaralx.ru/v1/minecraft/deepslate_diamond_ore" alt="">
     </div>
-    <div class="absolute w-12 h-12 bg-sky-900 blur-2xl bottom-0 right-0"></div>
+    <div class="absolute w-12 h-12 bg-sky-500 dark:bg-sky-900 blur-2xl bottom-0 right-0"></div>
     <div class="flex flex-col justify-center items-center w-full h-full font-medium absolute z-10">
       <div>
         <p class="text-lg">Ваш баланс</p>

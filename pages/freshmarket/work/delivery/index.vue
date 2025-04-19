@@ -35,15 +35,15 @@ const finish = async (id: number) => {
 
 <template>
   <div class="w-full p-4">
-    <div v-for="order in orders.filter((_order) => _order?.currentWorkerId == user?.id)" class="flex flex-col w-full border rounded-lg border-neutral-700 mb-4">
+    <div v-for="order in orders.filter((_order) => _order?.currentWorkerId == user?.id)" class="flex flex-col w-full border rounded-lg border-neutral-200 dark:border-neutral-700 mb-4">
       <div class="p-2">
         <p class="font-semibold">ID: #{{ order.id }} [ПРИНЯТО ВАМИ]</p>
-        <p class="font-medium text-neutral-300">Ячейка курьера: <span class="text-primary-dark">{{ order?.deliverCell?.letter }}-{{ order?.deliverCell?.number }}</span></p>
-        <p class="font-medium text-neutral-300">Тип доставки: ПУНКТ ВЫДАЧИ ЗАКАЗОВ</p>
-        <p class="font-semibold text-neutral-200 mt-2">Информация точки назначения</p>
-        <p class="font-medium text-neutral-300">Город: {{ order?.branchCell?.location?.city }}</p>
-        <p class="font-medium text-neutral-300">Координаты: <span v-for="coordinate in order?.branchCell?.location?.coordinates">{{coordinate?.world}} X: {{coordinate?.x}} Y: {{coordinate?.y}} Z: {{coordinate?.z}}<br></span></p>
-        <p class="font-medium text-neutral-300">Ячейка: <span class="text-secondary-dark">{{ order?.branchCell?.letter }}-{{ order?.branchCell?.number }}</span></p>
+        <p class="font-medium text-neutral-600 dark:text-neutral-300">Ячейка курьера: <span class="text-primary-dark">{{ order?.deliverCell?.letter }}-{{ order?.deliverCell?.number }}</span></p>
+        <p class="font-medium text-neutral-600 dark:text-neutral-300">Тип доставки: ПУНКТ ВЫДАЧИ ЗАКАЗОВ</p>
+        <p class="font-semibold text-neutral-600 dark:text-neutral-200 mt-2">Информация точки назначения</p>
+        <p class="font-medium text-neutral-600 dark:text-neutral-300">Город: {{ order?.branchCell?.location?.city }}</p>
+        <p class="font-medium text-neutral-600 dark:text-neutral-300">Координаты: <span v-for="coordinate in order?.branchCell?.location?.coordinates">{{coordinate?.world}} X: {{coordinate?.x}} Y: {{coordinate?.y}} Z: {{coordinate?.z}}<br></span></p>
+        <p class="font-medium text-neutral-600 dark:text-neutral-300">Ячейка: <span class="text-secondary-dark">{{ order?.branchCell?.letter }}-{{ order?.branchCell?.number }}</span></p>
       </div>
       <el-popconfirm
           confirm-button-text="Подтвердить"
