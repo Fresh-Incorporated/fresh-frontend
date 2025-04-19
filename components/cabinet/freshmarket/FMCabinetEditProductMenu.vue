@@ -25,6 +25,7 @@ const loading = ref(false)
 watch(props, () => {
   newName.value = props.name
   newDescription.value = props.description
+  newPrice.value = props.price
 
   loading.value = false;
 })
