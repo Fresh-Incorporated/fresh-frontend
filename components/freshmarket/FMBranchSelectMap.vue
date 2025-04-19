@@ -26,6 +26,8 @@ const offsetY = ref(0); // Сдвиг камеры по Y
 const isSelected = ref(false)
 const pointSize = 5
 const lineWidth = 3
+const showImageCollage = ref(false)
+const imageCollageId = ref(1)
 
 let isPanning = false; // Состояние перемещения камеры
 let lastMouseX = 0;
@@ -401,11 +403,23 @@ function getNearestBranch(x, z) {
         width="500"
         align-center
     >
+      <el-image-viewer
+          v-if="showImageCollage"
+          :url-list="branch?.images?.map(i => i?.image)"
+          show-progress
+          :initial-index="imageCollageId"
+          @close="showImageCollage = false"
+      />
       <div>
-        <div class="w-full aspect-video">
-          <el-carousel height="889" indicator-position="none">
-            <el-carousel-item v-for="image in branch?.images" :key="item">
-              <img class="w-full h-full" :src="image?.image" alt="">
+        <div class="w-full">
+          <el-carousel class="w-full aspect-video" indicator-position="none">
+            <el-carousel-item v-for="(image, key) in branch?.images" :key="key">
+              <el-image
+                  class="w-full aspect-video cursor-pointer"
+                  :src="image?.image"
+                  @click="imageCollageId = key; showImageCollage = true"
+                  fit="cover"
+              />
             </el-carousel-item>
           </el-carousel>
         </div>
@@ -472,5 +486,9 @@ canvas {
   display: block;
   width: 100%;
   height: 100%;
+}
+
+:deep(.el-image-viewer__btn) {
+  background-color: #191919 !important;
 }
 </style>
