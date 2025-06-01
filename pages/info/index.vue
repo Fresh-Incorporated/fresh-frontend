@@ -107,7 +107,7 @@
             <div class="w-12 h-8 bg-neutral-300 blur-2xl absolute transform -translate-x-1/2 -translate-y-1/2"></div>
             <div
                 class="w-12 h-8 bg-neutral-300 blur-2xl absolute transform translate-x-1/2 translate-y-1/2 bottom-0 right-0"></div>
-            <img src="https://img.zaralx.ru/v1/minecraft/user/face/full/_Anchester_" class="w-16 h-16 rounded-lg"
+            <img src="https://assets.zaralx.ru/api/v1/minecraft/vanilla/player/face/ab1f50a2b83e49fbbe01ee4fb53aac3d/full" class="w-16 h-16 rounded-lg"
                  alt="">
             <div class="flex flex-col py-1">
               <p class="font-fira flex-1">_Anchester_</p>
@@ -124,7 +124,7 @@
             <div class="w-12 h-8 bg-neutral-300 blur-2xl absolute transform -translate-x-1/2 -translate-y-1/2"></div>
             <div
                 class="w-12 h-8 bg-neutral-300 blur-2xl absolute transform translate-x-1/2 translate-y-1/2 bottom-0 right-0"></div>
-            <img src="https://img.zaralx.ru/v1/minecraft/user/face/full/SilentPaltos" class="w-16 h-16 rounded-lg"
+            <img src="https://assets.zaralx.ru/api/v1/minecraft/vanilla/player/face/92cc6ac86ca54fbb9fdecbaf3ac38a96/full" class="w-16 h-16 rounded-lg"
                  alt="">
             <div class="flex flex-col py-1">
               <p class="font-fira flex-1">SilentPaltos</p>
@@ -143,7 +143,7 @@
             <div class="w-12 h-8 bg-neutral-300 blur-2xl absolute transform -translate-x-1/2 -translate-y-1/2"></div>
             <div
                 class="w-12 h-8 bg-neutral-300 blur-2xl absolute transform translate-x-1/2 translate-y-1/2 bottom-0 right-0"></div>
-            <img src="https://img.zaralx.ru/v1/minecraft/user/face/full/Moksy44" class="w-16 h-16 rounded-lg" alt="">
+            <img src="https://assets.zaralx.ru/api/v1/minecraft/vanilla/player/face/5fc747ae2f9a43c3884d2ffbf0d8a86a/full" class="w-16 h-16 rounded-lg" alt="">
             <div class="flex flex-col py-1">
               <p class="font-fira flex-1">Moksy44</p>
               <p class="font-onest text-xs opacity-75">Почти в соло<br>тащил FM 2 месяца</p>

@@ -130,7 +130,7 @@ const isDev = import.meta.dev;
                 <div class="grid grid-cols-2">
                   <div class="flex items-center justify-end gap-0.5">
                     <p class="font-rubik text-xs text-cyan-500 text-nowrap">{{ user.balance }}</p>
-                    <img class="w-3 h-3" src="https://img.zaralx.ru/v1/minecraft/deepslate_diamond_ore" alt="">
+                    <img class="w-3 h-3" src="https://assets.zaralx.ru/api/v1/minecraft/vanilla/item/deepslate_diamond_ore/icon" alt="">
                   </div>
                   <div>
                     <p class="font-rubik text-xs text-green-500 text-nowrap text-right">{{ user.bonuses }} <i

@@ -2,7 +2,7 @@
 
 export const useXIS = () => {
     function getFullFace(identify: string) {
-        return "https://img.zaralx.ru/v1/minecraft/user/face/full/" + identify;
+        return "https://assets.zaralx.ru/api/v1/minecraft/vanilla/player/face/" + identify + "/full";
     }
 
     return {

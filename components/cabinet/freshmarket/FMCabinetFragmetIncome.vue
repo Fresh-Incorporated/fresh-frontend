@@ -70,7 +70,7 @@ const withdraw = async () => {
         </el-button>
         <div class="flex items-center gap-1">
           <p class="text-sm text-nowrap text-sky-400 font-medium">Баланс магазина: {{ shop?.balance.toFixed(2) }}</p>
-          <img class="w-4 h-4" src="https://img.zaralx.ru/v1/minecraft/deepslate_diamond_ore" alt="">
+          <img class="w-4 h-4" src="https://assets.zaralx.ru/api/v1/minecraft/vanilla/item/deepslate_diamond_ore/icon" alt="">
         </div>
       </div>
     </div>
