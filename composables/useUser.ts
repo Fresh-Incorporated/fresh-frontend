@@ -6,6 +6,7 @@ const user = ref(null);
 const shops = ref<Shop[]>([]);
 const cart = ref([]);
 const orders = ref({orders: [], products: []});
+const balanceHistory = ref([]);
 const userLoading = ref<boolean>(true);
 
 export const useUser = () => {
@@ -18,6 +19,16 @@ export const useUser = () => {
     async function updateShops() {
         const response = await http.get('/users/@me/shops');
         shops.value = response.data;
+    }
+
+    async function moreBalanceHistory() {
+        const response = await http.get('/users/@me/history/balance', {
+            params: {
+                offset: balanceHistory.value.length,
+            }
+        });
+        balanceHistory.value.push(...response.data);
+        return response.data
     }
 
     async function updateOrders() {
@@ -65,5 +76,7 @@ export const useUser = () => {
         putInCart,
         orders,
         updateOrders,
+        moreBalanceHistory,
+        balanceHistory,
     };
 };
