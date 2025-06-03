@@ -23,7 +23,7 @@ import IndexHead from "~/components/index/IndexHead.vue";
       </div>
       <div class="w-full">
         <h2 class="text-3xl font-rubik font-semibold text-right">FreshMarket</h2>
-        <p class="font-light text-base text-right">FreshMarket — Место, где пользователи могут покупать, продавать товары, создавая активную и динамичную экономику.</p>
+        <p class="font-light text-base text-right">FreshMarket — место, где пользователи могут покупать, продавать товары, создавая активную и динамичную экономику.</p>
         <p class="font-light text-base text-right">Начните продавать СЕЙЧАС или станьте новым продавцом!</p>
       </div>
     </div>
