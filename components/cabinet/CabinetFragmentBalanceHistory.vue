@@ -34,7 +34,9 @@ onMounted(() => {
                       bh.action_type == "deposit" ? "Пополнение баланса" :
                           bh.action_type == "withdraw" ? "Вывод средств на SPWorlds" :
                               bh.action_type == "freshmarket_shop_withdraw" ? "Вывод из магазина FreshMarket" :
-                                  bh.action_type
+                                  bh.action_type == "freshmarket_order" ? "Заказ на FreshMarket" :
+                                      bh.action_type == "freshmarket_pay" ? "Оплата FreshMarket" :
+                                          bh.action_type
                   }}
                 </p>
                 <p>{{bh.message}}</p>
