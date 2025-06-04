@@ -7,12 +7,14 @@ const {user} = useUser()
 const userBalances = ref(0)
 const shopBalances = ref(0)
 const totalSpentOnShops = ref(0)
+const totalUsers = ref(0)
 
 onMounted(async () => {
-  const response = await http.get("/admin/balance")
+  const response = await http.get("/admin/stats")
   totalSpentOnShops.value = response.data.totalSpentOnShops
   userBalances.value = response.data.totalBalanceUsers
   shopBalances.value = response.data.totalBalanceShops
+  totalUsers.value = response.data.totalUsers
 })
 </script>
 
@@ -23,6 +25,7 @@ onMounted(async () => {
     <AdminCard title="Балансы магазинов" :value="shopBalances" />
     <AdminCard title="Минимальный баланс карты" :value="userBalances + shopBalances" />
     <AdminCard title="Затрачено на создание магазинов" :value="totalSpentOnShops" />
+    <AdminCard title="Регистраций" :value="totalUsers" />
   </div>
   <div v-else>
     Съебал отсюда
