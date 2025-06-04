@@ -178,6 +178,9 @@
               </el-button>
             </NuxtLink>
           </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 mt-4">
+            <iframe class="aspect-video" width="100%" height="100%" src="https://www.youtube.com/embed/fpkmOKHlDxc?si=KTFQPs7XqtFTGoBs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          </div>
         </div>
       </div>
       <div class="bg-neutral-100 dark:bg-neutral-800/[0.5] rounded-xl p-4 shadow dark:shadow-lg">
