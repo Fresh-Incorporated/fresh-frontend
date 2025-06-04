@@ -11,6 +11,7 @@ const users = ref([])
 const workers = ref([])
 const notLocated = ref([])
 const total = ref(0);
+const endDatetime = ref();
 
 onMounted(async () => {
   workers.value = (await http.get("/freshmarket/work/director/users/workers")).data.users;
@@ -34,6 +35,7 @@ const generate = async (): Promise<void> => {
     s.pays.secretary = s.pays.secretary || { pay: 0 };
     s.pays.director = s.pays.director || { pay: 0 };
   });
+  endDatetime.value = salary.value.endDatetime;
   recalculateTotal();
   await updateLocated();
 };
@@ -115,6 +117,15 @@ const removeSalaryEntry = async (id: number) => {
   await usersUpdate();
   await updateLocated();
 };
+
+const submitSalary = async () => {
+  await http.post("/freshmarket/work/director/salary/submit", {
+    salaries: salary.value.salaries,
+    endDatetime: new Date(endDatetime.value).getTime(),
+  })
+
+  salary.value = { totalSalary: 0, salaries: [] }
+};
 </script>
 
 <template>
@@ -168,7 +179,25 @@ const removeSalaryEntry = async (id: number) => {
         </el-table-column>
       </el-table>
     </div>
-    TODO: id или время с которого будут происходить расчёты на заказы и пополнения, и генерацию текстового отчёта
+    <div class="mt-4 flex gap-4">
+      <el-date-picker
+          v-model="endDatetime"
+          type="datetime"
+          placeholder="Select date and time"
+      />
+      <el-popconfirm
+          confirm-button-text="Подтвердить"
+          cancel-button-text="Отмена"
+          hide-icon
+          title="Вы уверены что хотите создать зарплатный отчёт?"
+          @confirm="submitSalary"
+          :width="300"
+      >
+        <template #reference>
+          <el-button type="danger">Создать отчёт</el-button>
+        </template>
+      </el-popconfirm>
+    </div>
   </div>
 </template>
 
