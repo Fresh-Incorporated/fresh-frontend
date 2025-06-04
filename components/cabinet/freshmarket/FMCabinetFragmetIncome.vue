@@ -11,7 +11,6 @@ const {shops, updateUser, updateShops} = useUser()
 
 const shop = ref()
 const lastSells = ref([])
-const sevenDaysSells = ref([])
 const loadedSellsData = ref(false)
 
 const loadMenu = async () => {
@@ -20,25 +19,6 @@ const loadMenu = async () => {
   shop.value = shops.value?.find(i => i?.id === props?.shop);
   lastSells.value = (await http.get("/freshmarket/shop/"+props.shop+"/sells")).data;
 
-  const today = new Date();
-
-  const last7Days = Array.from({ length: 7 }, (_, i) => {
-    const date = subDays(today, i);
-    return {
-      date: format(date, 'yyyy-MM-dd'),
-      total: 0
-    };
-  }).reverse();
-
-  lastSells.value.forEach(sell => {
-    const sellDate = parseISO(sell.createdAt);
-    const matchedDay = last7Days.find(day => isSameDay(sellDate, new Date(day.date)));
-    if (matchedDay) {
-      matchedDay.total += sell.data.price * sell.data.count;
-    }
-  });
-
-  sevenDaysSells.value = last7Days;
   loadedSellsData.value = true;
 }
 
@@ -75,7 +55,7 @@ const withdraw = async () => {
       </div>
     </div>
     <div class="absolute w-full h-[85%] -bottom-2">
-      <FMSellsChart :sells="sevenDaysSells" v-if="loadedSellsData"/>
+      <FMSellsChart :sells="lastSells" v-if="loadedSellsData"/>
     </div>
 <!--    <input-->
 <!--        type="file"-->
