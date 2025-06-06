@@ -261,9 +261,9 @@ watch(shops, (shops) => {
         <el-button @click="increaseProductOpened = true" type="info" size="small" plain class="!px-1 aspect-square !h-5 !text-xs"><i class="pi pi-plus"></i></el-button>
       </el-tooltip>
     </div>
-    <div v-if="currentShop?.products?.length === 0" class="flex justify-center items-center h-full">
-      <p>В этом магазине нет товаров!</p>
-    </div>
+<!--    <div v-if="currentShop?.products?.length === 0" class="flex justify-center items-center h-full">-->
+<!--      <p>В этом магазине нет товаров!</p>-->
+<!--    </div>-->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 p-4">
       <div v-for="product in currentShop?.products"
            :key="product.id"
