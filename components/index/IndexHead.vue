@@ -31,7 +31,7 @@
     </div>
     <div class="min-h-64 md:min-h-96 flex items-center justify-center w-full md:justify-start md:pl-72">
       <div class="animation-opacity-r-l">
-        <h1 class="text-primary-light dark:text-primary-dark text-4xl font-onest font-bold relative z-10">Fresh
+        <h1 class="text-primary-light dark:text-primary-dark text-4xl font-onest font-bold relative z-10 text-center md:text-left">Fresh
           Inc.</h1>
         <!--        <div class="relative z-0">-->
         <!--          <div class="absolute w-24 h-2 bottom-0.5">-->

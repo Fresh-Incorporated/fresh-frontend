@@ -61,5 +61,5 @@ export default defineNuxtConfig({
     classSuffix: ''
   },
 
-  modules: ['@nuxtjs/color-mode', '@nuxtjs/tailwindcss', '@element-plus/nuxt', '@nuxt/icon'],
+  modules: ['@nuxtjs/color-mode', '@nuxtjs/tailwindcss', '@element-plus/nuxt', '@nuxt/icon', '@nuxtjs/device'],
 })

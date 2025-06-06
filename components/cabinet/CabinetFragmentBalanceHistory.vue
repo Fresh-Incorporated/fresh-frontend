@@ -27,7 +27,7 @@ onMounted(() => {
       <div v-infinite-scroll="load" infinite-scroll-immediate="false">
         <transition name="hide">
           <div v-if="balanceHistory.length > 0">
-            <div v-for="bh in balanceHistory" class="h-16 flex items-center relative p-1 border-b border-neutral-800 px-4">
+            <div v-for="bh in balanceHistory" class="h-16 flex gap-4 items-center relative p-1 border-b border-neutral-800 px-2 md:px-4">
               <div class="flex-1">
                 <p class="text-xs text-blue-400/[.75]">{{
                     bh.action_type == "transfer" ? "Перевод средств" :
@@ -39,16 +39,16 @@ onMounted(() => {
                                           bh.action_type
                   }}
                 </p>
-                <p>{{bh.message}}</p>
+                <p class="text-sm md:text-base">{{bh.message}}</p>
               </div>
               <div class="mr-4 flex flex-col justify-center items-center">
                 <p :class="{
                   'text-red-500': bh.value < 0,
                   'text-green-500': bh.value > 0,
                   'text-neutral-500': bh.value == 0,
-                }">{{bh.value}} АР</p>
+                }" class="text-sm md:text-base">{{bh.value}} АР</p>
               </div>
-              <p class="absolute bottom-1 right-1 text-xs text-neutral-600">{{bh.createdAt}}</p>
+              <p class="absolute bottom-1 right-1 text-xs text-neutral-600">{{ formatDateRelative(bh.createdAt) }}</p>
             </div>
           </div>
         </transition>

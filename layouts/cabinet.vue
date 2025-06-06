@@ -33,7 +33,7 @@ const handleCategory = async (tab: TabsPaneContext, event: Event) => {
 <template>
 <div class="flex flex-col min-h-screen">
   <Header />
-  <div class="flex-1 px-16">
+  <div class="flex-1 px-1 md:px-16">
     <el-tabs v-model="activeCategory" @tab-click="handleCategory">
       <el-tab-pane v-for="(value, key) in links" :label="value.label" :name="key" :key="key">
         <template #label>

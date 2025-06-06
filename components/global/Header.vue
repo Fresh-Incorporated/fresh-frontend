@@ -70,7 +70,7 @@ const isDev = import.meta.dev;
   </div>
   <el-affix class="z-30">
     <div
-        class="h-14 w-full bg-black/[.02] dark:bg-black/[.2] backdrop-blur border-b-[1px] border-neutral-200 dark:border-neutral-800 shadow-sm dark:shadow-lg py-1 px-2 md:px-16 z-10">
+        class="h-14 w-full bg-neutral-50/[.9] dark:bg-neutral-900/[.9] backdrop-blur border-b-[1px] border-neutral-200 dark:border-neutral-800 shadow-sm dark:shadow-lg py-1 px-2 md:px-16 z-10">
       <div
           class="absolute inset-0 h-full w-full bg-[linear-gradient(to_right,#80808009_1px,transparent_1px),linear-gradient(to_bottom,#80808009_1px,transparent_1px)] bg-[size:16px_16px] -z-10"
       ></div>
@@ -81,7 +81,7 @@ const isDev = import.meta.dev;
             <i class="pi pi-bars"></i>
           </button>
         </div>
-        <NuxtLink to="/" class="flex items-center h-full gap-1 md:w-60 ml-2 md:ml-0">
+        <NuxtLink to="/" class="hidden md:flex items-center h-full gap-1 md:w-60 ml-2 md:ml-0">
           <!--          <img class="h-8" src="/logo.svg" alt="">-->
           <p class="absolute font-rubik text-xl blur-sm opacity-0 dark:opacity-50 select-none">Fresh Inc.</p>
           <p class="font-rubik text-xl text-nowrap">Fresh Inc.</p>
@@ -129,7 +129,7 @@ const isDev = import.meta.dev;
                 <p class="text-sm truncate font-medium text-right">{{ user.nickname }}</p>
                 <div class="grid grid-cols-2">
                   <div class="flex items-center justify-end gap-0.5">
-                    <p class="font-rubik text-xs text-cyan-500 text-nowrap">{{ user.balance }}</p>
+                    <p class="font-rubik text-xs text-cyan-500 text-nowrap">{{ user.balance.toFixed(2) }}</p>
                     <img class="w-3 h-3" src="https://assets.zaralx.ru/api/v1/minecraft/vanilla/item/deepslate_diamond_ore/icon" alt="">
                   </div>
                   <div>

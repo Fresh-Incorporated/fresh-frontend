@@ -76,14 +76,14 @@ const cancel = async () => {
 </script>
 
 <template>
-  <div class="bg-neutral-50 dark:bg-neutral-900 rounded-xl shadow-lg border bg-neutral-50 dark:border-neutral-800 h-64 col-span-2 p-3 flex flex-col gap-2 relative">
+  <div class="bg-neutral-50 dark:bg-neutral-900 rounded-xl shadow-lg border bg-neutral-50 dark:border-neutral-800 md:h-64 md:col-span-2 p-2 md:p-3 flex flex-col gap-2 relative">
     <div class="absolute z-10 bg-neutral-950/[.75] w-full h-full top-0 left-0 rounded-xl flex flex-col justify-center items-center" v-if="shops.find(s => s.id === props.shop)?.verify_status == 0">
       <p class="text-red-500 text-xl font-semibold">Редактирование не доступно</p>
       <p>Магазин на проверке</p>
     </div>
-    <div class="flex gap-2">
+    <div class="flex flex-col items-center md:items-stretch md:flex-row gap-2">
       <IconUpload unique="shop-settings" v-model="newIcon" :current-image="icon" :show-current-image="newIcon == null"/>
-      <div class="w-full flex flex-col">
+      <div class="w-full flex flex-col gap-2 md:gap-0">
         <el-input
             v-model="newName"
             minlength="3"
@@ -109,7 +109,7 @@ const cancel = async () => {
         />
       </div>
     </div>
-    <div class="mt-auto mb-0 flex gap-2">
+    <div class="mt-auto mb-0 md:flex gap-2">
       <el-input
           v-model="newTag"
           minlength="3"
@@ -117,34 +117,36 @@ const cancel = async () => {
           placeholder="Тег магазина [В разработке]"
           show-word-limit
           type="text"
-          class="w-full opacity-75"
+          class="w-full opacity-75 mb-2 md:mb-0"
           disabled
       >
-        <template #prepend>fresh.zaralx.ru/freshmarket/shop/</template>
+        <template #prepend>{{$device.isMobile ? '/freshmarket/shop/' : 'fresh.zaralx.ru/freshmarket/shop/'}}</template>
       </el-input>
-      <el-popconfirm
-          confirm-button-text="Подтвердить"
-          cancel-button-text="Отмена"
-          hide-icon
-          title="Сохранить изменения? Магазин отправится на проверку, и товары станут недоступны для покупки."
-          @confirm="editShop"
-          @cancel="cancel"
-          :width="300"
-      >
-        <template #reference>
-          <el-button plain type="success" :disabled="!inEdit" :loading="loading">Сохранить</el-button>
-        </template>
-        <template #actions="{ confirm, cancel }">
-          <el-button size="small" @click="cancel">Отмена</el-button>
-          <el-button
-              type="danger"
-              size="small"
-              @click="confirm"
-          >
-            Сохранить
-          </el-button>
-        </template>
-      </el-popconfirm>
+      <div class="w-full flex md:w-auto justify-end">
+        <el-popconfirm
+            confirm-button-text="Подтвердить"
+            cancel-button-text="Отмена"
+            hide-icon
+            title="Сохранить изменения? Магазин отправится на проверку, и товары станут недоступны для покупки."
+            @confirm="editShop"
+            @cancel="cancel"
+            :width="300"
+        >
+          <template #reference>
+            <el-button plain type="success" :disabled="!inEdit" :loading="loading">Сохранить</el-button>
+          </template>
+          <template #actions="{ confirm, cancel }">
+            <el-button size="small" @click="cancel">Отмена</el-button>
+            <el-button
+                type="danger"
+                size="small"
+                @click="confirm"
+            >
+              Сохранить
+            </el-button>
+          </template>
+        </el-popconfirm>
+      </div>
     </div>
   </div>
 </template>

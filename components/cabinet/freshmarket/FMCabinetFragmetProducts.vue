@@ -6,6 +6,8 @@ import type { Product, ProductHistoryEntry } from '~/types/freshmarket'
 import FMProductHistory from '~/components/freshmarket/FMProductHistory.vue'
 import FMCabinetEditProductMenu from "~/components/cabinet/freshmarket/FMCabinetEditProductMenu.vue";
 import FMCabinetFragmetSettings from "~/components/cabinet/freshmarket/FMCabinetFragmetSettings.vue";
+import CreateProductMenu from "~/components/cabinet/freshmarket/CreateProductMenu.vue";
+import IncreaseShopLimitMenu from "~/components/cabinet/freshmarket/IncreaseShopLimitMenu.vue";
 
 const { shops, updateShops } = useUser()
 
@@ -32,6 +34,9 @@ const productEditWindow = ref(false)
 
 const selectedProduct = ref<Product | null>(null)
 const productHistory = ref<ProductHistoryEntry[]>([])
+
+const createProductOpened = ref(false);
+const increaseProductOpened = ref(false);
 
 const currentShop = computed(() => shops.value.find(s => s.id === props.shop))
 const products = computed(() => currentShop.value?.products ?? [])
@@ -182,6 +187,8 @@ watch(shops, (shops) => {
 <template>
   <div
       class="bg-neutral-50 dark:bg-neutral-900 rounded-xl shadow-lg border border-neutral-200 dark:border-neutral-800 col-span-1 md:col-span-2 lg:col-span-3 xl:col-span-4 2xl:col-span-5">
+    <CreateProductMenu :shop="props.shop" v-model="createProductOpened" />
+    <IncreaseShopLimitMenu :shop="props.shop" v-model="increaseProductOpened" />
     <FMCabinetEditProductMenu
         v-model="productEditWindow"
         v-if="selectedProduct != null"
@@ -247,6 +254,13 @@ watch(shops, (shops) => {
         </div>
       </template>
     </el-dialog>
+    <div class="mt-4 ml-4 flex gap-2 items-center">
+      <p class="text-sm text-neutral-500">Лимит товаров: {{currentShop?.products?.length}}/{{currentShop?.products_limit}}</p>
+
+      <el-tooltip content="Увеличить лимит" effect="light" placement="top">
+        <el-button @click="increaseProductOpened = true" type="info" size="small" plain class="!px-1 aspect-square !h-5 !text-xs"><i class="pi pi-plus"></i></el-button>
+      </el-tooltip>
+    </div>
     <div v-if="currentShop?.products?.length === 0" class="flex justify-center items-center h-full">
       <p>В этом магазине нет товаров!</p>
     </div>
@@ -374,6 +388,14 @@ watch(shops, (shops) => {
           </div>
         </div>
       </div>
+      <button :disabled="currentShop?.products?.length == currentShop?.products_limit" @click="createProductOpened = true" class="w-full h-full aspect-square border-2 border-dashed p-2
+      rounded-lg shadow hover:bg-neutral-200 relative flex flex-col gap-2 border-neutral-800 flex flex-col
+      justify-center items-center transition-all group/create hover:dark:bg-neutral-950/[0.5] disabled:opacity-50 disabled:cursor-not-allowed"
+              :class="currentShop?.products?.length == currentShop?.products_limit ?
+                'hover:border-red-600' : 'hover:border-green-600'">
+        <p :class="currentShop?.products?.length == currentShop?.products_limit ?
+            'group-hover/create:text-red-600' : 'group-hover/create:text-green-600'" class="transition-all text-xl text-neutral-500">Создать товар</p>
+      </button>
     </div>
   </div>
 </template>
