@@ -93,7 +93,6 @@ watch(openedCreateMenu, (newValue) => {
               :description="shops.find(shop => shop.id === selectedShop)?.description"
               :tag="null"
           />
-          <FMCabinetFragmentCreateProduct :shop="selectedShop" v-if="selectedShop != null"/>
           <FMCabinetFragmetProducts :shop="selectedShop" v-if="selectedShop != null"/>
         </div>
       </div>
