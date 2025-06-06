@@ -122,7 +122,7 @@ const cancel = async () => {
       >
         <template #prepend>{{$device.isMobile ? '/freshmarket/shop/' : 'fresh.zaralx.ru/freshmarket/shop/'}}</template>
       </el-input>
-      <div class="w-full flex justify-end">
+      <div class="w-full flex md:w-auto justify-end">
         <el-popconfirm
             confirm-button-text="Подтвердить"
             cancel-button-text="Отмена"
