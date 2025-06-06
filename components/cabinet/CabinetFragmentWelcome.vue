@@ -19,8 +19,10 @@ function getFormattedDate() {
     <div class="absolute w-4 h-4 bg-black dark:bg-white blur-2xl bottom-0 right-0"></div>
     <div v-if="!userLoading" class="flex flex-col justify-center w-full h-full px-16 relative">
       <div>
-        <p class="text-3xl font-medium text-neutral-700 dark:text-neutral-200">Добрый день, {{user?.nickname}}!</p>
-        <p class="text-neutral-700 dark:text-neutral-300">Сегодня: {{ getFormattedDate() }}</p>
+        <p class="text-3xl font-medium text-neutral-700 dark:text-neutral-200 hidden md:block">Добрый день, {{user?.nickname}}!</p>
+        <p class="text-3xl font-medium text-neutral-700 dark:text-neutral-200 text-center md:hidden">Добрый день</p>
+        <p class="text-3xl font-medium text-neutral-700 dark:text-neutral-200 text-center md:hidden">{{user?.nickname}}</p>
+        <p class="text-neutral-700 dark:text-neutral-300 hidden md:block">Сегодня: {{ getFormattedDate() }}</p>
       </div>
     </div>
   </div>
