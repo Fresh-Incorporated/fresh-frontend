@@ -39,9 +39,10 @@ watch(openedCreateMenu, (newValue) => {
     <CreateShopMenu v-model="openedCreateMenu" />
     <transition>
       <div v-if="shops.length > 0">
-        <div class="flex items-center gap-2 mb-4">
+        <div class="flex flex-wrap items-center md:gap-2 mb-4 text-sm md:text-base w-full">
           <p>Выбран магазин:</p>
           <el-select
+              class="ml-auto mr-0"
               v-model="selectedShop"
               placeholder="Выберите магазин"
               style="width: 200px"
@@ -73,16 +74,16 @@ watch(openedCreateMenu, (newValue) => {
               </el-button>
             </template>
           </el-select>
-          <div class="flex-1 flex justify-end">
-            <div v-if="shops.find(shop => shop.id === selectedShop)?.verify_status === 0" class="bg-amber-500/[0.25] py-1 px-2 rounded-md border border-amber-400/[0.75] text-amber-300 flex">
+          <div class="md:flex-1 flex justify-end">
+            <div v-if="shops.find(shop => shop.id === selectedShop)?.verify_status === 0" class="bg-amber-500/[0.25] py-1 px-2 rounded-md border border-amber-400/[0.75] text-amber-300 flex mt-4 md:mt-0">
               <p class="text-sm"><i class="pi pi-exclamation-triangle text-xs"></i>  Этот магазин находится на проверке, ни один из товаров недоступен к покупке.</p>
             </div>
-            <div v-if="shops.find(shop => shop.id === selectedShop)?.verify_status === -1" class="bg-red-500/[0.25] py-1 px-2 rounded-md border border-red-400/[0.75] text-red-300 flex">
+            <div v-if="shops.find(shop => shop.id === selectedShop)?.verify_status === -1" class="bg-red-500/[0.25] py-1 px-2 rounded-md border border-red-400/[0.75] text-red-300 flex mt-4 md:mt-0">
               <p class="text-sm"><i class="pi pi-exclamation-triangle text-xs"></i>  Магазин был отклонён при проверке!</p>
             </div>
           </div>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8 mb-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 md:gap-8 mb-8">
           <FMCabinetFragmetIncome :shop="selectedShop" v-if="selectedShop != null"/>
           <FMCabinetFragmetSettings
               :shop="selectedShop"

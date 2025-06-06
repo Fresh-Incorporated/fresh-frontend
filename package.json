@@ -16,6 +16,7 @@
     "@element-plus/nuxt": "^1.1.1",
     "@nuxt/icon": "^1.11.0",
     "@nuxtjs/color-mode": "^3.5.2",
+    "@nuxtjs/device": "^3.2.4",
     "@nuxtjs/tailwindcss": "^6.12.2",
     "@xpd/tailwind-3dtransforms": "^1.0.3",
     "apexcharts": "^4.3.0",
