@@ -20,7 +20,7 @@ const props = defineProps({
           <el-timeline-item
               v-for="(activity, index) in history"
               :key="index"
-              :timestamp="activity.createdAt"
+              :timestamp="formatDateAbsolute(activity.createdAt)"
               :type="activity.action_type === 'created' ? 'success' :
                    activity.action_type === 'accepted' ? 'success' :
                    activity.action_type === 'declined' ? 'danger' :

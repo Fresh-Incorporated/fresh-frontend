@@ -48,7 +48,7 @@ onMounted(() => {
                   'text-neutral-500': bh.value == 0,
                 }">{{bh.value}} АР</p>
               </div>
-              <p class="absolute bottom-1 right-1 text-xs text-neutral-600">{{bh.createdAt}}</p>
+              <p class="absolute bottom-1 right-1 text-xs text-neutral-600">{{ formatDateRelative(bh.createdAt) }}</p>
             </div>
           </div>
         </transition>

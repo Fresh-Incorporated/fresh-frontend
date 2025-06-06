@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {http} from "~/composables/useHttp"
+import {formatDateAbsolute} from "~/utils/convertDate";
 
 const model = defineModel()
 const props = defineProps({
@@ -18,7 +19,7 @@ const props = defineProps({
         <el-timeline-item
             v-for="(activity, index) in history"
             :key="index"
-            :timestamp="activity.createdAt"
+            :timestamp="formatDateAbsolute(activity.createdAt)"
             :type="activity.action_type === 'created' ? 'success' :
                    activity.action_type === 'paid' ? 'success' :
                    activity.action_type === 'confirmed' ? 'success' : 'primary'"
