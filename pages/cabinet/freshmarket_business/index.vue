@@ -103,7 +103,6 @@ watch(openedCreateMenu, (newValue) => {
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8 mb-8">
           <Skeleton class="w-full h-64 col-span-2" v-model="updatingShops" />
           <Skeleton class="w-full h-64 col-span-2" v-model="updatingShops" />
-          <Skeleton class="w-full h-64 col-span-1" v-model="updatingShops" />
           <Skeleton class="w-full h-96 col-span-1 md:col-span-2 lg:col-span-3 xl:col-span-4 2xl:col-span-5" v-model="updatingShops" />
         </div>
       </div>
