@@ -32,12 +32,33 @@ const history = ref([])
           </el-carousel-item>
         </el-carousel>
       </div>
-      <div>
-        <p>Описание: {{branchInfo?.description}}</p>
-        <p>Город: <strong>{{branchInfo?.city}}</strong></p>
-        <div v-for="cord in branchInfo?.coordinates">
-          {{cord.world}} {{cord.x}} {{cord.y}} {{cord.z}}
+      <div class="flex flex-col gap-1">
+        <div class="flex flex-col">
+          <h1 class="text-xl  text-white">{{ branchInfo?.name }}</h1>
+          <p v-if="branchInfo?.description != null">{{ branchInfo?.description }}</p>
         </div>
+        <div v-if="branchInfo?.city != null">
+          <span>Город: </span>
+          <span>{{ branchInfo?.city }}</span>
+        </div>
+        <div class="w-full">
+          <h1 class="text-center text-white text-lg">Как добраться?</h1>
+          <div class="w-full">
+            <div v-if="branchInfo?.coordinates.some((someBranch) => someBranch.world == 'nether')" class="w-full flex justify-between">
+              <span>Координаты в метро:</span>
+              <span>{{ branchInfo?.coordinates.find((someBranch) => someBranch.world == 'nether').x }} {{ branchInfo?.coordinates.find((someBranch) => someBranch.world == 'nether').z }}</span>
+            </div>
+            <div v-if="branchInfo?.coordinates.some((someBranch) => someBranch.world == 'the_end')" class="w-full flex justify-between">
+              <span>Координаты в энде:</span>
+              <span>{{ branchInfo?.coordinates.find((someBranch) => someBranch.world == 'the_end').x }} {{branchInfo?.coordinates.find((someBranch) => someBranch.world == 'overworld').y }} {{branchInfo?.coordinates.find((someBranch) => someBranch.world == 'overworld').z }}</span>
+            </div>
+            <div v-if="branchInfo?.coordinates.some((someBranch) => someBranch.world == 'overworld')" class="w-full flex justify-between">
+              <span>Координаты в верхнем мире:</span>
+              <span>{{ branchInfo?.coordinates.find((someBranch) => someBranch.world == 'overworld').x }}  {{branchInfo?.coordinates.find((someBranch) => someBranch.world == 'overworld').y }} {{branchInfo?.coordinates.find((someBranch) => someBranch.world == 'overworld').z }}</span>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
     <template #footer>

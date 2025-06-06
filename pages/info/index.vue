@@ -185,7 +185,6 @@
       </div>
       <div class="bg-neutral-100 dark:bg-neutral-800/[0.5] rounded-xl p-4 shadow dark:shadow-lg">
         <h2 class="text-2xl font-medium">Документы</h2>
-        <div class="w-full h-px bg-neutral-300 dark:bg-neutral-700 my-2"></div>
         <el-collapse>
           <el-collapse-item title="Пользовательское соглашение" name="1">
             <div>

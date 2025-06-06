@@ -129,7 +129,7 @@ const isDev = import.meta.dev;
                 <p class="text-sm truncate font-medium text-right">{{ user.nickname }}</p>
                 <div class="grid grid-cols-2">
                   <div class="flex items-center justify-end gap-0.5">
-                    <p class="font-rubik text-xs text-cyan-500 text-nowrap">{{ user.balance }}</p>
+                    <p class="font-rubik text-xs text-cyan-500 text-nowrap">{{ user.balance.toFixed(2) }}</p>
                     <img class="w-3 h-3" src="https://assets.zaralx.ru/api/v1/minecraft/vanilla/item/deepslate_diamond_ore/icon" alt="">
                   </div>
                   <div>
