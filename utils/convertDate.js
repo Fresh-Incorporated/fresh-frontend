@@ -35,7 +35,7 @@ export function formatDateRelative(input_date) {
             if (unit === 'minute') unitForm = interval === 1 ? 'минуту' : interval < 5 ? 'минуты' : 'минут';
             else if (unit === 'hour') unitForm = interval === 1 ? 'час' : interval < 5 ? 'часа' : 'часов';
             else if (unit === 'day') unitForm = interval === 1 ? 'день' : interval < 5 ? 'дня' : 'дней';
-            else unitForm = interval === 1 ? unit : unit === 'month' ? 'месяца' : 'лет';
+            else unitForm = interval === 1 ? unit : unit === 'месяц' ? 'месяца' : 'лет';
 
             return `${interval} ${unitForm} назад`;
         }
