@@ -70,7 +70,7 @@ const isDev = import.meta.dev;
   </div>
   <el-affix class="z-30">
     <div
-        class="h-14 w-full bg-black/[.02] dark:bg-black/[.2] backdrop-blur border-b-[1px] border-neutral-200 dark:border-neutral-800 shadow-sm dark:shadow-lg py-1 px-2 md:px-16 z-10">
+        class="h-14 w-full bg-neutral-50/[.9] dark:bg-neutral-900/[.9] backdrop-blur border-b-[1px] border-neutral-200 dark:border-neutral-800 shadow-sm dark:shadow-lg py-1 px-2 md:px-16 z-10">
       <div
           class="absolute inset-0 h-full w-full bg-[linear-gradient(to_right,#80808009_1px,transparent_1px),linear-gradient(to_bottom,#80808009_1px,transparent_1px)] bg-[size:16px_16px] -z-10"
       ></div>
