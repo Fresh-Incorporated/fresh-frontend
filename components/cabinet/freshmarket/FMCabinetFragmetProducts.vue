@@ -251,8 +251,12 @@ watch(shops, (shops) => {
         </div>
       </template>
     </el-dialog>
-    <div class="mt-4 ml-4">
+    <div class="mt-4 ml-4 flex gap-2 items-center">
       <p class="text-sm text-neutral-500">Лимит товаров: {{currentShop?.products?.length}}/{{currentShop?.products_limit}}</p>
+
+      <el-tooltip content="Увеличить лимит" effect="light" placement="top">
+        <el-button disabled type="info" size="small" plain class="!px-1 aspect-square !h-5 !text-xs"><i class="pi pi-plus"></i></el-button>
+      </el-tooltip>
     </div>
     <div v-if="currentShop?.products?.length === 0" class="flex justify-center items-center h-full">
       <p>В этом магазине нет товаров!</p>
@@ -381,9 +385,9 @@ watch(shops, (shops) => {
           </div>
         </div>
       </div>
-      <button @click="createProductOpened = true" class="w-full h-full aspect-square border-2 border-dashed p-2
+      <button :disabled="currentShop?.products?.length == currentShop?.products_limit" @click="createProductOpened = true" class="w-full h-full aspect-square border-2 border-dashed p-2
       rounded-lg shadow hover:bg-neutral-200 relative flex flex-col gap-2 border-neutral-800 flex flex-col
-      justify-center items-center transition-all group/create hover:dark:bg-neutral-950/[0.5]"
+      justify-center items-center transition-all group/create hover:dark:bg-neutral-950/[0.5] disabled:opacity-50 disabled:cursor-not-allowed"
               :class="currentShop?.products?.length == currentShop?.products_limit ?
                 'hover:border-red-600' : 'hover:border-green-600'">
         <p :class="currentShop?.products?.length == currentShop?.products_limit ?
