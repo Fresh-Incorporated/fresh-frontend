@@ -23,8 +23,8 @@
       <div
           class="absolute inset-0 h-full w-full bg-[linear-gradient(to_right,#80808009_1px,transparent_1px),linear-gradient(to_bottom,#80808009_1px,transparent_1px)] bg-[size:16px_16px] z-10"
       ></div>
-      <div class="flex flex-col md:flex-row w-full text-xl pb-4 px-2 md:px-16 space-y-4">
-        <div class="flex-1">
+      <div class="flex flex-col lg:flex-row w-full text-xl pb-4 px-2 md:px-16 space-y-4 md:space-y-0">
+        <div class="flex-1 flex flex-col justify-end">
           <div>
             <p class="absolute font-rubik text-2xl blur-sm select-none text-black opacity-0 dark:opacity-50 dark:text-white">Fresh Inc.</p>
             <p class="font-rubik text-2xl text-nowrap text-black-600 dark:text-white">Fresh Inc.</p>
