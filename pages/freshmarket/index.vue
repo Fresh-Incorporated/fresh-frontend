@@ -98,12 +98,16 @@ const searchInput = async () => {
       <FMProductsList v-if="productsModel.products.length > 0" v-model="productsModel"/>
     </transition>
     <transition>
-      <div v-if="isAllLoaded && productsModel.products.length > 0"
-           class="transform duration-500 flex justify-center my-6 text-xl items-center gap-2">
+      <div v-if="isAllLoaded && productsModel.products.length > 0 && (search.length > 0)"
+           class="transform duration-500 flex justify-center my-6 text-base md:text-xl items-center gap-2">
         <i class="pi pi-times"></i>Похоже, больше нет товаров по вашему запросу!
       </div>
+      <div v-else-if="isAllLoaded && productsModel.products.length > 0"
+           class="transform duration-500 flex justify-center my-6 text-base md:text-xl items-center gap-2">
+        <i class="pi pi-times"></i>Похоже, больше нет товаров!
+      </div>
       <div v-else-if="isAllLoaded && productsModel.products.length == 0"
-           class="transform duration-500 flex justify-center my-6 text-xl items-center gap-2">
+           class="transform duration-500 flex justify-center my-6 text-base md:text-xl items-center gap-2">
         <i class="pi pi-times"></i>Похоже, нет товаров по вашему запросу, попробуйте изменить фильтры!
       </div>
     </transition>
