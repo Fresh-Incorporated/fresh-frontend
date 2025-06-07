@@ -18,20 +18,17 @@ watch(notificationsEnabled, async (value) => {
 
   if (value) {
     // включение уведомлений
-    const subscription = await sw.pushManager.getSubscription();
-    if (!subscription) {
-      const sub = await sw.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: urlBase64ToUint8Array(useRuntimeConfig().public.webPushPublic)
-      });
-      await http.post('/users/@me/notifications/subscribe', { subscription: sub });
-    }
+    const sub = await sw.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: urlBase64ToUint8Array(useRuntimeConfig().public.webPushPublic)
+    });
+    await http.post('/users/@me/notifications/subscribe', { subscription: sub });
   } else {
     // отключение уведомлений
     const subscription = await sw.pushManager.getSubscription();
     if (subscription) {
       await http.post('/users/@me/notifications/unsubscribe', { endpoint: subscription.endpoint });
-      await subscription.unsubscribe();
+      // await subscription.unsubscribe(); antispam db
     }
   }
   loading.value = false;
