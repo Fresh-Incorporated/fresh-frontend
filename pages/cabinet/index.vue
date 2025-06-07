@@ -2,6 +2,7 @@
 import CabinetFragmentWelcome from "~/components/cabinet/CabinetFragmentWelcome.vue";
 import CabinetFragmentBalance from "~/components/cabinet/CabinetFragmentBalance.vue";
 import CabinetFragmentBalanceHistory from "~/components/cabinet/CabinetFragmentBalanceHistory.vue";
+import CabinetFragmentSettings from "~/components/cabinet/CabinetFragmentSettings.vue";
 
 definePageMeta({
   layout: 'cabinet'
@@ -13,6 +14,7 @@ definePageMeta({
   <CabinetFragmentWelcome />
   <CabinetFragmentBalance />
   <CabinetFragmentBalanceHistory />
+  <CabinetFragmentSettings />
 </div>
 </template>
 

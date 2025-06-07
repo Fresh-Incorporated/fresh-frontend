@@ -1,6 +1,5 @@
 <script setup lang="ts">
 const showBetaCookie = useCookie<boolean>('showBeta', { default: () => true })
-console.log(showBetaCookie)
 </script>
 
 <template>
