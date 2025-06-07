@@ -17,6 +17,11 @@ const load = async () => {
 onMounted(() => {
   load()
 })
+
+function formatNumber(num) {
+  const rounded = Math.round(num * 100) / 100;
+  return (rounded % 1 === 0) ? rounded.toFixed(0) : rounded.toFixed(2);
+}
 </script>
 
 <template>
@@ -45,7 +50,7 @@ onMounted(() => {
                   'text-red-500': bh.value < 0,
                   'text-green-500': bh.value > 0,
                   'text-neutral-500': bh.value == 0,
-                }" class="text-sm md:text-base">{{bh.value}} АР</p>
+                }" class="text-sm md:text-base">{{formatNumber(bh.value)}} АР</p>
               </div>
               <p class="absolute bottom-1 right-1 text-xs text-neutral-600">{{ formatDateRelative(bh.createdAt) }}</p>
             </div>
