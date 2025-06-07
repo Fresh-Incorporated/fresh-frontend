@@ -9,6 +9,12 @@ export default defineNuxtConfig({
     },
   },
 
+  runtimeConfig: {
+    public: {
+      webPushPublic: process.env.WEB_PUSH_PUBLIC
+    }
+  },
+
   // Global css
   css: ['~/assets/css/main.css'],
 
@@ -47,6 +53,9 @@ export default defineNuxtConfig({
           href: 'https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Rubik:ital,wght@0,300..900;1,300..900&family=Fira+Code:wght@300..700&display=swap&family=Onest:wght@100..900',
         },
         { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      ],
+      script: [
+        { src: '/register-sw.js', type: 'text/javascript', defer: true }
       ],
     },
     pageTransition: { name: 'page', mode: 'out-in' },
