@@ -11,7 +11,7 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      webPushPublic: process.env.WEB_PUSH_PUBLIC
+      webPushPublic: ''
     }
   },
 
