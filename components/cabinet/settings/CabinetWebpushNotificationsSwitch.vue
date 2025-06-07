@@ -4,15 +4,21 @@ import {http} from "~/composables/useHttp";
 const notificationsEnabled = ref(false);
 const hasSubscription = ref(false);
 const loading = ref(false);
+const loadedComponent = ref(false);
 
 onMounted(async () => {
   const sw = await navigator.serviceWorker.ready;
   const subscription = await sw.pushManager.getSubscription();
   hasSubscription.value = !!subscription;
   notificationsEnabled.value = !!subscription;
+  await nextTick()
+  loadedComponent.value = true;
 });
 
 watch(notificationsEnabled, async (value) => {
+  if (!loadedComponent.value) {
+    return
+  }
   loading.value = true;
   const sw = await navigator.serviceWorker.ready;
 
