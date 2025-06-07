@@ -8,7 +8,6 @@ const {user, userLoading, balanceHistory, moreBalanceHistory} = useUser()
 const allLoaded = ref(false);
 
 const load = async () => {
-  console.log(123);
   const newHistoryItems = await moreBalanceHistory()
   if (newHistoryItems.length < 20) {
     allLoaded.value = true;
