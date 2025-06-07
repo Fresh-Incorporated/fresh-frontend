@@ -1,4 +1,16 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import {http} from "~/composables/useHttp"
+
+const stats = ref({
+  online: 0,
+  users: 0
+})
+
+onMounted(async () => {
+  stats.value = (await http.get("/stats")).data
+})
+
+</script>
 
 <template>
   <div
@@ -44,8 +56,16 @@
         </p>
       </div>
     </div>
-    <div class="w-full h-96 hidden lg:block">
-      <!--      <ProjectOverview />-->
+    <div class="w-full h-96 hidden lg:flex flex-col items-center justify-center">
+      <div class="text-lg">
+        <p class="text-center text-neutral-300 text-sm font-medium">Статистика</p>
+        <div>
+          <p><span class="text-blue-500 font-bold text-xl">{{stats.users}}</span> Регистраций</p>
+        </div>
+        <div>
+          <p><span class="text-blue-500 font-bold text-xl">{{stats.online}}</span> Онлайн</p>
+        </div>
+      </div>
     </div>
   </div>
 </template>
