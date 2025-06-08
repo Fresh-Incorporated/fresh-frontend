@@ -1,4 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import tailwindcss from "@tailwindcss/vite";
+
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: {
@@ -15,15 +17,14 @@ export default defineNuxtConfig({
     }
   },
 
-  // Global css
-  css: ['~/assets/css/main.css'],
-
-  postcss: {
-    plugins: {
-      tailwindcss: {},
-      autoprefixer: {},
-    },
+  vite: {
+    plugins: [
+      tailwindcss(),
+    ],
   },
+
+  // Global css
+  css: ['~/assets/css/main.css'],D
 
   app: {
     head: {
@@ -70,5 +71,5 @@ export default defineNuxtConfig({
     classSuffix: ''
   },
 
-  modules: ['@nuxtjs/color-mode', '@nuxtjs/tailwindcss', '@element-plus/nuxt', '@nuxt/icon', '@nuxtjs/device'],
+  modules: ['@nuxtjs/color-mode', '@element-plus/nuxt', '@nuxt/icon', '@nuxtjs/device'],
 })

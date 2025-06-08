@@ -70,9 +70,9 @@ const isDev = import.meta.dev;
   </div>
   <el-affix class="z-30">
     <div
-        class="h-14 w-full bg-neutral-50/[.9] dark:bg-neutral-900/[.9] backdrop-blur border-b-[1px] border-neutral-200 dark:border-neutral-800 shadow-sm dark:shadow-lg py-1 px-2 md:px-16 z-10">
+        class="h-14 w-full bg-neutral-50/[.9] dark:bg-neutral-900/[.9] backdrop-blur-sm border-b border-neutral-200 dark:border-neutral-800 shadow-xs dark:shadow-lg py-1 px-2 md:px-16 z-10">
       <div
-          class="absolute inset-0 h-full w-full bg-[linear-gradient(to_right,#80808009_1px,transparent_1px),linear-gradient(to_bottom,#80808009_1px,transparent_1px)] bg-[size:16px_16px] -z-10"
+          class="absolute inset-0 h-full w-full bg-[linear-gradient(to_right,#80808009_1px,transparent_1px),linear-gradient(to_bottom,#80808009_1px,transparent_1px)] bg-size-[16px_16px] -z-10"
       ></div>
       <div class="flex items-center h-full">
         <div class="md:hidden">
@@ -83,7 +83,7 @@ const isDev = import.meta.dev;
         </div>
         <NuxtLink to="/" class="hidden md:flex items-center h-full gap-1 md:w-60 ml-2 md:ml-0">
           <!--          <img class="h-8" src="/logo.svg" alt="">-->
-          <p class="absolute font-rubik text-xl blur-sm opacity-0 dark:opacity-50 select-none">Fresh Inc.</p>
+          <p class="absolute font-rubik text-xl blur-xs opacity-0 dark:opacity-50 select-none">Fresh Inc.</p>
           <p class="font-rubik text-xl text-nowrap">Fresh Inc.</p>
         </NuxtLink>
         <div class="w-full hidden md:flex justify-center items-center gap-2">
@@ -111,13 +111,13 @@ const isDev = import.meta.dev;
           >
             <template #active-action>
               <div
-                  class="bg-neutral-900 !w-5 !h-5 aspect-square rounded-full flex justify-center items-center text-xs text-neutral-300">
+                  class="bg-neutral-900 w-5! h-5! aspect-square rounded-full flex justify-center items-center text-xs text-neutral-300">
                 <i class="pi pi-moon"></i>
               </div>
             </template>
             <template #inactive-action>
               <div
-                  class="bg-neutral-200 !w-5 !h-5 aspect-square rounded-full flex justify-center items-center text-xs text-neutral-700">
+                  class="bg-neutral-200 w-5! h-5! aspect-square rounded-full flex justify-center items-center text-xs text-neutral-700">
                 <i class="pi pi-sun"></i>
               </div>
             </template>

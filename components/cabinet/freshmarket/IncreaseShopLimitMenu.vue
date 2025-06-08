@@ -64,7 +64,7 @@ const confirm = async () => {
           <div class="border rounded-md h-16 border-green-500 flex flex-col justify-center items-center text-green-500 font-medium">
             <p class="text-xs">Выгода</p>
             <div>
-              <p class="font-bold absolute blur-sm">{{ benefit }} АР <span class="text-xs">({{benefitPercent}}%)</span></p>
+              <p class="font-bold absolute blur-xs">{{ benefit }} АР <span class="text-xs">({{benefitPercent}}%)</span></p>
               <p class="font-bold">{{ benefit }} АР <span class="text-xs">({{benefitPercent}}%)</span></p>
             </div>
           </div>

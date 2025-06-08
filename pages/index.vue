@@ -28,7 +28,7 @@ import IndexHead from "~/components/index/IndexHead.vue";
       </div>
     </div>
 <!--    <NuxtLink to="/freshmarket">-->
-<!--      <el-button type="primary" plain size="large" class="!py-6 !px-8"><p class="text-2xl font-montserrat"><i class="pi pi-bolt"></i> Начать покупки!</p></el-button>-->
+<!--      <el-button type="primary" plain size="large" class="py-6! px-8!"><p class="text-2xl font-montserrat"><i class="pi pi-bolt"></i> Начать покупки!</p></el-button>-->
 <!--    </NuxtLink>-->
   </div>
 </div>

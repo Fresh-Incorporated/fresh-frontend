@@ -258,7 +258,7 @@ watch(shops, (shops) => {
       <p class="text-sm text-neutral-500">Лимит товаров: {{currentShop?.products?.length}}/{{currentShop?.products_limit}}</p>
 
       <el-tooltip content="Увеличить лимит" effect="light" placement="top">
-        <el-button @click="increaseProductOpened = true" type="info" size="small" plain class="!px-1 aspect-square !h-5 !text-xs"><i class="pi pi-plus"></i></el-button>
+        <el-button @click="increaseProductOpened = true" type="info" size="small" plain class="px-1! aspect-square h-5! text-xs!"><i class="pi pi-plus"></i></el-button>
       </el-tooltip>
     </div>
 <!--    <div v-if="currentShop?.products?.length === 0" class="flex justify-center items-center h-full">-->
@@ -268,7 +268,7 @@ watch(shops, (shops) => {
       <div v-for="product in currentShop?.products"
            :key="product.id"
            :class="[
-         'w-full h-full aspect-square border p-2 rounded-lg shadow bg-neutral-200 dark:bg-neutral-950/[0.25] relative flex flex-col gap-2',
+         'w-full h-full aspect-square border p-2 rounded-lg shadow-sm bg-neutral-200 dark:bg-neutral-950/[0.25] relative flex flex-col gap-2',
          notificationByProductId(product.id)?.type === 'info' ? 'border-blue-500' :
          notificationByProductId(product.id)?.type === 'warning' ? 'border-yellow-500' :
          notificationByProductId(product.id)?.type === 'danger' ? 'border-red-500' :
@@ -294,7 +294,7 @@ watch(shops, (shops) => {
                   'text-red-500': notify.type === 'danger'
                 }
               ]">
-                <div class="blur-sm absolute h-5">
+                <div class="blur-xs absolute h-5">
                   <Icon :name="notify.type === 'warning' ? 'uil:exclamation-triangle' :
                          notify.type === 'info' ? 'uil:exclamation-circle' :
                          'uil:exclamation-octagon'" size="20"/>
@@ -323,7 +323,7 @@ watch(shops, (shops) => {
           >
             <button :disabled="product.refill_status >= 2" @click="() => handleProductAction(product, 'refill')"
                     class="w-6 h-6 flex justify-center items-center text-green-400 disabled:opacity-50">
-              <div v-if="product.refill_status == 1" class="w-6 h-6 bg-green-500 absolute blur-sm rounded-full opacity-25"></div>
+              <div v-if="product.refill_status == 1" class="w-6 h-6 bg-green-500 absolute blur-xs rounded-full opacity-25"></div>
               <Icon name="material-symbols:deployed-code-update-outline" size="24"/>
             </button>
           </el-tooltip>
@@ -371,7 +371,7 @@ watch(shops, (shops) => {
         <div class="flex justify-center items-center relative">
           <div v-if="product.refill_status == 1" class="absolute w-1/2 aspect-square bg-neutral-400/[0.75] dark:bg-black/[0.75] rounded-lg flex flex-col justify-center items-center">
             <p class="text-orange-700 dark:text-yellow-400 font-semibold">Пополнение</p>
-            <p>Ячейка: <strong class="absolute blur-sm text-blue-700/[0.5] dark:text-white">{{ product?.refillCell?.letter }}-{{ product?.refillCell?.number }}</strong><strong class="text-blue-700 dark:text-white">{{ product?.refillCell?.letter }}-{{ product?.refillCell?.number }}</strong></p>
+            <p>Ячейка: <strong class="absolute blur-xs text-blue-700/[0.5] dark:text-white">{{ product?.refillCell?.letter }}-{{ product?.refillCell?.number }}</strong><strong class="text-blue-700 dark:text-white">{{ product?.refillCell?.letter }}-{{ product?.refillCell?.number }}</strong></p>
             <el-button @click="handleProductAction(product, 'refill')" class="absolute bottom-4" size="small" type="success" plain>Открыть</el-button>
           </div>
           <img :src="product.icon" class="w-1/2 aspect-square" alt="">
@@ -390,7 +390,7 @@ watch(shops, (shops) => {
       </div>
       <button :disabled="currentShop?.products?.length == currentShop?.products_limit" @click="createProductOpened = true" class="w-full h-full aspect-square border-2 border-dashed p-2
       rounded-lg shadow hover:bg-neutral-200 relative flex flex-col gap-2 border-neutral-800 flex flex-col
-      justify-center items-center transition-all group/create hover:dark:bg-neutral-950/[0.5] disabled:opacity-50 disabled:cursor-not-allowed"
+      justify-center items-center transition-all group/create dark:hover:bg-neutral-950/[0.5] disabled:opacity-50 disabled:cursor-not-allowed"
               :class="currentShop?.products?.length == currentShop?.products_limit ?
                 'hover:border-red-600' : 'hover:border-green-600'">
         <p :class="currentShop?.products?.length == currentShop?.products_limit ?
