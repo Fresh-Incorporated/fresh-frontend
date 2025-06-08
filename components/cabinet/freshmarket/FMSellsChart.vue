@@ -82,7 +82,7 @@ const options = {
       for (let i = 0; i < series.value.length; i++) {
         infoFields += '<div class="flex items-center gap-2"><div class="rounded-full w-3 h-3" style="background: '+w.globals.colors[i]+';"></div>'+w.globals.seriesNames[i]+': <p class="font-bold ml-auto mr-0 pl-2">'+series.value[i].data[dataPointIndex]+'</p></div>';
       }
-      return '<div class="backdrop-blur-sm shadow">' +
+      return '<div class="backdrop-blur-xs shadow-sm">' +
           '<div class="bg-themeBackgroundThird p-1 opacity-90">'+formattedDate+'</div>' +
           '<div class="bg-themeBackgroundThird p-1 opacity-75">' +
           infoFields +

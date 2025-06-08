@@ -16,12 +16,12 @@ const props = defineProps({
     <div :class="show ? 'absolute' : 'opacity-0 absolute'" class="w-96 h-52 border bg-neutral-800 border-neutral-700 rounded-xl opacity-50 transition-all duration-200" :style="`transform: translate(${props.xOffset}px, ${props.yOffset}px)`">
 
     </div>
-    <div v-if="show" class="overflow-hidden relative shadow-lg z-10 w-96 h-52 rounded-xl [background:conic-gradient(from_var(--border-angle),theme(colors.neutral.600/.48)_80%,_theme(colors.primary.dark)_86%,_theme(colors.green.500)_90%,_theme(colors.primary.dark)_94%,_theme(colors.slate.600/.48))_border-box] border border-transparent animate-border">
+    <div v-if="show" class="overflow-hidden relative shadow-lg z-10 w-96 h-52 rounded-xl [background:conic-gradient(from_var(--border-angle),--theme(--color-neutral-600/.48)_80%,--theme(--color-primary-dark)_86%,--theme(--color-green-500)_90%,--theme(--color-primary-dark)_94%,--theme(--color-slate-600/.48))_border-box] border border-transparent animate-border">
       <slot>
         <div class="absolute w-6 h-6 bg-white blur-2xl"></div>
         <div class="p-4 w-full h-full rounded-xl bg-neutral-800 flex flex-col">
           <h2 class="text-xl font-rubik font-bold">{{props.title}}</h2>
-          <div class="flex-grow">
+          <div class="grow">
             <slot name="body">
               <div class="grid grid-rows-4 h-full text-sm py-2 text-green-500">
                 <p><i class="pi pi-check-circle"></i>  Выгодная торговля</p>

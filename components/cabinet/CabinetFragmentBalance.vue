@@ -106,7 +106,7 @@ onBeforeUnmount(() => {
         <p class="text-lg">Ваш баланс</p>
       </div>
       <div>
-        <p class="absolute text-sky-500 font-rubik text-2xl blur-sm opacity-50">{{ user?.balance.toFixed(2) }} АР</p>
+        <p class="absolute text-sky-500 font-rubik text-2xl blur-xs opacity-50">{{ user?.balance.toFixed(2) }} АР</p>
         <p class="text-sky-500 font-rubik text-2xl">{{ user?.balance.toFixed(2) }} АР</p>
       </div>
       <div class="relative w-full mt-2">

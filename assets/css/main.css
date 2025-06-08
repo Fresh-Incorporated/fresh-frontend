@@ -1,10 +1,57 @@
-@import "light.css";
-@import "dark.css";
-@import "primeicons/primeicons.css";
+@import './light.css' layer(base);
+@import './dark.css' layer(base);
+@import 'primeicons/primeicons.css' layer(base);
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@plugin 'tailwindcss-animation-delay';
+@plugin '@xpd/tailwind-3dtransforms';
+@plugin '@designbycode/tailwindcss-text-stroke';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --animate-border: border 4s linear infinite;
+  --animate-clip-fluid: clip-fluid 4s ease-in-out infinite;
+
+  --color-main-light: #fff;
+  --color-main-dark: #191919;
+
+  --color-primary-light: #0094ff;
+  --color-primary-dark: #0094ff;
+
+  --color-secondary-light: #0087e7;
+  --color-secondary-dark: #007fd7;
+
+  --font-montserrat: Montserrat, none;
+  --font-rubik: Rubik, none;
+  --font-fira: 'Fira Code', none;
+  --font-onest: 'Onest', none;
+
+  @keyframes border {
+    to {
+      --border-angle: 360deg;
+    }
+  }
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
 
 * {
     scroll-behavior: smooth;
@@ -39,4 +86,8 @@
                 0% 100%
         );
     }
+}
+
+button, a {
+    cursor: pointer;
 }

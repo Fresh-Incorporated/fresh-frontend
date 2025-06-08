@@ -5,7 +5,7 @@
 <template>
   <div>
     <div class="xl:px-48 py-8 flex flex-col gap-8">
-      <div class="bg-neutral-100 dark:bg-neutral-800/[0.5] rounded-xl p-4 shadow dark:shadow-lg">
+      <div class="bg-neutral-100 dark:bg-neutral-800/[0.5] rounded-xl p-4 shadow-sm dark:shadow-lg">
         <h2 class="text-2xl font-medium">Что такое Fresh Inc?</h2>
         <div class="w-full h-px bg-neutral-300 dark:bg-neutral-700 my-2"></div>
         <p>Fresh Inc. — это инновационный IT-проект, созданный для воплощения самых амбициозных идей и предоставления
@@ -21,7 +21,7 @@
           </el-button>
         </a>
       </div>
-      <div class="bg-neutral-100 dark:bg-neutral-800/[0.5] rounded-xl p-4 shadow dark:shadow-lg">
+      <div class="bg-neutral-100 dark:bg-neutral-800/[0.5] rounded-xl p-4 shadow-sm dark:shadow-lg">
         <h2 class="text-2xl font-medium">Авторы</h2>
         <div class="w-full h-px bg-neutral-300 dark:bg-neutral-700 my-2"></div>
         <div class="grid grid-cols-2 gap-4">
@@ -32,7 +32,7 @@
                 class="w-44 h-20 bg-orange-500 blur-3xl absolute transform translate-x-1/2 translate-y-1/2 bottom-0 right-0"></div>
             <div>
               <img src="https://vzge.me/bust/_zaralX_"
-                   class="w-40 transform -translate-x-10 translate-y-12 absolute blur" alt="">
+                   class="w-40 transform -translate-x-10 translate-y-12 absolute blur-sm" alt="">
               <img src="https://vzge.me/bust/_zaralX_" class="w-40 transform -translate-x-10 translate-y-12 absolute"
                    alt="">
             </div>
@@ -72,7 +72,7 @@
                 class="w-44 h-20 bg-teal-500 blur-3xl absolute transform translate-x-1/2 translate-y-1/2 bottom-0 right-0"></div>
             <div>
               <img src="https://vzge.me/bust/Elsham1r"
-                   class="w-40 transform -translate-x-10 translate-y-12 absolute blur" alt="">
+                   class="w-40 transform -translate-x-10 translate-y-12 absolute blur-sm" alt="">
               <img src="https://vzge.me/bust/Elsham1r" class="w-40 transform -translate-x-10 translate-y-12 absolute"
                    alt="">
             </div>
@@ -159,7 +159,7 @@
         </div>
       </div>
       <div class="grid grid-cols-1 gap-4">
-        <div class="bg-neutral-100 dark:bg-neutral-800/[0.5] rounded-xl p-4 shadow dark:shadow-lg">
+        <div class="bg-neutral-100 dark:bg-neutral-800/[0.5] rounded-xl p-4 shadow-sm dark:shadow-lg">
           <h2 class="text-2xl font-medium">Что такое FreshMarket?</h2>
           <div class="w-full h-px bg-neutral-300 dark:bg-neutral-700 my-2"></div>
           <p>FreshMarket — это маркетплейс в майнкрафте, позволяющий покупать и продавать различные товары.
@@ -183,7 +183,7 @@
           </div>
         </div>
       </div>
-      <div class="bg-neutral-100 dark:bg-neutral-800/[0.5] rounded-xl p-4 shadow dark:shadow-lg">
+      <div class="bg-neutral-100 dark:bg-neutral-800/[0.5] rounded-xl p-4 shadow-sm dark:shadow-lg">
         <h2 class="text-2xl font-medium">Документы</h2>
         <el-collapse>
           <el-collapse-item title="Пользовательское соглашение" name="1">
@@ -641,6 +641,8 @@
 </template>
 
 <style scoped>
+@reference "tailwindcss";
+
 h2 {
   @apply text-lg font-medium;
 }
