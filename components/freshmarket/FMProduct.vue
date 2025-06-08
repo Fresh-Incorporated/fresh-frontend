@@ -50,7 +50,11 @@ const {putInCart, cart} = useUser()
       <div class="flex-1 flex flex-col justify-end">
         <div class="w-full" v-if="props.count < 10">
           <p class="text-xs text-amber-500 font-medium">Осталось: {{ props.count }} ед.</p>
-          <el-progress :percentage="props.count * 5" :stroke-width="10" striped status="warning" />
+          <el-progress :percentage="props.count * 4" :stroke-width="10" striped status="warning" />
+        </div>
+        <div class="w-full" v-if="props.count >= 10">
+          <p class="text-xs text-blue-400 font-medium">Осталось: {{ props.count }} ед.</p>
+          <el-progress :percentage="props.count + 50" :stroke-width="10" striped> </el-progress>
         </div>
       </div>
     </div>
@@ -69,5 +73,7 @@ const {putInCart, cart} = useUser()
 </template>
 
 <style scoped>
-
+:deep(.el-progress .el-progress__text) {
+  display: none;
+}
 </style>
