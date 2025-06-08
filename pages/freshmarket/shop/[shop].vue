@@ -37,12 +37,12 @@ onMounted(async () => {
       <div class="bg-neutral-900 border border-neutral-800 rounded-lg w-64 h-16 mb-2">
         <div class="p-2 flex gap-1">
           <div class="w-12 h-12">
-            <img class="w-full h-full" src="https://assets.zaralx.ru/api/v1/minecraft/vanilla/player/face/11fd94e9-706b-486e-8274-60c55a55c01b/full" alt="">
+            <img class="w-full h-full" :src="`https://assets.zaralx.ru/api/v1/minecraft/vanilla/player/face/${shop?.owner?.uuid}/full`" alt="">
           </div>
-          <div class="flex flex-col justify-end py-1">
-            <p class="font-medium flex-0.5">_zaralX__zaralX_</p>
+          <div class="flex flex-col justify-end px-1 py-1">
+            <p class="font-medium flex-0.5">{{shop?.owner?.nickname}}</p>
             <div class="text-xs flex font-semibold">
-              <div class="text-red-500 rounded-md px-1 py-0.5">Владелец</div>
+              <div class="text-red-500 rounded-md py-0.5">Владелец</div>
             </div>
           </div>
         </div>
@@ -59,6 +59,7 @@ onMounted(async () => {
                    :stack_count="product.stack_count"
                    :shop_icon="shop.icon"
                    :shop_name="shop.name"
+                   :shop_tag="shop.tag"
         />
       </div>
     </div>

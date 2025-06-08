@@ -10,6 +10,7 @@ const props = defineProps({
   count: Number,
   slots_count: Number,
   stack_count: Number,
+  shop_tag: String,
 })
 
 const {putInCart, cart} = useUser()
@@ -39,13 +40,13 @@ const {putInCart, cart} = useUser()
           </template>
         </el-tooltip>
       </div>
-      <div class="flex items-center gap-2">
+      <NuxtLink class="flex items-center gap-2" :to="`/freshmarket/shop/${shop_tag}`">
         <img class="w-5 h-5" :src="props.shop_icon" alt="">
         <p class="font-medium">{{props.shop_name}}</p>
         <div class="flex-1 flex justify-end">
-<!--          <p class="text-xs font-rubik opacity-75"><i class="pi pi-star-fill text-yellow-400"></i> <span>4.7</span> <span>999 Оценок</span></p>-->
+          <!--          <p class="text-xs font-rubik opacity-75"><i class="pi pi-star-fill text-yellow-400"></i> <span>4.7</span> <span>999 Оценок</span></p>-->
         </div>
-      </div>
+      </NuxtLink>
       <div class="flex-1 flex flex-col justify-end">
         <div class="w-full" v-if="props.count < 10">
           <p class="text-xs text-amber-500 font-medium">Осталось: {{ props.count }} ед.</p>
