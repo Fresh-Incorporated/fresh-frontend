@@ -57,7 +57,7 @@ const finish = async (id: number) => {
               {{products.find(product => product.id === row.id)?.description}}
             </template>
           </el-table-column>
-          <el-table-column prop="stack" label="Кол-во в слоте">
+          <el-table-column prop="stack" label="Кол-во в каждом слоте">
             <template #default="{ row }">
               {{products.find(product => product.id === row.id)?.stack_count}}
             </template>
