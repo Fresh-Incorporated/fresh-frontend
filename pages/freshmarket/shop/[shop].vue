@@ -25,16 +25,16 @@ onMounted(async () => {
   <FMCartButton/>
   <div class="w-full h-full overflow-auto my-4 md:w-11/12 mx-auto space-y-2">
     <div class="flex items-end">
-      <div class="w-24 h-24 aspect-square bg-neutral-900 border border-neutral-800 rounded-tl-lg rounded-tr-lg rounded-bl-lg">
+      <div class="w-24 h-24 aspect-square bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-tl-lg rounded-tr-lg rounded-bl-lg">
         <img class="w-full h-full" :src="shop?.icon" alt="">
       </div>
-      <div class="w-full bg-neutral-900 border border-l-0 border-neutral-800 h-16 rounded-tr-lg rounded-br-lg transform -translate-x-px z-10 px-2 flex flex-col justify-center">
+      <div class="w-full bg-neutral-100 dark:bg-neutral-900 border border-l-0 border-neutral-200 dark:border-neutral-800 h-16 rounded-tr-lg rounded-br-lg transform -translate-x-px z-10 px-2 flex flex-col justify-center">
         <p class="text-xl font-bold">{{ shop?.name }}</p>
         <p class="text-neutral-500 text-xs">{{ shop?.description?.length == 0 ? 'Описание отсутствует' : shop?.description }}</p>
       </div>
     </div>
     <div class="md:flex gap-2">
-      <div class="bg-neutral-900 border border-neutral-800 rounded-lg w-64 h-16 mb-2">
+      <div class="bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-lg w-64 h-16 mb-2">
         <div class="p-2 flex gap-1">
           <div class="w-12 h-12">
             <img class="w-full h-full" :src="`https://assets.zaralx.ru/api/v1/minecraft/vanilla/player/face/${shop?.owner?.uuid}/full`" alt="">
