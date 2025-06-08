@@ -29,8 +29,8 @@ onMounted(async () => {
         <img class="w-full h-full" :src="shop?.icon" alt="">
       </div>
       <div class="w-full bg-neutral-900 border border-l-0 border-neutral-800 h-16 rounded-tr-lg rounded-br-lg transform -translate-x-px z-10 px-2 flex flex-col justify-center">
-        <p class="text-xl font-bold flex-1">{{ shop?.name }}</p>
-        <p class="text-neutral-500 text-xs">{{ shop?.description }}</p>
+        <p class="text-xl font-bold">{{ shop?.name }}</p>
+        <p class="text-neutral-500 text-xs">{{ shop?.description?.length == 0 ? 'Описание отсутствует' : shop?.description }}</p>
       </div>
     </div>
     <div class="md:flex gap-2">
