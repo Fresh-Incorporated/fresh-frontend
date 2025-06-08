@@ -641,6 +641,8 @@
 </template>
 
 <style scoped>
+@reference "tailwindcss";
+
 h2 {
   @apply text-lg font-medium;
 }

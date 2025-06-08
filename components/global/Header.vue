@@ -59,7 +59,7 @@ const isDev = import.meta.dev;
 
 <template>
   <div :class="mobileNav ? '' : 'translate-x-full'"
-       class="fixed w-full h-screen mt-14 bg-neutral-100 dark:bg-neutral-900 z-30 transform duration-500 flex flex-col gap-1">
+       class="fixed w-full h-screen mt-14 bg-neutral-100 dark:bg-neutral-900 z-30 duration-500 flex flex-col gap-1">
     <NuxtLink @click="mobileNav = false" v-for="link in links" :to="link.to">
       <ElButton text :bg="route.path === link.to" class="w-full">
         <div class="w-full">
@@ -77,7 +77,7 @@ const isDev = import.meta.dev;
       <div class="flex items-center h-full">
         <div class="md:hidden">
           <button :class="mobileNav ? 'rotate-180' : ''" @click="mobileNav = !mobileNav"
-                  class="text-neutral-400 hover:text-neutral-300 aspect-square w-8 flex justify-center items-center transform duration-500">
+                  class="text-neutral-400 hover:text-neutral-300 aspect-square w-8 flex justify-center items-center duration-500">
             <i class="pi pi-bars"></i>
           </button>
         </div>
@@ -218,6 +218,8 @@ const isDev = import.meta.dev;
 </template>
 
 <style scoped>
+@reference "tailwindcss";
+
 .v-enter-active,
 .v-leave-active {
   transition: all 0.5s ease;
@@ -238,12 +240,12 @@ const isDev = import.meta.dev;
 .usermenu-enter-active,
 .usermenu-leave-active {
   transition: all 0.5s ease;
-  @apply translate-y-0;
+  @apply transform translate-y-0;
 }
 
 .usermenu-enter-from,
 .usermenu-leave-to {
   opacity: 0;
-  @apply -translate-y-full;
+  @apply transform -translate-y-full;
 }
 </style>

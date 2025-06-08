@@ -32,6 +32,8 @@ const model = defineModel()
 </template>
 
 <style scoped>
+@reference "tailwindcss";
+
 .v-enter-active,
 .v-leave-active {
   transition: all 0.5s ease;
