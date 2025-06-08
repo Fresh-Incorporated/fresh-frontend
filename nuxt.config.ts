@@ -71,5 +71,17 @@ export default defineNuxtConfig({
     classSuffix: ''
   },
 
-  modules: ['@nuxtjs/color-mode', '@element-plus/nuxt', '@nuxt/icon', '@nuxtjs/device'],
+  shadcn: {
+    /**
+     * Prefix for all the imported component
+     */
+    prefix: 'Sh',
+    /**
+     * Directory that the component lives in.
+     * @default "./components/ui"
+     */
+    componentDir: './components/ui'
+  },
+
+  modules: ['@nuxtjs/color-mode', '@element-plus/nuxt', '@nuxt/icon', '@nuxtjs/device', 'shadcn-nuxt'],
 })

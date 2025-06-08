@@ -3,7 +3,9 @@
 </script>
 
 <template>
-  <NuxtLink to="/">back</NuxtLink>
+  <Button>Basic Button</Button>
+  <el-button>Element Plus Button</el-button>
+  <ShButton>Shadcn Button</ShButton>
 </template>
 
 <style scoped>
