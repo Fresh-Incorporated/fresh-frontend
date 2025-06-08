@@ -43,14 +43,14 @@ const editShop = async () => {
   formData.append('icon', newIcon.value); // Добавляем файл
   formData.append('name', newName.value);
   formData.append('description', newDescription.value);
-  // formData.append('tag', newTag.value);
+  formData.append('tag', newTag.value);
 
   try {
     const response = await http.post("/freshmarket/shop/" + props.shop + "/edit", formData, {
       params: {
         name: newName.value,
         description: newDescription.value,
-        // tag: newTag.value
+        tag: newTag.value
       },
       headers: {
         'Content-Type': 'multipart/form-data',
@@ -71,6 +71,11 @@ const cancel = async () => {
   newDescription.value = props.description;
   newTag.value = props.tag;
   newIcon.value = null;
+}
+
+function copyShopLink() {
+  navigator.clipboard.writeText(`https://fresh.zaralx.ru/freshmarket/shop/${newTag.value}`)
+  ElMessage.info("Ссылка на ваш магазин скопирована");
 }
 
 </script>
@@ -114,13 +119,13 @@ const cancel = async () => {
           v-model="newTag"
           minlength="3"
           maxlength="16"
-          placeholder="Тег магазина [В разработке]"
+          :placeholder="tag"
           show-word-limit
           type="text"
           class="w-full opacity-75 mb-2 md:mb-0"
-          disabled
+          :class="newTag == props.tag ? '' : 'edited'"
       >
-        <template #prepend>{{$device.isMobile ? '/freshmarket/shop/' : 'fresh.zaralx.ru/freshmarket/shop/'}}</template>
+        <template #prepend><button @click="copyShopLink" class="px-4 active:bg-green-600/[.5] rounded-l-md transition active:text-white">{{$device.isMobile ? '/freshmarket/shop/' : 'fresh.zaralx.ru/freshmarket/shop/'}}</button></template>
       </el-input>
       <div class="w-full flex md:w-auto justify-end">
         <el-popconfirm
@@ -158,5 +163,9 @@ const cancel = async () => {
 
 :deep(.edited .el-textarea__inner:not(:focus-within)) {
   box-shadow: 0 0 0 1px var(--el-color-warning) inset !important;
+}
+
+:deep(.el-input-group .el-input-group__prepend) {
+  padding: 0;
 }
 </style>

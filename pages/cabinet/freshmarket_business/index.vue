@@ -91,7 +91,7 @@ watch(openedCreateMenu, (newValue) => {
               :icon="shops.find(shop => shop.id === selectedShop)?.icon"
               :name="shops.find(shop => shop.id === selectedShop)?.name"
               :description="shops.find(shop => shop.id === selectedShop)?.description"
-              :tag="null"
+              :tag="shops.find(shop => shop.id === selectedShop)?.tag"
           />
           <FMCabinetFragmetProducts :shop="selectedShop" v-if="selectedShop != null"/>
         </div>
