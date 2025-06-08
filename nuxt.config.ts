@@ -24,7 +24,7 @@ export default defineNuxtConfig({
   },
 
   // Global css
-  css: ['~/assets/css/main.css'],D
+  css: ['~/assets/css/main.css'],
 
   app: {
     head: {
@@ -64,7 +64,7 @@ export default defineNuxtConfig({
   },
 
   elementPlus: {
-    themes: []
+    themes: ["dark"]
   },
 
   colorMode: {

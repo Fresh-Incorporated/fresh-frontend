@@ -8,6 +8,8 @@
 @plugin '@xpd/tailwind-3dtransforms';
 @plugin '@designbycode/tailwindcss-text-stroke';
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --animate-border: border 4s linear infinite;
   --animate-clip-fluid: clip-fluid 4s ease-in-out infinite;
@@ -84,4 +86,8 @@
                 0% 100%
         );
     }
+}
+
+button, a {
+    cursor: pointer;
 }
