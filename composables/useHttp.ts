@@ -1,5 +1,6 @@
 import axios, { AxiosError } from 'axios';
 import type { AxiosResponse, AxiosInstance } from 'axios';
+import {toast} from "vue-sonner";
 
 // Создаем экземпляр axios
 export const http: AxiosInstance = axios.create({
@@ -11,10 +12,15 @@ export const http: AxiosInstance = axios.create({
 // Настройка interceptor для обработки ошибок
 http.interceptors.response.use(
     (response: AxiosResponse) => {
-        if (response.data.message) ElMessage.success(response.data.message);
+        if (response.data.message) {
+            toast.success("Успех", {
+                description: response.data.message,
+                duration: response.data.message.length * 100 + 2000,
+            });
+        }
         return response;
     },
-    async (error: AxiosError) => {
+    async (error: AxiosError<{ message: string }>) => {
         if (!error.response) return Promise.reject(error);
         const originalRequest = error.config;
 
@@ -28,8 +34,16 @@ http.interceptors.response.use(
             } catch (refreshError) {
                 return Promise.reject(refreshError);
             }
+        } else if (error.response.data.message) {
+            toast.error('Произошла ошибка', {
+                description: error.response.data?.message,
+                duration: error.response.data?.message.length * 100 + 2000,
+            })
         } else {
-            ElMessage.error(error?.response?.data?.message || 'Произошла ошибка');
+            toast.error('Произошла ошибка', {
+                description: "Неизвестная ошибка",
+                duration: 5000,
+            })
         }
 
         return Promise.reject(error);
@@ -37,7 +51,6 @@ http.interceptors.response.use(
 );
 
 export async function loginDiscord(code: string){
-    console.log(code);
     try {
         const response = await http.post('auth/discord/login', { code });
         return { ok: true, ...response.data };

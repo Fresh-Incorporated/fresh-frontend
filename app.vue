@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import InBeta from "~/components/global/InBeta.vue";
+import '/assets/css/sonner.css';
 
-const colorMode = useColorMode()
+useColorMode()
 const { tryLoadUser } = useUser()
 
 onMounted( () => {
@@ -15,6 +15,11 @@ onMounted( () => {
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
+    <ShToaster
+        position="bottom-left"
+        rich-colors
+        close-button
+    />
   </div>
 </template>
 

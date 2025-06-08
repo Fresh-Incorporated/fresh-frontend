@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import IconUpload from "~/components/global/upload/IconUpload.vue";
 import {http} from "~/composables/useHttp";
+import {toast} from "vue-sonner";
 
 const {shops, updateShops} = useUser()
 const shop = defineModel()
@@ -75,7 +76,7 @@ const cancel = async () => {
 
 function copyShopLink() {
   navigator.clipboard.writeText(`https://fresh.zaralx.ru/freshmarket/shop/${newTag.value}`)
-  ElMessage.info("Ссылка на ваш магазин скопирована");
+  toast.info("Ссылка на ваш магазин скопирована");
 }
 
 </script>

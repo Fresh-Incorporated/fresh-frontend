@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {http} from "~/composables/useHttp"
 import FMBranchSelectMap from "~/components/freshmarket/FMBranchSelectMap.vue";
+import {toast} from "vue-sonner";
 
 const {cart, putInCart, updateOrders, updateUser} = useUser()
 
@@ -44,7 +45,10 @@ const deliveryCordsData = ref({
 const openedDepositDialog = ref(false)
 const buy = async () => {
   if (selectedBranch.value == null) {
-    return ElMessage.error("Вы не выбрали филиал!");
+    return toast.error("Произошла ошибка", {
+      description: "Вы не выбрали филиал!",
+      duration: 7500,
+    });
   }
   await http.post("/freshmarket/order/new/instant", {
     type: deliveryType.value,

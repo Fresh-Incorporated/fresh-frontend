@@ -37,6 +37,7 @@
     "tw-animate-css": "^1.3.4",
     "vue": "latest",
     "vue-router": "latest",
+    "vue-sonner": "^2.0.0",
     "vue3-apexcharts": "^1.8.0"
   }
 }
