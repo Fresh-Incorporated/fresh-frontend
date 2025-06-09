@@ -118,7 +118,7 @@ const {isMobile} = useDevice()
                   :tooltip="shop.name" :class="{
                   '!text-red-500': shop.verify_status == -1,
                   '!text-yellow-500': shop.verify_status == 0,
-                  '!text-neutral-200': shop.verify_status == 1,
+                  '': shop.verify_status == 1,
 
                   'bg-gradient-to-l from-red-500/[.2]': shop.verify_status == -1,
                 }">
@@ -129,21 +129,6 @@ const {isMobile} = useDevice()
                     class="group-data-[collapsible=icon]:opacity-0 group-data-[collapsible=icon]:absolute font-medium text-nowrap">{{
                     shop.name
                   }}</span>
-                <div
-                    :class="{
-                        '!text-red-500': shop.verify_status == -1,
-                        '!text-yellow-500': shop.verify_status == 0,
-                        '!text-neutral-200': shop.verify_status == 1,
-                      }"
-                    class="group-data-[collapsible=icon]:hidden ml-auto flex justify-center items-center w-2 h-2 rounded-full">
-                  <div
-                      :class="{
-                        '!text-red-500': shop.verify_status == -1,
-                        '!text-yellow-500': shop.verify_status == 0,
-                        '!text-neutral-200': shop.verify_status == 1,
-                      }"
-                      class="w-2 h-2 rounded-full absolute animate-ping"/>
-                </div>
               </ShSidebarMenuButton>
             </NuxtLink>
           </ShSidebarMenuItem>

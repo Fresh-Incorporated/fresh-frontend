@@ -1,17 +1,8 @@
 <script setup lang="ts">
-const colorMode = useColorMode()
+import ThemeButton from "~/components/global/ThemeButton.vue";
 
-const isDark = ref(false)
 const route = useRoute()
 const {user, userLoading, logout, orders} = useUser();
-
-onMounted(() => {
-  isDark.value = colorMode.preference === 'dark' || colorMode.preference === 'system'
-})
-
-watch(isDark, () => {
-  colorMode.preference = isDark.value ? 'dark' : 'light';
-})
 
 const links = computed(() => {
   let defaultLinks = [
@@ -98,13 +89,7 @@ const isDev = import.meta.dev;
               <Icon name="lucide:truck" class="inverted" size="16" />
             </ShButton>
           </NuxtLink>
-          <ShButton
-              @click="isDark = !isDark"
-              variant="ghost"
-              size="icon"
-          >
-            <Icon :name="isDark ? 'lucide:sun-medium' : 'lucide:moon'" class="inverted" size="16" />
-          </ShButton>
+          <ThemeButton />
           <div v-if="user && !userLoading"
                class="h-full flex flex-col items-center justify-center border rounded-lg border-neutral-200 dark:border-neutral-800 bg-neutral-100/[0.5] dark:bg-neutral-900/[0.5] hover:bg-neutral-300/[0.25] dark:hover:bg-neutral-950/[0.25] duration-500 select-none">
             <div ref="userMenuButton" @click="userMenu = !userMenu"
