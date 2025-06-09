@@ -179,11 +179,11 @@ button, a {
 .dark {
   --background: oklch(0.187 0 89.876);
   --foreground: oklch(0.985 0 0);
-  --card: oklch(0.21 0.006 285.885);
+  --card: oklch(0.226 0 89.876);
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.218 0 89.876);
   --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.553 0.223 259.73);
+  --primary: oklch(0.573 0.211 258.675);
   --primary-foreground: oklch(0.98 0.016 73.684);
   --secondary: oklch(0.264 0 89.876);
   --secondary-foreground: oklch(0.985 0 0);

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import CabinetBalance from "~/components/cabinet/CabinetBalance.vue";
+
 const {user} = useUser()
 
 definePageMeta({
@@ -7,8 +9,9 @@ definePageMeta({
 </script>
 
 <template>
-<div class="">
-
+<div class="grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-4 w-full gap-4 px-2 lg:px-6">
+  <CabinetBalance />
+  <CabinetBalanceHistory />
 </div>
 </template>
 
