@@ -67,7 +67,7 @@ const isDev = import.meta.dev;
     </NuxtLink>
   </div>
   <div class="h-14"></div>
-  <div class="fixed w-full z-30">
+  <div class="fixed top-0 w-full z-30">
     <div
         class="h-14 w-full bg-neutral-50/[.9] dark:bg-neutral-900/[.9] backdrop-blur-sm border-b border-neutral-200 dark:border-neutral-800 shadow-xs dark:shadow-lg py-1 px-2 md:px-16 z-10">
       <div
