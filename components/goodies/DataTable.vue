@@ -1,5 +1,5 @@
 <script setup lang="ts" generic="TData, TValue">
-import {type ColumnDef, getPaginationRowModel} from '@tanstack/vue-table'
+import {type ColumnDef, getPaginationRowModel, getSortedRowModel, type SortingState} from '@tanstack/vue-table'
 import {
   FlexRender,
   getCoreRowModel,
@@ -27,6 +27,8 @@ const props = defineProps<{
   pagination: boolean
 }>()
 
+const sorting = ref<SortingState>([])
+
 const table = useVueTable({
   get data() {
     return dataModel.value
@@ -36,6 +38,11 @@ const table = useVueTable({
   },
   getCoreRowModel: getCoreRowModel(),
   ...(props.pagination ? { getPaginationRowModel: getPaginationRowModel() } : {}),
+  getSortedRowModel: getSortedRowModel(),
+  onSortingChange: updaterOrValue => valueUpdater(updaterOrValue, sorting),
+  state: {
+    get sorting() { return sorting.value },
+  },
 })
 
 const setPage = async (page: number) => {

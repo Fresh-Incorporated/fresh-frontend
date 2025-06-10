@@ -23,7 +23,7 @@ export const useUser = () => {
     }
 
     async function moreBalanceHistory() {
-        const beforeTimestamp = balanceHistory.value > 0 ? balanceHistory.value : Date.now();
+        const beforeTimestamp = balanceHistory.value.length > 0 ? balanceHistory.value[0].createdAt : Date.now();
         const response = await http.get('/users/@me/history/balance', {
             params: {
                 offset: balanceHistory.value.length,
