@@ -17,8 +17,8 @@ onMounted(async () => {
 </script>
 
 <template>
-  <ShCard class="col-span-3">
-    {{monthBalance}}
+  <ShCard class="col-span-3 flex justify-center items-center">
+    Будет добавлено позже
   </ShCard>
 </template>
 
