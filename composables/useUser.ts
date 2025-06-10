@@ -1,12 +1,13 @@
 import { ref } from 'vue';
 import { http, loginDiscord } from '~/composables/useHttp';
 import type {Shop} from '~/types/freshmarket';
+import type {Payment} from "~/types/payment";
 
 const user = ref(null);
 const shops = ref<Shop[]>([]);
 const cart = ref([]);
 const orders = ref({orders: [], products: []});
-const balanceHistory = ref([]);
+const balanceHistory = ref<Payment[]>([]);
 const userLoading = ref<boolean>(true);
 
 export const useUser = () => {
@@ -26,8 +27,10 @@ export const useUser = () => {
             params: {
                 offset: balanceHistory.value.length,
             }
-        });
-        balanceHistory.value.push(...response.data);
+        })
+
+        balanceHistory.value = [...balanceHistory.value, ...response.data]
+
         return response.data
     }
 

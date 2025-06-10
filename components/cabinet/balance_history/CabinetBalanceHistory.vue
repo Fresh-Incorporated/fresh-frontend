@@ -1,34 +1,32 @@
 <script setup lang="ts">
 import { columns } from './balance_history.columns'
 import DataTable from "~/components/goodies/DataTable.vue";
-import type {Payment} from "~/types/payment";
 
-const data = ref<Payment[]>([])
+const {user, userLoading, balanceHistory, moreBalanceHistory} = useUser()
+const allLoaded = ref(false);
 
-async function getData(): Promise<Payment[]> {
-  return [
-    {
-      id: '728ed52f',
-      amount: 100,
-      status: 'pending',
-      email: 'm@example.com',
-    },
-    {
-      id: '489e1d42',
-      amount: 125,
-      status: 'processing',
-      email: 'example@gmail.com',
-    },
-  ]
+async function getData() {
+  const newHistoryItems = await moreBalanceHistory()
+  if (newHistoryItems.length < 20) {
+    allLoaded.value = true;
+  }
 }
 
 onMounted(async () => {
-  data.value = await getData()
+  await getData()
 })
+
+async function tableLoadMore(fullLoaded: () => void, callback: (...args: any[]) => void, args: any[]) {
+  await getData()
+  callback(...args)
+  if (allLoaded.value) {
+    fullLoaded()
+  }
+}
 </script>
 
 <template>
   <div class="container py-10 mx-auto col-span-4">
-    <DataTable :columns="columns" :data="data" />
+    <DataTable @load-more="tableLoadMore" :columns="columns" v-model:data="balanceHistory" pagination />
   </div>
 </template>
