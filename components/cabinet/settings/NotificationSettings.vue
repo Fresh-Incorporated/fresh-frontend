@@ -28,19 +28,19 @@ watch(notificationsEnabled, async (value) => {
       userVisibleOnly: true,
       applicationServerKey: urlBase64ToUint8Array(useRuntimeConfig().public.webPushPublic)
     });
-    await http.post('/users/@me/notifications/subscribe', { subscription: sub });
+    await http.post('/users/@me/notifications/subscribe', {subscription: sub});
   } else {
     // отключение уведомлений
     const subscription = await sw.pushManager.getSubscription();
     if (subscription) {
-      await http.post('/users/@me/notifications/unsubscribe', { endpoint: subscription.endpoint });
+      await http.post('/users/@me/notifications/unsubscribe', {endpoint: subscription.endpoint});
       // await subscription.unsubscribe(); antispam db
     }
   }
   loading.value = false;
 });
 
-function urlBase64ToUint8Array(base64String) {
+function urlBase64ToUint8Array(base64String: string) {
   const padding = '='.repeat((4 - base64String.length % 4) % 4);
   const base64 = (base64String + padding)
       .replace(/\-/g, '+').replace(/_/g, '/');
@@ -55,16 +55,29 @@ const test = async () => {
 </script>
 
 <template>
-  <div class="flex gap-2">
-    <el-switch
-        v-model="notificationsEnabled"
-        class="ml-2"
-        style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
-        size="small"
-        :loading="loading"
-    />
-    <el-button :disabled="!notificationsEnabled || loading" class="ml-2" @click="test" type="info" plain size="small">Проверить</el-button>
-  </div>
+  <ShCard outlined class="rounded-sm col-span-2">
+    <ShCardHeader>
+      <ShCardTitle>Уведомления</ShCardTitle>
+      <ShCardDescription>Настройте PUSH-Уведомления в этом разделе</ShCardDescription>
+      <ShCardAction>
+        <ShButton variant="ghost" :disabled="!notificationsEnabled || loading" @click="test" size="xs">Проверить</ShButton>
+      </ShCardAction>
+    </ShCardHeader>
+    <ShCardContent>
+      <ShCard class="flex flex-row items-center justify-between p-4 rounded-sm col-span-2">
+        <ShLabel for="webpush-global" class="text-base block">
+          <p>Включить уведомления</p>
+          <p class="text-muted-foreground text-sm">Получайте уведомления о: проверке магазина, проверке товара, доставке заказа, пополнении товара...</p>
+        </ShLabel>
+        <ShSwitch
+            id="webpush-global"
+            v-model="notificationsEnabled"
+            class="ml-2"
+            :disabled="loading"
+        />
+      </ShCard>
+    </ShCardContent>
+  </ShCard>
 </template>
 
 <style scoped>

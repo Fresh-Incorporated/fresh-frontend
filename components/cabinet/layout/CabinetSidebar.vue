@@ -2,6 +2,21 @@
 const {user, shops} = useUser()
 const {isMobile} = useDevice()
 
+const route = useRoute()
+
+const links = [
+  {
+    icon: "lucide:home",
+    name: "Главная",
+    to: "/cabinet",
+  },
+  {
+    icon: "lucide:settings",
+    name: "Настройки",
+    to: "/cabinet/settings",
+  }
+]
+
 </script>
 
 <template>
@@ -65,16 +80,12 @@ const {isMobile} = useDevice()
     <ShSidebarContent>
       <ShSidebarGroup>
         <ShSidebarGroupLabel>Основное</ShSidebarGroupLabel>
-        <NuxtLink to="/cabinet">
-          <ShSidebarMenuButton tooltip="Главная">
-            <Icon name="lucide:home" size="16"/>
-            <span class="group-data-[collapsible=icon]:hidden">Главная</span>
-          </ShSidebarMenuButton>
-        </NuxtLink>
-        <NuxtLink to="/cabinet">
-          <ShSidebarMenuButton tooltip="Настройки">
-            <Icon name="lucide:settings" size="16"/>
-            <span class="group-data-[collapsible=icon]:hidden">Настройки</span>
+        <NuxtLink :to="link.to" v-for="link in links" :key="link.name">
+          <ShSidebarMenuButton :class="{
+            '!bg-primary/[.1]': route.matched[0].path === link.to,
+          }" class="transition-all" :tooltip="link.name">
+            <Icon :name="link.icon" size="16"/>
+            <span class="group-data-[collapsible=icon]:hidden">{{ link.name }}</span>
           </ShSidebarMenuButton>
         </NuxtLink>
 <!--        <ShSidebarMenu>-->
