@@ -4,6 +4,7 @@ import type {Shop} from '~/types/freshmarket';
 import type {Payment} from "~/types/payment";
 
 const user = ref(null);
+const monthBalance = ref({});
 const shops = ref<Shop[]>([]);
 const cart = ref([]);
 const orders = ref({orders: [], products: []});
@@ -20,6 +21,11 @@ export const useUser = () => {
     async function updateShops() {
         const response = await http.get('/users/@me/shops');
         shops.value = response.data;
+    }
+
+    async function updateMonthBalance() {
+        const response = await http.get('/users/@me/history/balance/month');
+        monthBalance.value = response.data;
     }
 
     async function moreBalanceHistory() {
@@ -83,5 +89,7 @@ export const useUser = () => {
         updateOrders,
         moreBalanceHistory,
         balanceHistory,
+        monthBalance,
+        updateMonthBalance
     };
 };

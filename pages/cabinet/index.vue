@@ -11,6 +11,7 @@ definePageMeta({
 <template>
 <div class="grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-4 w-full gap-4 px-2 lg:px-6">
   <CabinetBalance />
+  <CabinetBalanceChart />
   <CabinetBalanceHistory />
 </div>
 </template>

@@ -3,7 +3,7 @@ const {user} = useUser()
 </script>
 
 <template>
-  <ShCard blur>
+  <ShCard>
     <ShCardHeader>
       <ShCardDescription>Баланс</ShCardDescription>
       <ShCardTitle class="text-2xl text-primary font-rubik">{{user?.balance?.toFixed(2)}} АР</ShCardTitle>
