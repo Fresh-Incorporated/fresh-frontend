@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import CreateShopMenu from "~/components/cabinet/freshmarket/CreateShopMenu.vue";
+
 const {user, shops} = useUser()
 const {isMobile} = useDevice()
 
@@ -84,7 +86,9 @@ const links = [
           <ShSidebarMenuButton :class="{
             '!bg-primary/[.1]': route.matched[0].path === link.to,
           }" class="transition-all" :tooltip="link.name">
-            <Icon :name="link.icon" size="16"/>
+            <div class="w-4 h-4">
+              <Icon :name="link.icon" size="16"/>
+            </div>
             <span class="group-data-[collapsible=icon]:hidden">{{ link.name }}</span>
           </ShSidebarMenuButton>
         </NuxtLink>
@@ -124,7 +128,7 @@ const links = [
         <ShSidebarGroupLabel>Магазины</ShSidebarGroupLabel>
         <ShSidebarMenu>
           <ShSidebarMenuItem v-for="shop in shops" :key="shop.id">
-            <NuxtLink to="/cabinet/freshmarket_business">
+            <NuxtLink :to="`/cabinet/freshmarket/shop/${shop.id}`">
               <ShSidebarMenuButton
                   :tooltip="shop.name" :class="{
                   '!text-red-500': shop.verify_status == -1,
@@ -132,6 +136,8 @@ const links = [
                   '': shop.verify_status == 1,
 
                   'bg-gradient-to-l from-red-500/[.2]': shop.verify_status == -1,
+
+                  '!bg-primary/[.1]': route.params.shop == shop.id,
                 }">
                 <div class="w-4 h-4">
                   <img :src="shop.icon" class="w-full h-full" alt="">
@@ -142,6 +148,18 @@ const links = [
                   }}</span>
               </ShSidebarMenuButton>
             </NuxtLink>
+          </ShSidebarMenuItem>
+          <ShSidebarMenuItem>
+            <CreateShopMenu>
+              <ShSidebarMenuButton tooltip="Создать магазин" class="border border-dashed flex justify-center items-center hover:text-green-500/[.9] active:text-green-600/[.9] hover:border-green-500/[.9]">
+                <div class="w-4 h-4">
+                  <Icon name="lucide:plus" size="16" />
+                </div>
+                <span class="group-data-[collapsible=icon]:opacity-0 group-data-[collapsible=icon]:absolute font-medium text-nowrap">
+                Создать магазин
+              </span>
+              </ShSidebarMenuButton>
+            </CreateShopMenu>
           </ShSidebarMenuItem>
         </ShSidebarMenu>
       </ShSidebarGroup>

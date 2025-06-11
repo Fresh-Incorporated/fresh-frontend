@@ -1,35 +1,23 @@
 <script setup lang="ts">
-import {http} from "~/composables/useHttp"
+import { toTypedSchema } from '@vee-validate/zod'
+import { useForm } from 'vee-validate'
+import * as z from 'zod'
 import IconUpload from "~/components/global/upload/IconUpload.vue";
+import {http} from "~/composables/useHttp";
 
-const model = defineModel()
-const {user, shops, updateUser, updateShops} = useUser()
+const formSchema = toTypedSchema(z.object({
+  name: z.string().min(3).max(16),
+  description: z.string().min(0).max(240).optional(),
+  image: z.any().nullable(),
+}))
 
-const handleClose = (done: () => void) => {
-  ElMessageBox.confirm('Вы точно хотите закрыть меню создания магазина? Всё будет утеряно.', {autofocus: false})
-      .then(() => {
-        done()
-      })
-      .catch(() => {})
-}
-
-const size = ref("30%")
-
-const file = ref(null);
-const name = ref("")
-const description = ref("")
-
-onMounted(() => {
-  if (window.innerWidth > 1200) size.value = "30%"
-  else if (window.innerWidth > 800) size.value = "50%"
-  else size.value = "100%"
-
-  name.value = (user?.value?.nickname || "New") + " shop";
+const { isFieldDirty, handleSubmit } = useForm({
+  validationSchema: formSchema,
 })
 
-const createShop = async () => {
+const onSubmit = handleSubmit(async (values) => {
   const formData = new FormData();
-  formData.append('icon', file.value); // Добавляем файл
+  formData.append('icon', image.value); // Добавляем файл
   formData.append('name', name.value);
   formData.append('description', description.value);
 
@@ -45,58 +33,74 @@ const createShop = async () => {
     });
 
     console.log('Магазин создан:', response.data);
-    model.value = false;
+    opened.value = false
     await updateUser();
     await updateShops();
   } catch (error) {
     console.error('Ошибка при создании магазина:', error);
   }
-};
+})
 
+const {user, shops, updateUser, updateShops} = useUser()
+
+const image = ref(null);
+const name = ref("")
+const description = ref("")
+const opened = ref(false)
 </script>
 
 <template>
-  <div>
-    <el-drawer
-        v-model="model"
-        title="Новый магазин"
-        direction="rtl"
-        :size="size"
-    >
-      <div class="flex flex-col">
-        <p class="mt-2 text-neutral-600 dark:text-neutral-200">Иконка магазина</p>
-        <IconUpload unique="create-shop" v-model="file" />
-        <p class="mt-2 text-neutral-600 dark:text-neutral-200">Название магазина</p>
-        <el-input
-            v-model="name"
-            minlength="3"
-            maxlength="16"
-            placeholder="Название магазина"
-            show-word-limit
-            type="text"
-        />
-        <p class="mt-2 text-neutral-600 dark:text-neutral-200">Описание магазина</p>
-        <el-input
-            v-model="description"
-            maxlength="240"
-            placeholder="Описание магазина"
-            show-word-limit
-            :formatter="(value) => `${value}`.replace(/[\r\n]+/g, '')"
-            :parser="(value) => value.replace(/[\r\n]+/g, '')"
-            type="textarea"
-        />
-      </div>
-      <template #footer>
-        <div style="flex: auto">
-          <el-button type="primary" @click="createShop">Создать магазин {{16 + 64 * shops.length}} АР</el-button>
-        </div>
-      </template>
-    </el-drawer>
-  </div>
+  <ShSheet v-model:open="opened">
+    <ShSheetTrigger as-child>
+      <span @click="opened = true">
+        <slot />
+      </span>
+    </ShSheetTrigger>
+    <ShSheetContent>
+      <ShSheetHeader>
+        <ShSheetTitle>Создание магазина</ShSheetTitle>
+        <ShSheetDescription>
+          Заполните поля ниже и нажмите СОЗДАТЬ
+        </ShSheetDescription>
+      </ShSheetHeader>
+      <form :validation-schema="formSchema" @submit="onSubmit" class="px-4 space-y-4">
+        <ShFormField v-slot="{ componentField }" name="name" :validate-on-blur="!isFieldDirty">
+          <ShFormItem>
+            <ShFormLabel>Название магазина<span class="text-destructive">*</span></ShFormLabel>
+            <ShFormControl>
+              <ShInput v-model="name" :maxlength="16" type="text" v-bind="componentField" :placeholder="(user?.nickname || 'New') + ' shop'" />
+            </ShFormControl>
+            <ShFormMessage class="text-destructive" />
+          </ShFormItem>
+        </ShFormField>
+        <ShFormField v-slot="{ componentField }" name="description" :validate-on-blur="!isFieldDirty">
+          <ShFormItem>
+            <ShFormLabel>Описание магазина</ShFormLabel>
+            <ShFormControl>
+              <ShTextarea v-model="description" :maxlength="240" type="text" v-bind="componentField" placeholder="Расскажите о своём магазине" />
+            </ShFormControl>
+            <ShFormMessage class="text-destructive" />
+          </ShFormItem>
+        </ShFormField>
+        <ShFormField name="image">
+          <ShFormItem>
+            <ShFormLabel>Иконка магазина</ShFormLabel>
+            <ShFormControl>
+              <IconUpload unique="create-shop" v-model="image"/>
+            </ShFormControl>
+            <ShFormMessage class="text-destructive" />
+          </ShFormItem>
+        </ShFormField>
+      </form>
+      <ShSheetFooter>
+        <ShButton @click="onSubmit">
+          Создать - {{16 + 64 * shops.length}} АР
+        </ShButton>
+      </ShSheetFooter>
+    </ShSheetContent>
+  </ShSheet>
 </template>
 
-<style>
-textarea {
-  max-height: 300px;
-}
+<style scoped>
+
 </style>
