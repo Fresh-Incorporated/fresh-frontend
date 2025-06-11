@@ -83,5 +83,5 @@ export default defineNuxtConfig({
     componentDir: './components/ui'
   },
 
-  modules: ['@nuxtjs/color-mode', '@element-plus/nuxt', '@nuxt/icon', '@nuxtjs/device', 'shadcn-nuxt'],
+  modules: ['@nuxtjs/color-mode', '@element-plus/nuxt', '@nuxt/icon', '@nuxtjs/device', 'shadcn-nuxt', 'nuxt-charts'],
 })
