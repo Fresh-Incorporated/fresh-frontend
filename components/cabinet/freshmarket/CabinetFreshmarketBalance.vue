@@ -15,8 +15,8 @@ const props = withDefaults(defineProps<{
       <ShCardTitle class="text-2xl font-rubik">{{props.value}} АР</ShCardTitle>
       <ShCardAction>
         <ShBadge variant="outline" :class="{
-          'text-green-500': props.change > 0,
-          'text-red-500': props.change <= 0,
+          'text-green-500 border-green-500/[.5]': props.change > 0,
+          'text-red-500 border-red-500/[.5]': props.change <= 0,
         }">
           <Icon v-if="props.change > 0" name="lucide:trending-up" />
           <Icon v-else name="lucide:trending-down" />

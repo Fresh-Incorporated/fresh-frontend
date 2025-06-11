@@ -1,6 +1,7 @@
 <script setup lang="ts">
-const {user, monthBalance, updateMonthBalance} = useUser()
 import { format, subDays } from 'date-fns'
+
+const {user, monthBalance, updateMonthBalance} = useUser()
 
 interface AreaChartItem {
   date: string

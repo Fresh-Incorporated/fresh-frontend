@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import CabinetDummy from "~/components/cabinet/CabinetDummy.vue";
 import {http} from "~/composables/useHttp"
+import CabinetFreshmarketChart from "~/components/cabinet/freshmarket/CabinetFreshmarketChart.vue";
 
 definePageMeta({
   layout: 'cabinet'
@@ -23,7 +24,7 @@ onMounted(async () => {
   <CabinetFreshmarketTotalRevenue :value="322" :change="322" />
   <CabinetDummy />
   <CabinetDummy />
-  <CabinetDummy class="col-span-3 h-64" />
+  <CabinetFreshmarketChart :shop="shop" v-if="shop" />
   <CabinetDummy />
   <CabinetDummy class="col-span-4 h-80" />
 </div>
