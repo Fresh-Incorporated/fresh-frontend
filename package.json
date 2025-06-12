@@ -43,5 +43,8 @@
     "vue-router": "latest",
     "vue-sonner": "^2.0.0",
     "zod": "^3.25.57"
+  },
+  "devDependencies": {
+    "@iconify-json/lucide": "^1.2.47"
   }
 }
