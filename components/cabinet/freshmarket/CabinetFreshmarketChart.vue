@@ -29,7 +29,7 @@ const xFormatter = (i: number): string | number => AreaChartData.value[i]?.date 
 
 onMounted(async () => {
   const response = await http.get(`/freshmarket/shop/${props.shop.id}/sells`)
-  const data: ProductSales[] = response.data
+  const data: ProductSales[] = response.data.productLastSells
 
   const daysBack = 30
   const chartMap: Record<string, Record<string, { value: number; count: number }>> = {}

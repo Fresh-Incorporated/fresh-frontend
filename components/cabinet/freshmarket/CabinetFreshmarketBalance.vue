@@ -1,11 +1,22 @@
 <script setup lang="ts">
+import {http} from "~/composables/useHttp"
+
+const emit = defineEmits(['updateShop'])
+const {updateUser} = useUser()
+
 const props = withDefaults(defineProps<{
   value?: number
   change?: number
+  shopId?: number
 }>(), {
   value: 0,
-  change: 0,
 })
+
+const withdraw = async () => {
+  await http.post("/freshmarket/shop/"+props.shopId+"/withdraw")
+  await updateUser()
+  emit("updateShop")
+}
 </script>
 
 <template>
@@ -13,7 +24,7 @@ const props = withDefaults(defineProps<{
     <ShCardHeader>
       <ShCardDescription>Баланс</ShCardDescription>
       <ShCardTitle class="text-2xl font-rubik">{{props.value}} АР</ShCardTitle>
-      <ShCardAction>
+      <ShCardAction v-if="change">
         <ShBadge variant="outline" :class="{
           'text-green-500 border-green-500/[.5]': props.change > 0,
           'text-red-500 border-red-500/[.5]': props.change <= 0,
@@ -23,13 +34,15 @@ const props = withDefaults(defineProps<{
           {{props.change}} АР
         </ShBadge>
       </ShCardAction>
+      <ShCardAction>
+        <ShButton @click="withdraw" size="xs" variant="outline">
+          Вывести средства
+        </ShButton>
+      </ShCardAction>
     </ShCardHeader>
     <ShCardFooter class="flex-col items-start gap-1.5 text-sm">
-      <div class="line-clamp-1 flex gap-2 font-medium">
-        На этой неделе ваш баланс вырос <Icon name="lucide:trending-up" />
-      </div>
       <div class="text-muted-foreground">
-        Спасибо что используете проект!
+        Эти средства нельзя использовать до вывода
       </div>
     </ShCardFooter>
   </ShCard>

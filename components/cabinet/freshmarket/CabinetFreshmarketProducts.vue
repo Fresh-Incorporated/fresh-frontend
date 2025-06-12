@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import CabinetFreshmarketProduct from "~/components/cabinet/freshmarket/CabinetFreshmarketProduct.vue";
 import CreateProductMenu from "~/components/cabinet/freshmarket/CreateProductMenu.vue";
+import IncreaseShopLimitMenu from "~/components/cabinet/freshmarket/IncreaseShopLimitMenu.vue";
 
-const emit = defineEmits(['updateProducts'])
+const emit = defineEmits(['updateProducts', 'updateShop'])
 
 const props = defineProps({
   shopId: Number,
@@ -17,7 +18,9 @@ const products = defineModel('products')
     <ShCardHeader>
       <ShCardDescription class="flex gap-2 items-center">
         <p>Товары [{{ shop?.products?.length }}/{{ shop?.products_limit }}]</p>
-        <ShButton size="xs" variant="secondary">Увеличить лимит</ShButton>
+        <IncreaseShopLimitMenu @update-shop="emit('updateShop')" :products_limit="shop?.products_limit" :shop-id="shopId">
+          <ShButton size="xs" variant="secondary">Увеличить лимит</ShButton>
+        </IncreaseShopLimitMenu>
         <CreateProductMenu @update-products="emit('updateProducts')" :shop-id="shopId">
           <ShButton size="xs" variant="secondary">Создать товар</ShButton>
         </CreateProductMenu>

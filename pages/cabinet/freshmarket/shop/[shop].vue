@@ -34,13 +34,14 @@ const updateShop = async () => {
     <Icon name="lucide:message-circle-warning" size="20" />
     <p class="transform translate-y-px">Магазин не прошёл проверку</p>
   </ShCard>
-  <CabinetFreshmarketBalance :value="shop?.balance" :change="321" />
-  <CabinetFreshmarketTotalRevenue :value="322" :change="322" />
+  <CabinetFreshmarketBalance @update-shop="updateShop" :value="shop?.balance" :shop-id="shopId" />
+  <CabinetDummy />
+<!--  <CabinetFreshmarketTotalRevenue :value="322" :change="322" />-->
   <CabinetDummy />
   <CabinetDummy />
   <CabinetFreshmarketChart :shop="shop" v-if="shop" />
   <CabinetDummy />
-  <CabinetFreshmarketProducts @update-products="updateShop" v-model:products="products" :shop-id="shopId" :shop="shop" />
+  <CabinetFreshmarketProducts @update-products="updateShop" @update-shop="updateShop" v-model:products="products" :shop-id="shopId" :shop="shop" />
 </div>
 </template>
 
