@@ -107,9 +107,22 @@ const links = [
                   <ShSidebarMenuSubItem>
                     <ShSidebarMenuSubButton as-child>
                       <NuxtLink :class="{
-                        '!bg-sidebar-accent': route.path.startsWith(`/cabinet/freshmarket/shop/${shop.id}`) && !route.path.startsWith(`/cabinet/freshmarket/shop/${shop.id}/settings`),
+                        '!bg-sidebar-accent': route.path.startsWith(`/cabinet/freshmarket/shop/${shop.id}`) &&
+                        !route.path.startsWith(`/cabinet/freshmarket/shop/${shop.id}/settings`) &&
+                        !route.path.startsWith(`/cabinet/freshmarket/shop/${shop.id}/products`),
                       }" :to="`/cabinet/freshmarket/shop/${shop.id}`">
                         Главная
+                      </NuxtLink>
+                    </ShSidebarMenuSubButton>
+                  </ShSidebarMenuSubItem>
+                </ShSidebarMenuSub>
+                <ShSidebarMenuSub>
+                  <ShSidebarMenuSubItem>
+                    <ShSidebarMenuSubButton as-child>
+                      <NuxtLink :class="{
+                        '!bg-sidebar-accent': route.path.startsWith(`/cabinet/freshmarket/shop/${shop.id}/products`),
+                      }" :to="`/cabinet/freshmarket/shop/${shop.id}/products`">
+                        Товары
                       </NuxtLink>
                     </ShSidebarMenuSubButton>
                   </ShSidebarMenuSubItem>
