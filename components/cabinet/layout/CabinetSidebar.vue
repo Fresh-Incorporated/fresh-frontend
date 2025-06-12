@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import CreateShopMenu from "~/components/cabinet/freshmarket/CreateShopMenu.vue";
+import CabinetSidebarHeader from "~/components/cabinet/layout/CabinetSidebarHeader.vue";
 
 const {user, shops} = useUser()
 const {isMobile} = useDevice()
@@ -23,62 +24,7 @@ const links = [
 
 <template>
   <ShSidebar collapsible="icon">
-    <ShSidebarHeader>
-      <ShSidebarMenu>
-        <ShSidebarMenuItem>
-          <ShDropdownMenu>
-            <ShDropdownMenuTrigger as-child>
-              <ShSidebarMenuButton
-                  size="lg"
-                  class="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-              >
-                <div
-                    class="flex aspect-square size-8 min-w-8 items-center justify-center rounded-lg text-sidebar-primary-foreground overflow-hidden">
-                  <img :src="useXIS().getFullFace(user?.uuid)" alt="">
-                </div>
-                <div class="grid flex-1 text-left text-sm leading-tight group-data-[collapsible=icon]:hidden">
-                      <span class="truncate font-semibold">
-                        {{ user?.nickname }}
-                      </span>
-                  <span class="truncate text-xs">Баланс: {{ user?.balance?.toFixed(2) }} АР</span>
-                </div>
-                <div class="group-data-[collapsible=icon]:hidden">
-                  <Icon name="lucide:chevrons-up-down"/>
-                </div>
-              </ShSidebarMenuButton>
-            </ShDropdownMenuTrigger>
-            <ShDropdownMenuContent
-                class="w-[--reka-dropdown-menu-trigger-width] min-w-56 rounded-lg"
-                align="start"
-                :side="isMobile ? 'bottom' : 'right'"
-                :side-offset="4"
-            >
-              <ShDropdownMenuItem
-                  class="gap-2 p-2"
-              >
-                <div
-                    class="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground overflow-hidden">
-                  <img :src="useXIS().getFullFace(user?.uuid)" alt="">
-                </div>
-                <div class="grid flex-1 text-left text-sm leading-tight">
-                      <span class="truncate font-semibold">
-                        {{ user?.nickname }}
-                      </span>
-                  <span class="truncate text-xs text-neutral-400">Это вы</span>
-                </div>
-              </ShDropdownMenuItem>
-              <ShDropdownMenuSeparator/>
-              <ShDropdownMenuItem
-                  class="gap-2 p-2"
-              >
-                <Icon name="lucide:log-out"/>
-                Выйти
-              </ShDropdownMenuItem>
-            </ShDropdownMenuContent>
-          </ShDropdownMenu>
-        </ShSidebarMenuItem>
-      </ShSidebarMenu>
-    </ShSidebarHeader>
+    <CabinetSidebarHeader />
     <ShSidebarContent>
       <ShSidebarGroup>
         <ShSidebarGroupLabel>Основное</ShSidebarGroupLabel>
@@ -127,10 +73,17 @@ const links = [
       <ShSidebarGroup>
         <ShSidebarGroupLabel>Магазины</ShSidebarGroupLabel>
         <ShSidebarMenu>
-          <ShSidebarMenuItem v-for="shop in shops" :key="shop.id">
-            <NuxtLink :to="`/cabinet/freshmarket/shop/${shop.id}`">
-              <ShSidebarMenuButton
-                  :tooltip="shop.name" :class="{
+          <ShCollapsible
+              v-for="shop in shops" :key="shop.id"
+              as-child
+              :open="route.path.startsWith(`/cabinet/freshmarket/shop/${shop.id}`)"
+              class="group/collapsible"
+          >
+            <ShSidebarMenuItem>
+              <ShCollapsibleTrigger as-child>
+                <NuxtLink :to="`/cabinet/freshmarket/shop/${shop.id}`">
+                  <ShSidebarMenuButton
+                      :tooltip="shop.name" :class="{
                   '!text-red-500': shop.verify_status == -1,
                   '!text-yellow-500': shop.verify_status == 0,
                   '': shop.verify_status == 1,
@@ -139,16 +92,42 @@ const links = [
 
                   '!bg-primary/[.1]': route.params.shop == shop.id,
                 }">
-                <div class="w-4 h-4">
-                  <img :src="shop.icon" class="w-full h-full" alt="">
-                </div>
-                <span
-                    class="group-data-[collapsible=icon]:opacity-0 group-data-[collapsible=icon]:absolute font-medium text-nowrap">{{
-                    shop.name
-                  }}</span>
-              </ShSidebarMenuButton>
-            </NuxtLink>
-          </ShSidebarMenuItem>
+                    <div class="w-4 h-4">
+                      <img :src="shop.icon" class="w-full h-full" alt="">
+                    </div>
+                    <span
+                        class="group-data-[collapsible=icon]:opacity-0 group-data-[collapsible=icon]:absolute font-medium text-nowrap">{{
+                        shop.name
+                      }}</span>
+                  </ShSidebarMenuButton>
+                </NuxtLink>
+              </ShCollapsibleTrigger>
+              <ShCollapsibleContent>
+                <ShSidebarMenuSub>
+                  <ShSidebarMenuSubItem>
+                    <ShSidebarMenuSubButton as-child>
+                      <NuxtLink :class="{
+                        '!bg-sidebar-accent': route.path.startsWith(`/cabinet/freshmarket/shop/${shop.id}`) && !route.path.startsWith(`/cabinet/freshmarket/shop/${shop.id}/settings`),
+                      }" :to="`/cabinet/freshmarket/shop/${shop.id}`">
+                        Главная
+                      </NuxtLink>
+                    </ShSidebarMenuSubButton>
+                  </ShSidebarMenuSubItem>
+                </ShSidebarMenuSub>
+                <ShSidebarMenuSub>
+                  <ShSidebarMenuSubItem>
+                    <ShSidebarMenuSubButton as-child>
+                      <NuxtLink :class="{
+                        '!bg-sidebar-accent': route.path.startsWith(`/cabinet/freshmarket/shop/${shop.id}/settings`),
+                      }" :to="`/cabinet/freshmarket/shop/${shop.id}/settings`">
+                        Настройки
+                      </NuxtLink>
+                    </ShSidebarMenuSubButton>
+                  </ShSidebarMenuSubItem>
+                </ShSidebarMenuSub>
+              </ShCollapsibleContent>
+            </ShSidebarMenuItem>
+          </ShCollapsible>
           <ShSidebarMenuItem>
             <CreateShopMenu>
               <ShSidebarMenuButton tooltip="Создать магазин" class="border border-dashed flex justify-center items-center hover:text-green-500/[.9] active:text-green-600/[.9] hover:border-green-500/[.9]">

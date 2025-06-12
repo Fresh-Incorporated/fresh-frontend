@@ -169,7 +169,7 @@ const cancel = async () => {
             Посмотреть 1 ед. товара
           </ShButton>
         </PreviewMinecraftShulker>
-        <ShButton @click="editProduct" type="submit">
+        <ShButton :disabled="!inEdit" @click="editProduct" type="submit">
           Сохранить
         </ShButton>
       </ShDialogFooter>
