@@ -136,10 +136,10 @@ watch(image, (newValue) => {
             <ShFormLabel>Иконка товара<span class="text-destructive">*</span></ShFormLabel>
             <ShFormControl>
               <IconUpload unique="create-product" v-model="image" :current-image="`https://assets.zaralx.ru/api/v1/minecraft/vanilla/item/${minecraftIcon}/icon`" :show-current-image="minecraftIcon" />
-              <SelectMinecraftImage v-model="minecraftIcon">
-                <ShButton variant="outline" class="w-full">Выбрать предмет из Minecraft</ShButton>
-              </SelectMinecraftImage>
             </ShFormControl>
+            <SelectMinecraftImage v-model="minecraftIcon">
+              <ShButton variant="outline" class="w-full">Выбрать предмет из Minecraft</ShButton>
+            </SelectMinecraftImage>
             <ShFormMessage class="text-destructive" />
           </ShFormItem>
         </ShFormField>

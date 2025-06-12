@@ -26,6 +26,7 @@ const products = defineModel('products')
     <ShCardContent class="grid grid-cols-4 gap-4">
       <CabinetFreshmarketProduct
           v-for="product in products"
+          :shop-id="shopId"
           :id="product.id"
           :name="product.name"
           :description="product.description"
@@ -34,6 +35,7 @@ const products = defineModel('products')
           :count="product.count"
           :refill_status="product.refill_status"
           :verify_status="product.verify_status"
+          @updateProducts="emit('updateProducts')"
       />
     </ShCardContent>
   </ShCard>

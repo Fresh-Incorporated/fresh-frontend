@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import {ref} from "vue";
+import {http} from "~/composables/useHttp"
+
+const emit = defineEmits(['updateProducts'])
 
 const props = defineProps({
+  shopId: Number,
   id: Number,
   name: String,
   description: String,
@@ -67,6 +71,11 @@ const refreshNotifications = () => {
 onMounted(() => {
   refreshNotifications()
 })
+
+const _delete = async () => {
+  await http.post(`/freshmarket/shop/${props.shopId}/product/${props.id}/delete`)
+  emit('updateProducts')
+}
 </script>
 
 <template>
@@ -134,36 +143,25 @@ onMounted(() => {
           <Icon name="uil:history" size="24"/>
         </button>
       </el-tooltip>
-      <el-tooltip
-          effect="light"
-          content="Удалить"
-          placement="top-start"
-      >
-        <el-popconfirm
-            confirm-button-text="Да, удалить"
-            cancel-button-text="Отмена"
-            hide-icon
-            title="Вы уверены что хотите удалить товар? Это действие нельзя будет отменить!"
-            @confirm="() => handleProductAction(product, 'delete')"
-            :width="250"
-        >
-          <template #reference>
-            <button class="w-6 h-6 flex justify-center items-center text-red-500">
-              <Icon name="uil:trash-alt" size="24"/>
-            </button>
-          </template>
-          <template #actions="{ confirm, cancel }">
-            <el-button size="small" @click="cancel">Отмена</el-button>
-            <el-button
-                type="danger"
-                size="small"
-                @click="confirm"
-            >
-              Подтвердить
-            </el-button>
-          </template>
-        </el-popconfirm>
-      </el-tooltip>
+      <ShAlertDialog>
+        <ShAlertDialogTrigger as-child>
+          <ShButton variant="ghost" class="w-6 h-6 p-0 flex justify-center items-center !text-red-500">
+            <Icon name="uil:trash-alt" size="24"/>
+          </ShButton>
+        </ShAlertDialogTrigger>
+        <ShAlertDialogContent>
+          <ShAlertDialogHeader>
+            <ShAlertDialogTitle>Вы уверены что хотите удалить товар?</ShAlertDialogTitle>
+            <ShAlertDialogDescription>
+              Это действие нельзя будет отменить. Удаление товара возможно только при его полном отсутствии на складе!
+            </ShAlertDialogDescription>
+          </ShAlertDialogHeader>
+          <ShAlertDialogFooter>
+            <ShAlertDialogCancel>Отмена</ShAlertDialogCancel>
+            <ShAlertDialogAction @click="_delete" class="bg-red-500/[.9] hover:bg-red-500">Удалить</ShAlertDialogAction>
+          </ShAlertDialogFooter>
+        </ShAlertDialogContent>
+      </ShAlertDialog>
     </div>
     <div class="flex justify-center items-center relative">
       <div v-if="refill_status == 1" class="absolute w-1/2 aspect-square bg-neutral-400/[0.75] dark:bg-black/[0.75] rounded-lg flex flex-col justify-center items-center">
