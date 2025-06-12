@@ -7,6 +7,8 @@ const emit = defineEmits(['updateShop'])
 
 const {updateShops} = useUser()
 
+const {isMobile} = useDevice()
+
 const props = defineProps({
   shopId: Number,
   icon: String,
@@ -88,7 +90,7 @@ function copyShopLink() {
       <ShCardTitle>Настройки магазина</ShCardTitle>
       <ShCardDescription>Настройте магазин в этом разделе</ShCardDescription>
     </ShCardHeader>
-    <ShCardContent class="space-y-4">
+    <ShCardContent class="space-y-4 p-1 md:p-4">
       <ShCard class="flex flex-row items-center justify-between p-4 gap-2 rounded-sm col-span-2">
         <ShLabel for="webpush-global" class="text-base block">
           <p>Иконка магазина</p>
@@ -112,8 +114,10 @@ function copyShopLink() {
           <p>Тег магазина</p>
         </ShLabel>
         <div class="relative w-full items-center">
-          <ShInput id="tag" v-model="newTag" :placeholder="props.name" :maxlength="16" type="text" class="pl-64" />
-          <label @click="copyShopLink" for="tag" class="absolute start-0 inset-y-0 flex items-center justify-center px-2 text-sm border-r bg-neutral-400/[.1]">
+          <ShInput id="tag" v-model="newTag" :placeholder="props.name" :maxlength="16" type="text" :class="{
+            'pl-64': !isMobile,
+          }" />
+          <label v-if="!isMobile" @click="copyShopLink" for="tag" class="absolute start-0 inset-y-0 flex items-center justify-center px-2 text-sm border-r bg-neutral-400/[.1]">
             fresh.zaralx.ru/freshmarket/shop/
           </label>
         </div>

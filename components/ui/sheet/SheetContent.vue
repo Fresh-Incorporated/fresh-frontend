@@ -12,6 +12,7 @@ import {
 } from 'reka-ui'
 import { cn } from '@/lib/utils'
 import SheetOverlay from './SheetOverlay.vue'
+import {ScrollArea} from "~/components/ui/scroll-area";
 
 interface SheetContentProps extends DialogContentProps {
   class?: HTMLAttributes['class']
@@ -50,7 +51,9 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits)
         props.class)"
       v-bind="{ ...forwarded, ...$attrs }"
     >
-      <slot />
+      <ScrollArea class="h-screen">
+        <slot />
+      </ScrollArea>
 
       <DialogClose
         class="ring-offset-background focus:ring-ring data-[state=open]:bg-secondary absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none"

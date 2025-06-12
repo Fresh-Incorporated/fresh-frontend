@@ -88,7 +88,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <ShCard class="col-span-3 h-64 py-0 overflow-hidden gap-0">
+  <ShCard class="col-span-1 2xl:col-span-3 h-64 py-0 overflow-hidden gap-0">
     <div class="h-8 flex justify-end items-center gap-4 mx-4">
       <div class="flex items-center gap-2" v-for="category in categories">
         <div :style="{background: category.color}" class="w-2 h-2 rounded-full"></div>

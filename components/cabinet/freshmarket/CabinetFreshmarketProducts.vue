@@ -14,19 +14,21 @@ const products = defineModel('products')
 </script>
 
 <template>
-  <ShCard class="col-span-4">
+  <ShCard class="col-span-1 xl:col-span-2 2xl:col-span-4">
     <ShCardHeader>
-      <ShCardDescription class="flex gap-2 items-center">
+      <ShCardDescription class="flex flex-col md:flex-row gap-2 items-center">
         <p>Товары [{{ shop?.products?.length }}/{{ shop?.products_limit }}]</p>
-        <IncreaseShopLimitMenu @update-shop="emit('updateShop')" :products_limit="shop?.products_limit" :shop-id="shopId">
-          <ShButton size="xs" variant="secondary">Увеличить лимит</ShButton>
-        </IncreaseShopLimitMenu>
-        <CreateProductMenu @update-products="emit('updateProducts')" :shop-id="shopId">
-          <ShButton size="xs" variant="secondary">Создать товар</ShButton>
-        </CreateProductMenu>
+        <div class="flex gap-2">
+          <IncreaseShopLimitMenu @update-shop="emit('updateShop')" :products_limit="shop?.products_limit" :shop-id="shopId">
+            <ShButton size="xs" variant="secondary">Увеличить лимит</ShButton>
+          </IncreaseShopLimitMenu>
+          <CreateProductMenu @update-products="emit('updateProducts')" :shop-id="shopId">
+            <ShButton size="xs" variant="secondary">Создать товар</ShButton>
+          </CreateProductMenu>
+        </div>
       </ShCardDescription>
     </ShCardHeader>
-    <ShCardContent class="grid grid-cols-4 gap-4">
+    <ShCardContent class="grid lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
       <CabinetFreshmarketProduct
           v-for="product in products"
           :shop-id="shopId"

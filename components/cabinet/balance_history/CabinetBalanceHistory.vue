@@ -26,7 +26,7 @@ async function tableLoadMore(fullLoaded: () => void, callback: (...args: any[]) 
 </script>
 
 <template>
-  <div class="col-span-4">
+  <div class="col-span-1 xl:col-span-2 2xl:col-span-4">
     <DataTable @load-more="tableLoadMore" :columns="columns" v-model:data="balanceHistory" pagination />
   </div>
 </template>
