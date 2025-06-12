@@ -56,14 +56,14 @@ const opened = ref(false)
         <slot />
       </span>
     </ShSheetTrigger>
-    <ShSheetContent>
+    <ShSheetContent class="flex flex-col h-screen">
       <ShSheetHeader>
         <ShSheetTitle>Создание магазина</ShSheetTitle>
         <ShSheetDescription>
           Заполните поля ниже и нажмите СОЗДАТЬ
         </ShSheetDescription>
       </ShSheetHeader>
-      <form :validation-schema="formSchema" @submit="onSubmit" class="px-4 space-y-4">
+      <form :validation-schema="formSchema" @submit="onSubmit" class="px-4 space-y-4 flex-1">
         <ShFormField v-slot="{ componentField }" name="name" :validate-on-blur="!isFieldDirty">
           <ShFormItem>
             <ShFormLabel>Название магазина<span class="text-destructive">*</span></ShFormLabel>

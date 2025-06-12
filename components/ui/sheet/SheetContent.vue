@@ -52,7 +52,9 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits)
       v-bind="{ ...forwarded, ...$attrs }"
     >
       <ScrollArea class="h-screen">
-        <slot />
+        <div :class="cn(props.class)">
+          <slot />
+        </div>
       </ScrollArea>
 
       <DialogClose
