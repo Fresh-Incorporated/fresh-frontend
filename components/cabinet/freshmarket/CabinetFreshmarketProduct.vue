@@ -18,6 +18,8 @@ const props = defineProps({
   slots_count: Number,
   refill_status: Number,
   verify_status: Number,
+  refill_cell_letter: String | undefined,
+  refill_cell_number: Number | undefined,
 })
 
 type NotificationType = 'info' | 'warning' | 'danger'
@@ -39,7 +41,9 @@ const refreshNotifications = () => {
     notifications.value.push({
       type: 'danger',
       tooltip: 'Товар не прошёл проверку',
-      action: () => console.log('Открыть меню изменения товара'),
+      action: () => {
+        editOpened.value = true
+      },
       disabled: false,
     })
   }
@@ -49,7 +53,7 @@ const refreshNotifications = () => {
       type: 'warning',
       tooltip: 'Вы не завершили пополнение',
       action: () => {
-
+        refillEndOpened.value = true
       },
       disabled: false,
     })
@@ -87,6 +91,26 @@ const edit = async () => {
     refreshNotifications()
   }, 5000)
 }
+
+const refill = async () => {
+  const response = await http.post(`/freshmarket/shop/${props.shopId}/product/${props.id}/refill`)
+
+  emit('updateProducts')
+  setTimeout(() => {
+    refreshNotifications()
+  }, 5000)
+}
+
+const refillEnd = async () => {
+  await http.post(`/freshmarket/shop/${props.shopId}/product/${props.id}/refill/end`)
+  emit('updateProducts')
+  setTimeout(() => {
+    refreshNotifications()
+  }, 5000)
+}
+
+const refillEndOpened = ref(false)
+const editOpened = ref(false)
 </script>
 
 <template>
@@ -104,7 +128,7 @@ const edit = async () => {
             placement="top-start"
         >
           <button :disabled="notify.disabled" @click="notify.action" :class="[
-                'w-6 h-6 flex justify-center items-center relative',
+                'w-6 h-6 flex justify-center items-center relative disabled:cursor-default',
                 {
                   'text-yellow-500': notify.type === 'warning',
                   'text-blue-500': notify.type === 'info',
@@ -122,6 +146,7 @@ const edit = async () => {
           </button>
         </el-tooltip>
         <CabinetEditProductMenu
+            v-model="editOpened"
             :shop-id="shopId"
             :id="id"
             :name="name"
@@ -139,17 +164,26 @@ const edit = async () => {
       </div>
     </div>
     <div class="flex gap-1">
-      <el-tooltip
-          effect="light"
-          :content="refill_status < 2 ? 'Пополнить' : 'Товар пополняется'"
-          placement="top-start"
-      >
-        <button :disabled="refill_status >= 2" @click="() => handleProductAction(product, 'refill')"
-                class="w-6 h-6 flex justify-center items-center text-green-400 disabled:opacity-50">
-          <div v-if="refill_status == 1" class="w-6 h-6 bg-green-500 absolute blur-xs rounded-full opacity-25"></div>
-          <Icon name="material-symbols:deployed-code-update-outline" size="24"/>
-        </button>
-      </el-tooltip>
+      <ShAlertDialog>
+        <ShAlertDialogTrigger as-child>
+          <ShButton :disabled="props.refill_status >= 1" variant="ghost" class="w-6 h-6 p-0 flex justify-center items-center !text-green-500">
+            <div v-if="props.refill_status == 1" class="w-6 h-6 bg-green-500 absolute blur-xs rounded-full opacity-25"></div>
+            <Icon name="material-symbols:deployed-code-update-outline" size="24"/>
+          </ShButton>
+        </ShAlertDialogTrigger>
+        <ShAlertDialogContent>
+          <ShAlertDialogHeader>
+            <ShAlertDialogTitle>Пополнение товара {{props.name}}</ShAlertDialogTitle>
+            <ShAlertDialogDescription>
+              После нажатия на кнопку "Запросить пополнение" вам будет выделена ячейка в зоне пополнения продавцов, постарайтесь принести туда товар в течении 6 часов после запроса пополнения и после не забудьте подтвердить пополнение, иначе, пополнение может быть не засчитано и вы потеряете свои ресурсы
+            </ShAlertDialogDescription>
+          </ShAlertDialogHeader>
+          <ShAlertDialogFooter>
+            <ShAlertDialogCancel>Отмена</ShAlertDialogCancel>
+            <ShAlertDialogAction @click="refill">Запросить пополнение</ShAlertDialogAction>
+          </ShAlertDialogFooter>
+        </ShAlertDialogContent>
+      </ShAlertDialog>
       <FreshmarketProductHistory :id="id" :shop-id="shopId">
         <ShButton variant="ghost" class="w-6 h-6 p-0 flex justify-center items-center !text-neutral-400">
           <Icon name="uil:history" size="24"/>
@@ -178,8 +212,26 @@ const edit = async () => {
     <div class="flex justify-center items-center relative">
       <div v-if="refill_status == 1" class="absolute w-1/2 aspect-square bg-neutral-400/[0.75] dark:bg-black/[0.75] rounded-lg flex flex-col justify-center items-center">
         <p class="text-orange-700 dark:text-yellow-400 font-semibold">Пополнение</p>
-        <p>Ячейка: <strong class="absolute blur-xs text-blue-700/[0.5] dark:text-white">{{ product?.refillCell?.letter }}-{{ product?.refillCell?.number }}</strong><strong class="text-blue-700 dark:text-white">{{ product?.refillCell?.letter }}-{{ product?.refillCell?.number }}</strong></p>
-        <ShButton @click="handleProductAction(product, 'refill')" class="absolute bottom-4" size="sm">Открыть</ShButton>
+        <p>Ячейка: <strong class="absolute blur-xs text-blue-700/[0.5] dark:text-white">{{ refill_cell_letter }}-{{ refill_cell_number }}</strong><strong class="text-blue-700 dark:text-white">{{ refill_cell_letter }}-{{ refill_cell_number }}</strong></p>
+        <ShAlertDialog v-model:open="refillEndOpened">
+          <ShAlertDialogTrigger as-child>
+            <ShButton class="absolute bottom-4" size="xs" variant="outline">Завершить</ShButton>
+          </ShAlertDialogTrigger>
+          <ShAlertDialogContent>
+            <ShAlertDialogHeader>
+              <ShAlertDialogTitle>Пополнение товара</ShAlertDialogTitle>
+              <ShAlertDialogDescription>
+                Вы уверены что хотите завершить пополнение? Убедитесь что вы принесли товар в ячейку
+                <span class="text-primary font-medium">REFILL {{ refill_cell_letter }}-{{ refill_cell_number }}</span>
+                которая находится в <span class="text-primary font-medium">Рабочей зоне FreshmMarket (Синяя ветка 133)</span>
+              </ShAlertDialogDescription>
+            </ShAlertDialogHeader>
+            <ShAlertDialogFooter>
+              <ShAlertDialogCancel>Отмена</ShAlertDialogCancel>
+              <ShAlertDialogAction @click="refillEnd" class="bg-red-500/[.9] hover:bg-red-500">Завершить пополнение</ShAlertDialogAction>
+            </ShAlertDialogFooter>
+          </ShAlertDialogContent>
+        </ShAlertDialog>
       </div>
       <img :src="icon" class="w-1/2 aspect-square" alt="">
     </div>

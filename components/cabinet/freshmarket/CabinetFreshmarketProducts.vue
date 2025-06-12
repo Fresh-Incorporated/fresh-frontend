@@ -37,6 +37,8 @@ const products = defineModel('products')
           :verify_status="product.verify_status"
           :stack_count="product.stack_count"
           :slots_count="product.slots_count"
+          :refill_cell_letter="product.refillCell?.letter"
+          :refill_cell_number="product.refillCell?.number"
           @updateProducts="emit('updateProducts')"
       />
     </ShCardContent>

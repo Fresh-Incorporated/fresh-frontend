@@ -21,7 +21,7 @@ const newName = ref(props.name)
 const newDescription = ref(props.description)
 const newPrice = ref(props.price)
 const loading = ref(false)
-const opened = ref(false)
+const opened = defineModel()
 
 watch(props, () => {
   newName.value = props.name
