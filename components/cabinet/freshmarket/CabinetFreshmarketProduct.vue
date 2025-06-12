@@ -136,13 +136,13 @@ const editOpened = ref(false)
                 }
               ]">
             <div class="blur-xs absolute h-5">
-              <Icon :name="notify.type === 'warning' ? 'uil:exclamation-triangle' :
-                         notify.type === 'info' ? 'uil:exclamation-circle' :
-                         'uil:exclamation-octagon'" size="20"/>
+              <Icon :name="notify.type === 'warning' ? 'lucide:triangle-alert' :
+                         notify.type === 'info' ? 'lucide:circle-alert' :
+                         'lucide:octagon-alert'" size="20"/>
             </div>
-            <Icon :name="notify.type === 'warning' ? 'uil:exclamation-triangle' :
-                       notify.type === 'info' ? 'uil:exclamation-circle' :
-                       'uil:exclamation-octagon'" size="20"/>
+            <Icon :name="notify.type === 'warning' ? 'lucide:triangle-alert' :
+                       notify.type === 'info' ? 'lucide:circle-alert' :
+                       'lucide:octagon-alert'" size="20"/>
           </button>
         </el-tooltip>
         <CabinetEditProductMenu
@@ -158,7 +158,7 @@ const editOpened = ref(false)
             @update-products="edit"
         >
           <ShButton variant="ghost" class="w-6 h-6 p-0 flex justify-center items-center">
-            <Icon name="uil:pen" size="20"/>
+            <Icon name="lucide:pencil" size="20"/>
           </ShButton>
         </CabinetEditProductMenu>
       </div>
@@ -168,7 +168,7 @@ const editOpened = ref(false)
         <ShAlertDialogTrigger as-child>
           <ShButton :disabled="props.refill_status >= 1" variant="ghost" class="w-6 h-6 p-0 flex justify-center items-center !text-green-500">
             <div v-if="props.refill_status == 1" class="w-6 h-6 bg-green-500 absolute blur-xs rounded-full opacity-25"></div>
-            <Icon name="material-symbols:deployed-code-update-outline" size="24"/>
+            <Icon name="lucide:box" size="24"/>
           </ShButton>
         </ShAlertDialogTrigger>
         <ShAlertDialogContent>
@@ -186,13 +186,13 @@ const editOpened = ref(false)
       </ShAlertDialog>
       <FreshmarketProductHistory :id="id" :shop-id="shopId">
         <ShButton variant="ghost" class="w-6 h-6 p-0 flex justify-center items-center !text-neutral-400">
-          <Icon name="uil:history" size="24"/>
+          <Icon name="lucide:history" size="24"/>
         </ShButton>
       </FreshmarketProductHistory>
       <ShAlertDialog>
         <ShAlertDialogTrigger as-child>
           <ShButton variant="ghost" class="w-6 h-6 p-0 flex justify-center items-center !text-red-500">
-            <Icon name="uil:trash-alt" size="24"/>
+            <Icon name="lucide:trash-2" size="24"/>
           </ShButton>
         </ShAlertDialogTrigger>
         <ShAlertDialogContent>
