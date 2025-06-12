@@ -49,7 +49,7 @@ const handleDragOver = (event: DragEvent) => {
 
 <template>
   <div
-      class="min-w-48 min-h-48 max-w-48 max-h-48 aspect-square shadow-xs"
+      class="min-w-48 min-h-48 max-w-48 max-h-48 aspect-square shadow-xs select-none"
       @drop="handleDrop"
       @dragover="handleDragOver"
   >

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {ref} from "vue";
 import {http} from "~/composables/useHttp"
+import CabinetEditProductMenu from "~/components/cabinet/freshmarket/CabinetEditProductMenu.vue";
 
 const emit = defineEmits(['updateProducts'])
 
@@ -12,6 +13,8 @@ const props = defineProps({
   icon: String,
   price: Number,
   count: Number,
+  stack_count: Number,
+  slots_count: Number,
   refill_status: Number,
   verify_status: Number,
 })
@@ -76,6 +79,13 @@ const _delete = async () => {
   await http.post(`/freshmarket/shop/${props.shopId}/product/${props.id}/delete`)
   emit('updateProducts')
 }
+
+const edit = async () => {
+  emit('updateProducts');
+  setTimeout(() => {
+    refreshNotifications()
+  }, 5000)
+}
 </script>
 
 <template>
@@ -110,15 +120,21 @@ const _delete = async () => {
                        'uil:exclamation-octagon'" size="20"/>
           </button>
         </el-tooltip>
-        <el-tooltip
-            effect="light"
-            content="Изменить"
-            placement="top-start"
+        <CabinetEditProductMenu
+            :shop-id="shopId"
+            :id="id"
+            :name="name"
+            :description="description"
+            :icon="icon"
+            :price="price"
+            :stack_count="stack_count"
+            :slots_count="slots_count"
+            @update-products="edit"
         >
-          <button @click="selectedProduct = product; productEditWindow = true" class="w-6 h-6 flex justify-center items-center">
+          <ShButton variant="ghost" class="w-6 h-6 p-0 flex justify-center items-center">
             <Icon name="uil:pen" size="20"/>
-          </button>
-        </el-tooltip>
+          </ShButton>
+        </CabinetEditProductMenu>
       </div>
     </div>
     <div class="flex gap-1">
