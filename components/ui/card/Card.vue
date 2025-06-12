@@ -2,6 +2,8 @@
 import type {HTMLAttributes} from 'vue'
 import {cn} from '@/lib/utils'
 
+const loading = defineModel<Boolean>('loading')
+
 const props = defineProps<{
   class?: HTMLAttributes['class']
   outlined?: boolean
@@ -12,11 +14,19 @@ const props = defineProps<{
   <div
       data-slot="card"
       :class="cn(
-        'text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm',
+        'text-card-foreground rounded-xl border shadow-sm overflow-hidden relative',
         props.class,
-        { 'bg-card': !outlined }
+        {
+          'bg-card': !outlined,
+          'py-6': !loading,
+        }
       )"
   >
-    <slot/>
+    <transition name="loaded">
+      <Skeleton v-if="loading" class="h-full w-full rounded-full absolute top-0 left-0 z-10" />
+    </transition>
+    <div class="flex flex-col gap-6 transition-all" :class="loading ? 'opacity-0' : 'opacity-100'">
+      <slot />
+    </div>
   </div>
 </template>

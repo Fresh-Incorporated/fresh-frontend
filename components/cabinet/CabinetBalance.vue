@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {http} from "~/composables/useHttp"
 
-const {user, balanceHistory, updateUser} = useUser()
+const {user, balanceHistory, updateUser, userLoading} = useUser()
 
 const openedDepositDialog = ref(false)
 const depositValue = ref(10)
@@ -54,7 +54,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <ShCard class="col-span-1">
+  <ShCard v-model:loading="userLoading" class="col-span-1">
     <ShCardHeader>
       <ShCardDescription>Баланс</ShCardDescription>
       <ShCardTitle class="text-2xl text-primary font-rubik">{{user?.balance?.toFixed(2)}} АР</ShCardTitle>

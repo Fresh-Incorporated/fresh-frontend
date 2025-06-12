@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import CabinetBalance from "~/components/cabinet/CabinetBalance.vue";
 
-const {user} = useUser()
+const {user, userLoading} = useUser()
 
 definePageMeta({
   layout: 'cabinet'

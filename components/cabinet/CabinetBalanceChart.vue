@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { format, subDays } from 'date-fns'
 
-const {user, monthBalance, updateMonthBalance} = useUser()
+const {user, monthBalance, updateMonthBalance, userLoading} = useUser()
 
 interface AreaChartItem {
   date: string
@@ -41,7 +41,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <ShCard class="col-span-1 2xl:col-span-3 h-41 py-0 overflow-hidden">
+  <ShCard v-model:loading="userLoading" class="col-span-1 2xl:col-span-3 h-41 !py-0 overflow-hidden">
     <AreaChart
         style="width: calc(100% + 10px); transform: translateX(-5px)"
         :height="164"

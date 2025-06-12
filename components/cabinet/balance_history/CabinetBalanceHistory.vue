@@ -26,7 +26,10 @@ async function tableLoadMore(fullLoaded: () => void, callback: (...args: any[]) 
 </script>
 
 <template>
-  <div class="col-span-1 xl:col-span-2 2xl:col-span-4">
+  <div class="col-span-1 xl:col-span-2 2xl:col-span-4 relative">
     <DataTable @load-more="tableLoadMore" :columns="columns" v-model:data="balanceHistory" pagination />
+    <transition name="loaded">
+      <Skeleton v-if="userLoading" class="w-full rounded-full absolute top-0 left-0 z-10 h-120" />
+    </transition>
   </div>
 </template>
