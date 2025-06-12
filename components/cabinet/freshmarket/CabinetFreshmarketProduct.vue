@@ -2,6 +2,7 @@
 import {ref} from "vue";
 import {http} from "~/composables/useHttp"
 import CabinetEditProductMenu from "~/components/cabinet/freshmarket/CabinetEditProductMenu.vue";
+import FreshmarketProductHistory from "~/components/freshmarket/FreshmarketProductHistory.vue";
 
 const emit = defineEmits(['updateProducts'])
 
@@ -149,16 +150,11 @@ const edit = async () => {
           <Icon name="material-symbols:deployed-code-update-outline" size="24"/>
         </button>
       </el-tooltip>
-      <el-tooltip
-          effect="light"
-          content="История"
-          placement="top-start"
-      >
-        <button @click="() => handleProductAction(product, 'history')"
-                class="w-6 h-6 flex justify-center items-center text-neutral-400">
+      <FreshmarketProductHistory :id="id" :shop-id="shopId">
+        <ShButton variant="ghost" class="w-6 h-6 p-0 flex justify-center items-center !text-neutral-400">
           <Icon name="uil:history" size="24"/>
-        </button>
-      </el-tooltip>
+        </ShButton>
+      </FreshmarketProductHistory>
       <ShAlertDialog>
         <ShAlertDialogTrigger as-child>
           <ShButton variant="ghost" class="w-6 h-6 p-0 flex justify-center items-center !text-red-500">
