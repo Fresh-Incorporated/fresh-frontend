@@ -41,10 +41,10 @@ onMounted(async () => {
 </script>
 
 <template>
-  <ShCard class="col-span-3 h-27 py-0 overflow-hidden">
+  <ShCard class="col-span-3 h-41 py-0 overflow-hidden">
     <AreaChart
         style="width: calc(100% + 10px); transform: translateX(-5px)"
-        :height="108"
+        :height="164"
         :data="AreaChartData"
         :categories="categories"
         :y-num-ticks="-1"
