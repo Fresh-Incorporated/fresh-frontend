@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import CabinetSidebar from "~/components/cabinet/layout/CabinetSidebar.vue";
-import CabinetHeader from "~/components/cabinet/layout/CabinetHeader.vue";
+import CabinetSidebar from "~/components/cabinet/layout/cabinet/CabinetSidebar.vue";
+import CabinetHeader from "~/components/cabinet/layout/cabinet/CabinetHeader.vue";
 
 const {updateShops} = useUser()
 
