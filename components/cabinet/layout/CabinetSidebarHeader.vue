@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const {user, shops} = useUser()
+const {user, logout} = useUser()
 </script>
 
 <template>
@@ -49,7 +49,8 @@ const {user, shops} = useUser()
             </ShDropdownMenuItem>
             <ShDropdownMenuSeparator/>
             <ShDropdownMenuItem
-                class="gap-2 p-2"
+                class="gap-2 p-2 cursor-pointer"
+                @click="logout"
             >
               <Icon name="lucide:log-out"/>
               Выйти
