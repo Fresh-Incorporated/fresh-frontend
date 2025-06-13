@@ -114,7 +114,7 @@ const editOpened = ref(false)
 </script>
 
 <template>
-  <ShCard class="p-4 gap-2">
+  <ShCard class="!p-4 gap-2">
     <div class="flex">
       <div class="">
         <p class="text-base font-medium">{{ name }}</p>

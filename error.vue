@@ -8,20 +8,10 @@ defineProps({
 
 <template>
   <div class="h-screen w-full flex justify-center items-center">
-    <div>
-      <el-result
-          icon="error"
-      >
-        <template #sub-title>
-          <p class="text-lg!">Внимание, ошибка!</p>
-        </template>
-        <template #title>
-          <p class="text-2xl!">{{error?.statusCode}}</p>
-        </template>
-        <template #extra>
-          <NuxtLink to="/"><el-button type="primary">Вернуться назад</el-button></NuxtLink>
-        </template>
-      </el-result>
+    <div class="text-center space-y-8">
+      <p class="text-lg!">Внимание, ошибка!</p>
+      <p class="text-3xl! font-bold">{{error?.statusCode}}</p>
+      <NuxtLink to="/"><ShButton>Вернуться на главную</ShButton></NuxtLink>
     </div>
   </div>
 </template>
