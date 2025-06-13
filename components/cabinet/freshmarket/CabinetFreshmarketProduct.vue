@@ -121,13 +121,13 @@ const editOpened = ref(false)
         <p class="text-xs opacity-75 line-clamp-2 break-all">{{ description }}</p>
       </div>
       <div class="ml-auto mr-0 flex">
-        <el-tooltip
+        <ShTooltip
             v-for="notify in notifications"
             effect="light"
-            :content="notify.tooltip"
             placement="top-start"
         >
-          <button :disabled="notify.disabled" @click="notify.action" :class="[
+          <ShTooltipTrigger as-child>
+            <button :disabled="notify.disabled" @click="notify.action" :class="[
                 'w-6 h-6 flex justify-center items-center relative disabled:cursor-default',
                 {
                   'text-yellow-500': notify.type === 'warning',
@@ -135,16 +135,20 @@ const editOpened = ref(false)
                   'text-red-500': notify.type === 'danger'
                 }
               ]">
-            <div class="blur-xs absolute h-5">
-              <Icon :name="notify.type === 'warning' ? 'lucide:triangle-alert' :
+              <div class="blur-xs absolute h-5">
+                <Icon :name="notify.type === 'warning' ? 'lucide:triangle-alert' :
                          notify.type === 'info' ? 'lucide:circle-alert' :
                          'lucide:octagon-alert'" size="20"/>
-            </div>
-            <Icon :name="notify.type === 'warning' ? 'lucide:triangle-alert' :
+              </div>
+              <Icon :name="notify.type === 'warning' ? 'lucide:triangle-alert' :
                        notify.type === 'info' ? 'lucide:circle-alert' :
                        'lucide:octagon-alert'" size="20"/>
-          </button>
-        </el-tooltip>
+            </button>
+          </ShTooltipTrigger>
+          <ShTooltipContent>
+            <p>{{notify.tooltip}}</p>
+          </ShTooltipContent>
+        </ShTooltip>
         <CabinetEditProductMenu
             v-model="editOpened"
             :shop-id="shopId"

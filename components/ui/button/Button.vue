@@ -10,12 +10,10 @@ interface Props extends PrimitiveProps {
   class?: HTMLAttributes['class']
   loading?: boolean
   disabled?: boolean
-  type: 'success' | 'danger' | 'default'
 }
 
 const props = withDefaults(defineProps<Props>(), {
   as: 'button',
-  type: 'success'
 })
 </script>
 

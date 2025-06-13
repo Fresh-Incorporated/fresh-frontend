@@ -12,9 +12,11 @@ onMounted( () => {
 <template>
   <div class="bg-main-light dark:bg-main-dark transition-all duration-500 min-h-screen font-montserrat overflow-hidden">
     <NuxtLoadingIndicator :throttle="10" color="#009DFF" error-color="#ff0000" />
-    <NuxtLayout>
-      <NuxtPage />
-    </NuxtLayout>
+    <ShTooltipProvider>
+      <NuxtLayout>
+        <NuxtPage />
+      </NuxtLayout>
+    </ShTooltipProvider>
     <ShToaster
         position="bottom-left"
         rich-colors
