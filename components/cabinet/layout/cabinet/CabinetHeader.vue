@@ -8,7 +8,7 @@ const pathIdTitles = {
 }
 
 const links = computed(() => {
-  let defaultLinks = [
+  return [
     {
       title: "Главная",
       to: "/"
@@ -18,15 +18,6 @@ const links = computed(() => {
       to: "/freshmarket"
     }
   ]
-
-  if (user.value?.fm_worker > 0) {
-    defaultLinks.push({
-      title: "Я работник",
-      to: "/freshmarket/work"
-    })
-  }
-
-  return defaultLinks
 })
 
 const breadcrumbPath = ref<{ title: string, to: string, latest?: boolean }[]>([])
