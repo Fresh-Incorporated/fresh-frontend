@@ -142,31 +142,36 @@ const handleFileChange = (event) => {
           type="number"
       />
     </div>
-    <el-select
-        v-model="type"
-        placeholder="Тип локации"
-    >
-      <el-option
-          key="storage"
-          label="Склад"
-          value="storage"
-      />
-      <el-option
-          key="refill"
-          label="Ячейки пополнения"
-          value="refill"
-      />
-      <el-option
-          key="branch"
-          label="Филиал"
-          value="branch"
-      />
-      <el-option
-          key="deliver"
-          label="Ячейки доставки"
-          value="deliver"
-      />
-    </el-select>
+    <ShSelect v-model="type">
+      <ShSelectTrigger>
+        <ShButton variant="outline"><ShSelectValue placeholder="Тип локации" /></ShButton>
+      </ShSelectTrigger>
+      <ShSelectContent>
+        <ShSelectGroup>
+          <ShSelectLabel>Fruits</ShSelectLabel>
+          <ShSelectItem
+              key="storage"
+              label="Склад"
+              value="storage"
+          />
+          <ShSelectItem
+              key="refill"
+              label="Ячейки пополнения"
+              value="refill"
+          />
+          <ShSelectItem
+              key="branch"
+              label="Филиал"
+              value="branch"
+          />
+          <ShSelectItem
+              key="deliver"
+              label="Ячейки доставки"
+              value="deliver"
+          />
+        </ShSelectGroup>
+      </ShSelectContent>
+    </ShSelect>
     <ShInput
         v-model="city"
         placeholder="Город (При наличии)"

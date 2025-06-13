@@ -393,6 +393,7 @@ function getNearestBranch(x, z) {
   }
 }
 
+watch(selectedWorld, draw)
 </script>
 
 <template>
@@ -461,15 +462,28 @@ function getNearestBranch(x, z) {
       </template>
     </el-dialog>
     <div :class="opened ? '' : 'scale-0 opacity-0'" class="fixed top-0 left-0 z-30 w-screen h-screen bg-neutral-950 transform duration-500">
-      <div @click="opened = false" class="absolute bg-neutral-800/[0.25] w-8 h-8 flex justify-center items-center top-2 left-2 cursor-pointer rounded-lg">
-        <i class="pi pi-times text-neutral-700"></i>
-      </div>
-      <div class="fixed top-2 right-2">
-        <el-select v-model="selectedWorld" placeholder="Выберите мир" style="width: 140px" @change="draw();">
-          <el-option label="Метро" value="nether"/>
-          <el-option label="Верхний мир" value="overworld"/>
-          <el-option label="Энд" value="the_end"/>
-        </el-select>
+      <ShButton @click="opened = false" variant="secondary" class="absolute flex justify-center items-center top-2 left-2 cursor-pointer rounded-lg">
+        <i class="pi pi-times"></i>
+      </ShButton>
+      <div class="fixed top-2 left-16">
+        <ShSelect v-model="selectedWorld">
+          <ShSelectTrigger>
+            <ShButton variant="secondary"><ShSelectValue placeholder="Выберите мир" /></ShButton>
+          </ShSelectTrigger>
+          <ShSelectContent>
+            <ShSelectGroup>
+              <ShSelectItem value="nether">
+                Метро
+              </ShSelectItem>
+              <ShSelectItem value="overworld">
+                Верхний мир
+              </ShSelectItem>
+              <ShSelectItem value="the_end">
+                Энд
+              </ShSelectItem>
+            </ShSelectGroup>
+          </ShSelectContent>
+        </ShSelect>
       </div>
       <div class="fixed bottom-2 right-2">
         <p>X: {{Math.floor(cursorPoint.x)}}</p>
