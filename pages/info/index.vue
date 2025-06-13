@@ -13,12 +13,11 @@
           <br> Наша миссия — объединить технологии, креативность и практичность, чтобы создавать удобные, современные и
           полезные инструменты для всех участников экосистемы.</p>
         <a href="https://www.donationalerts.com/r/zaralx" target="_blank">
-          <el-button type="warning" text>
+          <ShButton variant="warning" size="xs" class="border border-orange-500">
             <div class="flex gap-2 items-center">
-              <img src="/DA_Alert_Color.svg" class="w-4" alt="">
-              <p>Поддержать проект</p>
-            </div>
-          </el-button>
+            <img src="/DA_Alert_Color.svg" class="w-4" alt="">
+            <p>Поддержать проект</p>
+          </div></ShButton>
         </a>
       </div>
       <div class="bg-neutral-100 dark:bg-neutral-800/[0.5] rounded-xl p-4 shadow-sm dark:shadow-lg">

@@ -71,7 +71,7 @@ const handleFileChange = (event) => {
         accept="image/*"
         class="w-full"
     />
-    <el-input
+    <ShInput
         v-model="name"
         minlength="3"
         maxlength="24"
@@ -79,7 +79,7 @@ const handleFileChange = (event) => {
         show-word-limit
         type="text"
     />
-    <el-input
+    <ShInput
         v-model="description"
         maxlength="320"
         placeholder="Описание локации"
@@ -90,17 +90,17 @@ const handleFileChange = (event) => {
     />
     Координаты в верхнем мире
     <div class="flex">
-      <el-input
+      <ShInput
           v-model="coordinates[0].x"
           placeholder="X"
           type="number"
       />
-      <el-input
+      <ShInput
           v-model="coordinates[0].y"
           placeholder="Y"
           type="number"
       />
-      <el-input
+      <ShInput
           v-model="coordinates[0].z"
           placeholder="Z"
           type="number"
@@ -108,17 +108,17 @@ const handleFileChange = (event) => {
     </div>
     Координаты в нижнем мире
     <div class="flex">
-      <el-input
+      <ShInput
           v-model="coordinates[1].x"
           placeholder="X"
           type="number"
       />
-      <el-input
+      <ShInput
           v-model="coordinates[1].y"
           placeholder="Y"
           type="number"
       />
-      <el-input
+      <ShInput
           v-model="coordinates[1].z"
           placeholder="Z"
           type="number"
@@ -126,17 +126,17 @@ const handleFileChange = (event) => {
     </div>
     Координаты в эндер мире
     <div class="flex">
-      <el-input
+      <ShInput
           v-model="coordinates[2].x"
           placeholder="X"
           type="number"
       />
-      <el-input
+      <ShInput
           v-model="coordinates[2].y"
           placeholder="Y"
           type="number"
       />
-      <el-input
+      <ShInput
           v-model="coordinates[2].z"
           placeholder="Z"
           type="number"
@@ -167,14 +167,14 @@ const handleFileChange = (event) => {
           value="deliver"
       />
     </el-select>
-    <el-input
+    <ShInput
         v-model="city"
         placeholder="Город (При наличии)"
         type="text"
     />
-    <el-button @click="create">
+    <ShButton @click="create">
       Создать
-    </el-button>
+    </ShButton>
   </div>
 </template>
 
