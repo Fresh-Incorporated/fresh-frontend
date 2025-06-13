@@ -41,7 +41,7 @@ const confirm = async () => {
 </script>
 
 <template>
-  <div class="w-full">
+  <div class="w-full p-4">
     <div class="grid grid-cols-5 gap-4">
       <el-dialog
           v-model="refillDialog"
@@ -69,7 +69,7 @@ const confirm = async () => {
           </el-button>
         </div>
       </el-dialog>
-      <div v-for="product in products" class="flex flex-col">
+      <ShCard v-for="product in products" class="flex flex-col !p-2 gap-0">
         <img :src="product.icon" class="w-full aspect-square" alt="">
         <p class="font-semibold">{{ product.name }}</p>
         <p class="break-all">{{ product.description }}</p>
@@ -79,14 +79,10 @@ const confirm = async () => {
         <p>Ячейка Склада: {{ product.cell?.letter }}-{{ product.cell?.number }}</p>
         <p>Склад: {{ product.cell?.location?.name }}</p>
         <div class="flex flex-col gap-1">
-          <el-button v-if="product?.currentRefiller?.id == user?.id"
-                     @click="selectedId = product.id; refillDialog = true">Открыть меню
-          </el-button>
-          <el-button @click="accept(product.id)" type="success" plain
-                     :disabled="product.refill_status != 2 || product?.currentRefiller != null">Принять
-          </el-button>
+          <ShButton v-if="product?.currentRefiller?.id == user?.id" size="sm" variant="outline" class="w-full" @click="selectedId = product.id; refillDialog = true">Открыть меню</ShButton>
+          <ShButton v-if="product?.currentRefiller?.id != user?.id" :disabled="product.refill_status != 2 || product?.currentRefiller != null" size="sm" variant="success" class="w-full" @click="accept(product.id)">Принять</ShButton>
         </div>
-      </div>
+      </ShCard>
     </div>
   </div>
 </template>

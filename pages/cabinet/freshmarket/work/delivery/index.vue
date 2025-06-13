@@ -33,9 +33,9 @@ const finish = async (id: number) => {
 </script>
 
 <template>
-  <div class="w-full p-4">
-    <div v-for="order in orders.filter((_order) => _order?.currentWorkerId == user?.id)" class="flex flex-col w-full border rounded-lg border-neutral-200 dark:border-neutral-700 mb-4">
-      <div class="p-2">
+  <div class="w-full p-4 space-y-2">
+    <ShCard v-for="order in orders.filter((_order) => _order?.currentWorkerId == user?.id)" class="w-full border rounded-lg !p-2">
+      <div class="p-1">
         <p class="font-semibold">ID: #{{ order.id }} [ПРИНЯТО ВАМИ]</p>
         <p class="font-medium text-neutral-600 dark:text-neutral-300">Ячейка курьера: <span class="text-primary-dark">{{ order?.deliverCell?.letter }}-{{ order?.deliverCell?.number }}</span></p>
         <p class="font-medium text-neutral-600 dark:text-neutral-300">Тип доставки: ПУНКТ ВЫДАЧИ ЗАКАЗОВ</p>
@@ -44,37 +44,14 @@ const finish = async (id: number) => {
         <p class="font-medium text-neutral-600 dark:text-neutral-300">Координаты: <span v-for="coordinate in order?.branchCell?.location?.coordinates">{{coordinate?.world}} X: {{coordinate?.x}} Y: {{coordinate?.y}} Z: {{coordinate?.z}}<br></span></p>
         <p class="font-medium text-neutral-600 dark:text-neutral-300">Ячейка: <span class="text-secondary-dark">{{ order?.branchCell?.letter }}-{{ order?.branchCell?.number }}</span></p>
       </div>
-      <el-popconfirm
-          confirm-button-text="Подтвердить"
-          cancel-button-text="Отмена"
-          hide-icon
-          title="Вы уверены что хотите завершить доставку? Это действие нельзя будет отменить!"
-          @confirm="finish(order?.id)"
-          :width="300"
-      >
-        <template #reference>
-          <el-button class="m-2 mt-0">Завершить доставку</el-button>
-        </template>
-        <template #actions="{ confirm, cancel }">
-          <el-button size="small" @click="cancel">Отмена</el-button>
-          <el-button
-              type="danger"
-              size="small"
-              @click="confirm"
-          >
-            Подтвердить
-          </el-button>
-        </template>
-      </el-popconfirm>
-
-    </div>
+      <ShButton variant="secondary" @click="finish(order?.id)">Завершить доставку</ShButton>
+    </ShCard>
     <div class="grid grid-cols-5 gap-4">
-      <div v-for="order in orders.filter((_order) => _order?.currentWorkerId != user?.id)" class="flex flex-col">
+      <ShCard v-for="order in orders.filter((_order) => _order?.currentWorkerId != user?.id)" class="flex flex-col !p-2 gap-1">
         <p class="font-semibold">ID: #{{ order?.id }}</p>
-        <el-button v-if="order?.status == 2" @click="accept(order?.id)"
-                   :disabled="order.status != 2 || order?.currentWorkerId != null" type="success" plain>Принять
-        </el-button>
-      </div>
+        <p class="text-sm">Товаров: {{ order?.data?.products?.reduce((sum, product) => sum + product?.count, 0) }} шт.</p>
+        <ShButton :disabled="order.status != 2 || order?.currentWorkerId != null" size="sm" variant="success" class="w-full" @click="accept(order?.id)">Принять</ShButton>
+      </ShCard>
     </div>
   </div>
 </template>

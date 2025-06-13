@@ -97,8 +97,8 @@ const decline = async () => {
             <ShButton class="w-full" variant="outline" size="sm" @click="selectedId = product.id; showProductHistory = true">Показать историю товара [{{product.history.length}}шт]</ShButton>
           </FreshmarketProductHistory>
           <div class="grid grid-cols-2 gap-2">
-            <ShButton size="sm" variant="outline" class="w-full !bg-green-500/[.25] !border-green-500/[.5]" @click="accept(product.id)">Подтвердить</ShButton>
-            <ShButton size="sm" variant="outline" class="w-full !bg-red-500/[.25] !border-red-500/[.5]" @click="selectedId = product.id; declineDialog = true">Отклонить</ShButton>
+            <ShButton size="sm" variant="success" @click="accept(product.id)">Подтвердить</ShButton>
+            <ShButton size="sm" variant="destructive" @click="selectedId = product.id; declineDialog = true">Отклонить</ShButton>
           </div>
         </div>
       </ShCard>
