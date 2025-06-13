@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import {http} from "~/composables/useHttp"
-import FMProductHistory from "~/components/freshmarket/FMProductHistory.vue";
 
 definePageMeta({
-  layout: 'freshmarketwork'
+  layout: 'cabinet'
 })
 
 const declineMessage = ref("")
@@ -47,7 +46,6 @@ const decline = async () => {
 
 <template>
   <div class="w-full p-4">
-    <FMProductHistory v-model="showProductHistory" :history="products?.find(product => product.id === selectedId)?.history" />
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 gap-2">
       <el-dialog
           v-model="declineDialog"
@@ -85,7 +83,7 @@ const decline = async () => {
           </el-popconfirm>
         </div>
       </el-dialog>
-      <div v-for="product in products" class="flex flex-col">
+      <ShCard v-for="product in products" class="flex flex-col !p-2 gap-0">
         <img :src="product.icon" class="w-full aspect-square" alt="">
         <p class="font-semibold">{{product.name}}</p>
         <p class="break-all">{{product.description}}</p>
@@ -94,29 +92,16 @@ const decline = async () => {
         <p>Цена: {{product.price}} АР</p>
         <p>Ячейка: {{product.cell?.letter}}-{{product.cell?.number}}</p>
         <p>Склад: {{product.cell?.location?.name}}</p>
-        <div class="flex flex-col gap-1">
-          <el-button @click="selectedId = product.id; showProductHistory = true" plain>Показать историю товара [{{product.history.length}}шт]</el-button>
-          <div class="flex">
-            <el-popconfirm
-                confirm-button-text="Подтвердить"
-                cancel-button-text="Отмена"
-                hide-icon
-                title="Вы уверены что хотите подтвердить этот товар?"
-                @confirm="accept(product.id)"
-                :width="300"
-            >
-              <template #reference>
-                <el-button class="w-full" type="success" plain>Подтвердить</el-button>
-              </template>
-              <template #actions="{ confirm, cancel }">
-                <el-button size="small" @click="cancel">Отмена</el-button>
-                <el-button size="small" type="danger" @click="confirm">Подтвердить</el-button>
-              </template>
-            </el-popconfirm>
-            <el-button class="w-full" @click="selectedId = product.id; declineDialog = true" type="danger" plain>Отклонить</el-button>
+        <div class="flex flex-col gap-2">
+          <FreshmarketProductHistory :history="product?.history">
+            <ShButton class="w-full" variant="outline" size="sm" @click="selectedId = product.id; showProductHistory = true">Показать историю товара [{{product.history.length}}шт]</ShButton>
+          </FreshmarketProductHistory>
+          <div class="grid grid-cols-2 gap-2">
+            <ShButton size="sm" variant="outline" class="w-full !bg-green-500/[.25] !border-green-500/[.5]" @click="accept(product.id)">Подтвердить</ShButton>
+            <ShButton size="sm" variant="outline" class="w-full !bg-red-500/[.25] !border-red-500/[.5]" @click="selectedId = product.id; declineDialog = true">Отклонить</ShButton>
           </div>
         </div>
-      </div>
+      </ShCard>
     </div>
   </div>
 </template>

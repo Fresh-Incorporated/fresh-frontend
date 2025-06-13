@@ -3,7 +3,7 @@ import {http} from "~/composables/useHttp";
 import {computed, ref} from "vue";
 
 definePageMeta({
-  layout: 'freshmarketwork'
+  layout: 'cabinet'
 })
 
 const salary = ref({ totalSalary: 0, salaries: [] });

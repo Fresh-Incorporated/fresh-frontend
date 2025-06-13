@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import {http} from "~/composables/useHttp"
-import FMProductHistory from "~/components/freshmarket/FMProductHistory.vue";
 
 definePageMeta({
-  layout: 'freshmarketwork'
+  layout: 'cabinet'
 })
 
 const {user} = useUser()

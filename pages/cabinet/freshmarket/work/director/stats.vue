@@ -5,7 +5,7 @@ import FMStatsCard from "~/components/freshmarket/FMStatsCard.vue";
 const {user} = useUser()
 
 definePageMeta({
-  layout: 'freshmarketwork'
+  layout: 'cabinet'
 })
 
 const totalOrders = ref(0)

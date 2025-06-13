@@ -2,7 +2,7 @@
 import {http} from "~/composables/useHttp"
 
 definePageMeta({
-  layout: 'freshmarketwork'
+  layout: 'cabinet'
 })
 
 const shops = ref([])

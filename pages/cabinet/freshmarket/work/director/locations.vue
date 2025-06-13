@@ -3,7 +3,7 @@ import {http} from "~/composables/useHttp"
 import { ref } from 'vue';
 
 definePageMeta({
-  layout: 'freshmarketwork'
+  layout: 'cabinet'
 })
 
 const locations = ref([])
