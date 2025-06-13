@@ -14,7 +14,7 @@ const props = defineProps<{
   <div
       data-slot="card"
       :class="cn(
-        'text-card-foreground rounded-xl border shadow-sm overflow-hidden relative',
+        'text-card-foreground rounded-xl border shadow-sm overflow-hidden relative flex flex-col gap-6',
         props.class,
         {
           'bg-card': !outlined,
@@ -25,8 +25,6 @@ const props = defineProps<{
     <transition name="loaded">
       <Skeleton v-if="loading" class="h-full w-full rounded-full absolute top-0 left-0 z-10" />
     </transition>
-    <div class="flex flex-col gap-6 transition-all" :class="loading ? 'opacity-0' : 'opacity-100'">
-      <slot />
-    </div>
+    <slot :class="loading ? 'opacity-0' : 'opacity-100'" />
   </div>
 </template>

@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import {http} from "~/composables/useHttp"
 
+const loading = defineModel<Boolean>('loading')
+
 const emit = defineEmits(['updateShop'])
 const {updateUser} = useUser()
 
@@ -20,7 +22,7 @@ const withdraw = async () => {
 </script>
 
 <template>
-  <ShCard>
+  <ShCard v-model:loading="loading" class="h-40">
     <ShCardHeader>
       <ShCardDescription>Баланс</ShCardDescription>
       <ShCardTitle class="text-2xl font-rubik">{{props.value}} АР</ShCardTitle>

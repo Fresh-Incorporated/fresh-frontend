@@ -5,9 +5,8 @@ import {http} from "~/composables/useHttp";
 
 const { user } = useUser()
 
-const props = defineProps({
-  shop: Object
-})
+const loading = defineModel<Boolean>('loading')
+const shop = defineModel<Boolean>('shop')
 
 interface Sale {
   orderId: number
@@ -28,14 +27,23 @@ const categories = ref<Record<string, { name: string; color: string }>>({
 const xFormatter = (i: number): string | number => AreaChartData.value[i]?.date ?? ''
 
 onMounted(async () => {
-  const response = await http.get(`/freshmarket/shop/${props.shop.id}/sells`)
+  await updateChart()
+})
+
+watch(shop, async () => {
+  await updateChart()
+})
+
+const updateChart = async () => {
+  if (!shop.value) return;
+  const response = await http.get(`/freshmarket/shop/${shop.value?.id}/sells`)
   const data: ProductSales[] = response.data.productLastSells
 
   const daysBack = 30
   const chartMap: Record<string, Record<string, { value: number; count: number }>> = {}
 
   // Список всех товаров
-  const allProducts = props.shop.products || []
+  const allProducts = shop.value?.products || []
   const productIds = allProducts.map(p => p.id.toString())
 
   // Назначение цветов и имен
@@ -84,11 +92,11 @@ onMounted(async () => {
         return entry
       })
       .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-})
+}
 </script>
 
 <template>
-  <ShCard class="col-span-1 2xl:col-span-3 h-64 py-0 overflow-hidden gap-0">
+  <ShCard v-model:loading="loading" class="col-span-1 2xl:col-span-3 h-64 w-full !py-0 overflow-hidden gap-0">
     <div class="h-8 flex justify-end items-center gap-4 mx-4">
       <div class="flex items-center gap-2" v-for="category in categories">
         <div :style="{background: category.color}" class="w-2 h-2 rounded-full"></div>

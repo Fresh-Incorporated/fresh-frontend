@@ -11,10 +11,15 @@ const props = defineProps({
 })
 
 const products = defineModel('products')
+const loading = ref(true)
+
+watch(products, async (newValue) => {
+  loading.value = !newValue
+})
 </script>
 
 <template>
-  <ShCard class="col-span-1 xl:col-span-2 2xl:col-span-4">
+  <ShCard v-model:loading="loading" class="col-span-1 xl:col-span-2 2xl:col-span-4 min-h-96">
     <ShCardHeader>
       <ShCardDescription class="flex flex-col md:flex-row gap-2 items-center">
         <p>Товары [{{ shop?.products?.length }}/{{ shop?.products_limit }}]</p>
