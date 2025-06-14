@@ -398,69 +398,66 @@ watch(selectedWorld, draw)
 
 <template>
   <div>
-    <el-dialog
-        v-model="isSelected"
+    <ShDialog
+        v-model:open="isSelected"
         :title="branch?.name"
         width="500"
         align-center
     >
-      <el-image-viewer
-          v-if="showImageCollage"
-          :url-list="branch?.images?.map(i => i?.image)"
-          show-progress
-          :initial-index="imageCollageId"
-          @close="showImageCollage = false"
-      />
-      <div>
+      <ShDialogTrigger as-child>
+        <span @click="opened = true">
+          <slot />
+        </span>
+      </ShDialogTrigger>
+      <ShDialogContent>
+        <ShDialogHeader>
+          <ShDialogTitle>
+            {{ branch?.name }}
+          </ShDialogTitle>
+          <ShDialogDescription class="space-y-1">
+            <p>Город: {{ branch?.city }}</p>
+            <ShCarousel class="relative w-full">
+              <ShCarouselContent>
+                <ShCarouselItem v-for="(image, key) in branch?.images" :key="key">
+                  <ShCard class="!p-0">
+                    <ShCardContent class="flex aspect-video items-center justify-center p-0">
+                      <img :src="image?.image" class="text-4xl font-semibold w-full h-full" alt="image" />
+                    </ShCardContent>
+                  </ShCard>
+                </ShCarouselItem>
+              </ShCarouselContent>
+              <ShCarouselPrevious class="-left-4 opacity-75 hover:opacity-100 !bg-card" infinity />
+              <ShCarouselNext class="-right-4 opacity-75 hover:opacity-100 !bg-card" infinity />
+            </ShCarousel>
+            <p>{{ branch?.description }}</p>
+          </ShDialogDescription>
+        </ShDialogHeader>
         <div class="w-full">
-          <el-carousel class="w-full aspect-video" indicator-position="none">
-            <el-carousel-item v-for="(image, key) in branch?.images" :key="key">
-              <el-image
-                  class="w-full aspect-video cursor-pointer"
-                  :src="image?.image"
-                  @click="imageCollageId = key; showImageCollage = true"
-                  fit="cover"
-              />
-            </el-carousel-item>
-          </el-carousel>
-        </div>
-        <div class="flex flex-col gap-1">
-          <div class="flex flex-col">
-            <h1 class="text-xl  text-white">{{ branch?.name }}</h1>
-            <p v-if="branch?.description != null">{{ branch?.description }}</p>
-          </div>
-          <div v-if="branch?.city != null">
-            <span>Город: </span>
-            <span>{{ branch?.city }}</span>
-          </div>
+          <h1 class="text-center text-white text-lg">Как добраться?</h1>
           <div class="w-full">
-            <h1 class="text-center text-white text-lg">Как добраться?</h1>
-            <div class="w-full">
-              <div v-if="branch?.coordinates.some((someBranch) => someBranch.world == 'nether')" class="w-full flex justify-between">
-                <span>Координаты в метро:</span>
-                <span>{{ getNearestBranch(branch.coordinates.find((someBranch) => someBranch.world == 'nether').x, branch.coordinates.find((someBranch) => someBranch.world == 'nether').z).translate }} {{ getNearestBranch(branch.coordinates.find((someBranch) => someBranch.world == 'nether').x, branch.coordinates.find((someBranch) => someBranch.world == 'nether').z).amount }}</span>
-              </div>
-              <div v-if="branch?.coordinates.some((someBranch) => someBranch.world == 'the_end')" class="w-full flex justify-between">
-                <span>Координаты в энде:</span>
-                <span>{{ branch.coordinates.find((someBranch) => someBranch.world == 'the_end').x }} {{branch.coordinates.find((someBranch) => someBranch.world == 'overworld').y }} {{branch.coordinates.find((someBranch) => someBranch.world == 'overworld').z }}</span>
-              </div>
-              <div v-if="branch?.coordinates.some((someBranch) => someBranch.world == 'overworld')" class="w-full flex justify-between">
-                <span>Координаты в верхнем мире:</span>
-                <span>{{ branch.coordinates.find((someBranch) => someBranch.world == 'overworld').x }}  {{branch.coordinates.find((someBranch) => someBranch.world == 'overworld').y }} {{branch.coordinates.find((someBranch) => someBranch.world == 'overworld').z }}</span>
-              </div>
+            <div v-if="branch?.coordinates.some((someBranch) => someBranch.world == 'nether')" class="w-full flex justify-between">
+              <span>Координаты в метро:</span>
+              <span>{{ getNearestBranch(branch.coordinates.find((someBranch) => someBranch.world == 'nether').x, branch.coordinates.find((someBranch) => someBranch.world == 'nether').z).translate }} {{ getNearestBranch(branch.coordinates.find((someBranch) => someBranch.world == 'nether').x, branch.coordinates.find((someBranch) => someBranch.world == 'nether').z).amount }}</span>
+            </div>
+            <div v-if="branch?.coordinates.some((someBranch) => someBranch.world == 'the_end')" class="w-full flex justify-between">
+              <span>Координаты в энде:</span>
+              <span>{{ branch.coordinates.find((someBranch) => someBranch.world == 'the_end').x }} {{branch.coordinates.find((someBranch) => someBranch.world == 'overworld').y }} {{branch.coordinates.find((someBranch) => someBranch.world == 'overworld').z }}</span>
+            </div>
+            <div v-if="branch?.coordinates.some((someBranch) => someBranch.world == 'overworld')" class="w-full flex justify-between">
+              <span>Координаты в верхнем мире:</span>
+              <span>{{ branch.coordinates.find((someBranch) => someBranch.world == 'overworld').x }}  {{branch.coordinates.find((someBranch) => someBranch.world == 'overworld').y }} {{branch.coordinates.find((someBranch) => someBranch.world == 'overworld').z }}</span>
             </div>
           </div>
-
         </div>
-      </div>
-      <template #footer>
-        <div class="dialog-footer">
-          <el-button type="primary" @click="isSelected = false; opened = false">
-            Выбрать этот филиал
-          </el-button>
-        </div>
-      </template>
-    </el-dialog>
+        <ShDialogFooter>
+          <div class="dialog-footer">
+            <ShButton @click="isSelected = false; opened = false">
+              Выбрать этот филиал
+            </ShButton>
+          </div>
+        </ShDialogFooter>
+      </ShDialogContent>
+    </ShDialog>
     <div :class="opened ? '' : 'scale-0 opacity-0'" class="fixed top-0 left-0 z-30 w-screen h-screen bg-neutral-950 transform duration-500">
       <ShButton @click="opened = false" variant="secondary" class="absolute flex justify-center items-center top-2 left-2 cursor-pointer rounded-lg">
         <i class="pi pi-times"></i>

@@ -92,7 +92,7 @@ onMounted(async () => {
               <p v-else-if="step.action_type == 'declined'" class="text-red-500">Товар отклонён</p>
               <p v-else-if="step.action_type == 'accepted'" class="text-green-500">Товар проверен</p>
               <p v-else-if="step.action_type == 'refill_started'" class="text-blue-500">Запрошена ячейка пополнения</p>
-              <p v-else-if="step.action_type == 'refill_picked'" class="text-blue-500">Ожидает перемещения на склад</p>
+              <p v-else-if="step.action_type == 'refill_picked'" class="text-blue-500">Принято логистом</p>
               <p v-else-if="step.action_type == 'refill_completed'" class="text-blue-500">Пополнение завершено</p>
               <p v-else-if="step.action_type == 'recheck'" class="text-yellow-500">Отправлено на проверку</p>
               <p v-else-if="step.action_type == 'edited'" class="text-blue-500">Товар изменён</p>

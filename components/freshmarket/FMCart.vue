@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {http} from "~/composables/useHttp"
-import FMBranchSelectMap from "~/components/freshmarket/FMBranchSelectMap.vue";
+import FreshmarketBranchSelectMap from "~/components/freshmarket/FreshmarketBranchSelectMap.vue";
 import {toast} from "vue-sonner";
 import {ScrollArea} from "~/components/ui/scroll-area";
 
@@ -91,7 +91,7 @@ onBeforeUnmount(() => {
 
 <template>
   <div>
-    <FMBranchSelectMap v-model:branch="selectedBranch" v-model:opened="openedBranchSelection" :branchs="branchs" />
+    <FreshmarketBranchSelectMap v-model:branch="selectedBranch" v-model:opened="openedBranchSelection" :branchs="branchs" />
     <ShSheet
         v-model:open="opened"
     >
@@ -197,12 +197,13 @@ onBeforeUnmount(() => {
     </ShSheet>
     <div class="fixed bottom-6 right-6 z-20 transform duration-500"
          :class="opened || cart.length === 0 ? 'translate-x-full opacity-0' : ''">
-      <el-badge :value="cart.length" :max="9" class="item">
-        <button @click="opened = true"
-                class="bg-secondary-dark hover:bg-primary-dark w-14 h-14 rounded-full flex justify-center items-center cursor-pointer">
-          <i class="pi pi-shopping-cart text-2xl shadow-lg text-white dark:text-black"></i>
-        </button>
-      </el-badge>
+      <ShBadge variant="destructive" class="absolute -top-2 -right-1">
+        {{cart.length}}
+      </ShBadge>
+      <button @click="opened = true"
+              class="bg-secondary-dark hover:bg-primary-dark w-14 h-14 rounded-full flex justify-center items-center cursor-pointer">
+        <i class="pi pi-shopping-cart text-2xl shadow-lg text-white dark:text-black"></i>
+      </button>
     </div>
   </div>
 </template>

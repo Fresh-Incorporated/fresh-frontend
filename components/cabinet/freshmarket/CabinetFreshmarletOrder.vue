@@ -13,6 +13,20 @@ const confirm = async () => {
   await http.post(`/freshmarket/order/${props.order.id}/confirm`)
   await updateOrders()
 }
+
+function getNearestBranch(x, z) {
+  const distanceToXAxis = Math.abs(z);
+  const distanceToZAxis = Math.abs(x);
+
+  if (distanceToXAxis < distanceToZAxis) {
+    return x >= 0 ? { color: 'green', translate: 'Зелёная', amount: x } : { color: 'blue', translate: 'Синяя', amount: -x };
+  } else {
+    return z >= 0 ? { color: 'yellow', translate: 'Жёлтая', amount: z } : { color: 'red', translate: 'Красная', amount: -z };
+  }
+}
+
+const openedBranchInfo = ref(false)
+const branchInfo = ref({})
 </script>
 
 <template>
@@ -22,7 +36,52 @@ const confirm = async () => {
       <p>ПУНКТ ВЫДАЧИ ЗАКАЗОВ</p>
     </ShCardTitle>
     <ShCardDescription>
-      <button @click="branchInfo = order?.branch; openedBranchInfo = true" class="dark:text-neutral-200 hover:underline">Филиал: {{order?.branch?.name}}</button>
+      <ShDialog v-model="openedBranchInfo">
+        <ShDialogTrigger as-child>
+          <button @click="branchInfo = order?.branch" class="dark:text-neutral-200 hover:underline">Филиал: {{order?.branch?.name}}</button>
+        </ShDialogTrigger>
+        <ShDialogContent>
+          <ShDialogTitle>
+            {{branchInfo?.name}}
+          </ShDialogTitle>
+          <ShDialogDescription class="space-y-1">
+            <p>Город: {{ branchInfo?.city }}</p>
+            <ShCarousel class="relative w-full">
+              <ShCarouselContent>
+                <ShCarouselItem v-for="(image, key) in branchInfo?.images" :key="key">
+                  <ShCard class="!p-0">
+                    <ShCardContent class="flex aspect-video items-center justify-center p-0">
+                      <img :src="image?.image" class="text-4xl font-semibold w-full h-full" alt="image" />
+                    </ShCardContent>
+                  </ShCard>
+                </ShCarouselItem>
+              </ShCarouselContent>
+              <ShCarouselPrevious class="-left-4 opacity-75 hover:opacity-100 !bg-card" infinity />
+              <ShCarouselNext class="-right-4 opacity-75 hover:opacity-100 !bg-card" infinity />
+            </ShCarousel>
+            <p>{{ branchInfo?.description }}</p>
+          </ShDialogDescription>
+          <div class="flex flex-col gap-1">
+            <div class="w-full">
+              <h1 class="text-center text-white text-lg">Как добраться?</h1>
+              <div class="w-full">
+                <div v-if="branchInfo?.coordinates.some((someBranch) => someBranch.world == 'nether')" class="w-full flex justify-between">
+                  <span>Координаты в метро:</span>
+                  <span>{{ getNearestBranch(branchInfo.coordinates.find((someBranch) => someBranch.world == 'nether').x, branchInfo.coordinates.find((someBranch) => someBranch.world == 'nether').z).translate }} {{ getNearestBranch(branchInfo.coordinates.find((someBranch) => someBranch.world == 'nether').x, branchInfo.coordinates.find((someBranch) => someBranch.world == 'nether').z).amount }}</span>
+                </div>
+                <div v-if="branchInfo?.coordinates?.some((someBranch) => someBranch.world == 'the_end')" class="w-full flex justify-between">
+                  <span>Координаты в энде:</span>
+                  <span>{{ branchInfo?.coordinates?.find((someBranch) => someBranch.world == 'the_end').x }} {{branchInfo?.coordinates.find((someBranch) => someBranch.world == 'overworld').y }} {{branchInfo?.coordinates.find((someBranch) => someBranch.world == 'overworld').z }}</span>
+                </div>
+                <div v-if="branchInfo?.coordinates?.some((someBranch) => someBranch.world == 'overworld')" class="w-full flex justify-between">
+                  <span>Координаты в верхнем мире:</span>
+                  <span>{{ branchInfo?.coordinates?.find((someBranch) => someBranch.world == 'overworld').x }}  {{branchInfo?.coordinates.find((someBranch) => someBranch.world == 'overworld').y }} {{branchInfo?.coordinates.find((someBranch) => someBranch.world == 'overworld').z }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ShDialogContent>
+      </ShDialog>
       <p v-if="order?.status == 4" class="text-neutral-500 dark:text-neutral-200">Ячейка: <span class="text-blue-500">{{order?.branchCell?.letter}}-{{order?.branchCell?.number}}</span></p>
     </ShCardDescription>
     <div class="absolute top-2 right-2">

@@ -47,42 +47,6 @@ const decline = async () => {
 <template>
   <div class="w-full p-4">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 gap-2">
-      <el-dialog
-          v-model="declineDialog"
-          title="Отклонение товара"
-          width="350"
-      >
-        <div class="flex flex-col gap-2">
-          <el-input
-              v-model="declineMessage"
-              type="textarea"
-              placeholder="Напишите причину отклонения.."
-              :maxlength="120"
-              :rows="6"
-              show-word-limit
-              :formatter="(value) => `${value}`.replace(/[\r\n]+/g, '')"
-              :parser="(value) => value.replace(/[\r\n]+/g, '')"
-          />
-          <el-popconfirm
-              confirm-button-text="Подтвердить"
-              cancel-button-text="Отмена"
-              hide-icon
-              title="Вы уверены что хотите подтвердить этот товар?"
-              @confirm="decline"
-              :width="300"
-          >
-            <template #reference>
-              <el-button type="danger">
-                Отклонить
-              </el-button>
-            </template>
-            <template #actions="{ confirm, cancel }">
-              <el-button size="small" @click="cancel">Отмена</el-button>
-              <el-button size="small" type="danger" @click="confirm">Подтвердить</el-button>
-            </template>
-          </el-popconfirm>
-        </div>
-      </el-dialog>
       <ShCard v-for="product in products" class="flex flex-col !p-2 gap-0">
         <img :src="product.icon" class="w-full aspect-square" alt="">
         <p class="font-semibold">{{product.name}}</p>
@@ -98,7 +62,26 @@ const decline = async () => {
           </FreshmarketProductHistory>
           <div class="grid grid-cols-2 gap-2">
             <ShButton size="sm" variant="success" @click="accept(product.id)">Подтвердить</ShButton>
-            <ShButton size="sm" variant="destructive" @click="selectedId = product.id; declineDialog = true">Отклонить</ShButton>
+            <ShDialog v-model="declineDialog">
+              <ShDialogTrigger as-child>
+                <ShButton size="sm" variant="destructive" @click="selectedId = product.id;">Отклонить</ShButton>
+              </ShDialogTrigger>
+              <ShDialogContent>
+                <ShDialogTitle>
+                  Отклонение товара {{product.name}}
+                </ShDialogTitle>
+                <div class="flex flex-col gap-2">
+                  <ShTextarea
+                      v-model="declineMessage"
+                      placeholder="Напишите причину отклонения.."
+                      :maxlength="120"
+                  />
+                  <ShButton variant="destructive" @confirm="decline">
+                    Отклонить
+                  </ShButton>
+                </div>
+              </ShDialogContent>
+            </ShDialog>
           </div>
         </div>
       </ShCard>

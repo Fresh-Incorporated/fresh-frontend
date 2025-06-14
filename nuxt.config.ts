@@ -63,10 +63,6 @@ export default defineNuxtConfig({
     layoutTransition: { name: 'layout', mode: 'out-in' }
   },
 
-  elementPlus: {
-    themes: ["dark"]
-  },
-
   colorMode: {
     classSuffix: ''
   },
@@ -83,5 +79,5 @@ export default defineNuxtConfig({
     componentDir: './components/ui'
   },
 
-  modules: ['@nuxtjs/color-mode', '@element-plus/nuxt', '@nuxt/icon', '@nuxtjs/device', 'shadcn-nuxt', 'nuxt-charts'],
+  modules: ['@nuxtjs/color-mode', '@nuxt/icon', '@nuxtjs/device', 'shadcn-nuxt', 'nuxt-charts'],
 })

@@ -129,74 +129,59 @@ const submitSalary = async () => {
 </script>
 
 <template>
-  <div class="w-full">
-    <el-button @click="generate">Сгенерировать зарплатный отчёт</el-button>
-    <el-button type="primary" @click="addSalaryEntry">Добавить запись</el-button>
-    <el-button type="success" @click="redistributeSalary">Перераспределить</el-button>
+  <div class="w-full p-4">
+    <ShButton variant="outline" @click="generate">Сгенерировать зарплатный отчёт</ShButton>
+    <ShButton @click="addSalaryEntry">Добавить запись</ShButton>
+    <ShButton variant="success" @click="redistributeSalary">Перераспределить</ShButton>
     <div>
       <p class="text-red-500 font-bold text-xl">Сумма зарплаты: {{ salary.totalSalary }}</p>
       <p class="text-red-500 font-bold text-lg">Распределено: {{ total }}</p>
       <p class="text-green-500 font-bold">Проценты распределения: Логисты {{ rolePercentage.logic.toFixed(2) }}%, Курьеры {{ rolePercentage.deliver.toFixed(2) }}%, Секретари {{ rolePercentage.secretary.toFixed(2) }}%, Директора {{ rolePercentage.director.toFixed(2) }}%</p>
       <p class="text-red-500 font-bold">Не распределены: <span v-for="l in notLocated">[{{ l.id }} - {{ l.nickname }}] </span></p>
-      <el-table :data="salary.salaries" style="width: 100%">
-        <el-table-column prop="id" label="USER ID" width="200">
-          <template #default="scope">
-            <el-input-number v-model="scope.row.id" :min="0" @change="(val) => updateUserId(scope.row.id, val)" />
-          </template>
-        </el-table-column>
-        <el-table-column prop="id" label="USER">
-          <template #default="scope">
-            <div class="flex flex-col gap-2 justify-center items-center">
-              <img :src="useXIS().getFullFace(users?.find(u => u.id == scope.row.id)?.uuid)" class="w-8 h-8" alt="">
-              <p class="text-xl">{{users?.find(u => u.id == scope.row.id)?.nickname}}</p>
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column prop="pays" label="Зарплаты" width="380">
-          <template #default="scope">
-            <div class="space-y-2 flex flex-col justify-center items-start">
-              <div v-for="(value, key) in scope.row.pays" :key="key"
-                   :class="{
-                     'bg-orange-700/[.5] text-orange-300 border-orange-400/[.5]': key === 'deliver',
-                     'bg-blue-800/[.5] text-blue-200 border-blue-500/[.5]': key === 'logic',
-                     'bg-purple-700/[.5] text-purple-300 border-purple-400/[.5]': key === 'secretary',
-                     'bg-red-800/[.5] text-red-200 border-red-500/[.5]': key === 'director'
-                   }"
-                   class="rounded-lg px-2 border font-medium">
-                <p>{{ key === "logic" ? 'Логист' : key === "deliver" ? 'Курьер' :
-                    key === "secretary" ? 'Секретарь' : key === "director" ? 'Директор' : key }}
-                  <el-input-number v-model="scope.row.pays[key].pay" :min="0" @change="(val) => updatePay(scope.row.id, key, val)" /> АР
-                  ({{ userRolePercentage(scope.row.pays)[key] }}%)
-                </p>
-              </div>
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column label="Действия" width="200">
-          <template #default="scope">
-            <el-button type="danger" @click="removeSalaryEntry(scope.row.id)">Удалить</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
+      {{salary.salaries}}
+      <CabinetFreshmarketSalaryTable v-model:data="salary.salaries" />
+<!--        <el-table-column prop="id" label="USER ID" width="200">-->
+<!--          <template #default="scope">-->
+<!--            <el-input-number v-model="scope.row.id" :min="0" @change="(val) => updateUserId(scope.row.id, val)" />-->
+<!--          </template>-->
+<!--        </el-table-column>-->
+<!--        <el-table-column prop="id" label="USER">-->
+<!--          <template #default="scope">-->
+<!--            <div class="flex flex-col gap-2 justify-center items-center">-->
+<!--              <img :src="useXIS().getFullFace(users?.find(u => u.id == scope.row.id)?.uuid)" class="w-8 h-8" alt="">-->
+<!--              <p class="text-xl">{{users?.find(u => u.id == scope.row.id)?.nickname}}</p>-->
+<!--            </div>-->
+<!--          </template>-->
+<!--        </el-table-column>-->
+<!--        <el-table-column prop="pays" label="Зарплаты" width="380">-->
+<!--          <template #default="scope">-->
+<!--            <div class="space-y-2 flex flex-col justify-center items-start">-->
+<!--              <div v-for="(value, key) in scope.row.pays" :key="key"-->
+<!--                   :class="{-->
+<!--                     'bg-orange-700/[.5] text-orange-300 border-orange-400/[.5]': key === 'deliver',-->
+<!--                     'bg-blue-800/[.5] text-blue-200 border-blue-500/[.5]': key === 'logic',-->
+<!--                     'bg-purple-700/[.5] text-purple-300 border-purple-400/[.5]': key === 'secretary',-->
+<!--                     'bg-red-800/[.5] text-red-200 border-red-500/[.5]': key === 'director'-->
+<!--                   }"-->
+<!--                   class="rounded-lg px-2 border font-medium">-->
+<!--                <p>{{ key === "logic" ? 'Логист' : key === "deliver" ? 'Курьер' :-->
+<!--                    key === "secretary" ? 'Секретарь' : key === "director" ? 'Директор' : key }}-->
+<!--                  <el-input-number v-model="scope.row.pays[key].pay" :min="0" @change="(val) => updatePay(scope.row.id, key, val)" /> АР-->
+<!--                  ({{ userRolePercentage(scope.row.pays)[key] }}%)-->
+<!--                </p>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </template>-->
+<!--        </el-table-column>-->
+<!--        <el-table-column label="Действия" width="200">-->
+<!--          <template #default="scope">-->
+<!--            <el-button type="danger" @click="removeSalaryEntry(scope.row.id)">Удалить</el-button>-->
+<!--          </template>-->
+<!--        </el-table-column>-->
     </div>
     <div class="mt-4 flex gap-4">
-      <el-date-picker
-          v-model="endDatetime"
-          type="datetime"
-          placeholder="Select date and time"
-      />
-      <el-popconfirm
-          confirm-button-text="Подтвердить"
-          cancel-button-text="Отмена"
-          hide-icon
-          title="Вы уверены что хотите создать зарплатный отчёт?"
-          @confirm="submitSalary"
-          :width="300"
-      >
-        <template #reference>
-          <el-button type="danger">Создать отчёт</el-button>
-        </template>
-      </el-popconfirm>
+      <p>Завершение: {{new Date(endDatetime)}}</p>
+      <ShButton variant="destructive" @click="submitSalary">Создать отчёт</ShButton>
     </div>
   </div>
 </template>
