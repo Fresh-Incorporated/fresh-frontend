@@ -11,6 +11,11 @@ const links = [
     icon: "lucide:settings",
     name: "Настройки",
     to: "/cabinet/settings",
+  },
+  {
+    icon: "lucide:package",
+    name: "Доставки",
+    to: "/cabinet/freshmarket/orders",
   }
 ]
 </script>

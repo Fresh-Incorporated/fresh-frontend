@@ -75,11 +75,18 @@ const isDev = import.meta.dev;
           </NuxtLink>
         </div>
         <div class="flex h-full w-full md:w-60 justify-end items-center gap-4">
-          <NuxtLink to="/freshmarket/orders">
-            <ShButton :variant="route.path === '/freshmarket/orders' ? 'secondary' : 'ghost'" size="icon">
-              <Icon name="lucide:truck" class="inverted" size="16" />
-            </ShButton>
-          </NuxtLink>
+          <ShTooltip>
+            <ShTooltipTrigger>
+              <NuxtLink to="/cabinet/freshmarket/orders">
+                <ShButton :variant="orders?.orders?.find(o => o.status == 4) ? 'success' : 'ghost'" size="icon">
+                  <Icon name="lucide:truck" class="inverted" size="16" />
+                </ShButton>
+              </NuxtLink>
+            </ShTooltipTrigger>
+            <ShTooltipContent>
+              <p>Доставки</p>
+            </ShTooltipContent>
+          </ShTooltip>
           <ThemeButton />
           <div v-if="user && !userLoading"
                class="h-full flex flex-col items-center justify-center border rounded-lg border-neutral-200 dark:border-neutral-800 bg-neutral-100/[0.5] dark:bg-neutral-900/[0.5] hover:bg-neutral-300/[0.25] dark:hover:bg-neutral-950/[0.25] duration-500 select-none">

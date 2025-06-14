@@ -24,7 +24,7 @@ const paginationPage = ref(1)
 
 const props = defineProps<{
   columns: ColumnDef<TData, TValue>[]
-  pagination: boolean
+  pagination?: boolean
 }>()
 
 const sorting = ref<SortingState>([])
