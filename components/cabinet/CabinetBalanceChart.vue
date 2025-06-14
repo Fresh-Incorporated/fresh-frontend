@@ -27,7 +27,7 @@ onMounted(async () => {
   await updateMonthBalance()
   AreaChartData.value = []
 
-  let currentBalance = user.value.balance
+  let currentBalance = user.value?.balance
   for (let i = 0; i < 30; i++) {
     const date = subDays(new Date(), i)
     currentBalance -= monthBalance.value[format(date, 'yyyy-MM-dd')] ?? 0
