@@ -33,32 +33,32 @@
             Мы - команда которая предлагает уникальные <br> решения для вашего игрового опыта!
           </div>
         </div>
-        <div class="md:grid grid-cols-3 select-auto z-10 max-w-160 space-y-4">
+        <div class="md:grid grid-cols-3 select-auto z-10 max-w-160 space-y-4 md:space-y-0 text-neutral-400">
           <div class="flex items-center md:items-end flex-col justify-end">
             <strong class="text-sm text-neutral-600 dark:text-neutral-400 pr-3">Документы</strong>
             <NuxtLink to="/info">
-              <el-button text size="small" round>Правила использования</el-button>
+              <ShButton variant="ghost" size="xs">Правила использования</ShButton>
             </NuxtLink>
             <NuxtLink to="/info">
-              <el-button text size="small" round>Политика конфиденциальности</el-button>
+              <ShButton variant="ghost" size="xs">Политика конфиденциальности</ShButton>
             </NuxtLink>
           </div>
           <div class="flex items-center md:items-end flex-col justify-end">
             <strong class="text-sm text-neutral-600 dark:text-neutral-400 pr-3">Информация</strong>
             <NuxtLink to="/info">
-              <el-button text size="small" round>О проекте</el-button>
+              <ShButton variant="ghost" size="xs">О проекте</ShButton>
             </NuxtLink>
             <NuxtLink to="/info">
-              <el-button text size="small" round>Что такое FreshMarket?</el-button>
+              <ShButton variant="ghost" size="xs">Что такое FreshMarket?</ShButton>
             </NuxtLink>
           </div>
           <div class="flex items-center md:items-end flex-col justify-end">
             <strong class="text-sm text-neutral-600 dark:text-neutral-400 pr-3">Связь</strong>
             <a href="https://discord.gg/eGUxF7uwyV" target="_blank">
-              <el-button text size="small" round>Дискорд</el-button>
+              <ShButton variant="ghost" size="xs">Дискорд</ShButton>
             </a>
             <a href="https://t.me/underzaral" target="_blank">
-              <el-button text size="small" round>Телеграм</el-button>
+              <ShButton variant="ghost" size="xs">Телеграм</ShButton>
             </a>
           </div>
         </div>

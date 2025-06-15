@@ -1,12 +1,14 @@
 import { ref } from 'vue';
 import { http, loginDiscord } from '~/composables/useHttp';
 import type {Shop} from '~/types/freshmarket';
+import type {Payment} from "~/types/payment";
 
 const user = ref(null);
+const monthBalance = ref({});
 const shops = ref<Shop[]>([]);
 const cart = ref([]);
 const orders = ref({orders: [], products: []});
-const balanceHistory = ref([]);
+const balanceHistory = ref<Payment[]>([]);
 const userLoading = ref<boolean>(true);
 
 export const useUser = () => {
@@ -21,13 +23,22 @@ export const useUser = () => {
         shops.value = response.data;
     }
 
+    async function updateMonthBalance() {
+        const response = await http.get('/users/@me/history/balance/month');
+        monthBalance.value = response.data;
+    }
+
     async function moreBalanceHistory() {
+        const beforeTimestamp = balanceHistory.value.length > 0 ? balanceHistory.value[0].createdAt : Date.now();
         const response = await http.get('/users/@me/history/balance', {
             params: {
                 offset: balanceHistory.value.length,
+                before: new Date(beforeTimestamp)
             }
-        });
-        balanceHistory.value.push(...response.data);
+        })
+
+        balanceHistory.value = [...balanceHistory.value, ...response.data]
+
         return response.data
     }
 
@@ -78,5 +89,7 @@ export const useUser = () => {
         updateOrders,
         moreBalanceHistory,
         balanceHistory,
+        monthBalance,
+        updateMonthBalance
     };
 };

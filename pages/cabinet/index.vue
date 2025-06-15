@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import CabinetFragmentWelcome from "~/components/cabinet/CabinetFragmentWelcome.vue";
-import CabinetFragmentBalance from "~/components/cabinet/CabinetFragmentBalance.vue";
-import CabinetFragmentBalanceHistory from "~/components/cabinet/CabinetFragmentBalanceHistory.vue";
-import CabinetFragmentSettings from "~/components/cabinet/CabinetFragmentSettings.vue";
+import CabinetBalance from "~/components/cabinet/CabinetBalance.vue";
+
+const {user, userLoading} = useUser()
 
 definePageMeta({
   layout: 'cabinet'
@@ -10,11 +9,10 @@ definePageMeta({
 </script>
 
 <template>
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 md:gap-8">
-  <CabinetFragmentWelcome />
-  <CabinetFragmentBalance />
-  <CabinetFragmentBalanceHistory />
-  <CabinetFragmentSettings />
+<div class="grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-4 w-full gap-4 px-2 lg:px-4">
+  <CabinetBalance />
+  <CabinetBalanceChart />
+  <CabinetBalanceHistory />
 </div>
 </template>
 

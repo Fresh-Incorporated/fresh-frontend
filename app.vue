@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import InBeta from "~/components/global/InBeta.vue";
+import '/assets/css/sonner.css';
 
-const colorMode = useColorMode()
+useColorMode()
 const { tryLoadUser } = useUser()
 
 onMounted( () => {
@@ -12,9 +12,16 @@ onMounted( () => {
 <template>
   <div class="bg-main-light dark:bg-main-dark transition-all duration-500 min-h-screen font-montserrat overflow-hidden">
     <NuxtLoadingIndicator :throttle="10" color="#009DFF" error-color="#ff0000" />
-    <NuxtLayout>
-      <NuxtPage />
-    </NuxtLayout>
+    <ShTooltipProvider>
+      <NuxtLayout>
+        <NuxtPage />
+      </NuxtLayout>
+    </ShTooltipProvider>
+    <ShToaster
+        position="bottom-left"
+        rich-colors
+        close-button
+    />
   </div>
 </template>
 
