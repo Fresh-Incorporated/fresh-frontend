@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {http} from "~/composables/useHttp"
-import { ref } from 'vue';
+import {ref} from 'vue';
 
 definePageMeta({
   layout: 'cabinet'
@@ -9,10 +9,14 @@ definePageMeta({
 const locations = ref([])
 
 onMounted(async () => {
+  await refreshLocations()
+})
+
+const refreshLocations = async () => {
   const response = await http.get(`freshmarket/work/director/locations`)
 
   locations.value = response.data
-})
+}
 
 const selectedLocationId = ref(0)
 const imagesDialog = ref(false)
@@ -58,8 +62,11 @@ function generateCombinations(letters, numbers) {
   return result;
 }
 
-const confirmNewCells = async () => {
-  await http.post(`/freshmarket/work/director/location/${locations.value[selectedLocationId.value].id}/cells/add`, {cells: newCells.value})
+const confirmNewCells = async (id: number) => {
+  await http.post(`/freshmarket/work/director/location/${id}/cells/add`, {cells: newCells.value})
+  cellsGeneratorDialog.value = false;
+  cellsDialog.value = false;
+
 }
 
 const enableLocation = async (id: number) => {
@@ -72,108 +79,143 @@ const disableLocation = async (id: number) => {
 </script>
 
 <template>
-  <div class="w-full">
-    <el-drawer v-model="cellsGeneratorDialog" title="Создание ячеек" direction="rtl">
-      <template #default>
-        <div>
-          <el-input
-              v-model="newCellsLetters"
-              placeholder="Letters (A-Z)"
-              :formatter="(value) => value.replace(/[^a-zA-Z-]+/g, '').toUpperCase()"
-              :parser="(value) => value.replace(/[^a-zA-Z-]+/g, '').toUpperCase()"
-              type="text"
-              @change="updateNewCells"
-          />
-          <el-input
-              v-model="newCellsNumbers"
-              placeholder="Numbers (1-100)"
-              :formatter="(value) => value.replace(/[^\d-]+/g, '').toUpperCase()"
-              :parser="(value) => value.replace(/[^\d-]+/g, '').toUpperCase()"
-              type="text"
-              @change="updateNewCells"
-          />
-        </div>
-        <div class="grid grid-cols-10">
-          <p v-for="cell in newCells">{{cell.letter}}-{{cell.number}}</p>
-        </div>
-      </template>
-      <template #footer>
-        <div style="flex: auto">
-          <el-button @click="cellsGeneratorDialog = false">Отменить</el-button>
-          <el-button type="primary" @click="confirmNewCells">Создать</el-button>
-        </div>
-      </template>
-    </el-drawer>
-    <div class="w-full">
-      <el-dialog
-          v-model="cellsDialog"
-          title="Ячейки"
-          width="800"
-      >
-        <div class="overflow-y-scroll max-h-[60vh]">
-          <div class="grid grid-cols-12">
-            <div v-for="cell in locations[selectedLocationId]?.cells">
-              {{cell.letter}}-{{cell.number}}
-            </div>
-          </div>
-          <div>
-            <el-button @click="cellsGeneratorDialog = true">
-              Добавить ячейки
-            </el-button>
-          </div>
-        </div>
-      </el-dialog>
-      <el-dialog
-          v-model="imagesDialog"
-          title="Изображения"
-          width="800"
-      >
-        <div class="overflow-y-scroll max-h-[60vh]">
-          <div v-for="image in locations[selectedLocationId]?.images">
-            <img :src="image.image" alt="image">
-          </div>
-        </div>
-      </el-dialog>
-      <el-table :data="locations" style="width: 100%">
-        <el-table-column prop="name" label="Название" />
-        <el-table-column prop="description" label="Описание" />
-        <el-table-column prop="type" label="Тип" width="120" />
-        <el-table-column prop="city" label="Город" />
-        <el-table-column prop="enabled" label="Включено?" width="120">
-          <template #default="scope">
-            <div class="ml-5">
-              <el-switch @change="async ($event) => {
-              scope.row.loading = true
-              if ($event) await enableLocation(scope.row.id).catch(() => {
-                scope.row.enabled = false;
-              })
-              else await disableLocation(scope.row.id)
-              scope.row.loading = false
-            }" v-model="scope.row.enabled" :loading="scope.row.loading" :disabled="scope.row.cells == null ? true : scope.row.cells.length === 0" />
-            </div>
+  <div class="w-full p-4">
+    <div class="w-full border rounded-md">
+      <ShTable>
+        <ShTableHeader>
+          <ShTableRow>
+            <ShTableHead>
+              Название
+            </ShTableHead>
+            <ShTableHead>
+              Описание
+            </ShTableHead>
+            <ShTableHead>
+              Город
+            </ShTableHead>
+            <ShTableHead>
+              Тип
+            </ShTableHead>
+            <ShTableHead>
+              Включено?
+            </ShTableHead>
+            <ShTableHead>
+              Координаты
+            </ShTableHead>
+            <ShTableHead>
+              Изображения
+            </ShTableHead>
+            <ShTableHead>
+              Ячейки
+            </ShTableHead>
+          </ShTableRow>
+        </ShTableHeader>
+        <ShTableBody>
+          <template v-if="locations?.length">
+            <ShTableRow
+                v-for="row in locations"
+            >
+              <ShTableCell>{{ row.name }}</ShTableCell>
+              <ShTableCell>{{ row.description }}</ShTableCell>
+              <ShTableCell>{{ row.city }}</ShTableCell>
+              <ShTableCell>{{ row.type }}</ShTableCell>
+              <ShTableCell>
+                <ShSwitch @update:model-value="async (newValue) => {
+                  row.loading = true
+                  if (newValue) await enableLocation(row.id).catch(() => {
+                    row.enabled = false;
+                  })
+                  else await disableLocation(row.id)
+                  row.loading = false
+                }" v-model="row.enabled"
+                          :disabled="(row.cells == null ? true : row.cells.length === 0) || row.loading"/>
+              </ShTableCell>
+              <ShTableCell>
+                <div v-for="coordinate in row.coordinates" class="grid grid-cols-4">
+                  <p>{{ coordinate.world }}</p>
+                  <p>{{ coordinate.x }}</p>
+                  <p>{{ coordinate.y }}</p>
+                  <p>{{ coordinate.z }}</p>
+                </div>
+              </ShTableCell>
+              <ShTableCell>
+                <ShDialog v-model="imagesDialog">
+                  <ShDialogTrigger as-child>
+                    <ShButton variant="outline" size="sm">
+                      Изображения {{row.images?.length}}
+                    </ShButton>
+                  </ShDialogTrigger>
+                  <ShDialogContent>
+                    <ShDialogTitle>Изображения</ShDialogTitle>
+                    <div class="overflow-y-scroll max-h-[60vh]">
+                      <div v-for="image in row?.images">
+                        <img :src="image.image" alt="image">
+                      </div>
+                    </div>
+                  </ShDialogContent>
+                </ShDialog>
+              </ShTableCell>
+              <ShTableCell>
+                <ShDialog v-model="cellsDialog">
+                  <ShDialogTrigger as-child>
+                    <ShButton variant="outline" size="sm">
+                      Ячейки {{row.cells?.length}}
+                    </ShButton>
+                  </ShDialogTrigger>
+                  <ShDialogContent>
+                    <ShDialogTitle>Ячейки</ShDialogTitle>
+                    <div class="grid grid-cols-12">
+                      <div v-for="cell in row?.cells">
+                        {{cell.letter}}-{{cell.number}}
+                      </div>
+                    </div>
+                    <ShDialogFooter>
+                      <ShSheet v-model="cellsGeneratorDialog" title="Создание ячеек" direction="rtl">
+                        <ShSheetTrigger>
+                          <ShButton>
+                            Добавить ячейки
+                          </ShButton>
+                        </ShSheetTrigger>
+                        <ShSheetContent>
+                          <ShSheetTitle>Создание ячеек</ShSheetTitle>
+                          <div>
+                            <ShInput
+                                v-model="newCellsLetters"
+                                placeholder="Letters (A-Z)"
+                                @update:model-value="updateNewCells"
+                            />
+                            <ShInput
+                                v-model="newCellsNumbers"
+                                placeholder="Numbers (1-100)"
+                                @update:model-value="updateNewCells"
+                            />
+                          </div>
+                          <div class="grid grid-cols-10">
+                            <p v-for="cell in newCells">{{cell.letter}}-{{cell.number}}</p>
+                          </div>
+                          <ShDialogFooter>
+                            <ShDialogClose>
+                              <ShButton variant="secondary">Отменить</ShButton>
+                            </ShDialogClose>
+                            <ShButton @click="confirmNewCells(row.id)">Создать</ShButton>
+                          </ShDialogFooter>
+                        </ShSheetContent>
+                      </ShSheet>
+                    </ShDialogFooter>
+                  </ShDialogContent>
+                </ShDialog>
+              </ShTableCell>
+            </ShTableRow>
           </template>
-        </el-table-column>
-        <el-table-column prop="coordinates" label="Координаты" width="400">
-          <template #default="scope">
-            <div v-for="coordinate in scope.row.coordinates" class="grid grid-cols-4">
-              <p>{{coordinate.world}}</p>
-              <p>{{coordinate.x}}</p>
-              <p>{{coordinate.y}}</p>
-              <p>{{coordinate.z}}</p>
-            </div>
+          <template v-else>
+            <ShTableRow>
+              <ShTableCell :colspan="8" class="h-24 text-center">
+                No results.
+              </ShTableCell>
+            </ShTableRow>
           </template>
-        </el-table-column>
-        <el-table-column prop="images" label="Изображения" width="140">
-          <template #default="scope">
-            <el-button @click="showImagesDialog(scope.$index)">Показать</el-button>
-          </template>
-        </el-table-column>
-        <el-table-column prop="cells" label="Ячейки" width="140">
-          <template #default="scope">
-            <el-button @click="showCellsDialog(scope.$index)">Показать</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
+        </ShTableBody>
+      </ShTable>
     </div>
   </div>
 </template>
