@@ -49,7 +49,7 @@ watch(
       </div>
       <div class="flex items-center">
         <ThemeButton />
-        <NuxtLink to="/public" class="hidden md:flex items-center h-full gap-1 mx-8">
+        <NuxtLink to="/" class="hidden md:flex items-center h-full gap-1 mx-8">
           <!--          <img class="h-8" src="/logo.svg" alt="">-->
           <p class="absolute font-rubik text-xl blur-xs opacity-0 dark:opacity-50 select-none">Fresh Incorporated</p>
           <p class="font-rubik text-xl text-nowrap">Fresh Incorporated</p>

@@ -84,8 +84,8 @@ onBeforeUnmount(() => {
             </ShDialogDescription>
           </ShDialogHeader>
           <div class="grid gap-4 py-4">
-            <ShNumberField id="value" :default-value="10" :min="1" :max="Math.min(1728, parseInt(user?.balance ?? 0))" v-model="depositValue">
-              <ShLabel for="value">Кол-во АР для пополнения</ShLabel>
+            <ShNumberField id="deposit_value" :default-value="10" :min="1" :max="1728" v-model="depositValue">
+              <ShLabel for="deposit_value">Кол-во АР для пополнения</ShLabel>
               <ShNumberFieldContent>
                 <ShNumberFieldDecrement />
                 <ShNumberFieldInput />
