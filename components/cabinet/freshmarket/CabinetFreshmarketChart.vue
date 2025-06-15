@@ -24,7 +24,7 @@ const AreaChartData = ref<any[]>([])
 const categories = ref<Record<string, { name: string; color: string }>>({
 })
 
-const xFormatter = (i: number): string | number => AreaChartData.value[i]?.date ?? ''
+const xFormatter = (i: number): string | number => `${AreaChartData.value[i]?.date}`
 
 onMounted(async () => {
   await updateChart()

@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import {http} from "~/composables/useHttp"
+import FreshmarketDeliveryProductsTable
+  from "~/components/cabinet/freshmarket/delivery_products_table/FreshmarketDeliveryProductsTable.vue";
 
 definePageMeta({
   layout: 'cabinet'
@@ -8,10 +10,12 @@ definePageMeta({
 const {user} = useUser()
 
 const orders = ref([])
+const products = ref([])
 
 const updateData = async () => {
   const responseData = (await http.get(`freshmarket/work/delivery/list/orders`))?.data;
   orders.value = responseData?.orders;
+  products.value = responseData?.products
 }
 
 onMounted(async () => {
@@ -44,6 +48,7 @@ const finish = async (id: number) => {
         <p class="font-medium text-neutral-600 dark:text-neutral-300">Координаты: <span v-for="coordinate in order?.branchCell?.location?.coordinates">{{coordinate?.world}} X: {{coordinate?.x}} Y: {{coordinate?.y}} Z: {{coordinate?.z}}<br></span></p>
         <p class="font-medium text-neutral-600 dark:text-neutral-300">Ячейка: <span class="text-secondary-dark">{{ order?.branchCell?.letter }}-{{ order?.branchCell?.number }}</span></p>
       </div>
+      <FreshmarketDeliveryProductsTable :data="order?.data?.products" :products="products" />
       <ShButton variant="secondary" @click="finish(order?.id)">Завершить доставку</ShButton>
     </ShCard>
     <div class="grid grid-cols-5 gap-4">

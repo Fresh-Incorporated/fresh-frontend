@@ -7,6 +7,7 @@ const AreaChartData = ref<AreaChartItem[]>([])
 interface AreaChartItem {
   date: string
   count: number
+  total: number
 }
 
 const categories: Record<string, BulletLegendItemInterface> = {
