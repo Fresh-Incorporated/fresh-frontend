@@ -14,7 +14,34 @@ const isAllLoaded = ref(false)
 const search = ref("")
 const sort = ref("relevance")
 
-onMounted(async () => await load())
+let throttleTimeout: ReturnType<typeof setTimeout> | null = null;
+
+const scrollEvent = () => {
+  const scrollTop = window.scrollY;
+  const windowHeight = window.innerHeight;
+  const fullHeight = document.documentElement.scrollHeight;
+
+  if (scrollTop + windowHeight >= fullHeight - 300) {
+    load();
+  }
+};
+
+const throttledScrollEvent = () => {
+  if (throttleTimeout) return;
+  throttleTimeout = setTimeout(() => {
+    scrollEvent();
+    throttleTimeout = null;
+  }, 200);
+};
+
+onMounted(async () => {
+  window.addEventListener('scroll', throttledScrollEvent);
+  await load();
+});
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', throttledScrollEvent);
+});
 
 const load = async () => {
   if (productsModel.value.loading) return;
@@ -67,7 +94,7 @@ watch(sort, changedFilters)
 </script>
 
 <template>
-  <div v-infinite-scroll="load" infinite-scroll-immediate="false">
+  <div>
     <ProjectHead></ProjectHead>
     <FMCartButton />
     <div class="mx-auto z-20 fixed top-[56px] w-full flex justify-center">
