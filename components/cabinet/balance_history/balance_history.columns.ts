@@ -43,6 +43,6 @@ export const columns: ColumnDef<Payment>[] = [
                 onClick: () => column.toggleSorting(column.getIsSorted() === 'asc'),
             }, () => ['Сумма', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })])
         },
-        cell: ({ row }) => h('div', { class: row.getValue('value') as number > 0 ? 'text-green-500' : 'text-red-500' }, row.getValue('value') + " АР"),
+        cell: ({ row }) => h('div', { class: row.getValue('value') as number > 0 ? 'text-green-500' : 'text-red-500' }, row.getValue('value').toFixed(2) + " АР"),
     },
 ]

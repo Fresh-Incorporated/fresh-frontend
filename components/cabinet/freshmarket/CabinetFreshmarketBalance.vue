@@ -25,7 +25,7 @@ const withdraw = async () => {
   <ShCard v-model:loading="loading" class="h-40">
     <ShCardHeader>
       <ShCardDescription>Баланс</ShCardDescription>
-      <ShCardTitle class="text-2xl font-rubik">{{props.value}} АР</ShCardTitle>
+      <ShCardTitle class="text-2xl font-rubik">{{props.value.toFixed(2)}} АР</ShCardTitle>
       <ShCardAction v-if="change">
         <ShBadge variant="outline" :class="{
           'text-green-500 border-green-500/[.5]': props.change > 0,
@@ -33,7 +33,7 @@ const withdraw = async () => {
         }">
           <Icon v-if="props.change > 0" name="lucide:trending-up" />
           <Icon v-else name="lucide:trending-down" />
-          {{props.change}} АР
+          {{props.change.toFixed(2)}} АР
         </ShBadge>
       </ShCardAction>
       <ShCardAction>

@@ -65,7 +65,7 @@ onBeforeUnmount(() => {
         }">
           <Icon v-if="balanceHistory[0].value > 0" name="lucide:trending-up" />
           <Icon v-else name="lucide:trending-down" />
-          {{balanceHistory[0].value}} АР
+          {{balanceHistory[0].value.toFixed(2)}} АР
         </ShBadge>
       </ShCardAction>
     </ShCardHeader>
