@@ -35,6 +35,7 @@ const decline = async (id: number) => {
       <div>
         <p>Название: <strong>{{shop.name}}</strong></p>
         <p>Описание: {{shop.description?.length > 0 ? shop.description : 'Отсутствует'}}</p>
+        <p>Тег: {{shop.tag}}</p>
       </div>
       <div class="w-full grid grid-cols-2 gap-2">
         <ShButton size="sm" variant="success" @click="accept(shop.id)">Подтвердить</ShButton>
