@@ -40,7 +40,7 @@ const decline = async () => {
     declineMessage.value = "";
     await updateProductsList();
   })
-
+  declineDialog.value = false
 }
 </script>
 
@@ -76,7 +76,7 @@ const decline = async () => {
                       placeholder="Напишите причину отклонения.."
                       :maxlength="120"
                   />
-                  <ShButton variant="destructive" @confirm="decline" confirmation>
+                  <ShButton variant="destructive" @click="decline" confirmation>
                     Отклонить
                   </ShButton>
                 </div>
