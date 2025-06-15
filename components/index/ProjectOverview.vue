@@ -53,6 +53,8 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
+@reference "tailwindcss";
+
 .lay {
   @apply transform rotate-z-45 rotate-x-45 -rotate-y-12
 }

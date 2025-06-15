@@ -22,6 +22,7 @@ const model = defineModel()
                :stack_count="product.stack_count"
                :shop_icon="product.shop.icon"
                :shop_name="product.shop.name"
+               :shop_tag="product.shop.tag"
     />
   </div>
   <transition>
@@ -31,6 +32,8 @@ const model = defineModel()
 </template>
 
 <style scoped>
+@reference "tailwindcss";
+
 .v-enter-active,
 .v-leave-active {
   transition: all 0.5s ease;

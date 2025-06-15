@@ -14,7 +14,34 @@ const isAllLoaded = ref(false)
 const search = ref("")
 const sort = ref("relevance")
 
-onMounted(async () => await load())
+let throttleTimeout: ReturnType<typeof setTimeout> | null = null;
+
+const scrollEvent = () => {
+  const scrollTop = window.scrollY;
+  const windowHeight = window.innerHeight;
+  const fullHeight = document.documentElement.scrollHeight;
+
+  if (scrollTop + windowHeight >= fullHeight - 300) {
+    load();
+  }
+};
+
+const throttledScrollEvent = () => {
+  if (throttleTimeout) return;
+  throttleTimeout = setTimeout(() => {
+    scrollEvent();
+    throttleTimeout = null;
+  }, 200);
+};
+
+onMounted(async () => {
+  window.addEventListener('scroll', throttledScrollEvent);
+  await load();
+});
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', throttledScrollEvent);
+});
 
 const load = async () => {
   if (productsModel.value.loading) return;
@@ -63,36 +90,38 @@ const searchInput = async () => {
     }
   }, 1000)
 }
+watch(sort, changedFilters)
 </script>
 
 <template>
-  <div v-infinite-scroll="load" infinite-scroll-immediate="false">
+  <div>
     <ProjectHead></ProjectHead>
-    <FMCartButton/>
-    <div class="md:w-11/12 mx-auto">
-      <el-affix :offset="56" :z-index="20">
-        <div class="bg-neutral-50/[.9] dark:bg-neutral-900/[.9] backdrop-blur rounded-b-lg shadow dark:shadow-lg p-2 flex gap-2 border border-t-0 border-neutral-100 dark:border-neutral-800">
-          <el-input placeholder="Поиск по названию" v-model="search" @input="searchInput" @change="changedFilters" />
-          <el-select @change="changedFilters"
-              v-model="sort"
-              placeholder="Сортировка по цене"
-              style="width: 240px"
-          >
-            <el-option
-                label="Сортировка по цене"
-                value="relevance"
-            />
-            <el-option
-                label="Сначала дорогие"
-                value="expensive"
-            />
-            <el-option
-                label="Сначала дешевые"
-                value="cheap"
-            />
-          </el-select>
+    <FMCartButton />
+    <div class="mx-auto z-20 fixed top-[56px] w-full flex justify-center">
+      <div class="md:w-11/12">
+        <div class="bg-neutral-50/[.9] dark:bg-neutral-900/[.9] backdrop-blur-sm rounded-b-lg shadow-sm dark:shadow-lg p-2 flex gap-2 border border-t-0 border-neutral-100 dark:border-neutral-800">
+          <ShInput placeholder="Поиск по названию" v-model="search" @input="searchInput" @change="changedFilters" />
+          <ShSelect v-model="sort">
+            <ShSelectTrigger>
+              <ShButton variant="outline"><ShSelectValue placeholder="Сортировка" /></ShButton>
+            </ShSelectTrigger>
+            <ShSelectContent>
+              <ShSelectGroup>
+                <ShSelectLabel>Сортировка по цене</ShSelectLabel>
+                <ShSelectItem value="relevance">
+                  По релевантности
+                </ShSelectItem>
+                <ShSelectItem value="expensive">
+                  Сначала дорогие
+                </ShSelectItem>
+                <ShSelectItem value="cheap">
+                  Сначала дешевые
+                </ShSelectItem>
+              </ShSelectGroup>
+            </ShSelectContent>
+          </ShSelect>
         </div>
-      </el-affix>
+      </div>
     </div>
     <transition name="hide">
       <FMProductsList v-if="productsModel.products.length > 0" v-model="productsModel"/>
@@ -115,6 +144,8 @@ const searchInput = async () => {
 </template>
 
 <style scoped>
+@reference "tailwindcss";
+
 .v-enter-active,
 .v-leave-active {
   transition: all 0.5s ease;
