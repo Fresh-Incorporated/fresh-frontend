@@ -119,6 +119,10 @@ const submitSalary = async () => {
 
   salary.value = { totalSalary: 0, salaries: [] }
 };
+
+watch(salary, () => {
+  recalculateTotal()
+}, {deep: true})
 </script>
 
 <template>

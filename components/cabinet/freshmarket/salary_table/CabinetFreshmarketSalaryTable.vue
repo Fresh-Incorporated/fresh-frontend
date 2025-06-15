@@ -6,8 +6,13 @@ const {user} = useUser()
 
 const data = defineModel("salary")
 const users = ref([])
+const lastUsersUpdate = ref(0)
 
 const usersUpdate = async () => {
+  const now = Date.now();
+  if (now - lastUsersUpdate.value < 5000) return; // ждём 5 секунд между вызовами
+  lastUsersUpdate.value = now;
+
   users.value = (await http.post("/freshmarket/work/director/users/list", {
     ids: data.value?.salaries.map((item) => item.id),
   })).data.users;
@@ -63,7 +68,7 @@ const removeSalaryEntry = async (id: number) => {
             </ShTableCell>
             <ShTableCell class="w-96">
               <ShNumberField :step="0.1" v-for="(pay, id) in row.pays" :id="`${id}-${row.id}`" v-model="pay.pay" :min="0">
-                <ShLabel :for="`${id}-${row.id}`">{{id}} {{Object.values(row.pays)?.reduce((sum, p) => sum + p.pay, 0) / data?.totalSalary}}%</ShLabel>
+                <ShLabel :for="`${id}-${row.id}`">{{id}} {{(row.pays[id].pay / data?.totalSalary * 100).toFixed(2)}}%</ShLabel>
                 <ShNumberFieldContent>
                   <ShNumberFieldDecrement />
                   <ShNumberFieldInput />
