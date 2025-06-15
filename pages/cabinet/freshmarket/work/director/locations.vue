@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {http} from "~/composables/useHttp"
 import {ref} from 'vue';
+import CreateLocationDialog from "~/components/cabinet/freshmarket/CreateLocationDialog.vue";
 
 definePageMeta({
   layout: 'cabinet'
@@ -79,7 +80,7 @@ const disableLocation = async (id: number) => {
 </script>
 
 <template>
-  <div class="w-full p-4">
+  <div class="w-full p-4 space-y-2">
     <div class="w-full border rounded-md">
       <ShTable>
         <ShTableHeader>
@@ -217,6 +218,9 @@ const disableLocation = async (id: number) => {
         </ShTableBody>
       </ShTable>
     </div>
+    <CreateLocationDialog>
+      <ShButton variant="outline">Создать локацию</ShButton>
+    </CreateLocationDialog>
   </div>
 </template>
 
