@@ -108,7 +108,7 @@ const confirm = async () => {
                     1 ед. товара
                   </ShButton>
                 </PreviewMinecraftShulker>
-                <ShButton type="submit" @click="confirm">
+                <ShButton type="submit" @click="confirm" confirmation>
                   Завершить пополнение
                 </ShButton>
               </ShDialogFooter>

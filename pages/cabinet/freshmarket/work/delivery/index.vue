@@ -49,7 +49,7 @@ const finish = async (id: number) => {
         <p class="font-medium text-neutral-600 dark:text-neutral-300">Ячейка: <span class="text-secondary-dark">{{ order?.branchCell?.letter }}-{{ order?.branchCell?.number }}</span></p>
       </div>
       <FreshmarketDeliveryProductsTable :data="order?.data?.products" :products="products" />
-      <ShButton variant="secondary" @click="finish(order?.id)">Завершить доставку</ShButton>
+      <ShButton variant="secondary" @click="finish(order?.id)" confirmation>Завершить доставку</ShButton>
     </ShCard>
     <div class="grid grid-cols-5 gap-4">
       <ShCard v-for="order in orders.filter((_order) => _order?.currentWorkerId != user?.id)" class="flex flex-col !p-2 gap-1">

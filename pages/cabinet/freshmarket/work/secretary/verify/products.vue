@@ -61,7 +61,7 @@ const decline = async () => {
             <ShButton class="w-full" variant="outline" size="sm" @click="selectedId = product.id; showProductHistory = true">Показать историю товара [{{product.history.length}}шт]</ShButton>
           </FreshmarketProductHistory>
           <div class="grid grid-cols-2 gap-2">
-            <ShButton size="sm" variant="success" @click="accept(product.id)">Подтвердить</ShButton>
+            <ShButton size="sm" variant="success" @click="accept(product.id)" confirmation>Подтвердить</ShButton>
             <ShDialog v-model="declineDialog">
               <ShDialogTrigger as-child>
                 <ShButton size="sm" variant="destructive" @click="selectedId = product.id;">Отклонить</ShButton>
@@ -76,7 +76,7 @@ const decline = async () => {
                       placeholder="Напишите причину отклонения.."
                       :maxlength="120"
                   />
-                  <ShButton variant="destructive" @confirm="decline">
+                  <ShButton variant="destructive" @confirm="decline" confirmation>
                     Отклонить
                   </ShButton>
                 </div>

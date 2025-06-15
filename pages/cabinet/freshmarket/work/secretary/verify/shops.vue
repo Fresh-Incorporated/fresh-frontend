@@ -38,8 +38,8 @@ const decline = async (id: number) => {
         <p>Тег: {{shop.tag}}</p>
       </div>
       <div class="w-full grid grid-cols-2 gap-2">
-        <ShButton size="sm" variant="success" @click="accept(shop.id)">Подтвердить</ShButton>
-        <ShButton size="sm" variant="destructive" @click="decline(shop.id)">Отклонить</ShButton>
+        <ShButton size="sm" variant="success" @click="accept(shop.id)" confirmation>Подтвердить</ShButton>
+        <ShButton size="sm" variant="destructive" @click="decline(shop.id)" confirmation>Отклонить</ShButton>
       </div>
     </ShCard>
   </div>

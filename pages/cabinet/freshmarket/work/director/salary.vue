@@ -135,7 +135,7 @@ const submitSalary = async () => {
     </div>
     <div class="mt-4 flex gap-4">
       <p>Завершение: {{new Date(endDatetime)}}</p>
-      <ShButton variant="destructive" @click="submitSalary">Создать отчёт</ShButton>
+      <ShButton variant="destructive" @click="submitSalary" confirmation>Создать отчёт</ShButton>
     </div>
   </div>
 </template>
