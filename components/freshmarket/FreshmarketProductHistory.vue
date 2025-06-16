@@ -11,6 +11,14 @@ const opened = ref(false)
 
 const history = ref([])
 
+const stepTranslation = {
+  'name': "Название",
+  "price": "Цена",
+  "description": "Описание",
+  "slots_count": "Кол-во слотов для 1 ед",
+  "stack_count": "Кол-во предметов в каждом слоте",
+}
+
 const steps = ref([
   {
     step: 1,
@@ -53,7 +61,7 @@ onMounted(async () => {
       <ShSheetHeader>
         <ShSheetTitle>История товара</ShSheetTitle>
         <ShSheetDescription>
-          да
+          Здесь представлена подробная история товара
         </ShSheetDescription>
       </ShSheetHeader>
       <ShStepper orientation="vertical" class="mx-auto flex w-full max-w-md flex-col justify-start gap-4 px-2">
@@ -108,8 +116,14 @@ onMounted(async () => {
                 <img :src="useXIS().getFullFace(step.user.uuid)" class="w-4 h-4" alt="">
                 <p>{{step.user.nickname}}</p>
               </div>
-              <div>
-                {{ step.data }}
+              <div class="flex gap-2" v-if="step?.message">
+                <p>Причина:</p>
+                <p>{{ step.message }}</p>
+              </div>
+              <div v-if="step?.data">
+                <div v-for="key in Object.keys(step.data)" :key="key">
+                  <p v-if="stepTranslation?.[key]">{{ stepTranslation[key] }}: {{ step.data[key] }}</p>
+                </div>
               </div>
             </ShStepperDescription>
           </div>
