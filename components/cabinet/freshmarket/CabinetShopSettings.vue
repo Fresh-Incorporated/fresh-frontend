@@ -114,7 +114,7 @@ function copyShopLink() {
           <p>Тег магазина</p>
         </ShLabel>
         <div class="relative w-full items-center">
-          <ShInput id="tag" v-model="newTag" :placeholder="props.tag" :maxlength="16" type="text" :class="{
+          <ShInput id="tag" v-model="newTag" :placeholder="props.tag" :maxlength="32" type="text" :class="{
             'pl-64': !isMobile,
           }" />
           <label v-if="!isMobile" @click="copyShopLink" for="tag" class="absolute start-0 inset-y-0 flex items-center justify-center px-2 text-sm border-r bg-neutral-400/[.1]">
