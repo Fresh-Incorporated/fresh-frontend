@@ -16,8 +16,8 @@ const formSchema = toTypedSchema(z.object({
   name: z.string().min(3).max(24),
   description: z.string().min(0).max(240).optional(),
   image: z.any().nullable(),
-  stackCount: z.number().min(1).max(64),
-  slotsCount: z.number().min(1).max(64),
+  stackCount: z.number().min(1).max(64).optional(),
+  slotsCount: z.number().min(1).max(64).optional(),
   price: z.number().min(1).max(1728),
 }))
 
@@ -138,7 +138,7 @@ watch(image, (newValue) => {
               <IconUpload unique="create-product" v-model="image" :current-image="`https://assets.zaralx.ru/api/v1/minecraft/vanilla/item/${minecraftIcon}/icon`" :show-current-image="minecraftIcon" />
             </ShFormControl>
             <SelectMinecraftImage v-model="minecraftIcon">
-              <ShButton variant="outline" class="w-full">Выбрать предмет из Minecraft</ShButton>
+              <ShButton variant="outline" class="w-full" type="button">Выбрать предмет из Minecraft</ShButton>
             </SelectMinecraftImage>
             <ShFormMessage class="text-destructive" />
           </ShFormItem>
