@@ -117,7 +117,7 @@ onMounted(async () => {
                 <p>{{step.user.nickname}}</p>
               </div>
               <div class="flex gap-2" v-if="step?.message">
-                <p>Причина:</p>
+                <p>Сообщение:</p>
                 <p>{{ step.message }}</p>
               </div>
               <div v-if="step?.data">
