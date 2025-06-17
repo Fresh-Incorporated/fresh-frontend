@@ -59,11 +59,11 @@ const {putInCart, cart} = useUser()
       <div class="flex-1 flex flex-col justify-end">
         <div class="w-full" v-if="props.count < 10">
           <p class="text-xs text-amber-500 font-medium">Осталось: {{ props.count }} ед.</p>
-          <ShProgress :model-value="props.count * 4" class="h-2" color="bg-amber-500" />
+          <ShProgress :model-value="Math.min(props.count * 4, 100)" class="h-2" color="bg-amber-500" />
         </div>
         <div class="w-full" v-if="props.count >= 10">
           <p class="text-xs text-blue-400 font-medium">Осталось: {{ props.count }} ед.</p>
-          <ShProgress :model-value="props.count + 50" class="h-2" color="bg-primary" />
+          <ShProgress :model-value="Math.min(props.count + 50, 100)" class="h-2" color="bg-primary" />
         </div>
       </div>
     </div>
