@@ -46,13 +46,12 @@ onMounted(async () => {
     <div class="relative hidden lg:block">
       <div class="animation-opacity absolute w-4 h-4 top-32 left-64 text-blue-500">
         <div class="absolute -left-2 -top-2 w-4 h-4 flex justify-center items-center aspect-square">
-          <i class="absolute pi pi-map-marker text-sm blur-sm animate-[pulse_5s_infinite_ease-in-out] animation-delay-150"></i>
-          <i class="pi pi-map-marker text-sm"></i>
+          <Icon name="lucide:map-pin" class="absolute text-sm blur-sm animate-[pulse_5s_infinite_ease-in-out] animation-delay-150 size-full" />
+          <Icon name="lucide:map-pin" class="size-full" />
         </div>
-        <div
-            class="animation-opacity absolute -left-2 top-30 w-4 h-4 flex justify-center items-center aspect-square">
-          <i class="pi pi-map text-sm absolute blur-sm animate-[pulse_5s_infinite_ease-in-out] animation-delay-300"></i>
-          <i class="pi pi-map text-sm"></i>
+        <div class="animation-opacity absolute -left-2 top-30 w-4 h-4 flex justify-center items-center aspect-square">
+          <Icon name="lucide:map" class="absolute blur-sm animate-[pulse_5s_infinite_ease-in-out] animation-delay-300 size-full" />
+          <Icon name="lucide:map" class="size-full" />
         </div>
         <div
             class="animation-opacity absolute top-4 w-px h-24 bg-linear-to-b from-white/0 dark:via-white via-blue-500 to-white/0"></div>

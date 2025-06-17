@@ -460,7 +460,7 @@ watch(selectedWorld, draw)
     </ShDialog>
     <div :class="opened ? '' : 'scale-0 opacity-0'" class="fixed top-0 left-0 z-30 w-screen h-screen bg-neutral-950 transform duration-500">
       <ShButton @click="opened = false" variant="secondary" class="absolute flex justify-center items-center top-2 left-2 cursor-pointer rounded-lg">
-        <i class="pi pi-times"></i>
+        <Icon name="lucide:x" size="18"/>
       </ShButton>
       <div class="fixed top-2 left-16">
         <ShSelect v-model="selectedWorld">

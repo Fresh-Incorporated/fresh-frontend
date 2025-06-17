@@ -109,8 +109,8 @@ const scroll = ():void => {
             </div>
             <div class="py-1 px-8 flex justify-center">
               <p class="text-sm md:text-base">Начать покупки</p>
-              <i class="absolute pi pi-chevron-down animate-bounce mt-9 text-xs group-hover:text-base duration-1000 group-hover:text-white"></i>
-              <i class="absolute pi pi-chevron-down animate-bounce mt-10 group-hover:text-xl duration-1000 group-hover:text-white"></i>
+              <Icon name="lucide:chevron-down" size="20" class="absolute animate-bounce mt-9 group-hover:text-base duration-1000 group-hover:text-white" />
+              <Icon name="lucide:chevron-down" size="24" class="absolute animate-bounce mt-10 group-hover:text-xl duration-1000 group-hover:text-white" />
             </div>
           </div>
         </div>

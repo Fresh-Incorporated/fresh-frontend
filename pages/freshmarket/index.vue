@@ -129,15 +129,15 @@ watch(sort, changedFilters)
     <transition>
       <div v-if="isAllLoaded && productsModel.products.length > 0 && (search.length > 0)"
            class="transform duration-500 flex justify-center my-6 text-base md:text-xl items-center gap-2">
-        <i class="pi pi-times"></i>Похоже, больше нет товаров по вашему запросу!
+        <Icon name="lucide:x" />Похоже, больше нет товаров по вашему запросу!
       </div>
       <div v-else-if="isAllLoaded && productsModel.products.length > 0"
            class="transform duration-500 flex justify-center my-6 text-base md:text-xl items-center gap-2">
-        <i class="pi pi-times"></i>Похоже, больше нет товаров!
+        <Icon name="lucide:x" />Похоже, больше нет товаров!
       </div>
       <div v-else-if="isAllLoaded && productsModel.products.length == 0"
            class="transform duration-500 flex justify-center my-6 text-base md:text-xl items-center gap-2">
-        <i class="pi pi-times"></i>Похоже, нет товаров по вашему запросу, попробуйте изменить фильтры!
+        <Icon name="lucide:x" />Похоже, нет товаров по вашему запросу, попробуйте изменить фильтры!
       </div>
     </transition>
   </div>
