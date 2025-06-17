@@ -57,6 +57,15 @@ const invite = async () => {
   emit("updateShop")
 }
 
+const _delete = async (id: number) => {
+  const response = await http.post(`/freshmarket/shop/${props.shopId}/coop/delete`, {
+    id: id,
+  })
+
+  await updateShops()
+  emit("updateShop")
+}
+
 </script>
 
 <template>
@@ -88,7 +97,7 @@ const invite = async () => {
         </ShCardHeader>
         <ShCardContent class="flex flex-col justify-between gap-2">
           <ShButton size="sm" variant="outline" :disabled="owner.status != 'accepted'">Изменить</ShButton>
-          <ShButton size="sm" variant="destructive">Удалить</ShButton>
+          <ShButton size="sm" variant="destructive" @click="_delete(owner.user.id)">Удалить</ShButton>
         </ShCardContent>
       </ShCard>
       <ShCard outlined class="flex-jusity-center items-center !py-0">
