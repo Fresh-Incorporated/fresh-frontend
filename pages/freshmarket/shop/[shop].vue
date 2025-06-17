@@ -9,13 +9,17 @@ const shopTag = route.params.shop
 const shop = ref({products: []})
 
 onMounted(async () => {
-  const response = await http.get(`/freshmarket/shop/info`, {
-    params: {
-      tag: shopTag
-    }
-  })
+  try {
+    const response = await http.get(`/freshmarket/shop/info`, {
+      params: {
+        tag: shopTag
+      }
+    })
 
-  shop.value = response.data
+    shop.value = response.data
+  } catch (e) {
+    showError({ statusCode: 404})
+  }
 })
 
 </script>
@@ -30,7 +34,7 @@ onMounted(async () => {
       </div>
       <div class="w-full bg-neutral-100 dark:bg-neutral-900 border border-l-0 border-neutral-200 dark:border-neutral-800 h-16 rounded-tr-lg rounded-br-lg transform -translate-x-px z-10 px-2 flex flex-col justify-center">
         <p class="text-xl font-bold">{{ shop?.name }}</p>
-        <p class="text-neutral-500 text-xs">{{ shop?.description?.length == 0 ? 'Описание отсутствует' : shop?.description }}</p>
+        <p class="text-neutral-500 text-xs break-all">{{ shop?.description?.length == 0 ? 'Описание отсутствует' : shop?.description }}</p>
       </div>
     </div>
     <div class="md:flex gap-2">
