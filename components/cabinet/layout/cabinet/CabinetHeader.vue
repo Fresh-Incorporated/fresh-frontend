@@ -1,11 +1,16 @@
 <script setup lang="ts">
-const {user} = useUser()
+const { user, shops } = useUser()
 
 const route = useRoute()
 
 const pathIdTitles = {
   cabinet: "Кабинет",
 }
+
+const currentShopName = computed(() => {
+  return shops?.value?.find((shop) => shop?.id == route?.params?.shop)?.name
+})
+watch(route, () => console.log(route))
 
 const links = computed(() => {
   return [
@@ -20,21 +25,44 @@ const links = computed(() => {
   ]
 })
 
-const breadcrumbPath = ref<{ title: string, to: string, latest?: boolean }[]>([])
+const breadcrumbPath = computed(() => {
+  const pathList = route.path.split('/').slice(1)
 
-watch(
-    () => route.path,
-    () => {
-      const pathList = route.path.split('/').slice(1)
-      breadcrumbPath.value = pathList.map((pathItem, index) => ({
-        title: pathIdTitles[pathItem] ?? decodeURIComponent(pathItem),
-        to: '/' + pathList.slice(0, index + 1).join('/'),
+  return pathList.reduce((acc, pathItem, index) => {
+    const title = decodeURIComponent(pathItem);
+    const to = '/' + pathList.slice(0, index + 1).join('/');
+
+    let finalTitle = translationDictionary?.[title];
+    if (currentShopName.value != null && to.startsWith('/cabinet/freshmarket/shop/') && (/^\d+$/.test(pathItem))) {
+      acc.push({
+        title: "Магазин \"" + currentShopName.value + "\"",
+        to: to,
         item: pathItem,
-        latest: index + 1 === pathList.length
-      }))
-    },
-    {immediate: true}
-)
+      });
+    } else if (finalTitle) {
+      acc.push({
+        title: finalTitle,
+        to: to,
+        item: pathItem,
+      });
+    }
+    return acc;
+  }, [])
+})
+
+const translationDictionary = {
+  'cabinet': 'Кабинет',
+  'settings': "Настройки",
+  'logic': 'Логистика',
+  'delivery': 'Доставка',
+  'secretary': 'Секретарь',
+  'director': 'Директор',
+  'stats': 'Статистика',
+  'orders': 'Заказы',
+  'products': 'Товары'
+}
+
+
 </script>
 
 <template>
@@ -64,11 +92,11 @@ watch(
           <ShBreadcrumbList>
             <template v-for="(breadcrumbItem, index) in breadcrumbPath" :key="breadcrumbItem.title">
               <ShBreadcrumbItem>
-                <ShBreadcrumbPage v-if="breadcrumbItem.latest">
+                <ShBreadcrumbPage v-if="index + 1 == breadcrumbPath.length">
                   {{ breadcrumbItem.title }}
                 </ShBreadcrumbPage>
-                <ShBreadcrumbLink v-else :to="breadcrumbItem.to">
-                  {{ breadcrumbItem.title }}
+                <ShBreadcrumbLink v-else as-child>
+                  <NuxtLink :to="breadcrumbItem.to">{{ breadcrumbItem.title }}</NuxtLink>
                 </ShBreadcrumbLink>
               </ShBreadcrumbItem>
               <ShBreadcrumbSeparator v-if="index < breadcrumbPath.length - 1"/>
