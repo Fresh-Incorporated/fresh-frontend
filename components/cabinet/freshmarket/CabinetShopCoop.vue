@@ -87,7 +87,12 @@ const _delete = async (id: number) => {
           <p class="text-xs text-red-400 font-medium">Предложение отклонено</p>
         </div>
         <ShCardHeader class="flex-1">
-          <ShCardTitle>{{owner.user.nickname}}</ShCardTitle>
+          <ShCardTitle class="flex items-center gap-1">
+            <div class="w-4 h-4">
+              <img :src="`https://assets.zaralx.ru/api/v1/minecraft/vanilla/player/face/${owner.user.uuid}/full`" alt="">
+            </div>
+            <p>{{owner.user.nickname}}</p>
+          </ShCardTitle>
           <ShCardDescription>{{
               Object.keys(permissionTranslation)
                   .filter((s) => owner[s])
