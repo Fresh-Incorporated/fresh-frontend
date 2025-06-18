@@ -113,13 +113,13 @@ onBeforeUnmount(() => {
               <div class="flex w-full">
                 <button @click="putInCart(product, -1)"
                         class="w-6 h-6 rounded-lg flex justify-center items-center text-xs bg-neutral-200 dark:bg-neutral-800">
-                  <i class="pi" :class="product.picked > 1 ? 'pi-minus' : 'pi-trash'"></i></button>
+                  <Icon :name="product.picked > 1 ? 'lucide:minus' : 'lucide:trash-2'" size="16"/></button>
                 <div class="h-full w-12 flex justify-center items-center text-center">
                   {{ product?.picked }}
                 </div>
                 <button @click="putInCart(product, 1)"
                         class="w-6 h-6 rounded-lg flex justify-center items-center text-xs bg-neutral-200 dark:bg-neutral-800">
-                  <i class="pi pi-plus"></i></button>
+                  <Icon name="lucide:plus" size="16" /></button>
               </div>
               <div class="font-montserrat absolute bottom-8 right-4 text-right">
                 <!--                  <p class="text-sm font-medium">Цена</p>-->
@@ -202,7 +202,7 @@ onBeforeUnmount(() => {
       </ShBadge>
       <button @click="opened = true"
               class="bg-secondary-dark hover:bg-primary-dark w-14 h-14 rounded-full flex justify-center items-center cursor-pointer">
-        <i class="pi pi-shopping-cart text-2xl shadow-lg text-white dark:text-black"></i>
+        <Icon name="lucide:shopping-cart" size="28" class="text-white dark:text-black" />
       </button>
     </div>
   </div>
