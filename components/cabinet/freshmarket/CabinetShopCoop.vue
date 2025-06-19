@@ -126,7 +126,7 @@ const isUpdating = ref(false)
         <ShCardContent class="flex flex-col justify-between gap-2">
           <ShDialog>
             <ShDialogTrigger as-child>
-              <ShButton size="sm" variant="outline" :disabled="owner.status != 'accepted'">Изменить</ShButton>
+              <ShButton size="sm" variant="outline" :disabled="owner.status != 'accepted'"><Icon name="lucide:user-pen" /> Изменить</ShButton>
             </ShDialogTrigger>
             <ShDialogContent>
               <ShDialogHeader>
@@ -155,13 +155,13 @@ const isUpdating = ref(false)
               </ShDialogFooter>
             </ShDialogContent>
           </ShDialog>
-          <ShButton size="sm" variant="destructive" @click="_delete(owner.user.id)">Удалить</ShButton>
+          <ShButton size="sm" variant="destructive" @click="_delete(owner.user.id)"><Icon name="lucide:user-x" /> Удалить</ShButton>
         </ShCardContent>
       </ShCard>
       <ShCard outlined class="flex-jusity-center items-center !py-0">
         <ShDialog v-model:open="inviteOpened">
           <ShDialogTrigger as-child>
-            <ShButton variant="ghost" class="h-full w-full">Пригласить совладельца</ShButton>
+            <ShButton variant="ghost" class="h-full w-full"><Icon name="lucide:send" /> Пригласить совладельца</ShButton>
           </ShDialogTrigger>
           <ShDialogContent>
             <ShDialogHeader>
