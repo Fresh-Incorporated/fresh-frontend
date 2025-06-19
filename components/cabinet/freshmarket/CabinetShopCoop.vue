@@ -66,6 +66,29 @@ const _delete = async (id: number) => {
   emit("updateShop")
 }
 
+const saveChanges = async (owner: Object, newKey: String, newValue: Boolean) => {
+  isUpdating.value = true;
+  const data = {
+    id: owner.userId,
+    permissions: {...permissions.value}
+  }
+
+  for (const permission of Object.keys(data.permissions)) {
+    if (permission == newKey) {
+      data.permissions[permission] = newValue
+    } else {
+      data.permissions[permission] = owner[permission]
+    }
+  }
+
+  const response = await http.post(`/freshmarket/shop/${props.shopId}/coop/edit`, data).catch(() => {
+    isUpdating.value = false;
+  })
+  isUpdating.value = false
+}
+
+const isUpdating = ref(false)
+
 </script>
 
 <template>
@@ -101,7 +124,37 @@ const _delete = async (id: number) => {
             }}</ShCardDescription>
         </ShCardHeader>
         <ShCardContent class="flex flex-col justify-between gap-2">
-          <ShButton size="sm" variant="outline" :disabled="owner.status != 'accepted'">Изменить</ShButton>
+          <ShDialog>
+            <ShDialogTrigger as-child>
+              <ShButton size="sm" variant="outline" :disabled="owner.status != 'accepted'">Изменить</ShButton>
+            </ShDialogTrigger>
+            <ShDialogContent>
+              <ShDialogHeader>
+                <ShDialogTitle>Редактирование совладельца</ShDialogTitle>
+                <ShDialogDescription>
+                  Вы редактируете: {{owner.user.nickname}}
+                </ShDialogDescription>
+              </ShDialogHeader>
+
+              <ShCard v-for="(value, id) in permissions" outlined class="!p-4 rounded-sm flex-row items-center">
+                <div class="flex-1 space-y-1">
+                  <ShCardTitle>
+                    {{permissionTranslation[id]?.title}}
+                  </ShCardTitle>
+                  <ShCardDescription>
+                    {{permissionTranslation[id]?.description}}
+                  </ShCardDescription>
+                </div>
+                <ShSwitch :disabled="isUpdating" @update:model-value="(e) => saveChanges(owner, id, e)" v-model="owner[id]" />
+              </ShCard>
+
+              <ShDialogFooter>
+                <ShButton @click="invite" type="submit">
+                  Пригласить
+                </ShButton>
+              </ShDialogFooter>
+            </ShDialogContent>
+          </ShDialog>
           <ShButton size="sm" variant="destructive" @click="_delete(owner.user.id)">Удалить</ShButton>
         </ShCardContent>
       </ShCard>
