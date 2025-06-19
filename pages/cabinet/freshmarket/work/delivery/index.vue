@@ -38,7 +38,7 @@ const finish = async (id: number) => {
 
 <template>
   <div class="w-full p-4 space-y-2">
-    <ShCard v-for="order in orders.filter((_order) => _order?.currentWorkerId == user?.id)" class="w-full border rounded-lg !p-2">
+    <ShCard :key="order.id" v-for="order in orders.filter((_order) => _order?.currentWorkerId == user?.id)" class="w-full border rounded-lg !p-2">
       <div class="p-1">
         <p class="font-semibold">ID: #{{ order.id }} [ПРИНЯТО ВАМИ]</p>
         <p class="font-medium text-neutral-600 dark:text-neutral-300">Ячейка курьера: <span class="text-primary-dark">{{ order?.deliverCell?.letter }}-{{ order?.deliverCell?.number }}</span></p>

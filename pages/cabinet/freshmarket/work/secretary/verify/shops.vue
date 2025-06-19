@@ -30,7 +30,7 @@ const decline = async (id: number) => {
 
 <template>
   <div class="grid grid-cols-5 gap-4 p-4">
-    <ShCard v-for="shop in shops" class="flex flex-col !p-2 gap-2">
+    <ShCard :key="shop.id" v-for="shop in shops" class="flex flex-col !p-2 gap-2">
       <img :src="shop.icon" class="w-full aspect-square" alt="">
       <div>
         <p>Название: <strong>{{shop.name}}</strong></p>
