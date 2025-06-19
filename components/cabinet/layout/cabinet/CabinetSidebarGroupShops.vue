@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import CreateShopMenu from "~/components/cabinet/freshmarket/CreateShopMenu.vue";
 
-const {shops, userLoading} = useUser()
+const {shops, userLoading, user} = useUser()
 
 const route = useRoute()
 </script>
@@ -80,6 +80,20 @@ const route = useRoute()
           </ShCollapsibleContent>
         </ShSidebarMenuItem>
       </ShCollapsible>
+      <ShSidebarMenuItem v-if="user?.co_owns?.length > 0">
+        <NuxtLink to="/cabinet/freshmarket/invites">
+          <ShSidebarMenuButton tooltip="Приглашения"
+                               class="border border-dashed flex justify-center items-center !text-blue-500/[.9] active:text-blue-600/[.9] !border-blue-500/[.9]">
+            <div class="w-4 h-4">
+              <Icon name="lucide:folder-kanban" size="16"/>
+            </div>
+            <span
+                class="group-data-[collapsible=icon]:opacity-0 group-data-[collapsible=icon]:absolute font-medium text-nowrap">
+                Приглашения
+              </span>
+          </ShSidebarMenuButton>
+        </NuxtLink>
+      </ShSidebarMenuItem>
       <ShSidebarMenuItem v-if="!userLoading">
         <CreateShopMenu>
           <ShSidebarMenuButton tooltip="Создать магазин"

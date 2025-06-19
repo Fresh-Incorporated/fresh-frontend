@@ -37,28 +37,25 @@
             </div>
             <div class="py-4 pl-32">
               <div class="flex gap-2">
-                <div
-                    class="bg-orange-200/[0.5] dark:bg-neutral-950/[0.5] rounded-lg px-2 text-sm text-orange-400 border border-orange-500/[0.5]">
-                  <i class="pi pi-check text-xs"></i> Основатель
+                <div class="flex items-center gap-1 bg-orange-200/[0.5] dark:bg-neutral-950/[0.5] rounded-lg px-2 text-sm text-orange-400 border border-orange-500/[0.5]">
+                  <Icon name="lucide:check" /> Основатель
                 </div>
-                <div
-                    class="bg-orange-200/[0.5] dark:bg-neutral-950/[0.5] rounded-lg px-2 text-sm text-orange-400 border border-orange-500/[0.5]">
-                  <i class="pi pi-check text-xs"></i> Разработчик
+                <div class="flex items-center gap-1 bg-orange-200/[0.5] dark:bg-neutral-950/[0.5] rounded-lg px-2 text-sm text-orange-400 border border-orange-500/[0.5]">
+                  <Icon name="lucide:check" /> Разработчик
                 </div>
-                <div
-                    class="bg-orange-200/[0.5] dark:bg-neutral-950/[0.5] rounded-lg px-2 text-sm text-orange-400 border border-orange-500/[0.5]">
-                  <i class="pi pi-check text-xs"></i> Дизайнер
+                <div class="flex items-center gap-1 bg-orange-200/[0.5] dark:bg-neutral-950/[0.5] rounded-lg px-2 text-sm text-orange-400 border border-orange-500/[0.5]">
+                  <Icon name="lucide:check" /> Дизайнер
                 </div>
               </div>
               <p class="text-2xl font-medium mt-4 text-orange-400">_zaralX_</p>
               <p class="text-sm font-medium text-orange-400">Руководитель проекта Fresh Inc. <br> </p>
               <div class="mt-2 flex gap-2">
                 <a href="https://zaralx.ru" target="_blank">
-                  <ShButton variant="warning" size="xs" class="border border-orange-500"><i class="pi pi-external-link text-xs"></i>
+                  <ShButton variant="warning" size="xs" class="border border-orange-500"><Icon name="lucide:external-link" size="16" />
                     <p class="text-sm ml-2">Сайт</p></ShButton>
                 </a>
                 <a href="https://underzaral.t.me" target="_blank">
-                  <ShButton variant="warning" size="xs" class="border border-orange-500"><i class="pi pi-external-link text-xs"></i>
+                  <ShButton variant="warning" size="xs" class="border border-orange-500"> <Icon name="lucide:external-link" size="16" />
                     <p class="text-sm ml-2">Телеграм канал</p></ShButton>
                 </a>
               </div>
@@ -77,10 +74,8 @@
             </div>
             <div class="py-4 pl-32">
               <div class="flex gap-2">
-                <div
-                    class="bg-teal-100/[0.5] dark:bg-neutral-950/[0.5] rounded-lg px-2 text-sm text-teal-400 border border-teal-500/[0.5]">
-                  <i
-                      class="pi pi-check text-xs"></i> Основатель
+                <div class="flex items-center gap-1 bg-teal-100/[0.5] dark:bg-neutral-950/[0.5] rounded-lg px-2 text-sm text-teal-400 border border-teal-500/[0.5]">
+                  <Icon name="lucide:check" /> Основатель
                 </div>
               </div>
               <p class="text-2xl font-medium mt-4 text-teal-400">Elsham1r</p>
@@ -110,7 +105,7 @@
               <ShTooltip>
                 <ShTooltipTrigger>
                   <ShButton size="xs" disabled variant="secondary">
-                    <i class="pi pi-external-link text-black/[.75] dark:text-white/[.75]"></i>
+                    <Icon name="lucide:external-link" size="16" class="text-black/[.75] dark:text-white/[.75]" />
                   </ShButton>
                 </ShTooltipTrigger>
                 <ShTooltipContent>
@@ -135,7 +130,7 @@
                 <ShTooltipTrigger>
                   <a href="https://t.me/c50_silentpaltos" target="_blank">
                     <ShButton size="xs" variant="secondary">
-                      <i class="pi pi-external-link text-black/[.75] dark:text-white/[.75]"></i>
+                      <Icon name="lucide:external-link" size="16" class="text-black/[.75] dark:text-white/[.75]" />
                     </ShButton>
                   </a>
                 </ShTooltipTrigger>
@@ -160,7 +155,7 @@
                 <ShTooltipTrigger>
                   <a href="https://moksy44.t.me/" target="_blank">
                     <ShButton size="xs" variant="secondary">
-                      <i class="pi pi-external-link text-black/[.75] dark:text-white/[.75]"></i>
+                      <Icon name="lucide:external-link" size="16" class="text-black/[.75] dark:text-white/[.75]" />
                     </ShButton>
                   </a>
                 </ShTooltipTrigger>

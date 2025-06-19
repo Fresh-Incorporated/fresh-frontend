@@ -29,7 +29,7 @@ const refresh = async () => {
   const data = res.data
   data.date = new Date()
   AreaChartData.value = [...AreaChartData.value, data]
-  if (AreaChartData.value.length > 100) {
+  if (AreaChartData.value.length > 300) {
     AreaChartData.value.shift()
   }
 }

@@ -15,7 +15,7 @@ onMounted(async () => {
       <CabinetSidebar />
       <ShSidebarInset>
         <CabinetHeader />
-        <div class="flex-1">
+        <div class="flex-1 pb-4">
           <slot />
         </div>
       </ShSidebarInset>

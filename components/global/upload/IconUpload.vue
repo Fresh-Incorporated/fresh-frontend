@@ -58,7 +58,7 @@ const handleDragOver = (event: DragEvent) => {
           v-if="!file && !showCurrentImage"
           class="w-full h-full cursor-pointer flex flex-col justify-center items-center active:text-primary border-input text-muted-foreground hover:border-ring hover:ring-ring/50 dark:bg-input/30 rounded-md border bg-transparent text-base shadow-xs transition-[color,box-shadow] outline-none hover:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
       >
-        <i class="pi pi-image text-3xl"></i>
+        <Icon name="lucide:image" size="32"/>
         <p class="font-onest">Иконка</p>
         <p class="font-onest text-xs text-center">PNG, JPG, JPEG, SVG, WEBP (Макс. 2мб)</p>
         <p v-if="errorMessage" class="text-red-500 text-xs">{{ errorMessage }}</p>
@@ -68,7 +68,7 @@ const handleDragOver = (event: DragEvent) => {
           class="relative group w-full h-full cursor-pointer flex flex-col justify-center items-center active:text-primary border-input text-muted-foreground hover:border-ring hover:ring-ring/50 dark:bg-input/30 rounded-md border bg-transparent text-base shadow-xs transition-[color,box-shadow] outline-none hover:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
       >
         <div class="rounded-md absolute hidden w-full h-full bg-neutral-900/[0.5] dark:bg-neutral-900/[0.75] z-20 group-hover:flex flex-col justify-center items-center">
-          <i class="pi pi-image text-3xl"></i>
+          <Icon name="lucide:image" size="32"/>
           <p class="font-onest">Иконка</p>
           <p class="font-onest text-xs text-center">PNG, JPG, JPEG, SVG, WEBP (Макс. 2мб)</p>
         </div>

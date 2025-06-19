@@ -59,18 +59,18 @@ const {putInCart, cart} = useUser()
       <div class="flex-1 flex flex-col justify-end">
         <div class="w-full" v-if="props.count < 10">
           <p class="text-xs text-amber-500 font-medium">Осталось: {{ props.count }} ед.</p>
-          <ShProgress :model-value="props.count * 4" class="h-2" color="bg-amber-500" />
+          <ShProgress :model-value="Math.min(props.count * 4, 100)" class="h-2" color="bg-amber-500" />
         </div>
         <div class="w-full" v-if="props.count >= 10">
           <p class="text-xs text-blue-400 font-medium">Осталось: {{ props.count }} ед.</p>
-          <ShProgress :model-value="props.count + 50" class="h-2" color="bg-primary" />
+          <ShProgress :model-value="Math.min(props.count + 50, 100)" class="h-2" color="bg-primary" />
         </div>
       </div>
     </div>
     <div class="w-full">
       <button v-if="!cart.find(product => product.id === props.id)" @click="putInCart(props, 1)"
-              class="py-2 bg-secondary-light dark:bg-secondary-dark hover:bg-primary-dark duration-200 w-full rounded-lg font-semibold font-montserrat text-white">
-        <i class="pi pi-shopping-cart"></i>
+              class="flex justify-center items-center align-middle gap-1 py-2 bg-secondary-light dark:bg-secondary-dark hover:bg-primary-dark duration-200 w-full rounded-lg font-semibold font-montserrat text-white">
+        <Icon name="lucide:shopping-cart" size="18"/>
          {{ props.price }} АР
       </button>
       <!--      <div v-else class="bg-secondary-light h-10 dark:bg-secondary-dark duration-200 w-full rounded-lg font-semibold font-montserrat flex">-->
@@ -79,8 +79,8 @@ const {putInCart, cart} = useUser()
       <!--        <button @click="putInCart(props, 1)" class="hover:bg-primary-dark h-full aspect-square rounded-r-lg border-l-2 border-white/[0.25] flex justify-center items-center text-sm"><i class="pi pi-plus"></i></button>-->
       <!--      </div>-->
       <button v-else @click="putInCart(props, -10000)"
-              class="py-2 bg-secondary-light dark:bg-secondary-dark hover:bg-primary-dark duration-200 w-full rounded-lg font-semibold font-montserrat text-white">
-        <i class="pi pi-shopping-cart"></i>
+              class="flex justify-center items-center align-middle gap-1 py-2 bg-secondary-light dark:bg-secondary-dark hover:bg-primary-dark duration-200 w-full rounded-lg font-semibold font-montserrat text-white">
+        <Icon name="lucide:shopping-cart" size="18"/>
          В корзине - {{ props.price }} АР
       </button>
     </div>

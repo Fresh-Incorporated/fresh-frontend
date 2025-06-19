@@ -123,7 +123,7 @@ const isDev = import.meta.dev;
                       <div class="w-full font-medium">
                         <p :class="route.path.startsWith('/cabinet') ? 'text-primary-dark' : ''"
                            class="text-center py-2 hover:bg-white/[0.05] duration-500 rounded-t-lg flex justify-end items-center gap-1 px-2">
-                          <i class="pi pi-home"></i> <span class="flex-1">Кабинет</span></p>
+                          <Icon name="lucide:home" size="18"/> <span class="flex-1">Кабинет</span></p>
                       </div>
                     </NuxtLink>
                     <ShAlertDialog>
@@ -131,7 +131,7 @@ const isDev = import.meta.dev;
                         <div ref="exitMenuButton" class="w-full font-medium cursor-pointer">
                           <p :class="'text-red-500'"
                              class="text-center py-2 hover:bg-white/[0.05] duration-500 rounded-b-lg flex justify-end items-center gap-1 px-2">
-                            <i class="pi pi-sign-out"></i> <span class="flex-1">Выйти</span></p>
+                            <Icon name="lucide:log-out" size="18"/> <span class="flex-1">Выйти</span></p>
                         </div>
                       </ShAlertDialogTrigger>
                       <ShAlertDialogContent>

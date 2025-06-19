@@ -47,7 +47,7 @@ const decline = async () => {
 <template>
   <div class="w-full p-4">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 gap-2">
-      <ShCard v-for="product in products" class="flex flex-col !p-2 gap-0">
+      <ShCard :key="product.id" v-for="product in products" class="flex flex-col !p-2 gap-0">
         <img :src="product.icon" class="w-full aspect-square" alt="">
         <p class="font-semibold">{{product.name}}</p>
         <p class="break-all">{{product.description}}</p>
