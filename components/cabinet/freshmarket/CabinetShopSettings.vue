@@ -124,7 +124,7 @@ function copyShopLink() {
       </ShCard>
       <ShCard class="flex flex-сol items-between justify-between p-4 gap-2 rounded-sm col-span-2">
         <ShButton :disabled="!inEdit" @click="editShop">
-          Сохранить
+          <Icon name="lucide:save" /> Сохранить
         </ShButton>
       </ShCard>
     </ShCardContent>

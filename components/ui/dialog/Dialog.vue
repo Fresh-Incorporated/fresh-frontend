@@ -1,4 +1,5 @@
-<script setup lang="ts"> import {
+<script setup lang="ts">
+ import {
   DialogRoot,
   type DialogRootEmits,
   type DialogRootProps,
@@ -7,7 +8,8 @@
 
 const props = defineProps<DialogRootProps>()
 const emits = defineEmits<DialogRootEmits>()
-const forwarded = useForwardPropsEmits(props, emits) </script>
+const forwarded = useForwardPropsEmits(props, emits)
+</script>
 <template>
   <DialogRoot data-slot="dialog" v-bind="forwarded">
     <slot/>
