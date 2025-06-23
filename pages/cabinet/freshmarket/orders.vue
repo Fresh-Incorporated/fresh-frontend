@@ -32,7 +32,7 @@ onMounted(updateOrders)
     <ShCardTitle>
       История заказов
     </ShCardTitle>
-    <div v-if="orders?.orders.filter(o => o.status < 5)?.length == 0" class="text-center">
+    <div v-if="orders?.orders.filter(o => o.status == 5)?.length == 0" class="text-center">
       <p class="text-card-foreground text-sm">Похоже, тут ничего нет :(</p>
     </div>
     <div class="space-y-2">
