@@ -5,6 +5,7 @@ import * as z from 'zod'
 import IconUpload from "~/components/global/upload/IconUpload.vue";
 import {http} from "~/composables/useHttp";
 import PreviewMinecraftShulker from "~/components/freshmarket/PreviewMinecraftShulker.vue";
+import FreshmarketTagsSelect from "~/components/freshmarket/FreshmarketTagsSelect.vue";
 
 const props = defineProps({
   shopId: Number,
@@ -19,6 +20,7 @@ const formSchema = toTypedSchema(z.object({
   stackCount: z.number().min(1).max(64).optional(),
   slotsCount: z.number().min(1).max(64).optional(),
   price: z.number().min(0.01).max(1728),
+  tags: z.array(z.any()).min(0).max(3).optional(),
 }))
 
 const { isFieldDirty, handleSubmit } = useForm({
@@ -34,6 +36,7 @@ const onSubmit = handleSubmit(async (values) => {
   formData.append('slots_count', slotsCount.value?.[0]);
   formData.append('price', price.value);
   formData.append('minecraft_icon', minecraftIcon.value);
+  formData.append('tags', tags.value.map(tag => tag.id).join("_"));
 
   try {
     const response = await http.post(`/freshmarket/shop/${props.shopId}/product/create`, formData, {
@@ -43,7 +46,8 @@ const onSubmit = handleSubmit(async (values) => {
         stack_count: stackCount.value?.[0],
         slots_count: slotsCount.value?.[0],
         price: price.value,
-        minecraft_icon: minecraftIcon.value
+        minecraft_icon: minecraftIcon.value,
+        tags: tags.value.map(tag => tag.id).join("_")
       },
       headers: {
         'Content-Type': 'multipart/form-data',
@@ -67,6 +71,7 @@ const minecraftIcon = ref(null)
 const stackCount = ref([1])
 const slotsCount = ref([1])
 const price = ref(1)
+const tags = ref([])
 const opened = ref(false)
 
 const isInternalChange = ref(false);
@@ -200,6 +205,13 @@ watch(image, (newValue) => {
                 <ShNumberFieldIncrement />
               </ShNumberFieldContent>
             </ShNumberField>
+            <ShFormMessage class="text-destructive" />
+          </ShFormItem>
+        </ShFormField>
+        <ShFormField v-slot="{ componentField }" name="tags" :validate-on-blur="!isFieldDirty">
+          <ShFormItem>
+            <ShFormLabel>Теги</ShFormLabel>
+            <FreshmarketTagsSelect v-model="tags" :component-field="componentField" />
             <ShFormMessage class="text-destructive" />
           </ShFormItem>
         </ShFormField>
