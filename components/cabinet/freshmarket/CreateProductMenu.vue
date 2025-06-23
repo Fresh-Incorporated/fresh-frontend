@@ -18,7 +18,7 @@ const formSchema = toTypedSchema(z.object({
   image: z.any().nullable(),
   stackCount: z.number().min(1).max(64).optional(),
   slotsCount: z.number().min(1).max(64).optional(),
-  price: z.number().min(1).max(1728),
+  price: z.number().min(0.01).max(1728),
 }))
 
 const { isFieldDirty, handleSubmit } = useForm({
@@ -105,14 +105,14 @@ watch(image, (newValue) => {
         <slot />
       </span>
     </ShSheetTrigger>
-    <ShSheetContent>
+    <ShSheetContent class="flex flex-col h-screen">
       <ShSheetHeader>
         <ShSheetTitle>Создание товара</ShSheetTitle>
         <ShSheetDescription>
           Заполните поля ниже и нажмите СОЗДАТЬ
         </ShSheetDescription>
       </ShSheetHeader>
-      <form :validation-schema="formSchema" @submit="onSubmit" class="px-4 space-y-4">
+      <form :validation-schema="formSchema" @submit="onSubmit" class="px-4 space-y-4 flex-1">
         <ShFormField v-slot="{ componentField }" name="name" :validate-on-blur="!isFieldDirty">
           <ShFormItem>
             <ShFormLabel>Название товара<span class="text-destructive">*</span></ShFormLabel>
@@ -186,8 +186,9 @@ watch(image, (newValue) => {
             <ShFormLabel>Цена за 1 ед. товара<span class="text-destructive">*</span></ShFormLabel>
             <ShNumberField
                 class="gap-2"
-                :min="1"
+                :min="componentField.min"
                 :max="1728"
+                :step="0.01"
                 v-model="price"
                 @update:model-value="componentField['onUpdate:modelValue']"
             >
