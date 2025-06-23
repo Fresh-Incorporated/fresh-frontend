@@ -11,6 +11,7 @@ const props = defineProps({
   slots_count: Number,
   stack_count: Number,
   shop_tag: String,
+  tags: Array,
 })
 
 const {putInCart, cart} = useUser()
@@ -33,6 +34,11 @@ const {putInCart, cart} = useUser()
           <p>Кол-во предметов в 1 ед. товара</p>
         </ShTooltipContent>
       </ShTooltip>
+    </div>
+    <div v-if="tags && tags?.length > 0" class="absolute top-1 right-1 flex gap-1">
+      <ShBadge variant="secondary" v-for="tag in tags">
+        {{tag.name}}
+      </ShBadge>
     </div>
     <div class="w-48 h-48 flex justify-center p-2">
       <img class="aspect-square" :src="props.icon" alt="">
