@@ -117,8 +117,9 @@ const cancel = async () => {
           </ShLabel>
           <ShNumberField
               class="gap-2 col-span-3"
-              :min="1"
+              :min="0.01"
               :max="1728"
+              :step="0.01"
               v-model="newPrice"
           >
             <ShNumberFieldContent>
