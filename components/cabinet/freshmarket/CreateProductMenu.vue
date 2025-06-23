@@ -126,7 +126,7 @@ watch(image, (newValue) => {
           <ShFormItem>
             <ShFormLabel>Описание товара</ShFormLabel>
             <ShFormControl>
-              <ShTextarea v-model="description" :maxlength="240" type="text" v-bind="componentField" placeholder="Расскажите о своём магазине" />
+              <ShTextarea v-model="description" :maxlength="240" type="text" v-bind="componentField" placeholder="Расскажите о своём товаре" />
             </ShFormControl>
             <ShFormMessage class="text-destructive" />
           </ShFormItem>
