@@ -41,7 +41,7 @@ const {putInCart, cart} = useUser()
       <div class="mb-1">
         <h3 class="text-lg font-medium">{{ props.name }}</h3>
         <ShTooltip>
-          <ShTooltipTrigger class="opacity-75 text-sm line-clamp-2 break-all w-full text-left !cursor-default">
+          <ShTooltipTrigger class="opacity-75 text-sm line-clamp-2 break-all w-full text-left !cursor-default" as="p">
             {{ props.description }}
           </ShTooltipTrigger>
           <ShTooltipContent>
