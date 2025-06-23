@@ -49,6 +49,7 @@ watch(products, async (newValue) => {
           :slots_count="product.slots_count"
           :refill_cell_letter="product.refillCell?.letter"
           :refill_cell_number="product.refillCell?.number"
+          :tags="product.tags"
           @updateProducts="emit('updateProducts')"
       />
     </ShCardContent>

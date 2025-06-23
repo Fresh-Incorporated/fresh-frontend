@@ -2,6 +2,7 @@
 import IconUpload from "~/components/global/upload/IconUpload.vue";
 import {http} from "~/composables/useHttp";
 import PreviewMinecraftShulker from "~/components/freshmarket/PreviewMinecraftShulker.vue";
+import FreshmarketTagsSelect from "~/components/freshmarket/FreshmarketTagsSelect.vue";
 
 const emit = defineEmits(['updateProducts'])
 
@@ -14,12 +15,14 @@ const props = defineProps({
   price: Number,
   stack_count: Number,
   slots_count: Number,
+  tags: Array,
 })
 
 const newIcon = ref()
 const newName = ref(props.name)
 const newDescription = ref(props.description)
 const newPrice = ref(props.price)
+const newTags = ref(props.tags)
 const loading = ref(false)
 const opened = defineModel()
 
@@ -31,10 +34,17 @@ watch(props, () => {
   loading.value = false;
 })
 
+const sortById = arr => [...arr].sort((a, b) => a.id - b.id);
+
 const inEdit = computed(() => {
   if (newName.value != props.name) return true
   if (newDescription.value != props.description) return true
   if (newPrice.value != props.price) return true
+
+  if (
+      JSON.stringify(sortById(newTags.value.map(tag => tag.id))) !==
+      JSON.stringify(sortById(props.tags.map(tag => tag.id)))
+  ) return true;
   if (newIcon.value) return true
 
   return false;
@@ -48,12 +58,14 @@ const editProduct = async () => {
   formData.append('name', newName.value);
   formData.append('description', newDescription.value);
   formData.append('price', newPrice.value);
+  formData.append('tags', newTags.value.map(tag => tag.id).join("_"));
 
   try {
     const response = await http.post("/freshmarket/shop/" + props.shopId + "/product/" + props.id + "/edit", formData, {
       params: {
         name: newName.value == props.name ? null : newName.value,
         description: newDescription.value == props.description ? null : newDescription.value,
+        tags: newTags.value ? newTags.value.map(tag => tag.id).join("_") : [],
         price: newPrice.value,
       },
       headers: {
@@ -156,6 +168,12 @@ const cancel = async () => {
               disabled
               :default-value="[props.slots_count]"
           />
+        </div>
+        <div class="flex flex-col justify-center gap-2">
+          <ShLabel class="text-right">
+            Теги
+          </ShLabel>
+          <FreshmarketTagsSelect not-form v-model="newTags" :tags="tags"/>
         </div>
       </div>
       <ShDialogFooter>
