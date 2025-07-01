@@ -16,6 +16,8 @@ const sort = ref("relevance")
 const tags = ref([])
 const selectedTags = ref([])
 
+const { isMobile } = useDevice()
+
 const { getTags } = useUser()
 
 let throttleTimeout: ReturnType<typeof setTimeout> | null = null;
@@ -106,8 +108,8 @@ watch(sort, changedFilters)
     <div class="mx-auto z-20 sticky top-[56px] w-full flex justify-center">
       <div class="w-full md:w-11/12">
         <div class="bg-neutral-50/[.9] dark:bg-neutral-900/[.9] backdrop-blur-sm rounded-b-lg shadow-sm dark:shadow-lg p-2 flex flex-col gap-2 border border-t-0 border-neutral-100 dark:border-neutral-800">
-          <ShInput placeholder="Поиск по названию" v-model="search" @input="searchInput" @change="changedFilters" />
-          <div class="flex gap-4 flex-wrap">
+          <ShInput class="h-8" placeholder="Поиск" v-model="search" @input="searchInput" @change="changedFilters" />
+          <div class="flex gap-2 md:gap-4 flex-wrap">
             <div class="space-y-1 hidden xl:flex flex-col">
               <ShLabel>Сортировка</ShLabel>
               <div class="flex gap-2">
@@ -118,7 +120,7 @@ watch(sort, changedFilters)
             </div>
             <ShSelect v-model="sort">
               <ShSelectTrigger class="space-y-1 xl:hidden w-full">
-                <ShLabel>Сортировка</ShLabel>
+                <ShLabel v-if="!isMobile">Сортировка</ShLabel>
                 <ShButton size="sm" variant="outline" class="w-full"><ShSelectValue placeholder="Сортировка" /></ShButton>
               </ShSelectTrigger>
               <ShSelectContent>
@@ -156,7 +158,7 @@ watch(sort, changedFilters)
             </div>
             <ShSelect @update:modelValue="changedFilters" v-model="selectedTags" multiple>
               <ShSelectTrigger class="space-y-1 xl:hidden w-full">
-                <ShLabel>Теги</ShLabel>
+                <ShLabel v-if="!isMobile">Теги</ShLabel>
                 <ShButton size="sm" variant="outline" class="text-wrap min-h-8 h-auto w-full"><ShSelectValue placeholder="Выбрать теги" class="text-wrap" /></ShButton>
               </ShSelectTrigger>
               <ShSelectContent>

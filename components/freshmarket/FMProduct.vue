@@ -42,7 +42,7 @@ const adult = ref(false)
         {{tag.name}}
       </ShBadge>
     </div>
-    <div v-if="!tags.find(tag => tag.name == '18+' || tag.id == 1) || adult" class="w-48 h-48 flex justify-center p-2 overflow-hidden">
+    <div v-if="!tags?.find(tag => tag.name == '18+' || tag.id == 1) || adult" class="w-48 h-48 flex justify-center p-2 overflow-hidden">
       <img class="aspect-square" :src="props.icon" alt="">
     </div>
     <ShButton @click="adult = true" confirmation confirmation-title="Вам есть 18 лет?" confirmation-description="Нажимая <strong>ПОДТВЕРДИТЬ</strong>, вы подтверждаете, что вам исполнилось 18 лет. После этого все изображения на странице с пометкой 18+ будут отображены без размытия." variant="secondary" v-else class="w-48 h-48 flex justify-center p-2 overflow-hidden p-0 !bg-transparent">
