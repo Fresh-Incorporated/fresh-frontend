@@ -15,6 +15,8 @@ const props = defineProps({
 })
 
 const {putInCart, cart} = useUser()
+
+const adult = ref(false)
 </script>
 
 <template>
@@ -40,9 +42,20 @@ const {putInCart, cart} = useUser()
         {{tag.name}}
       </ShBadge>
     </div>
-    <div class="w-48 h-48 flex justify-center p-2">
+    <div v-if="!tags.find(tag => tag.name == '18+' || tag.id == 1) || adult" class="w-48 h-48 flex justify-center p-2 overflow-hidden">
       <img class="aspect-square" :src="props.icon" alt="">
     </div>
+    <ShButton @click="adult = true" confirmation confirmation-title="Вам есть 18 лет?" confirmation-description="Нажимая <strong>ПОДТВЕРДИТЬ</strong> вы подтверждаете совершеннолетие. После нажатия <strong>ПОДТВЕРДИТЬ</strong> будет отображено изображение без размытия." variant="secondary" v-else class="w-48 h-48 flex justify-center p-2 overflow-hidden p-0 !bg-transparent">
+      <div class="absolute text-orange-500">
+        <Icon name="lucide:shield-alert" size="64" />
+        <p>Возрастное ограничение</p>
+      </div>
+      <div class="absolute blur-xs text-orange-500">
+        <Icon name="lucide:shield-alert" size="64" />
+        <p>Возрастное ограничение</p>
+      </div>
+      <img class="aspect-square blur-md opacity-50" :src="props.icon" alt="">
+    </ShButton>
     <div class="flex-1 flex flex-col h-full w-full px-4 py-2">
       <div class="mb-1">
         <h3 class="text-lg font-medium">{{ props.name }}</h3>
