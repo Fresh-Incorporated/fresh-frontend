@@ -71,8 +71,7 @@ const confirm = (e: MouseEvent) => {
     <AlertDialogContent>
       <AlertDialogHeader>
         <AlertDialogTitle>{{ confirmationTitle }}</AlertDialogTitle>
-        <AlertDialogDescription>
-          {{ confirmationDescription }}
+        <AlertDialogDescription v-html="confirmationDescription">
         </AlertDialogDescription>
       </AlertDialogHeader>
       <AlertDialogFooter>
