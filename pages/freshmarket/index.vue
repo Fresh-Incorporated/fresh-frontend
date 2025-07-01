@@ -97,7 +97,7 @@ watch(sort, changedFilters)
   <div>
     <ProjectHead></ProjectHead>
     <FMCartButton />
-    <div class="mx-auto z-20 fixed top-[56px] w-full flex justify-center">
+    <div class="mx-auto z-20 sticky top-[56px] w-full flex justify-center">
       <div class="md:w-11/12">
         <div class="bg-neutral-50/[.9] dark:bg-neutral-900/[.9] backdrop-blur-sm rounded-b-lg shadow-sm dark:shadow-lg p-2 flex gap-2 border border-t-0 border-neutral-100 dark:border-neutral-800">
           <ShInput placeholder="Поиск по названию" v-model="search" @input="searchInput" @change="changedFilters" />
