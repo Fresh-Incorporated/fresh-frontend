@@ -61,6 +61,8 @@ const opened = ref(false)
         <ShSheetTitle>Создание магазина</ShSheetTitle>
         <ShSheetDescription>
           Заполните поля ниже и нажмите СОЗДАТЬ
+          <br>
+          Мы берём комиссию 10% с каждой продажи!
         </ShSheetDescription>
       </ShSheetHeader>
       <form :validation-schema="formSchema" @submit="onSubmit" class="px-4 space-y-4 flex-1">
