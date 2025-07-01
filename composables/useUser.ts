@@ -11,6 +11,7 @@ const tags = ref([]);
 const orders = ref({orders: [], products: []});
 const balanceHistory = ref<Payment[]>([]);
 const userLoading = ref<boolean>(true);
+const adult = ref<boolean>(false);
 
 export const useUser = () => {
 
@@ -101,6 +102,7 @@ export const useUser = () => {
         balanceHistory,
         monthBalance,
         updateMonthBalance,
-        getTags
+        getTags,
+        adult
     };
 };

@@ -14,9 +14,7 @@ const props = defineProps({
   tags: Array,
 })
 
-const {putInCart, cart} = useUser()
-
-const adult = ref(false)
+const {putInCart, cart, adult} = useUser()
 </script>
 
 <template>
