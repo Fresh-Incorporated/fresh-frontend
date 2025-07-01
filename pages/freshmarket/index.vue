@@ -16,7 +16,7 @@ const sort = ref("relevance")
 const tags = ref([])
 const selectedTags = ref([])
 
-const { isMobile } = useDevice()
+const { isMobile, isMobileOrTablet } = useDevice()
 
 const { getTags } = useUser()
 
@@ -118,9 +118,9 @@ watch(sort, changedFilters)
                 <ShButton size="sm" :variant="sort == 'cheap' ? 'default' : 'outline'" @click="sort = 'cheap'">Сначала дешевые</ShButton>
               </div>
             </div>
-            <ShSelect v-model="sort">
+            <ShSelect v-if="isMobileOrTablet" v-model="sort">
               <ShSelectTrigger class="space-y-1 xl:hidden w-full">
-                <ShLabel v-if="!isMobile">Сортировка</ShLabel>
+                <ShLabel>Сортировка</ShLabel>
                 <ShButton size="sm" variant="outline" class="w-full"><ShSelectValue placeholder="Сортировка" /></ShButton>
               </ShSelectTrigger>
               <ShSelectContent>
@@ -140,7 +140,8 @@ watch(sort, changedFilters)
             </ShSelect>
             <div class="hidden xl:block space-y-1">
               <ShLabel>Теги</ShLabel>
-              <div class="flex flex-wrap gap-4 h-8 flex">
+              <ShSkeleton v-if="tags?.length == 0" class="w-full min-w-96 h-8" />
+              <div v-else class="flex flex-wrap gap-4 h-8 flex">
                 <div class="flex items-center space-x-2" v-for="tag in tags">
                   <ShCheckbox @update:modelValue="(e) => {
                     if (!e) selectedTags = selectedTags.filter(t => t.id != tag.id)
@@ -156,9 +157,9 @@ watch(sort, changedFilters)
                 </div>
               </div>
             </div>
-            <ShSelect @update:modelValue="changedFilters" v-model="selectedTags" multiple>
+            <ShSelect v-if="isMobileOrTablet" @update:modelValue="changedFilters" v-model="selectedTags" multiple>
               <ShSelectTrigger class="space-y-1 xl:hidden w-full">
-                <ShLabel v-if="!isMobile">Теги</ShLabel>
+                <ShLabel>Теги</ShLabel>
                 <ShButton size="sm" variant="outline" class="text-wrap min-h-8 h-auto w-full"><ShSelectValue placeholder="Выбрать теги" class="text-wrap" /></ShButton>
               </ShSelectTrigger>
               <ShSelectContent>

@@ -104,21 +104,21 @@ onBeforeUnmount(() => {
             <div class="min-w-24 max-w-24 min-h-24 max-h-24">
               <img :src="product.icon" class="w-full h-full rounded-lg" alt="">
             </div>
-            <div class="w-full h-full flex flex-col">
-              <p class="text-lg font-onest">{{ product.name }}</p>
+            <div class="w-[calc(100%-192px)] h-full flex flex-col">
+              <p class="text-lg font-onest overflow-hidden text-ellipsis">{{ product.name }}</p>
               <p class="text-xs line-clamp-6 break-all text-neutral-400">
                 {{ product.description }}</p>
             </div>
-            <div class="h-full min-w-24">
+            <div class="h-full w-20">
               <div class="flex w-full">
                 <button @click="putInCart(product, -1)"
-                        class="w-6 h-6 rounded-lg flex justify-center items-center text-xs bg-neutral-200 dark:bg-neutral-800">
+                        class="w-6 h-6 aspect-square rounded-lg flex justify-center items-center text-xs bg-neutral-200 dark:bg-neutral-800">
                   <Icon :name="product.picked > 1 ? 'lucide:minus' : 'lucide:trash-2'" size="16"/></button>
                 <div class="h-full w-12 flex justify-center items-center text-center">
                   {{ product?.picked }}
                 </div>
                 <button @click="putInCart(product, 1)"
-                        class="w-6 h-6 rounded-lg flex justify-center items-center text-xs bg-neutral-200 dark:bg-neutral-800">
+                        class="w-6 h-6 aspect-square rounded-lg flex justify-center items-center text-xs bg-neutral-200 dark:bg-neutral-800">
                   <Icon name="lucide:plus" size="16" /></button>
               </div>
               <div class="font-montserrat absolute bottom-8 right-4 text-right">
