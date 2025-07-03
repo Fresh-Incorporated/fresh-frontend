@@ -20,7 +20,7 @@ const props = defineProps({
 
 // Настройки для канваса
 const canvasRef = ref<HTMLCanvasElement | null>(null);
-const scale = ref(2); // Масштаб камеры
+const scale = ref(1); // Масштаб камеры
 const offsetX = ref(0); // Сдвиг камеры по X
 const offsetY = ref(0); // Сдвиг камеры по Y
 const isSelected = ref(false)
@@ -40,6 +40,9 @@ const draw = () => {
   const canvas = canvasRef.value;
   const ctx = canvas.getContext("2d");
   if (!ctx) return;
+
+  const canvasWidth = window.innerWidth;
+  const canvasHeight = window.innerHeight;
 
   // Очистка канваса
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -110,8 +113,8 @@ const draw = () => {
 
     let lineColor = colors[getNearestBranch(coords.x,coords.z).color];
 
-    const branchX = centerX + coords.x;
-    const branchY = centerY + coords.z;
+    const branchX = centerX + (coords.x / (coords.world == 'overworld' ? 8 : 1));
+    const branchY = centerY + (coords.z / (coords.world == 'overworld' ? 8 : 1));
 
     if (selectedWorld.value == 'nether') {
       const distToX = Math.abs(coords.z);
@@ -138,7 +141,21 @@ const draw = () => {
 
     ctx.beginPath();
     ctx.fillStyle = lineColor;
-    ctx.arc(branchX, branchY, pointSize, 0, Math.PI * 2);
+
+    const offsettedBranchX = branchX > canvasWidth ? canvasWidth - 16 : (
+        branchX < 0 ? 0 : branchX
+    )
+
+    const offsettedBranchY = branchY > canvasHeight ? canvasHeight : (
+        branchY < 0 ? 0 : branchY
+    )
+
+    const offsetted = branchX != offsettedBranchX || branchY != offsettedBranchY
+
+    const distance = Math.hypot(branchX - offsettedBranchX, branchY - offsettedBranchY);
+
+    ctx.arc(offsettedBranchX, offsettedBranchY, pointSize * (offsetted ? distance / 500 + 1 : 1), 0, Math.PI * 2);
+
     if (selectedWorld.value != 'nether') {
       ctx.arc(branchX, branchY, pointSize / 2, 0, Math.PI * 2, true);
     }
@@ -207,8 +224,8 @@ const onMouseDown = (event: MouseEvent) => {
     let coords = original ? JSON.parse(JSON.stringify(original)) : null; // КОПИРУЮ ОБЪЕКТ ЧТОБЫ НЕ ПЕРЕЗАПИСЫВАЛ props
     if (!coords) continue;
 
-    const branchX = coords.x;
-    const branchY = coords.z;
+    const branchX = coords.x / (coords.world == 'overworld' ? 8 : 1);
+    const branchY = coords.z / (coords.world == 'overworld' ? 8 : 1);
 
     if (Math.abs(mouseX - branchX) < pointSize && Math.abs(mouseY - branchY) < pointSize) {
       branch.value = _branch
@@ -232,8 +249,8 @@ const onMouseMove = (event: MouseEvent) => {
     let coords = original ? JSON.parse(JSON.stringify(original)) : null; // КОПИРУЮ ОБЪЕКТ ЧТОБЫ НЕ ПЕРЕЗАПИСЫВАЛ props
     if (!coords) continue;
 
-    const branchX = coords.x;
-    const branchY = coords.z;
+    const branchX = coords.x / (coords.world == 'overworld' ? 8 : 1);
+    const branchY = coords.z / (coords.world == 'overworld' ? 8 : 1);
 
     if (Math.abs(mouseX - branchX) < pointSize && Math.abs(mouseY - branchY) < pointSize) {
       canvas.style.cursor = "pointer"
@@ -293,8 +310,8 @@ const onTouchStart = (event: TouchEvent) => {
     let coords = original ? JSON.parse(JSON.stringify(original)) : null; // КОПИРУЮ ОБЪЕКТ ЧТОБЫ НЕ ПЕРЕЗАПИСЫВАЛ props
     if (!coords) continue;
 
-    const branchX = coords.x;
-    const branchY = coords.z;
+    const branchX = coords.x / (coords.world == 'overworld' ? 8 : 1);
+    const branchY = coords.z / (coords.world == 'overworld' ? 8 : 1);
 
     if (Math.abs(mouseX - branchX) < pointSize && Math.abs(mouseY - branchY) < pointSize) {
       branch.value = _branch;

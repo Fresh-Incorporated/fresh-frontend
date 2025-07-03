@@ -23,6 +23,7 @@ const model = defineModel()
                :shop_icon="product.shop.icon"
                :shop_name="product.shop.name"
                :shop_tag="product.shop.tag"
+               :tags="product.tags"
     />
   </div>
   <transition>

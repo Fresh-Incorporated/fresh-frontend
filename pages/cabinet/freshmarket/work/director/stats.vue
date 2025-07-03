@@ -14,6 +14,7 @@ const usedCells = ref(0)
 const shopCells = ref(0)
 const totalCommissionBalance = ref(0)
 const totalSpentOnShops = ref(0)
+const totalSpentOnShopAdditionalSlots = ref(0)
 
 onMounted(async () => {
   let response = await http.get("/freshmarket/work/director/stats");
@@ -24,6 +25,7 @@ onMounted(async () => {
   response = await http.get("/freshmarket/work/director/balance");
   totalCommissionBalance.value = response.data.totalCommissionBalance;
   totalSpentOnShops.value = response.data.totalSpentOnShops;
+  totalSpentOnShopAdditionalSlots.value = response.data.totalSpentOnShopAdditionalSlots;
 })
 </script>
 
@@ -33,7 +35,7 @@ onMounted(async () => {
       <FMStatsCard title="Всего заказов" :value="totalOrders" />
       <FMStatsCard title="Всего АР с комки" :value="totalCommissionBalance" />
       <FMStatsCard title="Затрачено на создание магазинов" :value="totalSpentOnShops" />
-      <FMStatsCard />
+      <FMStatsCard title="Затрачено на доп. слоты магазинов" :value="totalSpentOnShopAdditionalSlots" />
       <FMStatsCard title="Всего ячеек склада" :value="totalCells" />
       <FMStatsCard title="Занято ячеек склада" :value="usedCells" />
       <FMStatsCard title="Может быть занято ячеек склада" :value="shopCells" />

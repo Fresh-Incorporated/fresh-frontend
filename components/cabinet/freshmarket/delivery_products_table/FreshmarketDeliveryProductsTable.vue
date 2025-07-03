@@ -23,7 +23,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="col-span-1 xl:col-span-2 2xl:col-span-4 relative">
+  <div>
     <DataTable :columns="columns" v-model:data="compiledData" v-if="compiledData?.length > 0" />
   </div>
 </template>

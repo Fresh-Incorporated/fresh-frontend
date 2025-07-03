@@ -20,6 +20,7 @@ const props = defineProps({
   verify_status: Number,
   refill_cell_letter: String | undefined,
   refill_cell_number: Number | undefined,
+  tags: Array
 })
 
 type NotificationType = 'info' | 'warning' | 'danger'
@@ -114,7 +115,7 @@ const editOpened = ref(false)
 </script>
 
 <template>
-  <ShCard class="!p-4 gap-2">
+  <ShCard :key="id" class="!p-4 gap-2">
     <div class="flex">
       <div class="">
         <p class="text-base font-medium">{{ name }}</p>
@@ -159,6 +160,7 @@ const editOpened = ref(false)
             :price="price"
             :stack_count="stack_count"
             :slots_count="slots_count"
+            :tags="tags"
             @update-products="edit"
         >
           <ShButton variant="ghost" class="w-6 h-6 p-0 flex justify-center items-center">

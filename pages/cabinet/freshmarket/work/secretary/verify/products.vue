@@ -56,6 +56,7 @@ const decline = async () => {
         <p>Цена: {{product.price}} АР</p>
         <p>Ячейка: {{product.cell?.letter}}-{{product.cell?.number}}</p>
         <p>Склад: {{product.cell?.location?.name}}</p>
+        <p>Теги: {{product.tags?.length == 0 ? "Отсутствуют" : product.tags.map(tag => tag.name).join(", ")}}</p>
         <div class="flex flex-col gap-2">
           <FreshmarketProductHistory :history="product?.history">
             <ShButton class="w-full" variant="outline" size="sm" @click="selectedId = product.id; showProductHistory = true">Показать историю товара [{{product.history.length}}шт]</ShButton>

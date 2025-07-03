@@ -2,7 +2,7 @@
 import ThemeButton from "~/components/global/ThemeButton.vue";
 
 const route = useRoute()
-const {user, userLoading, logout, orders} = useUser();
+const {user, userLoading, orders} = useUser();
 
 const links = computed(() => {
   return [
@@ -18,23 +18,6 @@ const links = computed(() => {
 })
 
 const mobileNav = ref(false)
-const userMenu = ref(false)
-const userMenuButton = ref(null);
-const exitMenuButton = ref(null);
-
-const handleClickOutside = (event) => {
-  if (userMenuButton.value && !userMenuButton.value.contains(event.target) && exitMenuButton.value && !exitMenuButton.value.contains(event.target)) {
-    userMenu.value = false;
-  }
-};
-
-onMounted(() => {
-  document.addEventListener('click', handleClickOutside);
-});
-
-onBeforeUnmount(() => {
-  document.removeEventListener('click', handleClickOutside);
-});
 
 const isDev = import.meta.dev;
 </script>
@@ -90,7 +73,7 @@ const isDev = import.meta.dev;
           <ThemeButton />
           <div v-if="user && !userLoading"
                class="h-full flex flex-col items-center justify-center border rounded-lg border-neutral-200 dark:border-neutral-800 bg-neutral-100/[0.5] dark:bg-neutral-900/[0.5] hover:bg-neutral-300/[0.25] dark:hover:bg-neutral-950/[0.25] duration-500 select-none">
-            <div ref="userMenuButton" @click="userMenu = !userMenu"
+            <NuxtLink to="/cabinet"
                  class="flex items-center gap-2 py-1 px-1 cursor-pointer">
               <div class="h-full max-w-24 sm:max-w-52 md:max-w-24 lg:max-w-48 lg:min-w-24">
                 <p class="text-sm truncate font-medium text-right">{{ user.nickname }}</p>
@@ -110,52 +93,7 @@ const isDev = import.meta.dev;
                 <img class="w-10 rounded-md pointer-events-none"
                      :src="useXIS().getFullFace(user.uuid)" alt="">
               </div>
-            </div>
-            <div class="relative w-full">
-              <div class="absolute w-full transform translate-y-2 z-50 overflow-hidden">
-                <transition name="usermenu">
-                  <div v-if="userMenu"
-                       class="w-full bg-neutral-100 dark:bg-neutral-900 rounded-lg border border-neutral-200 dark:border-neutral-800 shadow-lg overflow-hidden">
-                    <div class="relative">
-                      <div class="absolute w-4 h-4 bg-white rounded-full blur-xl"></div>
-                    </div>
-                    <NuxtLink to="/cabinet">
-                      <div class="w-full font-medium">
-                        <p :class="route.path.startsWith('/cabinet') ? 'text-primary-dark' : ''"
-                           class="text-center py-2 hover:bg-white/[0.05] duration-500 rounded-t-lg flex justify-end items-center gap-1 px-2">
-                          <Icon name="lucide:home" size="18"/> <span class="flex-1">Кабинет</span></p>
-                      </div>
-                    </NuxtLink>
-                    <ShAlertDialog>
-                      <ShAlertDialogTrigger class="w-full">
-                        <div ref="exitMenuButton" class="w-full font-medium cursor-pointer">
-                          <p :class="'text-red-500'"
-                             class="text-center py-2 hover:bg-white/[0.05] duration-500 rounded-b-lg flex justify-end items-center gap-1 px-2">
-                            <Icon name="lucide:log-out" size="18"/> <span class="flex-1">Выйти</span></p>
-                        </div>
-                      </ShAlertDialogTrigger>
-                      <ShAlertDialogContent>
-                        <ShAlertDialogHeader>
-                          <ShAlertDialogTitle>Вы уверены что хотите выйти?</ShAlertDialogTitle>
-                          <ShAlertDialogDescription>
-                            Для подтверждения нажмите на кнопку ниже
-                          </ShAlertDialogDescription>
-                        </ShAlertDialogHeader>
-                        <ShAlertDialogFooter>
-                          <ShAlertDialogCancel>Отмена</ShAlertDialogCancel>
-                          <ShButton @click="logout" variant="destructive">
-                            Выйти
-                          </ShButton>
-                        </ShAlertDialogFooter>
-                      </ShAlertDialogContent>
-                    </ShAlertDialog>
-                    <div class="relative">
-                      <div class="absolute w-4 h-4 bg-white rounded-full blur-xl right-0"></div>
-                    </div>
-                  </div>
-                </transition>
-              </div>
-            </div>
+            </NuxtLink>
           </div>
           <ShButton variant="outline" as="a"
                     v-if="userLoading || !user"

@@ -93,6 +93,7 @@ onMounted(async () => {
                    :shop_icon="shop.icon"
                    :shop_name="shop.name"
                    :shop_tag="shop.tag"
+                   :tags="product.tags"
         />
       </div>
     </div>

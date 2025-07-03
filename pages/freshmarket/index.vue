@@ -13,6 +13,12 @@ const searchSeed = Date.now()
 const isAllLoaded = ref(false)
 const search = ref("")
 const sort = ref("relevance")
+const tags = ref([])
+const selectedTags = ref([])
+
+const { isMobile, isMobileOrTablet } = useDevice()
+
+const { getTags } = useUser()
 
 let throttleTimeout: ReturnType<typeof setTimeout> | null = null;
 
@@ -36,6 +42,7 @@ const throttledScrollEvent = () => {
 
 onMounted(async () => {
   window.addEventListener('scroll', throttledScrollEvent);
+  tags.value = await getTags()
   await load();
 });
 
@@ -57,6 +64,7 @@ const load = async () => {
         seed: searchSeed,
         search: search.value,
         sort: sort.value,
+        tags: selectedTags.value.map(tag => tag.id).join("_")
       }
     });
 
@@ -97,29 +105,72 @@ watch(sort, changedFilters)
   <div>
     <ProjectHead></ProjectHead>
     <FMCartButton />
-    <div class="mx-auto z-20 fixed top-[56px] w-full flex justify-center">
-      <div class="md:w-11/12">
-        <div class="bg-neutral-50/[.9] dark:bg-neutral-900/[.9] backdrop-blur-sm rounded-b-lg shadow-sm dark:shadow-lg p-2 flex gap-2 border border-t-0 border-neutral-100 dark:border-neutral-800">
-          <ShInput placeholder="Поиск по названию" v-model="search" @input="searchInput" @change="changedFilters" />
-          <ShSelect v-model="sort">
-            <ShSelectTrigger>
-              <ShButton variant="outline"><ShSelectValue placeholder="Сортировка" /></ShButton>
-            </ShSelectTrigger>
-            <ShSelectContent>
-              <ShSelectGroup>
-                <ShSelectLabel>Сортировка по цене</ShSelectLabel>
-                <ShSelectItem value="relevance">
-                  По релевантности
-                </ShSelectItem>
-                <ShSelectItem value="expensive">
-                  Сначала дорогие
-                </ShSelectItem>
-                <ShSelectItem value="cheap">
-                  Сначала дешевые
-                </ShSelectItem>
-              </ShSelectGroup>
-            </ShSelectContent>
-          </ShSelect>
+    <div class="mx-auto z-20 sticky top-[56px] w-full flex justify-center">
+      <div class="w-full md:w-11/12">
+        <div class="bg-neutral-50/[.9] dark:bg-neutral-900/[.9] backdrop-blur-sm rounded-b-lg shadow-sm dark:shadow-lg p-2 flex flex-col gap-2 border border-t-0 border-neutral-100 dark:border-neutral-800">
+          <ShInput class="h-8" placeholder="Поиск" v-model="search" @input="searchInput" @change="changedFilters" />
+          <div class="flex gap-2 md:gap-4 flex-wrap">
+            <div class="space-y-1 hidden xl:flex flex-col">
+              <ShLabel>Сортировка</ShLabel>
+              <div class="flex gap-2">
+                <ShButton size="sm" :variant="sort == 'relevance' ? 'default' : 'outline'" @click="sort = 'relevance'">По релевантности</ShButton>
+                <ShButton size="sm" :variant="sort == 'expensive' ? 'default' : 'outline'" @click="sort = 'expensive'">Сначала дорогие</ShButton>
+                <ShButton size="sm" :variant="sort == 'cheap' ? 'default' : 'outline'" @click="sort = 'cheap'">Сначала дешевые</ShButton>
+              </div>
+            </div>
+            <ShSelect v-if="isMobileOrTablet" v-model="sort">
+              <ShSelectTrigger class="space-y-1 xl:hidden w-full">
+                <ShLabel>Сортировка</ShLabel>
+                <ShButton size="sm" variant="outline" class="w-full"><ShSelectValue placeholder="Сортировка" /></ShButton>
+              </ShSelectTrigger>
+              <ShSelectContent>
+                <ShSelectGroup>
+                  <ShSelectLabel>Сортировка по цене</ShSelectLabel>
+                  <ShSelectItem value="relevance">
+                    По релевантности
+                  </ShSelectItem>
+                  <ShSelectItem value="expensive">
+                    Сначала дорогие
+                  </ShSelectItem>
+                  <ShSelectItem value="cheap">
+                    Сначала дешевые
+                  </ShSelectItem>
+                </ShSelectGroup>
+              </ShSelectContent>
+            </ShSelect>
+            <div class="hidden xl:block space-y-1">
+              <ShLabel>Теги</ShLabel>
+              <ShSkeleton v-if="tags?.length == 0" class="w-full min-w-96 h-8" />
+              <div v-else class="flex flex-wrap gap-4 h-8 flex">
+                <div class="flex items-center space-x-2" v-for="tag in tags">
+                  <ShCheckbox @update:modelValue="(e) => {
+                    if (!e) selectedTags = selectedTags.filter(t => t.id != tag.id)
+                    else selectedTags.push(tag);
+                    changedFilters()
+                  }" :id="'tag-' + tag.id" />
+                  <label
+                      :for="'tag-' + tag.id"
+                      class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
+                    {{tag.name}}
+                  </label>
+                </div>
+              </div>
+            </div>
+            <ShSelect v-if="isMobileOrTablet" @update:modelValue="changedFilters" v-model="selectedTags" multiple>
+              <ShSelectTrigger class="space-y-1 xl:hidden w-full">
+                <ShLabel>Теги</ShLabel>
+                <ShButton size="sm" variant="outline" class="text-wrap min-h-8 h-auto w-full"><ShSelectValue placeholder="Выбрать теги" class="text-wrap" /></ShButton>
+              </ShSelectTrigger>
+              <ShSelectContent>
+                <ShSelectGroup>
+                  <ShSelectItem :value="tag" v-for="tag in tags">
+                    {{ tag.name }}
+                  </ShSelectItem>
+                </ShSelectGroup>
+              </ShSelectContent>
+            </ShSelect>
+          </div>
         </div>
       </div>
     </div>

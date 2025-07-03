@@ -7,9 +7,11 @@ const user = ref(null);
 const monthBalance = ref({});
 const shops = ref<Shop[]>([]);
 const cart = ref([]);
+const tags = ref([]);
 const orders = ref({orders: [], products: []});
 const balanceHistory = ref<Payment[]>([]);
 const userLoading = ref<boolean>(true);
+const adult = ref<boolean>(false);
 
 export const useUser = () => {
 
@@ -75,6 +77,15 @@ export const useUser = () => {
         cart.value = cart.value.filter(_product => _product.picked > 0);
     }
 
+    async function getTags() {
+        if (tags.value.length == 0) {
+            const response = await http.get("/freshmarket/tags")
+            tags.value = response.data
+        }
+
+        return tags.value
+    }
+
     return {
         user,
         userLoading,
@@ -90,6 +101,8 @@ export const useUser = () => {
         moreBalanceHistory,
         balanceHistory,
         monthBalance,
-        updateMonthBalance
+        updateMonthBalance,
+        getTags,
+        adult
     };
 };

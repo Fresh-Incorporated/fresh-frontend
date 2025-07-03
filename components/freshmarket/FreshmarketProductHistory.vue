@@ -17,6 +17,8 @@ const stepTranslation = {
   "description": "Описание",
   "slots_count": "Кол-во слотов для 1 ед",
   "stack_count": "Кол-во предметов в каждом слоте",
+  "tags": "Теги",
+  "count": "Количество",
 }
 
 const steps = ref([
@@ -122,7 +124,7 @@ onMounted(async () => {
               </div>
               <div v-if="step?.data">
                 <div v-for="key in Object.keys(step.data)" :key="key">
-                  <p v-if="stepTranslation?.[key]">{{ stepTranslation[key] }}: {{ step.data[key] }}</p>
+                  <p v-if="stepTranslation?.[key]">{{ stepTranslation[key] }}: {{ Array.isArray(step.data[key]) ? step.data[key]?.join(", ") : step.data[key] }}</p>
                 </div>
               </div>
             </ShStepperDescription>

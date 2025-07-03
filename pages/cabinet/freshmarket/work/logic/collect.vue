@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {http} from "~/composables/useHttp"
+import {formatDateRelative} from "../../../../../utils/convertDate";
 
 definePageMeta({
   layout: 'cabinet'
@@ -46,6 +47,7 @@ const finish = async (id: number) => {
     </ShCard>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
       <ShCard v-for="order in orders.filter((_order) => _order?.currentWorkerId != user?.id)" class="flex flex-col !p-2 gap-1">
+        <p class="absolute right-2 top-2 text-xs">{{ formatDateRelative(order.createdAt) }}</p>
         <p class="font-semibold">ID: #{{ order.id }}</p>
         <p class="text-sm">Товаров: {{order?.products?.reduce((sum, product) => sum + product?.count, 0)}} шт.</p>
         <ShButton :disabled="order.status != 0 || order?.currentWorkerId != null" size="sm" variant="success" class="w-full" @click="accept(order?.id)">Принять</ShButton>
