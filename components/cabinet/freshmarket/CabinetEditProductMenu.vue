@@ -116,7 +116,7 @@ const cancel = async () => {
         <slot />
       </span>
     </ShDialogTrigger>
-    <ShDialogContent class="sm:max-w-[450px]">
+    <ShDialogScrollContent class="w-screen px-2 sm:px-6 sm:max-w-[450px]">
       <ShDialogHeader>
         <ShDialogTitle>Изменение товара {{props.name}}</ShDialogTitle>
         <ShDialogDescription>
@@ -229,6 +229,6 @@ const cancel = async () => {
           Сохранить
         </ShButton>
       </ShDialogFooter>
-    </ShDialogContent>
+    </ShDialogScrollContent>
   </ShDialog>
 </template>
