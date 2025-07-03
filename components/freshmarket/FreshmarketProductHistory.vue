@@ -18,6 +18,7 @@ const stepTranslation = {
   "slots_count": "Кол-во слотов для 1 ед",
   "stack_count": "Кол-во предметов в каждом слоте",
   "tags": "Теги",
+  "count": "Количество",
 }
 
 const steps = ref([

@@ -2,6 +2,7 @@
 import DataTable from "~/components/goodies/DataTable.vue";
 import { http } from "~/composables/useHttp";
 import { formatDateRelative } from "~/utils/convertDate";
+import CabinetEditProductMenu from "~/components/cabinet/freshmarket/CabinetEditProductMenu.vue";
 
 const { user } = useUser()
 
@@ -12,6 +13,7 @@ const cols = [
   { id: "icon", name: "Иконка" },
   { id: "name", name: "Название" },
   { id: "description", name: "Описание" },
+  { id: "tags", name: "Теги" },
   { id: "stack_count", name: "Кол-во в слоте" },
   { id: "slots_count", name: "Кол-во слотов" },
   { id: "price", name: "Цена" },
@@ -71,6 +73,12 @@ const enabledCols = ref(cols.map(col => col.id)) // по умолчанию вс
             <ShTableCell v-if="enabledCols.includes('description')">
               {{ row.description }}
             </ShTableCell>
+            <ShTableCell v-if="enabledCols.includes('tags')">
+              <p v-if="row.tags == null || row.tags?.length == 0">Нет</p>
+              <div v-else>
+                {{row.tags.map(tag => tag.name).join(", ")}}
+              </div>
+            </ShTableCell>
             <ShTableCell v-if="enabledCols.includes('stack_count')">
               {{ row.stack_count }}
             </ShTableCell>
@@ -115,20 +123,23 @@ const enabledCols = ref(cols.map(col => col.id)) // по умолчанию вс
               {{ row.cell?.letter }}-{{ row.cell?.number }}
             </ShTableCell>
             <ShTableCell v-if="enabledCols.includes('actions')">
-              <ShDropdownMenu>
-                <ShDropdownMenuTrigger as-child>
-                  <ShButton variant="ghost" size="icon">
-                    <Icon name="lucide:menu" />
-                  </ShButton>
-                </ShDropdownMenuTrigger>
-                <ShDropdownMenuContent>
-                  <ShDropdownMenuGroup>
-                    <ShDropdownMenuItem>
-                      <span>Действий пока нет...</span>
-                    </ShDropdownMenuItem>
-                  </ShDropdownMenuGroup>
-                </ShDropdownMenuContent>
-              </ShDropdownMenu>
+              <CabinetEditProductMenu
+                  :shop-id="row.shop.id"
+                  :id="row.id"
+                  :name="row.name"
+                  :description="row.description"
+                  :icon="row.icon"
+                  :price="row.price"
+                  :stack_count="row.stack_count"
+                  :slots_count="row.slots_count"
+                  is-secretary
+                  :count="row.count"
+                  :tags="row.tags"
+              >
+                <ShButton variant="ghost" size="icon">
+                  <Icon name="lucide:pen" />
+                </ShButton>
+              </CabinetEditProductMenu>
             </ShTableCell>
           </ShTableRow>
         </template>
