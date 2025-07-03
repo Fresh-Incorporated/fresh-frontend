@@ -59,7 +59,9 @@ const translationDictionary = {
   'director': 'Директор',
   'stats': 'Статистика',
   'orders': 'Заказы',
-  'products': 'Товары'
+  'products': 'Товары',
+  'shops': 'Магазины',
+  'editor': 'Редактор',
 }
 
 

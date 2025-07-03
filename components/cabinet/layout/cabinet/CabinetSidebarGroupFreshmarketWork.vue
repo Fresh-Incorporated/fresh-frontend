@@ -39,7 +39,11 @@ const groups = [
       {
         name: "Проверка товаров",
         to: "/cabinet/freshmarket/work/secretary/verify/products",
-      }
+      },
+      {
+        name: "Товары и магазины",
+        to: "/cabinet/freshmarket/work/secretary/editor",
+      },
     ]
   },
   {
