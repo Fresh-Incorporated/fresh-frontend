@@ -10,6 +10,7 @@ const {user} = useUser()
 const userBalances = ref(0)
 const shopBalances = ref(0)
 const totalSpentOnShops = ref(0)
+const totalSpentOnShopAdditionalSlots = ref(0)
 const totalUsers = ref(0)
 const registrations = ref([])
 const orders = ref([])
@@ -17,6 +18,7 @@ const orders = ref([])
 onMounted(async () => {
   const response = await http.get("/admin/stats")
   totalSpentOnShops.value = response.data.totalSpentOnShops
+  totalSpentOnShopAdditionalSlots.value = response.data.totalSpentOnShopAdditionalSlots
   userBalances.value = response.data.totalBalanceUsers
   shopBalances.value = response.data.totalBalanceShops
   totalUsers.value = response.data.totalUsers
@@ -32,6 +34,7 @@ onMounted(async () => {
     <AdminCard title="Балансы магазинов" :value="shopBalances" />
     <AdminCard title="Минимальный баланс карты" :value="userBalances + shopBalances" />
     <AdminCard title="Затрачено на создание магазинов" :value="totalSpentOnShops" />
+    <AdminCard title="Затрачено на доп. слоты магазинов" :value="totalSpentOnShopAdditionalSlots" />
     <AdminCard title="Регистраций" :value="totalUsers" />
     <AdminOrdersChart v-model="orders" v-if="orders.length > 0" />
     <AdminRegistrationsChart v-model="registrations" v-model:current-registrations="totalUsers" v-if="registrations.length > 0" />
