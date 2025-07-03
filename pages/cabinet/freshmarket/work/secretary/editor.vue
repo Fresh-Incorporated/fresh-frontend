@@ -22,6 +22,7 @@ const searchShop = ref({
 const searchProduct = ref({
   id: null,
   name: null,
+  cell: null,
   limit: 5
 })
 
@@ -78,7 +79,7 @@ const updateProducts = async () => {
     </ShCard>
     <ShCard class="col-span-5 !py-0 gap-0">
       <h2 class="p-2 font-semibold">Товары</h2>
-      <div class="grid grid-cols-4 p-2 gap-2">
+      <div class="grid grid-cols-5 p-2 gap-2">
         <div class="grid w-full items-center gap-1.5 relative">
           <ShButton size="xs" variant="outline" class="absolute right-0 -top-2" @click="searchProduct.id = null" v-if="searchProduct.id != null">Очистить</ShButton>
           <ShLabel>ID</ShLabel>
@@ -88,6 +89,11 @@ const updateProducts = async () => {
           <ShButton size="xs" variant="outline" class="absolute right-0 -top-2" @click="searchProduct.name = null" v-if="searchProduct.name != null">Очистить</ShButton>
           <ShLabel>Название</ShLabel>
           <ShInput v-model="searchProduct.name" />
+        </div>
+        <div class="grid w-full items-center gap-1.5 relative">
+          <ShButton size="xs" variant="outline" class="absolute right-0 -top-2" @click="searchProduct.cell = null" v-if="searchProduct.cell != null">Очистить</ShButton>
+          <ShLabel>Ячейка</ShLabel>
+          <ShInput placeholder="Пример: C-23" v-model="searchProduct.cell" />
         </div>
         <div class="grid w-full items-center gap-1.5 relative">
           <ShLabel>Лимит</ShLabel>
