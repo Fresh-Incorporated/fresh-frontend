@@ -26,12 +26,12 @@ export const columns: ColumnDef[] = [
     {
         accessorKey: 'name',
         header: 'Название',
-        cell: ({ row }) => h('div', { class: '' }, row.getValue('name')),
+        cell: ({ row }) => h('p', { class: 'max-w-18' }, row.getValue('name')),
     },
     {
         accessorKey: 'description',
         header: 'Описание',
-        cell: ({ row }) => h('div', { class: '' }, row.getValue('description')),
+        cell: ({ row }) => h('p', { class: 'max-w-20' }, row.getValue('description')),
     },
     {
         accessorKey: 'slots_count',
