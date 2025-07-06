@@ -35,29 +35,81 @@ const finish = async (id: number) => {
     await updateData();
   })
 }
+
+function getNearestBranch(x, z) {
+  const distanceToXAxis = Math.abs(z);
+  const distanceToZAxis = Math.abs(x);
+
+  if (distanceToXAxis < distanceToZAxis) {
+    return x >= 0 ? {color: 'green', translate: 'Зелёная', amount: x} : {color: 'blue', translate: 'Синяя', amount: -x};
+  } else {
+    return z >= 0 ? {color: 'yellow', translate: 'Жёлтая', amount: z} : {
+      color: 'red',
+      translate: 'Красная',
+      amount: -z
+    };
+  }
+}
+
+const branchColors = {
+  red: 'bg-red-500/5 text-red-500',
+  green: 'bg-green-500/5 text-green-500',
+  yellow: 'bg-yellow-500/5 text-yellow-500',
+  blue: 'bg-blue-500/5 text-blue-500',
+}
+
 </script>
 
 <template>
   <div class="w-full p-4 space-y-2">
-    <ShCard :key="order.id" v-for="order in orders.filter((_order) => _order?.currentWorkerId == user?.id)" class="w-full border rounded-lg !p-2">
+    <ShCard :key="order.id" v-for="order in orders.filter((_order) => _order?.currentWorkerId == user?.id)"
+            class="w-full border rounded-lg !p-2">
       <div class="p-1">
         <p class="font-semibold">ID: #{{ order.id }} [ПРИНЯТО ВАМИ]</p>
-        <p class="font-medium text-neutral-600 dark:text-neutral-300">Ячейка курьера: <span class="text-primary-dark">{{ order?.deliverCell?.letter }}-{{ order?.deliverCell?.number }}</span></p>
+        <p class="font-medium text-neutral-600 dark:text-neutral-300">Ячейка курьера: <span
+            class="text-primary-dark font-semibold">{{ order?.deliverCell?.letter }}-{{ order?.deliverCell?.number }}</span></p>
         <p class="font-medium text-neutral-600 dark:text-neutral-300">Тип доставки: ПУНКТ ВЫДАЧИ ЗАКАЗОВ</p>
-        <p class="font-semibold text-neutral-600 dark:text-neutral-200 mt-2">Информация точки назначения</p>
+
+        <ShSeparator class="my-2"/>
+
+        <p class="font-semibold text-neutral-600 dark:text-neutral-200">Информация точки назначения</p>
         <p class="font-medium text-neutral-600 dark:text-neutral-300">Город: {{ order?.branchCell?.location?.city }}</p>
-        <p class="font-medium text-neutral-600 dark:text-neutral-300">Координаты: <span v-for="coordinate in order?.branchCell?.location?.coordinates">{{coordinate?.world}} X: {{coordinate?.x}} Y: {{coordinate?.y}} Z: {{coordinate?.z}}<br></span></p>
-        <p class="font-medium text-neutral-600 dark:text-neutral-300">Ячейка: <span class="text-secondary-dark">{{ order?.branchCell?.letter }}-{{ order?.branchCell?.number }}</span></p>
+        <p class="font-medium text-neutral-600 dark:text-neutral-300">
+          Координаты:
+          <span
+              v-for="coordinate in [...(order?.branchCell?.location?.coordinates || [])].sort((a, b) => a.world === 'nether' ? -1 : b.world === 'nether' ? 1 : 0)"
+              :key="coordinate.world + coordinate.x + coordinate.z"
+          >
+    <span v-if="coordinate.world === 'nether'"
+          class="py-1 px-2 rounded-lg text-sm"
+          :class="branchColors[getNearestBranch(coordinate.x, coordinate.z).color]">
+      {{
+        getNearestBranch(coordinate.x, coordinate.z).translate
+      }} {{ getNearestBranch(coordinate.x, coordinate.z).amount }}
+    </span>
+    <span v-else>
+      {{ coordinate?.world === 'overworld' ? 'Верхний мир' : coordinate?.world }}
+      X: {{ coordinate?.x }} Y: {{ coordinate?.y }} Z: {{ coordinate?.z }}
+    </span>
+  </span>
+        </p>
+
+        <p class="font-medium text-neutral-600 dark:text-neutral-300">Ячейка: <span
+            class="text-destructive font-semibold">{{ order?.branchCell?.letter }}-{{ order?.branchCell?.number }}</span></p>
       </div>
-      <FreshmarketDeliveryProductsTable :data="order?.data?.products" :products="products" />
+      <FreshmarketDeliveryProductsTable :data="order?.data?.products" :products="products"/>
       <ShButton variant="secondary" @click="finish(order?.id)" confirmation>Завершить доставку</ShButton>
     </ShCard>
     <div class="grid grid-cols-5 gap-4">
-      <ShCard v-for="order in orders.filter((_order) => _order?.currentWorkerId != user?.id)" class="flex flex-col !p-2 gap-1">
+      <ShCard v-for="order in orders.filter((_order) => _order?.currentWorkerId != user?.id)"
+              class="flex flex-col !p-2 gap-1">
         <p class="absolute right-2 top-2 text-xs">{{ formatDateRelative(order.createdAt) }}</p>
         <p class="font-semibold">ID: #{{ order?.id }}</p>
-        <p class="text-sm">Товаров: {{ order?.data?.products?.reduce((sum, product) => sum + product?.count, 0) }} шт.</p>
-        <ShButton :disabled="order.status != 2 || order?.currentWorkerId != null" size="sm" variant="success" class="w-full" @click="accept(order?.id)">Принять</ShButton>
+        <p class="text-sm">Товаров: {{ order?.data?.products?.reduce((sum, product) => sum + product?.count, 0) }}
+          шт.</p>
+        <ShButton :disabled="order.status != 2 || order?.currentWorkerId != null" size="sm" variant="success"
+                  class="w-full" @click="accept(order?.id)">Принять
+        </ShButton>
       </ShCard>
     </div>
   </div>
