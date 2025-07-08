@@ -176,9 +176,9 @@
             <br>Продавец - создаёт магазин, создаёт товары, пополняет товары в специальной зоне и получает прибыль с
             каждого проданого товара</p>
           <div class="flex gap-4">
-            <NuxtLink to="/cabinet/freshmarket_business">
+            <NuxtLink to="/cabinet/">
               <ShButton size="xs" variant="success">
-                Стать продавцом
+                Создать магазин
               </ShButton>
             </NuxtLink>
             <NuxtLink to="/freshmarket">
