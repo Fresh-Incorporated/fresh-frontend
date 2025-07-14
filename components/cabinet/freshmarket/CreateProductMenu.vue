@@ -19,7 +19,7 @@ const formSchema = toTypedSchema(z.object({
   image: z.any().nullable(),
   stackCount: z.number().min(1).max(64).optional(),
   slotsCount: z.number().min(1).max(64).optional(),
-  price: z.number().min(0.01).max(1728),
+  price: z.number().min(0.01).max(1728).optional(),
   tags: z.array(z.any()).min(0).max(3).optional(),
 }))
 

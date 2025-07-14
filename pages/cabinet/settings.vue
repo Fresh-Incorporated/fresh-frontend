@@ -7,7 +7,7 @@ definePageMeta({
 </script>
 
 <template>
-<div class="grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-4 w-full gap-4 px-2 lg:px-4">
+<div class="w-full gap-4 px-2 lg:px-4">
   <NotificationSettings />
 </div>
 </template>

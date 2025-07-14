@@ -1,5 +1,8 @@
 <script setup lang="ts">
 
+import InfoSmallCard from "~/components/info/InfoSmallCard.vue";
+
+const {user, userLoading} = useUser()
 </script>
 
 <template>
@@ -90,81 +93,35 @@
         <p class="mt-4">Отдельная благодарность</p>
         <div class="w-full h-px bg-neutral-300 dark:bg-neutral-700 my-2"></div>
         <div class="flex gap-2">
-          <div
-              class="bg-neutral-200 dark:bg-neutral-900 rounded-lg overflow-hidden p-1 flex gap-2 relative border border-neutral-300 dark:border-neutral-700">
-            <div class="w-12 h-8 bg-neutral-300 blur-2xl absolute transform -translate-x-1/2 -translate-y-1/2"></div>
-            <div
-                class="w-12 h-8 bg-neutral-300 blur-2xl absolute transform translate-x-1/2 translate-y-1/2 bottom-0 right-0"></div>
-            <img src="https://assets.zaralx.ru/api/v1/minecraft/vanilla/player/face/ab1f50a2b83e49fbbe01ee4fb53aac3d/full" class="w-16 h-16 rounded-lg"
-                 alt="">
-            <div class="flex flex-col py-1">
-              <p class="font-fira flex-1">_Anchester_</p>
-              <p class="font-onest text-xs opacity-75">Большой вклад в <br> доработку идеи FreshMarket</p>
-            </div>
-            <div>
-              <ShTooltip>
-                <ShTooltipTrigger>
-                  <ShButton size="xs" disabled variant="secondary">
-                    <Icon name="lucide:external-link" size="16" class="text-black/[.75] dark:text-white/[.75]" />
-                  </ShButton>
-                </ShTooltipTrigger>
-                <ShTooltipContent>
-                  Отсутствует
-                </ShTooltipContent>
-              </ShTooltip>
-            </div>
-          </div>
-          <div
-              class="bg-neutral-200 dark:bg-neutral-900 rounded-lg overflow-hidden p-1 flex gap-2 relative border border-neutral-300 dark:border-neutral-700">
-            <div class="w-12 h-8 bg-neutral-300 blur-2xl absolute transform -translate-x-1/2 -translate-y-1/2"></div>
-            <div
-                class="w-12 h-8 bg-neutral-300 blur-2xl absolute transform translate-x-1/2 translate-y-1/2 bottom-0 right-0"></div>
-            <img src="https://assets.zaralx.ru/api/v1/minecraft/vanilla/player/face/92cc6ac86ca54fbb9fdecbaf3ac38a96/full" class="w-16 h-16 rounded-lg"
-                 alt="">
-            <div class="flex flex-col py-1">
-              <p class="font-fira flex-1">SilentPaltos</p>
-              <p class="font-onest text-xs opacity-75">Помощь с различными <br> постройками</p>
-            </div>
-            <div>
-              <ShTooltip>
-                <ShTooltipTrigger>
-                  <a href="https://t.me/c50_silentpaltos" target="_blank">
-                    <ShButton size="xs" variant="secondary">
-                      <Icon name="lucide:external-link" size="16" class="text-black/[.75] dark:text-white/[.75]" />
-                    </ShButton>
-                  </a>
-                </ShTooltipTrigger>
-                <ShTooltipContent>
-                  Телеграм канал
-                </ShTooltipContent>
-              </ShTooltip>
-            </div>
-          </div>
-          <div
-              class="bg-neutral-200 dark:bg-neutral-900 rounded-lg overflow-hidden p-1 flex gap-2 relative border border-neutral-300 dark:border-neutral-700">
-            <div class="w-12 h-8 bg-neutral-300 blur-2xl absolute transform -translate-x-1/2 -translate-y-1/2"></div>
-            <div
-                class="w-12 h-8 bg-neutral-300 blur-2xl absolute transform translate-x-1/2 translate-y-1/2 bottom-0 right-0"></div>
-            <img src="https://assets.zaralx.ru/api/v1/minecraft/vanilla/player/face/5fc747ae2f9a43c3884d2ffbf0d8a86a/full" class="w-16 h-16 rounded-lg" alt="">
-            <div class="flex flex-col py-1">
-              <p class="font-fira flex-1">Moksy44</p>
-              <p class="font-onest text-xs opacity-75">Почти в соло<br>тащил FM 2 месяца</p>
-            </div>
-            <div>
-              <ShTooltip>
-                <ShTooltipTrigger>
-                  <a href="https://moksy44.t.me/" target="_blank">
-                    <ShButton size="xs" variant="secondary">
-                      <Icon name="lucide:external-link" size="16" class="text-black/[.75] dark:text-white/[.75]" />
-                    </ShButton>
-                  </a>
-                </ShTooltipTrigger>
-                <ShTooltipContent>
-                  <p>Телеграм канал</p>
-                </ShTooltipContent>
-              </ShTooltip>
-            </div>
-          </div>
+          <InfoSmallCard
+            nickname="_Anchester_"
+            uuid="ab1f50a2b83e49fbbe01ee4fb53aac3d"
+            text="Большой вклад в <br> доработку идеи FreshMarket"
+          />
+          <InfoSmallCard
+              nickname="SilentPaltos"
+              uuid="92cc6ac86ca54fbb9fdecbaf3ac38a96"
+              text="Помощь с различными <br> постройками"
+              link="https://t.me/c50_silentpaltos"
+          />
+          <InfoSmallCard
+              nickname="Moksy44"
+              uuid="5fc747ae2f9a43c3884d2ffbf0d8a86a"
+              text="Почти в соло<br>тащил FM 2 месяца"
+              link="https://t.me/moksy44"
+          />
+          <InfoSmallCard
+              nickname="MayorLeon20"
+              uuid="f21db5707be845bcb20b4570565b8c41"
+              text="Участие в разработке<br>проекта FreshMarket"
+              link="https://t.me/mayorleon20_dev"
+          />
+          <InfoSmallCard
+              v-if="!userLoading && user"
+              :nickname="user.nickname"
+              :uuid="user.uuid"
+              text="Наш самый любимый <br> пользователь"
+          />
         </div>
       </div>
       <div class="grid grid-cols-1 gap-4">
@@ -176,9 +133,9 @@
             <br>Продавец - создаёт магазин, создаёт товары, пополняет товары в специальной зоне и получает прибыль с
             каждого проданого товара</p>
           <div class="flex gap-4">
-            <NuxtLink to="/cabinet/freshmarket_business">
+            <NuxtLink to="/cabinet/">
               <ShButton size="xs" variant="success">
-                Стать продавцом
+                Создать магазин
               </ShButton>
             </NuxtLink>
             <NuxtLink to="/freshmarket">

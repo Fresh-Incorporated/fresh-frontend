@@ -84,7 +84,10 @@ const load = async () => {
   }
 };
 
-const changedFilters = async () => {
+const changedFilters = async (newValue: Array | undefined) => {
+  if (newValue) {
+    selectedTags.value = newValue
+  }
   productsModel.value.products = [];
   isAllLoaded.value = false;
   await load();
@@ -118,26 +121,28 @@ watch(sort, changedFilters)
                 <ShButton size="sm" :variant="sort == 'cheap' ? 'default' : 'outline'" @click="sort = 'cheap'">Сначала дешевые</ShButton>
               </div>
             </div>
-            <ShSelect v-if="isMobileOrTablet" v-model="sort">
-              <ShSelectTrigger class="space-y-1 xl:hidden w-full">
-                <ShLabel>Сортировка</ShLabel>
-                <ShButton size="sm" variant="outline" class="w-full"><ShSelectValue placeholder="Сортировка" /></ShButton>
-              </ShSelectTrigger>
-              <ShSelectContent>
-                <ShSelectGroup>
-                  <ShSelectLabel>Сортировка по цене</ShSelectLabel>
-                  <ShSelectItem value="relevance">
-                    По релевантности
-                  </ShSelectItem>
-                  <ShSelectItem value="expensive">
-                    Сначала дорогие
-                  </ShSelectItem>
-                  <ShSelectItem value="cheap">
-                    Сначала дешевые
-                  </ShSelectItem>
-                </ShSelectGroup>
-              </ShSelectContent>
-            </ShSelect>
+            <div class="xl:hidden w-full">
+              <ShSelect v-model="sort">
+                <ShSelectTrigger class="space-y-1 xl:hidden w-full">
+                  <ShLabel>Сортировка</ShLabel>
+                  <ShButton size="sm" variant="outline" class="w-full"><ShSelectValue placeholder="Сортировка" /></ShButton>
+                </ShSelectTrigger>
+                <ShSelectContent>
+                  <ShSelectGroup>
+                    <ShSelectLabel>Сортировка по цене</ShSelectLabel>
+                    <ShSelectItem value="relevance">
+                      По релевантности
+                    </ShSelectItem>
+                    <ShSelectItem value="expensive">
+                      Сначала дорогие
+                    </ShSelectItem>
+                    <ShSelectItem value="cheap">
+                      Сначала дешевые
+                    </ShSelectItem>
+                  </ShSelectGroup>
+                </ShSelectContent>
+              </ShSelect>
+            </div>
             <div class="hidden xl:block space-y-1">
               <ShLabel>Теги</ShLabel>
               <ShSkeleton v-if="tags?.length == 0" class="w-full min-w-96 h-8" />
@@ -157,19 +162,21 @@ watch(sort, changedFilters)
                 </div>
               </div>
             </div>
-            <ShSelect v-if="isMobileOrTablet" @update:modelValue="changedFilters" v-model="selectedTags" multiple>
-              <ShSelectTrigger class="space-y-1 xl:hidden w-full">
-                <ShLabel>Теги</ShLabel>
-                <ShButton size="sm" variant="outline" class="text-wrap min-h-8 h-auto w-full"><ShSelectValue placeholder="Выбрать теги" class="text-wrap" /></ShButton>
-              </ShSelectTrigger>
-              <ShSelectContent>
-                <ShSelectGroup>
-                  <ShSelectItem :value="tag" v-for="tag in tags">
-                    {{ tag.name }}
-                  </ShSelectItem>
-                </ShSelectGroup>
-              </ShSelectContent>
-            </ShSelect>
+            <div class="xl:hidden w-full">
+              <ShSelect @update:modelValue="(e) => changedFilters(e)" multiple>
+                <ShSelectTrigger class="space-y-1 xl:hidden w-full">
+                  <ShLabel>Теги</ShLabel>
+                  <ShButton size="sm" variant="outline" class="text-wrap min-h-8 h-auto w-full"><ShSelectValue placeholder="Выбрать теги" class="text-wrap" /></ShButton>
+                </ShSelectTrigger>
+                <ShSelectContent>
+                  <ShSelectGroup>
+                    <ShSelectItem :value="tag" v-for="tag in tags">
+                      {{ tag.name }}
+                    </ShSelectItem>
+                  </ShSelectGroup>
+                </ShSelectContent>
+              </ShSelect>
+            </div>
           </div>
         </div>
       </div>
