@@ -2,7 +2,7 @@
 import {http} from "~/composables/useHttp";
 import NotificationSettingsTarget from "~/components/cabinet/settings/NotificationSettingsTarget.vue";
 
-const notificationSettings = ref({
+const defaultNotificationSettings = {
   webpush: {
     priority: false,
     market_shop: false,
@@ -15,13 +15,21 @@ const notificationSettings = ref({
     market_delivered: false,
     market_work: false,
   }
-});
+}
+const notificationSettings = ref(structuredClone(defaultNotificationSettings));
 const hasSubscription = ref(false);
 const loading = ref(false);
 const loadedComponent = ref(false);
 
 onMounted(async () => {
   notificationSettings.value = (await http.get('/users/@me/notifications/settings')).data.settings;
+  notificationSettings.value = Object.entries(
+      structuredClone(defaultNotificationSettings)
+  ).reduce((acc, [k, v]) => {
+    acc[k] = { ...v, ...notificationSettings.value[k] };
+    return acc;
+  }, {});
+
   const sw = await navigator.serviceWorker.ready;
   const subscription = await sw.pushManager.getSubscription();
   hasSubscription.value = !!subscription;
