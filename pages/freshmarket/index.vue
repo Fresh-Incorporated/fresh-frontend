@@ -111,7 +111,7 @@ watch(sort, changedFilters)
     <div class="mx-auto z-20 sticky top-[56px] w-full flex justify-center">
       <div class="w-full md:w-11/12">
         <div class="bg-neutral-50/[.9] dark:bg-neutral-900/[.9] backdrop-blur-sm rounded-b-lg shadow-sm dark:shadow-lg p-2 flex flex-col gap-2 border border-t-0 border-neutral-100 dark:border-neutral-800">
-          <ShInput class="h-8" placeholder="Поиск" v-model="search" @input="searchInput" @change="changedFilters" />
+          <ShInput class="h-8" placeholder="Поиск" v-model="search" @input="searchInput" @change="searchInput()" />
           <div class="flex gap-2 md:gap-4 flex-wrap">
             <div class="space-y-1 hidden xl:flex flex-col">
               <ShLabel>Сортировка</ShLabel>
@@ -162,6 +162,7 @@ watch(sort, changedFilters)
                 </div>
               </div>
             </div>
+            {{selectedTags}}
             <div class="xl:hidden w-full">
               <ShSelect @update:modelValue="(e) => changedFilters(e)" multiple>
                 <ShSelectTrigger class="space-y-1 xl:hidden w-full">
