@@ -7,3 +7,7 @@ services:
       - stack.env
     ports:
       - "${SERVER_PORT:-3000}:${PORT:-3000}"
+    deploy:
+      resources:
+        limits:
+          memory: 300M
