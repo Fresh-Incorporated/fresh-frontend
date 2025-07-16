@@ -162,7 +162,6 @@ watch(sort, changedFilters)
                 </div>
               </div>
             </div>
-            {{selectedTags}}
             <div class="xl:hidden w-full">
               <ShSelect @update:modelValue="(e) => changedFilters(e)" multiple>
                 <ShSelectTrigger class="space-y-1 xl:hidden w-full">
