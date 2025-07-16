@@ -101,7 +101,7 @@ const searchInput = async () => {
     }
   }, 1000)
 }
-watch(sort, changedFilters)
+watch(sort, () => changedFilters())
 </script>
 
 <template>
