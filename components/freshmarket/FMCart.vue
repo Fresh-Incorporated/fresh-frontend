@@ -187,7 +187,7 @@ onBeforeUnmount(() => {
               <ShSeparator class="my-6" />
               <div class="font-rubik flex text-2xl">
                 <p class="flex-1">Итого</p>
-                <p>{{ cart.reduce((sum, product) => sum + product.price * product.picked, 0) }} АР</p>
+                <p>{{ cart.reduce((sum, product) => sum + product.price * product.picked, 0)?.toFixed(2) }} АР</p>
               </div>
             </div>
             <ShButton @click="buy" class="w-full">Заказать</ShButton>
