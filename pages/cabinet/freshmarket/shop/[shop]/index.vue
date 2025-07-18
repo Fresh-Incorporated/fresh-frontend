@@ -2,6 +2,7 @@
 import CabinetDummy from "~/components/cabinet/CabinetDummy.vue";
 import {http} from "~/composables/useHttp"
 import CabinetFreshmarketChart from "~/components/cabinet/freshmarket/CabinetFreshmarketChart.vue";
+import CabinetFreshmarketSellsDonut from "~/components/cabinet/freshmarket/CabinetFreshmarketSellsDonut.vue";
 
 definePageMeta({
   layout: 'cabinet'
@@ -44,7 +45,7 @@ const updateShop = async () => {
   <CabinetDummy />
   <CabinetDummy />
   <CabinetFreshmarketChart v-model:loading="loading" v-model:shop="shop" />
-  <CabinetDummy />
+  <CabinetFreshmarketSellsDonut :shop-id="shopId" />
   <CabinetFreshmarketProducts @update-products="updateShop" @update-shop="updateShop" v-model:products="products" :shop-id="shopId" :shop="shop" />
 </div>
 </template>
