@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import { format, subDays } from 'date-fns'
 import {http} from "~/composables/useHttp";
-
+import { VisXYContainer, VisLine } from '@unovis/vue'
 
 const { user } = useUser()
 
 const loading = defineModel<Boolean>('loading')
 const shop = defineModel<Boolean>('shop')
+const props = defineProps({
+  shopId: Number
+})
 
 interface Sale {
   orderId: number
@@ -24,7 +27,12 @@ const AreaChartData = ref<any[]>([])
 const categories = ref<Record<string, { name: string; color: string }>>({
 })
 
-const xFormatter = (i: number): string | number => `${AreaChartData.value[i]?.date}`
+const x = (d: Object) => {
+  return new Date(d.date)
+}
+const y = (d: Object, key: number) => {
+  return d[key]
+}
 
 onMounted(async () => {
   await updateChart()
@@ -36,7 +44,7 @@ watch(shop, async () => {
 
 const updateChart = async () => {
   if (!shop.value) return;
-  const response = await http.get(`/freshmarket/shop/${shop.value?.id}/sells`)
+  const response = await http.get(`/freshmarket/shop/${props.shopId}/sells`)
   const data: ProductSales[] = response.data.productLastSells
 
   const daysBack = 30
@@ -105,20 +113,17 @@ const updateChart = async () => {
         <p class="text-sm pb-px">{{category.name}}</p>
       </div>
     </div>
-    <AreaChart
-        :key="Object.keys(categories).join(',')"
-        style="width: calc(100% + 10px); transform: translateX(-5px)"
-        :height="224"
-        :data="AreaChartData"
-        :categories="categories"
-        :y-num-ticks="-1"
-        :x-num-ticks="-1"
-        :y-grid-line="false"
-        :legend-position="LegendPosition.Top"
-        :hide-legend="true"
-        :x-formatter="xFormatter"
-        :curve-type="CurveType.Linear"
-    />
+    <div class="h-[224px] w-full">
+      <VisXYContainer class="h-[224px]" :data="AreaChartData">
+        <template v-for="(i, iKey) in categories" :key="iKey">
+          <VisLine
+              :x="x"
+              :y="(info) => y(info, iKey)"
+              :color="i.color"
+          />
+        </template>
+      </VisXYContainer>
+    </div>
   </ShCard>
 </template>
 
