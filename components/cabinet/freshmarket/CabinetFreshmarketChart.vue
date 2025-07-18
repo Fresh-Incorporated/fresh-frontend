@@ -98,7 +98,9 @@ const updateChart = async () => {
 <template>
   <ShCard v-model:loading="loading" class="col-span-1 2xl:col-span-3 h-64 w-full !py-0 overflow-hidden gap-0">
     <div class="h-8 flex justify-end items-center gap-4 mx-4">
-      <div class="flex items-center gap-2" v-for="category in categories">
+      <div class="flex items-center gap-2" v-for="(category, key) in categories" :class="{
+        'hidden': AreaChartData.reduce((acc, cur) => cur[key] ? cur[key] + acc : acc, 0) == 0
+      }">
         <div :style="{background: category.color}" class="w-2 h-2 rounded-full"></div>
         <p class="text-sm pb-px">{{category.name}}</p>
       </div>
