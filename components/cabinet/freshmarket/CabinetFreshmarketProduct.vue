@@ -35,7 +35,6 @@ interface Notification {
 const notifications = ref<Notification[]>([])
 
 const refreshNotifications = () => {
-  console.log(props)
   notifications.value = []
 
   if (props.verify_status === -1) {

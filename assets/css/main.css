@@ -196,6 +196,9 @@ button, a {
 
     --vis-axis-label-color: rgba(255, 255, 255, 0.5) !important;
     --vis-legend-label-color: rgba(255, 255, 255, 0.5) !important;
+
+    --vis-donut-central-label-text-color: #313131 !important;
+    --vis-donut-central-sub-label-text-color: #313131 !important;
 }
 
 .dark {
@@ -230,6 +233,9 @@ button, a {
     --sidebar-accent-foreground: oklch(0.985 0 0);
     --sidebar-border: oklch(1 0 0 / 10%);
     --sidebar-ring: oklch(0.488 0.243 264.376);
+
+    --vis-donut-central-label-text-color: #e3e3e3 !important;
+    --vis-donut-central-sub-label-text-color: #8d8d8d !important;
 }
 
 /*
