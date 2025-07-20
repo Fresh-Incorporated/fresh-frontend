@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {http} from "~/composables/useHttp";
+import {VisArea, VisCrosshair, VisLine, VisTooltip, VisXYContainer} from "@unovis/vue";
 
 const AreaChartData = ref<AreaChartItem[]>([])
 
@@ -14,14 +15,17 @@ const categories: Record<string, BulletLegendItemInterface> = {
   users: { name: 'Регистрации', color: '#631def' },
 }
 
-const enabledCategories: Record<string, BulletLegendItemInterface> = ref(structuredClone(categories))
-
-const xFormatter = (i: number): string | number => `${AreaChartData.value[i]?.date}`
+const x = (d: Object) => {
+  return new Date(d.date)
+}
+const y = (d: Object, key: string) => {
+  return d[key]
+}
 
 onMounted(() => {
   setInterval(() => {
     refresh()
-  }, 10000)
+  }, 2000)
 })
 
 const refresh = async () => {
@@ -34,14 +38,34 @@ const refresh = async () => {
   }
 }
 
-const toggleCategory = async (key: string) => {
-  const current = { ...enabledCategories.value }
-  if (current[key]) {
-    delete current[key]
-  } else {
-    current[key] = categories[key]
+const svgDefs = computed(() => {
+  const createGradientWithHex = (id: number, color: string) => `
+    <linearGradient id="gradient${id}-${color}" gradientTransform="rotate(90)">
+      <stop offset="0%" stop-color="${color}" stop-opacity="1" />
+      <stop offset="100%" stop-color="${color}" stop-opacity="0" />
+    </linearGradient>
+  `; // БЛЯ НАДО КОМПОНЕНТ СДЕЛАТЬ А ТО ЭТО ПИЗДЕЦ ВСЁ ПОВТОРЯТЬ
+
+  return Object.entries(categories).map((color) =>
+      createGradientWithHex(color[0], color[1].color)
+  ).join("");
+});
+
+const template = (d: any) => {
+  const products = []
+  for (const category in categories) {
+    products.push(`<div class="flex items-center gap-2"><div style="background: ${categories[category].color}" class="w-2 h-2 rounded-full"></div> ${categories[category].name}: ${d[category]} АР</div>`)
   }
-  enabledCategories.value = current
+
+  return `<div>
+${formatDateAbsolute(d.date)}<br>
+${products.join("")}
+</div>`
+}
+
+const color = (d: any, i: number) => {
+  console.log(d)
+  return Object.values(categories).map(c => c.color)[i]
 }
 </script>
 
@@ -49,24 +73,24 @@ const toggleCategory = async (key: string) => {
   <ShCard class="col-span-4 !py-0 overflow-hidden gap-0">
     <div class="h-8 flex justify-end items-center gap-4 mx-4">
       <div class="flex-1">Real time</div>
-      <div @click="toggleCategory(key)" class="flex items-center gap-2 cursor-pointer" v-for="(category, key) in categories">
-        <div :style="{background: category.color}" class="w-2 h-2 rounded-full"></div>
-        <p class="text-sm pb-px">{{category.name}}</p>
-      </div>
     </div>
-    <AreaChart
-        style="width: calc(100% + 10px); transform: translateX(-5px)"
-        :height="164"
-        :data="AreaChartData"
-        :categories="enabledCategories"
-        :y-num-ticks="-1"
-        :x-num-ticks="-1"
-        :y-grid-line="false"
-        :legend-position="LegendPosition.Top"
-        :hide-legend="true"
-        :x-formatter="xFormatter"
-        :curve-type="CurveType.Linear"
-    />
+    <VisXYContainer :svg-defs="svgDefs" class="h-[224px]" :data="AreaChartData">
+      <VisTooltip />
+      <template v-for="(i, iKey) in categories" :key="iKey">
+        <VisLine
+            :x="x"
+            :y="(info) => y(info, iKey)"
+            :color="i.color"
+        />
+        <VisArea
+            :x="x"
+            :y="(info) => y(info, iKey)"
+            :color="`url(#gradient${iKey}-${i.color})`"
+            :opacity="0.5"
+        />
+      </template>
+      <VisCrosshair :color="color" :template="template" />
+    </VisXYContainer>
   </ShCard>
 </template>
 
