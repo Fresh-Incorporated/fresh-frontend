@@ -27,11 +27,13 @@ onMounted(async () => {
   donutData.value = Object.keys(response.data.sells).map(s => {
     return {
       id: s,
+      color: response.data.products[s].color,
       count: response.data.sells[s]
     }
   })
-  console.log(donutData.value)
 })
+
+const color = (d: number, i: number) => d.color
 </script>
 
 <template>
@@ -44,6 +46,7 @@ onMounted(async () => {
             :arcWidth="20"
             centralLabel="Продажи"
             centralSubLabel="Продажи всех товаров магазина за всё время"
+            :color="color"
         />
         <VisTooltip :triggers="triggers" />
       </VisSingleContainer>

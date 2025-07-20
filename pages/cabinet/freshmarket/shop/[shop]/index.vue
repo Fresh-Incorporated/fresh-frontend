@@ -45,7 +45,7 @@ const updateShop = async () => {
   <CabinetDummy />
   <CabinetDummy />
   <CabinetFreshmarketChart v-model:loading="loading" :shop-id="shopId" v-model:shop="shop" />
-  <CabinetFreshmarketSellsDonut :shop-id="shopId" />
+  <CabinetFreshmarketSellsDonut v-model:loading="loading" :shop-id="shopId" />
   <CabinetFreshmarketProducts @update-products="updateShop" @update-shop="updateShop" v-model:products="products" :shop-id="shopId" :shop="shop" />
 </div>
 </template>
