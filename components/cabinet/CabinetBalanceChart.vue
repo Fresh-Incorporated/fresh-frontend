@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { format, subDays } from 'date-fns'
+import {VisLine, VisXYContainer, VisStackedBar, VisArea} from "@unovis/vue";
 
 const {user, monthBalance, updateMonthBalance, userLoading} = useUser()
 
@@ -21,7 +22,12 @@ const AreaChartData = ref<AreaChartItem[]>([
   { date: 'June', balance: 0 },
 ])
 
-const xFormatter = (i: number): string | number => `${AreaChartData.value[i]?.date}`
+const x = (d: Object) => {
+  return new Date(d.date)
+}
+const y = (d: Object, key: string) => {
+  return d[key]
+}
 
 onMounted(async () => {
   await updateMonthBalance()
@@ -38,23 +44,45 @@ onMounted(async () => {
   }
   AreaChartData.value.reverse()
 })
+
+const svgDefs = computed(() => {
+  const createGradientWithHex = (id: number, color: string) => `
+    <linearGradient id="gradient${id}-${color}" gradientTransform="rotate(90)">
+      <stop offset="0%" stop-color="${color}" stop-opacity="1" />
+      <stop offset="100%" stop-color="${color}" stop-opacity="0" />
+    </linearGradient>
+  `;
+  const createGradientWithCssVar = (id: number, color: string) => `
+    <linearGradient id="gradient${id}-${color}" gradientTransform="rotate(90)">
+      <stop offset="0%" style="stop-color:var(--vis-color0);stop-opacity:1" />
+      <stop offset="100%" style="stop-color:var(--vis-color0);stop-opacity:0" />
+    </linearGradient>
+  `;
+  return createGradientWithHex(0, categories.balance.color);
+});
 </script>
 
 <template>
   <ShCard v-model:loading="userLoading" class="col-span-1 2xl:col-span-3 h-41 !py-0 overflow-hidden">
-    <AreaChart
-        style="width: calc(100% + 10px); transform: translateX(-5px)"
-        :height="164"
-        :data="AreaChartData"
-        :categories="categories"
-        :y-num-ticks="-1"
-        :x-num-ticks="-1"
-        :y-grid-line="false"
-        :legend-position="LegendPosition.Top"
-        :hide-legend="true"
-        :x-formatter="xFormatter"
-        :curve-type="CurveType.Linear"
-    />
+    <div class="h-[160px] w-full">
+      <VisXYContainer :svg-defs="svgDefs" class="h-[160px]" :data="AreaChartData">
+        <template v-for="(i, iKey) in categories" :key="iKey">
+          <VisArea
+              :x="x"
+              :y="(info) => y(info, iKey)"
+              :color="`url(#gradient0-${i.color})`"
+              :opacity="0.5"
+              curve-type="linear"
+          />
+          <VisLine
+              :x="x"
+              :y="(info) => y(info, iKey)"
+              :color="i.color"
+              curve-type="linear"
+          />
+        </template>
+      </VisXYContainer>
+    </div>
   </ShCard>
 </template>
 
