@@ -21,6 +21,10 @@ const triggers = {
     `
 }
 
+const hasData = computed(() => {
+  return data.value.sells && Object.keys(data.value?.sells)?.length > 0
+})
+
 onMounted(async () => {
   const response = await http.get(`/freshmarket/shop/${props.shopId}/sells/total`)
   data.value = response.data
@@ -39,7 +43,10 @@ const color = (d: number, i: number) => d.color
 <template>
   <ShCard class="flex flex-row justify-center items-center h-64 px-3">
     <div class="aspect-square h-56 w-56">
-      <VisSingleContainer :data="donutData" class="aspect-square h-56 w-56">
+      <div v-if="!hasData" class="w-full h-full flex justify-center items-center">
+        Нет данных
+      </div>
+      <VisSingleContainer v-else :data="donutData" class="aspect-square h-56 w-56">
         <VisDonut
             :value="value"
             :radius="110"

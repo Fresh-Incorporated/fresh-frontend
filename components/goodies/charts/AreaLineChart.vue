@@ -37,6 +37,10 @@ const categories = defineModel<Record<string, CategoryItem>>('categories')
 const enabledCategories = ref<string[]>([])
 const useCategories = ref<string[]>([])
 
+const hasData = computed(() => {
+  return Object.keys(categories.value)?.length > 0
+})
+
 onMounted(() => {
   enabledCategories.value = [...Object.keys(categories.value)]
   useCategories.value = categories.value
@@ -106,7 +110,7 @@ const toggleCategory = (key: string) => {
 
 <template>
   <div>
-    <div v-if="showCategories" class="h-8 flex flex-wrap justify-end items-center gap-x-3 mx-4 text-neutral-400 select-none">
+    <div v-if="showCategories && hasData" class="h-8 flex flex-wrap justify-end items-center gap-x-3 mx-4 text-neutral-400 select-none">
       <div @click="toggleCategory(key)" v-for="(category, key) in categories" class="flex items-center gap-2" :class="{
         'hidden': hideCategoriesWithZero && AreaChartData.reduce((acc, cur) => cur[key] ? cur[key] + acc : acc, 0) == 0,
         'cursor-pointer': categoriesSwitch,
@@ -116,7 +120,10 @@ const toggleCategory = (key: string) => {
         <p class="text-xs pb-px text-nowrap">{{category.name}}</p>
       </div>
     </div>
-    <VisXYContainer :svg-defs="svgDefs" :style="`height: ${height}px`" :data="AreaChartData">
+    <div v-if="!hasData" class="w-full flex justify-center items-center" :style="`height: calc(${height}px + 32px);`">
+      Нет данных
+    </div>
+    <VisXYContainer v-if="hasData" :svg-defs="svgDefs" :style="`height: ${height}px`" :data="AreaChartData">
       <VisTooltip />
       <template v-for="(cat, key) in useCategories" :key="key">
         <VisLine :x="x" :y="(d) => y(d, key)" :color="cat.color" />
