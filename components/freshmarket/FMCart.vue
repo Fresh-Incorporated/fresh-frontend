@@ -36,8 +36,11 @@ const deliveryCordsData = ref({
   z: 0
 })
 const openedDepositDialog = ref(false)
+const loading = ref(false)
 const buy = async () => {
+  loading.value = true
   if (selectedBranch.value == null) {
+    loading.value = false
     return toast.error("Произошла ошибка", {
       description: "Вы не выбрали филиал!",
       duration: 7500,
@@ -48,6 +51,7 @@ const buy = async () => {
     branch: selectedBranch.value.id,
     products: cart.value.map(({ id, picked }) => ({ id, count: picked }))
   }).catch(async (error) => {
+    loading.value = false
     const data = error.response.data;
     if (data.url) {
       await navigateTo(data.url, {
@@ -65,6 +69,7 @@ const buy = async () => {
   })
   cart.value = [];
   opened.value = false;
+  loading.value = true
   await updateOrders();
   await updateUser()
 }
@@ -190,7 +195,7 @@ onBeforeUnmount(() => {
                 <p>{{ cart.reduce((sum, product) => sum + product.price * product.picked, 0)?.toFixed(2) }} АР</p>
               </div>
             </div>
-            <ShButton @click="buy" class="w-full">Заказать</ShButton>
+            <ShButton v-model:loading="loading" @click="buy" class="w-full">Заказать</ShButton>
           </div>
         </ShSheetFooter>
       </ShSheetContent>
