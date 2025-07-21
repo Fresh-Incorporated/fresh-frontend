@@ -23,7 +23,12 @@ const props = defineProps({
     type: Boolean,
     default: true
   },
-  hideCategoriesWithZero: Boolean
+  hideCategoriesWithZero: Boolean,
+  height: {
+    type: Number,
+    default: 150
+  },
+  templateSuffix: String
 })
 
 // Модель данных и категории
@@ -63,11 +68,11 @@ const svgDefs = computed((): string => {
 // Tooltip шаблон
 const template = (d: AreaChartItem): string => {
   const rows = Object.entries(categories.value).map(
-      ([key, { color, name }]) => `
+      ([key, { color, name }]) => d[key] > 0 ? `
       <div class="flex items-center gap-2">
         <div style="background: ${color}" class="w-2 h-2 rounded-full"></div>
-        ${name}: ${d[key]}
-      </div>`,
+        ${name}: ${d[key]} ${props.templateSuffix}
+      </div>` : "",
   )
 
   return `<div>${formatDateAbsolute(d.date)}<br>${rows.join('')}</div>`
@@ -81,6 +86,7 @@ const color = (_: unknown, i: number): string => {
 }
 
 const toggleCategory = (key: string) => {
+  if (!props.categoriesSwitch) return;
   if (enabledCategories.value.includes(key)) {
     enabledCategories.value = enabledCategories.value.filter(c => c != key)
   } else {
@@ -110,7 +116,7 @@ const toggleCategory = (key: string) => {
         <p class="text-xs pb-px text-nowrap">{{category.name}}</p>
       </div>
     </div>
-    <VisXYContainer :svg-defs="svgDefs" class="h-[150px]" :data="AreaChartData">
+    <VisXYContainer :svg-defs="svgDefs" :style="`height: ${height}px`" :data="AreaChartData">
       <VisTooltip />
       <template v-for="(cat, key) in useCategories" :key="key">
         <VisLine :x="x" :y="(d) => y(d, key)" :color="cat.color" />
