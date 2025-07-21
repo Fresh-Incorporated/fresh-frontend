@@ -27,7 +27,10 @@ const { isFieldDirty, handleSubmit } = useForm({
   validationSchema: formSchema,
 })
 
+const loading = ref(false)
+
 const onSubmit = handleSubmit(async (values) => {
+  loading.value = true
   const formData = new FormData();
   formData.append('icon', image.value); // Добавляем файл
   formData.append('name', name.value);
@@ -56,8 +59,10 @@ const onSubmit = handleSubmit(async (values) => {
 
     console.log('Магазин создан:', response.data);
     opened.value = false
+    loading.value = false
     emit('updateProducts');
   } catch (error) {
+    loading.value = false
     console.error('Ошибка при создании магазина:', error);
   }
 })
@@ -228,7 +233,7 @@ watch(image, (newValue) => {
             Предпросмотр
           </ShButton>
         </PreviewMinecraftShulker>
-        <ShButton @click="onSubmit">
+        <ShButton v-model:loading="loading" @click="onSubmit">
           Создать
         </ShButton>
       </ShSheetFooter>

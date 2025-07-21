@@ -105,10 +105,15 @@ const branchColors = {
               class="flex flex-col !p-2 gap-1">
         <p class="absolute right-2 top-2 text-xs">{{ formatDateRelative(order.createdAt) }}</p>
         <p class="font-semibold">ID: #{{ order?.id }}</p>
+        <p class="text-sm flex items-center gap-2">Создан: <img class="w-4 h-4" :src="useXIS().getFullFace(order?.customer?.uuid)" alt=""> {{order?.customer?.nickname }}</p>
         <p class="text-sm">Товаров: {{ order?.data?.products?.reduce((sum, product) => sum + product?.count, 0) }}
           шт.</p>
         <ShButton :disabled="order.status != 2 || order?.currentWorkerId != null" size="sm" variant="success"
-                  class="w-full" @click="accept(order?.id)">Принять
+                  class="w-full" @click="accept(order?.id)">
+          <p v-if="!order?.currentWorker">Принять</p>
+          <div v-else>
+            Принят {{order?.currentWorker?.nickname}}
+          </div>
         </ShButton>
       </ShCard>
     </div>

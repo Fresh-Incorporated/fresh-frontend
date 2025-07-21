@@ -79,5 +79,5 @@ export default defineNuxtConfig({
     componentDir: './components/ui'
   },
 
-  modules: ['@nuxtjs/color-mode', '@nuxt/icon', '@nuxtjs/device', 'shadcn-nuxt', 'nuxt-charts', '@artmizu/yandex-metrika-nuxt'],
+  modules: ['@nuxtjs/color-mode', '@nuxt/icon', '@nuxtjs/device', 'shadcn-nuxt', '@artmizu/yandex-metrika-nuxt'],
 })

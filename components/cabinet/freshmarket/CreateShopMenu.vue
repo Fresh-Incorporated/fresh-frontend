@@ -15,7 +15,10 @@ const { isFieldDirty, handleSubmit } = useForm({
   validationSchema: formSchema,
 })
 
+const loading = ref(false)
+
 const onSubmit = handleSubmit(async (values) => {
+  loading.value = true
   const formData = new FormData();
   formData.append('icon', image.value); // Добавляем файл
   formData.append('name', name.value);
@@ -34,9 +37,11 @@ const onSubmit = handleSubmit(async (values) => {
 
     console.log('Магазин создан:', response.data);
     opened.value = false
+    loading.value = false
     await updateUser();
     await updateShops();
   } catch (error) {
+    loading.value = false
     console.error('Ошибка при создании магазина:', error);
   }
 })
@@ -95,7 +100,7 @@ const opened = ref(false)
         </ShFormField>
       </form>
       <ShSheetFooter>
-        <ShButton @click="onSubmit">
+        <ShButton v-model:loading="loading" @click="onSubmit">
           Создать - {{16 + 64 * shops.length}} АР
         </ShButton>
       </ShSheetFooter>

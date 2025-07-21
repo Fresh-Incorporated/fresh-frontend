@@ -44,6 +44,10 @@ const groups = [
         name: "Товары и магазины",
         to: "/cabinet/freshmarket/work/secretary/editor",
       },
+      {
+        name: "Заказы",
+        to: "/cabinet/freshmarket/work/secretary/orders",
+      },
     ]
   },
   {

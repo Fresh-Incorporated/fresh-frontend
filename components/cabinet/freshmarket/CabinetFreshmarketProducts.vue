@@ -34,6 +34,12 @@ watch(products, async (newValue) => {
       </ShCardDescription>
     </ShCardHeader>
     <ShCardContent class="grid lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
+      <div v-if="products?.length == 0" class="h-64 flex justify-center items-center flex-col lg:col-span-2 xl:col-span-3 2xl:col-span-4">
+        <p>Похоже тут пусто :(</p>
+        <CreateProductMenu @update-products="emit('updateProducts')" :shop-id="shopId">
+          <ShButton variant="outline" size="sm">Создать товар</ShButton>
+        </CreateProductMenu>
+      </div>
       <CabinetFreshmarketProduct
           v-for="product in products"
           :shop-id="shopId"

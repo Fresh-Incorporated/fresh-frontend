@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {http} from "~/composables/useHttp"
-import {formatDateRelative} from "../../../../../utils/convertDate";
+import {formatDateRelative} from "~/utils/convertDate";
 
 definePageMeta({
   layout: 'cabinet'
@@ -49,8 +49,14 @@ const finish = async (id: number) => {
       <ShCard v-for="order in orders.filter((_order) => _order?.currentWorkerId != user?.id)" class="flex flex-col !p-2 gap-1">
         <p class="absolute right-2 top-2 text-xs">{{ formatDateRelative(order.createdAt) }}</p>
         <p class="font-semibold">ID: #{{ order.id }}</p>
+        <p class="text-sm flex items-center gap-2">Создан: <img class="w-4 h-4" :src="useXIS().getFullFace(order?.customer?.uuid)" alt=""> {{order?.customer?.nickname }}</p>
         <p class="text-sm">Товаров: {{order?.products?.reduce((sum, product) => sum + product?.count, 0)}} шт.</p>
-        <ShButton :disabled="order.status != 0 || order?.currentWorkerId != null" size="sm" variant="success" class="w-full" @click="accept(order?.id)">Принять</ShButton>
+        <ShButton :disabled="order.status != 0 || order?.currentWorkerId != null" size="sm" variant="success" class="w-full" @click="accept(order?.id)">
+          <p v-if="!order?.currentWorker">Принять</p>
+          <div v-else>
+            Принят {{order?.currentWorker?.nickname}}
+          </div>
+        </ShButton>
       </ShCard>
     </div>
   </div>
