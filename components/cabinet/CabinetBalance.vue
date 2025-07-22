@@ -6,11 +6,13 @@ const {user, balanceHistory, updateUser, userLoading} = useUser()
 const openedDepositDialog = ref(false)
 const depositValue = ref(10)
 
+const loading = ref(false)
 const openedWithdrawDialog = ref(false)
 const withdrawCard = ref("")
 const withdrawValue = ref(1)
 
 const deposit = async () => {
+  loading.value = true
   const response = await http.get("/users/@me/deposit", {
     params: {
       value: depositValue.value,
@@ -25,14 +27,17 @@ const deposit = async () => {
       }
     }
   })
+  loading.value = false
   openedDepositDialog.value = false;
 }
 
 const withdraw = async () => {
+  loading.value = true
   const response = await http.post("/users/@me/withdraw", {
     receiver: withdrawCard.value.join(""),
     amount: withdrawValue.value,
   })
+  loading.value = false
   openedWithdrawDialog.value = false;
   await updateUser();
 }
@@ -94,7 +99,7 @@ onBeforeUnmount(() => {
             </ShNumberField>
           </div>
           <ShDialogFooter>
-            <ShButton @click="deposit" type="submit">
+            <ShButton v-model:loading="loading" @click="deposit" type="submit">
               Пополнить
             </ShButton>
           </ShDialogFooter>
@@ -142,7 +147,7 @@ onBeforeUnmount(() => {
             </div>
           </div>
           <ShDialogFooter>
-            <ShButton @click="withdraw" type="submit">
+            <ShButton v-model:loading="loading" @click="withdraw" type="submit">
               Вывести
             </ShButton>
           </ShDialogFooter>
