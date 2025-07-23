@@ -75,7 +75,7 @@ const template = (d: AreaChartItem): string => {
       ([key, { color, name }]) => d[key] > 0 ? `
       <div class="flex items-center gap-2">
         <div style="background: ${color}" class="w-2 h-2 rounded-full"></div>
-        ${name}: ${d[key]} ${props.templateSuffix}
+        ${name}: ${d[key]} ${props.templateSuffix ?? ''}
       </div>` : "",
   )
 

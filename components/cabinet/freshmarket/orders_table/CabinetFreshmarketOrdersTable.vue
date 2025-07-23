@@ -58,6 +58,7 @@ const secretaryEndOrder = async (id: number) => {
         <template v-if="data?.length > 0">
           <ShTableRow
               v-for="row in data"
+              :key="row.id"
           >
             <ShTableCell v-if="enabledCols.includes('id')">
               {{ row.id }}
