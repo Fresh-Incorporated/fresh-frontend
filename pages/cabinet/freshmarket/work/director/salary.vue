@@ -6,7 +6,7 @@ definePageMeta({
   layout: 'cabinet'
 })
 
-const salary = ref({ totalSalary: 0, salaries: [] });
+const salary = ref({ totalSalary: 0, salaries: [], percentages: { delivery: 0.3, logic: 0.45, secretary: 0.15, director: 0.1 } });
 const users = ref([])
 const workers = ref([])
 const notLocated = ref([])
@@ -134,6 +134,7 @@ watch(salary, () => {
       <p class="text-red-500 font-bold text-xl">Сумма зарплаты: {{ salary.totalSalary }}</p>
       <p class="text-red-500 font-bold text-lg">Распределено: {{ total }}</p>
       <p class="text-green-500 font-bold">Проценты распределения: Логисты {{ rolePercentage.logic.toFixed(2) }}%, Курьеры {{ rolePercentage.deliver.toFixed(2) }}%, Секретари {{ rolePercentage.secretary.toFixed(2) }}%, Директора {{ rolePercentage.director.toFixed(2) }}%</p>
+      <p class="text-blue-500 font-bold">Проценты распределения: Логисты {{ salary.percentages.logic.toFixed(2) * 100 }}%, Курьеры {{ salary.percentages.delivery.toFixed(2) * 100 }}%, Секретари {{ salary.percentages.secretary.toFixed(2) * 100 }}%, Директора {{ salary.percentages.director.toFixed(2) * 100 }}%</p>
       <p class="text-red-500 font-bold">Не распределены: <span v-for="l in notLocated">[{{ l.id }} - {{ l.nickname }}] </span></p>
       <CabinetFreshmarketSalaryTable v-model:salary="salary" />
     </div>
