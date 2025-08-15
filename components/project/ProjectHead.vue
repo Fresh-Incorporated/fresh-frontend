@@ -25,6 +25,8 @@ onMounted(async () => {
         class="z-0 absolute inset-0 h-full w-full bg-[linear-gradient(to_right,#aaaaaa1a_1px,transparent_1px),linear-gradient(to_bottom,#aaaaaa1a_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#8080801a_1px,transparent_1px),linear-gradient(to_bottom,#8080801a_1px,transparent_1px)] bg-size-[64px_64px]"
     ></div>
     <div class="h-full hidden lg:block">
+      <p class="absolute w-full grid grid-cols-8 grid-rows-1 bottom-9 px-1 py-1 text-xs">Последние покупки</p>
+      <Skeleton v-model="loadingStats" class="bottom-0 h-9 w-full absolute z-10 px-1 my-1" />
       <div class="absolute w-full grid grid-cols-8 grid-rows-1 bottom-0 px-1 py-1 gap-2 overflow-hidden">
         <ShCard v-for="product in stats.lastProducts" class="flex-row gap-1 !p-0 rounded-sm">
           <div class="w-8 h-8 aspect-square">

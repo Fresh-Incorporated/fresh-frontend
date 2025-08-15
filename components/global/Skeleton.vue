@@ -6,7 +6,7 @@ const active = defineModel({default: true})
   <transition>
     <div v-if="active" class="transform">
       <div class="h-full bg-gray-100 rounded-xl dark:bg-neutral-950 w-full">
-        <div class="w-full h-full bg-gray-200 rounded-xl dark:bg-neutral-900  animate-pulse">
+        <div class="w-full h-full bg-gray-200 rounded-xl dark:bg-neutral-900 animate-pulse">
 
         </div>
       </div>
