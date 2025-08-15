@@ -7,7 +7,6 @@
 @import "tw-animate-css";
 
 @plugin 'tailwindcss-animation-delay';
-@plugin '@xpd/tailwind-3dtransforms';
 @plugin '@designbycode/tailwindcss-text-stroke';
 
 @custom-variant dark (&:where(.dark, .dark *));
