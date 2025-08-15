@@ -22,6 +22,7 @@ onMounted(async () => {
 watch(selectedLocation, async newSelectedLocationId => {
   selectedLocationCellLetter.value = null
   selectedLocationCellNumber.value = null
+  selectedLocationCellData.value = null
   selectedLocationData.value = (await http.get(`freshmarket/work/logic/location/${newSelectedLocationId}`))?.data.location;
 })
 
