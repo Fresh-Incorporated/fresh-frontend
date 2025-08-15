@@ -15,6 +15,7 @@ const search = ref("")
 const sort = ref("relevance")
 const tags = ref([])
 const selectedTags = ref([])
+const productsInStorage = ref([1, 256])
 
 const { isMobile, isMobileOrTablet } = useDevice()
 
@@ -64,7 +65,9 @@ const load = async () => {
         seed: searchSeed,
         search: search.value,
         sort: sort.value,
-        tags: selectedTags.value.map(tag => tag.id).join("_")
+        tags: selectedTags.value.map(tag => tag.id).join("_"),
+        min: productsInStorage.value[0],
+        max: productsInStorage.value[1] == 256 ? 10000 : productsInStorage.value[1],
       }
     });
 
@@ -102,6 +105,14 @@ const searchInput = async () => {
   }, 1000)
 }
 watch(sort, () => changedFilters())
+
+watch(productsInStorage, newProductsInStorage => {
+  setTimeout(async () => {
+    if (productsInStorage.value == newProductsInStorage) {
+      await changedFilters();
+    }
+  }, 1000)
+})
 </script>
 
 <template>
@@ -119,6 +130,8 @@ watch(sort, () => changedFilters())
                 <ShButton size="sm" :variant="sort == 'relevance' ? 'default' : 'outline'" @click="sort = 'relevance'">По релевантности</ShButton>
                 <ShButton size="sm" :variant="sort == 'expensive' ? 'default' : 'outline'" @click="sort = 'expensive'">Сначала дорогие</ShButton>
                 <ShButton size="sm" :variant="sort == 'cheap' ? 'default' : 'outline'" @click="sort = 'cheap'">Сначала дешевые</ShButton>
+                <ShButton size="sm" :variant="sort == 'new' ? 'default' : 'outline'" @click="sort = 'new'">Сначала новые</ShButton>
+                <ShButton size="sm" :variant="sort == 'old' ? 'default' : 'outline'" @click="sort = 'old'">Сначала старые</ShButton>
               </div>
             </div>
             <div class="xl:hidden w-full">
@@ -138,6 +151,12 @@ watch(sort, () => changedFilters())
                     </ShSelectItem>
                     <ShSelectItem value="cheap">
                       Сначала дешевые
+                    </ShSelectItem>
+                    <ShSelectItem value="new">
+                      Сначала новые
+                    </ShSelectItem>
+                    <ShSelectItem value="old">
+                      Сначала старые
                     </ShSelectItem>
                   </ShSelectGroup>
                 </ShSelectContent>
@@ -176,6 +195,17 @@ watch(sort, () => changedFilters())
                   </ShSelectGroup>
                 </ShSelectContent>
               </ShSelect>
+            </div>
+            <div class="space-y-2 flex flex-col min-w-64">
+              <ShLabel>Кол-во на складе</ShLabel>
+              <div class="flex items-centers gap-2">
+                <ShSlider
+                    v-model="productsInStorage"
+                    :max="256"
+                    :step="1"
+                />
+              </div>
+              <div class="text-xs opacity-75 grid grid-cols-2"><p>Мин. {{productsInStorage[0]}}</p> <p class="text-right">Макс. {{productsInStorage[1] == 256 ? "бесконечность" : productsInStorage[1]}}</p></div>
             </div>
           </div>
         </div>

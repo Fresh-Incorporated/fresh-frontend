@@ -22,7 +22,6 @@
     "@unovis/vue": "^1.5.2",
     "@vee-validate/zod": "^4.15.1",
     "@vueuse/core": "^13.4.0",
-    "@xpd/tailwind-3dtransforms": "^1.0.3",
     "autoprefixer": "^10.4.20",
     "axios": "^1.7.9",
     "class-variance-authority": "^0.7.1",

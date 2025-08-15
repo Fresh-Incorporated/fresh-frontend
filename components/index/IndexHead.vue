@@ -1,39 +1,15 @@
 <script setup lang="ts">
 import { http } from "~/composables/useHttp"
+import AnimatedNumbers from "~/components/goodies/AnimatedNumbers.vue";
 
 const stats = ref({
   online: 0,
   users: 0
 })
 
-const animatedStats = ref({
-  online: 0,
-  users: 0
-})
-
-function animateValue(key: 'online' | 'users', end: number, duration = 2000) {
-  const start = 0
-  const startTime = performance.now()
-
-  function update(currentTime: number) {
-    const elapsed = currentTime - startTime
-    const progress = Math.min(elapsed / duration, 1)
-    animatedStats.value[key] = Math.floor(start + (end - start) * progress)
-
-    if (progress < 1) {
-      requestAnimationFrame(update)
-    }
-  }
-
-  requestAnimationFrame(update)
-}
-
 onMounted(async () => {
   const res = await http.get("/stats")
   stats.value = res.data
-
-  animateValue("online", stats.value.online)
-  animateValue("users", stats.value.users)
 })
 </script>
 
@@ -81,11 +57,11 @@ onMounted(async () => {
         <div class="grid grid-cols-2 text-center mt-2 text-neutral-400 lg:hidden">
           <div>
             <p class="text-sm">Регистраций</p>
-            <p class="text-blue-500 font-bold text-xl">{{ animatedStats.users }}</p>
+            <p class="text-blue-500 font-bold text-xl"><AnimatedNumbers v-model="stats.users" /></p>
           </div>
           <div>
             <p class="text-sm">Онлайн</p>
-            <p class="text-blue-500 font-bold text-xl">{{ animatedStats.online }}</p>
+            <p class="text-blue-500 font-bold text-xl"><AnimatedNumbers v-model="stats.online" /></p>
           </div>
         </div>
       </div>
@@ -94,10 +70,10 @@ onMounted(async () => {
       <div class="text-lg">
         <p class="text-center text-neutral-300 text-sm font-medium">Статистика</p>
         <div>
-          <p><span class="text-blue-500 font-bold text-xl">{{ animatedStats.users }}</span> Регистраций</p>
+          <p><span class="text-blue-500 font-bold text-xl"><AnimatedNumbers v-model="stats.users" /></span> Регистраций</p>
         </div>
         <div>
-          <p><span class="text-blue-500 font-bold text-xl">{{ animatedStats.online }}</span> Онлайн</p>
+          <p><span class="text-blue-500 font-bold text-xl"><AnimatedNumbers v-model="stats.online" /></span> Онлайн</p>
         </div>
       </div>
     </div>

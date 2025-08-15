@@ -64,6 +64,10 @@ const groups = [
       {
         name: "Сбор заказов",
         to: "/cabinet/freshmarket/work/logic/collect",
+      },
+      {
+        name: "Ячейки",
+        to: "/cabinet/freshmarket/work/logic/cells",
       }
     ]
   },
