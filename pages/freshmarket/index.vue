@@ -119,6 +119,8 @@ watch(sort, () => changedFilters())
                 <ShButton size="sm" :variant="sort == 'relevance' ? 'default' : 'outline'" @click="sort = 'relevance'">По релевантности</ShButton>
                 <ShButton size="sm" :variant="sort == 'expensive' ? 'default' : 'outline'" @click="sort = 'expensive'">Сначала дорогие</ShButton>
                 <ShButton size="sm" :variant="sort == 'cheap' ? 'default' : 'outline'" @click="sort = 'cheap'">Сначала дешевые</ShButton>
+                <ShButton size="sm" :variant="sort == 'new' ? 'default' : 'outline'" @click="sort = 'new'">Сначала новые</ShButton>
+                <ShButton size="sm" :variant="sort == 'old' ? 'default' : 'outline'" @click="sort = 'old'">Сначала старые</ShButton>
               </div>
             </div>
             <div class="xl:hidden w-full">
@@ -138,6 +140,12 @@ watch(sort, () => changedFilters())
                     </ShSelectItem>
                     <ShSelectItem value="cheap">
                       Сначала дешевые
+                    </ShSelectItem>
+                    <ShSelectItem value="new">
+                      Сначала новые
+                    </ShSelectItem>
+                    <ShSelectItem value="old">
+                      Сначала старые
                     </ShSelectItem>
                   </ShSelectGroup>
                 </ShSelectContent>
