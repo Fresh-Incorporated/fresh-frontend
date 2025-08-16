@@ -1,130 +1,381 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
-import {drawGrid, drawPixel} from "~/utils/pixelwars/CanvasUtils";
+import { ref, onMounted, onBeforeUnmount, watch, computed } from "vue";
+import { drawGrid, drawPixel } from "~/utils/pixelwars/CanvasUtils";
+
+const CELL_SIZE = 5;          // размер "пикселя" карты в экранных px при scale=1
+const CHUNK_SIZE = 100;       // размер чанка в клетках
+const GRID_MIN_STEP = 8;      // минимальный размер клетки на экране, при котором рисуем сетку
+const LOD_RECT_THRESHOLD = 2; // если ширина чанка на экране < 2px — рисуем один прямоугольник
+
+interface BasePixel {
+  x: number;
+  y: number;
+  type: "border" | "state";
+}
+
+interface ViewState {
+  scale: number;
+  panX: number;
+  panY: number;
+}
+
+const props = defineProps<{
+  view: ViewState;
+  selectedPixel: BasePixel | null;
+  borderPixels: BasePixel[];
+  statePixels: BasePixel[];
+  capturedPixels?: BasePixel[]; // Новые захваченные пиксели
+}>();
+
+const emit = defineEmits<{
+  'update:view': [value: ViewState];
+  'update:selected-pixel': [value: BasePixel | null];
+  'capture-pixel': [pixel: BasePixel];
+}>();
 
 const canvasRef = ref<HTMLCanvasElement | null>(null);
 const ctx = ref<CanvasRenderingContext2D | null>(null);
 
-interface BasePixel {
-  x: Number
-  y: Number
-  type: "border" | "state"
-}
-
-const view = defineModel<{
-  scale: Number,
-  panX: Number,
-  panY: Number
-}>("view");
-
-const selectedPixel = defineModel<BasePixel>("selected-pixel");
-
-const borderPixels = defineModel<BasePixel[]>("border-pixels")
-
-const statePixels = defineModel<BasePixel[]>("state-pixels")
-
+// Сервисные флаги ввода
 let isDragging = false;
 let lastX = 0;
 let lastY = 0;
-
 let pinchStartDist = 0;
 let pinchStartScale = 1;
+let needsRender = false;
 
+// === Индексы и чанки ===
+type ChunkMap = Map<string, BasePixel[]>;
+const borderChunks: ChunkMap = new Map();
+const stateChunks: ChunkMap = new Map();
+
+// Кэш канвасов по чанкам (раздельно для слоёв)
+const borderChunkCache: Map<string, HTMLCanvasElement> = new Map();
+const stateChunkCache: Map<string, HTMLCanvasElement> = new Map();
+
+// Быстрые индексы по координате
+const borderIndex: Map<string, BasePixel> = new Map();
+const stateIndex: Map<string, BasePixel> = new Map();
+const capturedIndex: Map<string, BasePixel> = new Map(); // Индекс захваченных пикселей
+
+const keyXY = (x: number, y: number) => `${x},${y}`;
+const chunkKey = (x: number, y: number) => {
+  const cx = Math.floor(x / CHUNK_SIZE);
+  const cy = Math.floor(y / CHUNK_SIZE);
+  return `${cx},${cy}`;
+};
+
+// Инициализация холста
 const initCanvas = () => {
   const canvas = canvasRef.value!;
   const rect = canvas.parentElement?.getBoundingClientRect();
-  canvas.width = rect?.width || window.innerWidth;
-  canvas.height = rect?.height || window.innerHeight;
-  ctx.value = canvas.getContext("2d")!;
+  const dpr = window.devicePixelRatio || 1;
+  const cssW = rect?.width || window.innerWidth;
+  const cssH = rect?.height || window.innerHeight;
+
+  // физический размер = css * dpr
+  canvas.width = Math.floor(cssW * dpr);
+  canvas.height = Math.floor(cssH * dpr);
+  canvas.style.width = `${cssW}px`;
+  canvas.style.height = `${cssH}px`;
+
+  const c = canvas.getContext("2d")!;
+  c.setTransform(dpr, 0, 0, dpr, 0, 0); // масштабируем контекст под DPR
+  ctx.value = c;
 };
 
+// Преобразование координат экрана в клетку карты
 const screenToMap = (screenX: number, screenY: number) => {
-  const step = 5 * view.value.scale; // cellSize = 5
-  const mapX = Math.floor((screenX - view.value.panX) / step);
-  const mapY = Math.floor((screenY - view.value.panY) / step);
+  const step = CELL_SIZE * props.view.scale;
+  const mapX = Math.floor((screenX - props.view.panX) / step);
+  const mapY = Math.floor((screenY - props.view.panY) / step);
   return { mapX, mapY };
 };
 
-const onClick = (e: MouseEvent) => {
-  if (isDragging) return; // если тащили — не считать кликом
-  const rect = canvasRef.value!.getBoundingClientRect();
-  const x = e.clientX - rect.left;
-  const y = e.clientY - rect.top;
-  const { mapX, mapY } = screenToMap(x, y);
+// Построение индексов и чанков
+function rebuildIndicesAndChunks() {
+  borderChunks.clear();
+  stateChunks.clear();
+  borderIndex.clear();
+  stateIndex.clear();
+  capturedIndex.clear();
+  borderChunkCache.clear();
+  stateChunkCache.clear();
 
-  selectedPixel.value = {
-    x: mapX,
-    y: mapY,
-    type: "border" // можно менять в зависимости от режима
-  };
-
-  render();
-};
-
-const drawBorders = () => {
-  for (const borderPixel of borderPixels.value) {
-    drawPixel(ctx.value, view.value.scale, view.value.panX, view.value.panY, borderPixel.x, borderPixel.y)
+  for (const p of props.borderPixels) {
+    borderIndex.set(keyXY(p.x, p.y), p);
+    const ck = chunkKey(p.x, p.y);
+    if (!borderChunks.has(ck)) borderChunks.set(ck, []);
+    borderChunks.get(ck)!.push(p);
+  }
+  for (const p of props.statePixels) {
+    stateIndex.set(keyXY(p.x, p.y), p);
+    const ck = chunkKey(p.x, p.y);
+    if (!stateChunks.has(ck)) stateChunks.set(ck, []);
+    stateChunks.get(ck)!.push(p);
+  }
+  // Добавляем захваченные пиксели
+  if (props.capturedPixels) {
+    for (const p of props.capturedPixels) {
+      capturedIndex.set(keyXY(p.x, p.y), p);
+    }
   }
 }
 
-const drawStatePixels = () => {
-  for (const statePixel of statePixels.value) {
-    drawPixel(ctx.value, view.value.scale, view.value.panX, view.value.panY, statePixel.x, statePixel.y, 5, "#fff")
-  }
+// Инвалидация кэша чанка
+function invalidateChunkCacheForXY(x: number, y: number) {
+  const ck = chunkKey(x, y);
+  borderChunkCache.delete(ck);
+  stateChunkCache.delete(ck);
 }
 
+// Получить/создать отрисованный кэш-канвас чанка
+function getChunkCanvas(
+    layer: "border" | "state",
+    ck: string,
+    list: BasePixel[]
+): HTMLCanvasElement {
+  const cache = layer === "border" ? borderChunkCache : stateChunkCache;
+  if (cache.has(ck)) return cache.get(ck)!;
+
+  // Размер чанка в базовых пикселях (CELL_SIZE)
+  const w = CHUNK_SIZE * CELL_SIZE;
+  const h = CHUNK_SIZE * CELL_SIZE;
+  const off = document.createElement("canvas");
+  off.width = w;
+  off.height = h;
+  const offctx = off.getContext("2d")!;
+  offctx.imageSmoothingEnabled = false;
+
+  const fill = layer === "border" ? "#000" : "#87CEEB"; // светло-голубой для воды
+  offctx.fillStyle = fill;
+
+  for (const p of list) {
+    // локальные координаты внутри чанка
+    const lx = ((p.x % CHUNK_SIZE + CHUNK_SIZE) % CHUNK_SIZE) * CELL_SIZE;
+    const ly = ((p.y % CHUNK_SIZE + CHUNK_SIZE) % CHUNK_SIZE) * CELL_SIZE;
+    offctx.fillRect(lx, ly, CELL_SIZE, CELL_SIZE);
+  }
+
+  cache.set(ck, off);
+  return off;
+}
+
+// Адаптивный рендер слоя (LOD + кэш)
+function renderLayer(chunks: ChunkMap, layer: "border" | "state") {
+  const c = ctx.value!;
+  const { width, height } = c.canvas;
+  const cssW = width / (window.devicePixelRatio || 1);
+  const cssH = height / (window.devicePixelRatio || 1);
+
+  const step = CELL_SIZE * props.view.scale;
+  const chunkPxW = CHUNK_SIZE * step; // ширина чанка на экране (в CSS px)
+
+  // Вычисляем диапазон видимых чанков
+  const startX = Math.floor((-props.view.panX) / step / CHUNK_SIZE) - 1;
+  const startY = Math.floor((-props.view.panY) / step / CHUNK_SIZE) - 1;
+  const endX = Math.ceil((cssW - props.view.panX) / step / CHUNK_SIZE) + 1;
+  const endY = Math.ceil((cssH - props.view.panY) / step / CHUNK_SIZE) + 1;
+
+  // Режим сверх-LOD: один прямоугольник на чанк (очень быстро)
+  if (chunkPxW < LOD_RECT_THRESHOLD) {
+    c.save();
+    c.globalAlpha = 1;
+    c.imageSmoothingEnabled = false;
+    c.fillStyle = layer === "border" ? "#000" : "#87CEEB";
+
+    for (let cx = startX; cx <= endX; cx++) {
+      for (let cy = startY; cy <= endY; cy++) {
+        const ck = `${cx},${cy}`;
+        const list = chunks.get(ck);
+        if (!list || list.length === 0) continue;
+
+        // Плотность пикселей внутри чанка (для альфы)
+        const density = list.length / (CHUNK_SIZE * CHUNK_SIZE);
+        const alpha = Math.min(0.9, Math.max(0.12, density * 0.9)); // 0.12..0.9
+        c.globalAlpha = alpha;
+
+        const dx = cx * CHUNK_SIZE * step + props.view.panX;
+        const dy = cy * CHUNK_SIZE * step + props.view.panY;
+
+        // рисуем один прямоугольник размера чанка
+        c.fillRect(dx, dy, chunkPxW, chunkPxW);
+      }
+    }
+    c.restore();
+    return;
+  }
+
+  // Стандартный режим: тянем кэш-канвасы чанков
+  c.save();
+  c.imageSmoothingEnabled = false;
+  for (let cx = startX; cx <= endX; cx++) {
+    for (let cy = startY; cy <= endY; cy++) {
+      const ck = `${cx},${cy}`;
+      const list = chunks.get(ck);
+      if (!list || list.length === 0) continue;
+
+      const dx = cx * CHUNK_SIZE * step + props.view.panX;
+      const dy = cy * CHUNK_SIZE * step + props.view.panY;
+
+      const off = getChunkCanvas(layer, ck, list);
+      c.drawImage(off, dx, dy, CHUNK_SIZE * step, CHUNK_SIZE * step);
+    }
+  }
+  c.restore();
+}
+
+// Главный рендер
 const render = () => {
   if (!ctx.value) return;
-  const { width, height } = ctx.value.canvas;
-  ctx.value.clearRect(0, 0, width, height);
-  if (view.value.scale > 1) {
-    drawGrid(ctx.value, view.value.scale, view.value.panX, view.value.panY);
-  }
-  drawBorders()
-  drawStatePixels()
+  const c = ctx.value;
+  const { width, height } = c.canvas;
+  const cssW = width / (window.devicePixelRatio || 1);
+  const cssH = height / (window.devicePixelRatio || 1);
 
-  // TEMP
-  if (selectedPixel.value) {
+  c.clearRect(0, 0, cssW, cssH);
+
+  // Сетка — только когда клетки достаточно крупные
+  const step = CELL_SIZE * props.view.scale;
+  if (step >= GRID_MIN_STEP) {
+    drawGrid(c, props.view.scale, props.view.panX, props.view.panY, CELL_SIZE);
+  }
+
+  // Слои
+  renderLayer(borderChunks, "border");
+  renderLayer(stateChunks, "state");
+  
+  // Рендер захваченных пикселей поверх остальных
+  renderCapturedPixels();
+
+  // Выделение
+  if (props.selectedPixel) {
     drawPixel(
-        ctx.value,
-        view.value.scale,
-        view.value.panX,
-        view.value.panY,
-        selectedPixel.value.x,
-        selectedPixel.value.y,
-        5,
-        "rgba(255,0,0,0.5)" // полупрозрачный красный
+        c,
+        props.view.scale,
+        props.view.panX,
+        props.view.panY,
+        props.selectedPixel.x,
+        props.selectedPixel.y,
+        CELL_SIZE,
+        "rgba(255,0,0,0.5)"
     );
   }
 };
 
-const checkScaleLimit = (value: number) => {
-  return value > 4 ? 4 : value < 0.2 ? 0.2 : value;
+// Рендер захваченных пикселей
+function renderCapturedPixels() {
+  if (!props.capturedPixels || props.capturedPixels.length === 0) return;
+  
+  const c = ctx.value!;
+  const step = CELL_SIZE * props.view.scale;
+  
+  c.save();
+  c.imageSmoothingEnabled = false;
+  c.fillStyle = "#22C55E"; // Зеленый цвет для захваченных пикселей
+  
+  // Упрощенный рендер без сложных вычислений
+  for (const pixel of props.capturedPixels) {
+    const sx = Math.round(pixel.x * step + props.view.panX);
+    const sy = Math.round(pixel.y * step + props.view.panY);
+    const size = Math.max(1, Math.round(step));
+    c.fillRect(sx, sy, size, size);
+  }
+  
+  c.restore();
 }
+
+const scheduleRender = () => {
+  if (!needsRender) {
+    needsRender = true;
+    requestAnimationFrame(() => {
+      render();
+      needsRender = false;
+    });
+  }
+};
+
+const checkScaleLimit = (value: number) => {
+  // Разрешаем очень маленькие масштабы, LOD справится
+  return value > 6 ? 6 : value < 0.1 ? 0.1 : value;
+};
+
+// === Инструменты / редактирование ===
+function getPixelAt(x: number, y: number): BasePixel | null {
+  return borderIndex.get(keyXY(x, y)) || stateIndex.get(keyXY(x, y)) || null;
+}
+
+// Метод для захвата пикселя (будет подключен к endpoint)
+function capturePixel(x: number, y: number) {
+  const pixel = getPixelAt(x, y);
+  if (pixel) {
+    // Здесь будет вызов API для захвата пикселя
+    emit('capture-pixel', pixel);
+  }
+}
+
+function handlePixelClick(mapX: number, mapY: number) {
+  const found = getPixelAt(mapX, mapY);
+  if (found) {
+    emit('update:selected-pixel', { ...found });
+  } else {
+    // Если пусто — просто заполним координаты (тип по умолчанию)
+    emit('update:selected-pixel', { x: mapX, y: mapY, type: "border" });
+  }
+  scheduleRender();
+}
+
+// === События ===
+const onClick = (e: MouseEvent) => {
+  if (isDragging) return;
+  const rect = canvasRef.value!.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+  const { mapX, mapY } = screenToMap(x, y);
+  handlePixelClick(mapX, mapY);
+};
 
 const onMouseDown = (e: MouseEvent) => {
   isDragging = true;
   lastX = e.clientX;
   lastY = e.clientY;
 };
+
 const onMouseMove = (e: MouseEvent) => {
   if (!isDragging) return;
-  view.value.panX += e.clientX - lastX;
-  view.value.panY += e.clientY - lastY;
+  const newView = { ...props.view };
+  newView.panX += e.clientX - lastX;
+  newView.panY += e.clientY - lastY;
+  emit('update:view', newView);
+  
   lastX = e.clientX;
   lastY = e.clientY;
-  render();
+  scheduleRender();
 };
+
 const onMouseUp = () => {
   isDragging = false;
 };
 
 const onWheel = (e: WheelEvent) => {
-  e.preventDefault(); // блокируем прокрутку страницы
-  const zoomFactor = 1.05;
-  view.value.scale *= e.deltaY < 0 ? zoomFactor : 1 / zoomFactor;
-  view.value.scale = checkScaleLimit(view.value.scale);
-  render();
+  e.preventDefault();
+  const rect = canvasRef.value!.getBoundingClientRect();
+  // Зум относительно курсора
+  const mx = e.clientX - rect.left;
+  const my = e.clientY - rect.top;
+  const before = screenToMap(mx, my);
+
+  const zoom = e.deltaY < 0 ? 1.05 : 1 / 1.05;
+  const newView = { ...props.view };
+  newView.scale = checkScaleLimit(newView.scale * zoom);
+
+  // сохраняем точку под курсором
+  const step = CELL_SIZE * newView.scale;
+  newView.panX = mx - before.mapX * step;
+  newView.panY = my - before.mapY * step;
+  
+  emit('update:view', newView);
+  scheduleRender();
 };
 
 const getTouchDist = (touches: TouchList) => {
@@ -141,33 +392,47 @@ const onTouchStart = (e: TouchEvent) => {
   } else if (e.touches.length === 2) {
     isDragging = false;
     pinchStartDist = getTouchDist(e.touches);
-    pinchStartScale = view.value.scale;
+    pinchStartScale = props.view.scale;
   }
 };
 
 const onTouchMove = (e: TouchEvent) => {
-  e.preventDefault(); // блокируем прокрутку
+  e.preventDefault();
+  const newView = { ...props.view };
+  
   if (e.touches.length === 1 && isDragging) {
-    view.value.panX += e.touches[0].clientX - lastX;
-    view.value.panY += e.touches[0].clientY - lastY;
+    newView.panX += e.touches[0].clientX - lastX;
+    newView.panY += e.touches[0].clientY - lastY;
     lastX = e.touches[0].clientX;
     lastY = e.touches[0].clientY;
+    emit('update:view', newView);
   } else if (e.touches.length === 2) {
+    const rect = canvasRef.value!.getBoundingClientRect();
+    const centerX = (e.touches[0].clientX + e.touches[1].clientX) / 2 - rect.left;
+    const centerY = (e.touches[0].clientY + e.touches[1].clientY) / 2 - rect.top;
+    const before = screenToMap(centerX, centerY);
+
     const dist = getTouchDist(e.touches);
-    view.value.scale = pinchStartScale * (dist / pinchStartDist);
+    newView.scale = checkScaleLimit(pinchStartScale * (dist / pinchStartDist));
+
+    const step = CELL_SIZE * newView.scale;
+    newView.panX = centerX - before.mapX * step;
+    newView.panY = centerY - before.mapY * step;
+    
+    emit('update:view', newView);
   }
-  render();
+  scheduleRender();
 };
 
 const onTouchEnd = () => {
   isDragging = false;
 };
 
+// Монтирование
 onMounted(() => {
-  // убираем прокрутку страницы
   document.body.style.overflow = "hidden";
-
   initCanvas();
+  rebuildIndicesAndChunks();
   render();
 
   const canvas = canvasRef.value!;
@@ -181,6 +446,25 @@ onMounted(() => {
   canvas.addEventListener("touchmove", onTouchMove, { passive: false });
   canvas.addEventListener("touchend", onTouchEnd);
 });
+
+onBeforeUnmount(() => {
+  const canvas = canvasRef.value!;
+  canvas?.removeEventListener("mousedown", onMouseDown);
+  window.removeEventListener("mousemove", onMouseMove);
+  window.removeEventListener("mouseup", onMouseUp);
+  canvas?.removeEventListener("wheel", onWheel);
+  canvas?.removeEventListener("click", onClick);
+
+  canvas?.removeEventListener("touchstart", onTouchStart);
+  canvas?.removeEventListener("touchmove", onTouchMove);
+  canvas?.removeEventListener("touchend", onTouchEnd);
+});
+
+// Если снаружи полностью заменили массивы, перестроим индексы/чанки/кэш
+watch([() => props.borderPixels, () => props.statePixels, () => props.capturedPixels], () => {
+  rebuildIndicesAndChunks();
+  scheduleRender();
+}, { deep: true });
 </script>
 
 <template>

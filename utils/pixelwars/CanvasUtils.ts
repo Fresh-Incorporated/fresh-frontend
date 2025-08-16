@@ -67,3 +67,61 @@ export function drawPixel(
     context.fillStyle = color;
     context.fillRect(sx, sy, size, size);
 }
+
+/**
+ * Проверяет, есть ли соседние пиксели в указанной позиции
+ */
+export function hasNeighbors(
+    x: number,
+    y: number,
+    borderPixels: Map<string, any>,
+    statePixels: Map<string, any>
+): boolean {
+    const keyXY = (x: number, y: number) => `${x},${y}`;
+    
+    // Проверяем все 4 направления
+    return (
+        borderPixels.has(keyXY(x-1, y)) || borderPixels.has(keyXY(x+1, y)) ||
+        borderPixels.has(keyXY(x, y-1)) || borderPixels.has(keyXY(x, y+1)) ||
+        statePixels.has(keyXY(x-1, y)) || statePixels.has(keyXY(x+1, y)) ||
+        statePixels.has(keyXY(x, y-1)) || statePixels.has(keyXY(x, y+1))
+    );
+}
+
+/**
+ * Вычисляет расстояние между двумя точками
+ */
+export function calculateDistance(x1: number, y1: number, x2: number, y2: number): number {
+    const dx = x2 - x1;
+    const dy = y2 - y1;
+    return Math.sqrt(dx * dx + dy * dy);
+}
+
+/**
+ * Проверяет, находится ли точка в пределах границ карты
+ */
+export function isWithinBounds(x: number, y: number, maxX: number, maxY: number): boolean {
+    return x >= 0 && x < maxX && y >= 0 && y < maxY;
+}
+
+/**
+ * Создает уникальный ключ для координат
+ */
+export function createCoordinateKey(x: number, y: number): string {
+    return `${x},${y}`;
+}
+
+/**
+ * Парсит координаты из ключа
+ */
+export function parseCoordinateKey(key: string): { x: number, y: number } | null {
+    const parts = key.split(',');
+    if (parts.length !== 2) return null;
+    
+    const x = parseInt(parts[0]);
+    const y = parseInt(parts[1]);
+    
+    if (isNaN(x) || isNaN(y)) return null;
+    
+    return { x, y };
+}
