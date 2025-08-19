@@ -1,14 +1,10 @@
 export interface BasePixel {
   x: number;
   y: number;
-  type: "border" | "state";
-}
-
-export interface PlayerPixel extends BasePixel {
-  playerId: string;
-  clanId?: string;
-  placedAt: Date;
-  lastIncome: Date;
+  type: "border" | "state" | "sea";
+  user?: {
+    id: string;
+  } | null;
 }
 
 export interface Player {

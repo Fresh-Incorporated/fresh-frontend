@@ -1,17 +1,12 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, watch, computed } from "vue";
 import { drawGrid, drawPixel } from "~/utils/pixelwars/CanvasUtils";
+import type { BasePixel } from "~/types/pixelwars";
 
 const CELL_SIZE = 5;          // размер "пикселя" карты в экранных px при scale=1
 const CHUNK_SIZE = 100;       // размер чанка в клетках
 const GRID_MIN_STEP = 8;      // минимальный размер клетки на экране, при котором рисуем сетку
 const LOD_RECT_THRESHOLD = 2; // если ширина чанка на экране < 2px — рисуем один прямоугольник
-
-interface BasePixel {
-  x: number;
-  y: number;
-  type: "border" | "state";
-}
 
 interface ViewState {
   scale: number;
@@ -24,7 +19,6 @@ const props = defineProps<{
   selectedPixel: BasePixel | null;
   borderPixels: BasePixel[];
   statePixels: BasePixel[];
-  capturedPixels?: BasePixel[]; // Новые захваченные пиксели
 }>();
 
 const emit = defineEmits<{
@@ -56,7 +50,6 @@ const stateChunkCache: Map<string, HTMLCanvasElement> = new Map();
 // Быстрые индексы по координате
 const borderIndex: Map<string, BasePixel> = new Map();
 const stateIndex: Map<string, BasePixel> = new Map();
-const capturedIndex: Map<string, BasePixel> = new Map(); // Индекс захваченных пикселей
 
 const keyXY = (x: number, y: number) => `${x},${y}`;
 const chunkKey = (x: number, y: number) => {
@@ -98,9 +91,13 @@ function rebuildIndicesAndChunks() {
   stateChunks.clear();
   borderIndex.clear();
   stateIndex.clear();
-  capturedIndex.clear();
   borderChunkCache.clear();
   stateChunkCache.clear();
+
+  console.log("Перестраиваем индексы:", {
+    borderPixels: props.borderPixels.length,
+    statePixels: props.statePixels.length
+  });
 
   for (const p of props.borderPixels) {
     borderIndex.set(keyXY(p.x, p.y), p);
@@ -114,12 +111,13 @@ function rebuildIndicesAndChunks() {
     if (!stateChunks.has(ck)) stateChunks.set(ck, []);
     stateChunks.get(ck)!.push(p);
   }
-  // Добавляем захваченные пиксели
-  if (props.capturedPixels) {
-    for (const p of props.capturedPixels) {
-      capturedIndex.set(keyXY(p.x, p.y), p);
-    }
-  }
+  
+  console.log("Индексы построены:", {
+    borderChunks: borderChunks.size,
+    stateChunks: stateChunks.size,
+    borderIndex: borderIndex.size,
+    stateIndex: stateIndex.size
+  });
 }
 
 // Инвалидация кэша чанка
@@ -147,14 +145,42 @@ function getChunkCanvas(
   const offctx = off.getContext("2d")!;
   offctx.imageSmoothingEnabled = false;
 
-  const fill = layer === "border" ? "#000" : "#87CEEB"; // светло-голубой для воды
-  offctx.fillStyle = fill;
-
-  for (const p of list) {
-    // локальные координаты внутри чанка
-    const lx = ((p.x % CHUNK_SIZE + CHUNK_SIZE) % CHUNK_SIZE) * CELL_SIZE;
-    const ly = ((p.y % CHUNK_SIZE + CHUNK_SIZE) % CHUNK_SIZE) * CELL_SIZE;
-    offctx.fillRect(lx, ly, CELL_SIZE, CELL_SIZE);
+  if (layer === "border") {
+    // Границы всегда черные
+    offctx.fillStyle = "#000";
+    for (const p of list) {
+      const lx = ((p.x % CHUNK_SIZE + CHUNK_SIZE) % CHUNK_SIZE) * CELL_SIZE;
+      const ly = ((p.y % CHUNK_SIZE + CHUNK_SIZE) % CHUNK_SIZE) * CELL_SIZE;
+      offctx.fillRect(lx, ly, CELL_SIZE, CELL_SIZE);
+    }
+  } else {
+    // State пиксели: белые если не захвачены, зеленые если захвачены
+    console.log(`Создаем канвас для state чанка ${ck}:`, {
+      totalPixels: list.length,
+      capturedPixels: list.filter(p => p.user?.id).length,
+      freePixels: list.filter(p => !p.user?.id).length,
+      samplePixel: list[0] ? Object.keys(list[0]) : 'нет пикселей'
+    });
+    
+    for (const p of list) {
+      const lx = ((p.x % CHUNK_SIZE + CHUNK_SIZE) % CHUNK_SIZE) * CELL_SIZE;
+      const ly = ((p.y % CHUNK_SIZE + CHUNK_SIZE) % CHUNK_SIZE) * CELL_SIZE;
+      
+      // Проверяем различные возможные поля для определения захвата
+      const isCaptured = p.user?.id || (p as any).playerId || (p as any).ownerId || (p as any).captured;
+      
+      if (isCaptured) {
+        // Захваченный пиксель - зеленый
+        offctx.fillStyle = "#22C55E";
+        console.log(`Пиксель (${p.x}, ${p.y}) - зеленый (захвачен)`, { user: p.user, playerId: (p as any).playerId, ownerId: (p as any).ownerId, captured: (p as any).captured });
+      } else {
+        // Свободный пиксель - белый
+        offctx.fillStyle = "#FFFFFF";
+        console.log(`Пиксель (${p.x}, ${p.y}) - белый (свободен)`, { user: p.user, playerId: (p as any).playerId, ownerId: (p as any).ownerId, captured: (p as any).captured });
+      }
+      
+      offctx.fillRect(lx, ly, CELL_SIZE, CELL_SIZE);
+    }
   }
 
   cache.set(ck, off);
@@ -182,7 +208,6 @@ function renderLayer(chunks: ChunkMap, layer: "border" | "state") {
     c.save();
     c.globalAlpha = 1;
     c.imageSmoothingEnabled = false;
-    c.fillStyle = layer === "border" ? "#000" : "#87CEEB";
 
     for (let cx = startX; cx <= endX; cx++) {
       for (let cy = startY; cy <= endY; cy++) {
@@ -197,6 +222,26 @@ function renderLayer(chunks: ChunkMap, layer: "border" | "state") {
 
         const dx = cx * CHUNK_SIZE * step + props.view.panX;
         const dy = cy * CHUNK_SIZE * step + props.view.panY;
+
+        if (layer === "border") {
+          // Границы всегда черные
+          c.fillStyle = "#000";
+        } else {
+          // State пиксели: смешанный цвет в зависимости от захвата
+          const capturedCount = list.filter(p => p.user?.id || (p as any).playerId || (p as any).ownerId || (p as any).captured).length;
+          const totalCount = list.length;
+          
+          if (capturedCount === 0) {
+            // Все свободные - белый
+            c.fillStyle = "#FFFFFF";
+          } else if (capturedCount === totalCount) {
+            // Все захвачены - зеленый
+            c.fillStyle = "#22C55E";
+          } else {
+            // Смешанные - светло-зеленый
+            c.fillStyle = "#86EFAC";
+          }
+        }
 
         // рисуем один прямоугольник размера чанка
         c.fillRect(dx, dy, chunkPxW, chunkPxW);
@@ -241,12 +286,14 @@ const render = () => {
     drawGrid(c, props.view.scale, props.view.panX, props.view.panY, CELL_SIZE);
   }
 
+  console.log("Рендерим слои:", {
+    borderChunks: borderChunks.size,
+    stateChunks: stateChunks.size
+  });
+
   // Слои
   renderLayer(borderChunks, "border");
   renderLayer(stateChunks, "state");
-  
-  // Рендер захваченных пикселей поверх остальных
-  renderCapturedPixels();
 
   // Выделение
   if (props.selectedPixel) {
@@ -262,28 +309,6 @@ const render = () => {
     );
   }
 };
-
-// Рендер захваченных пикселей
-function renderCapturedPixels() {
-  if (!props.capturedPixels || props.capturedPixels.length === 0) return;
-  
-  const c = ctx.value!;
-  const step = CELL_SIZE * props.view.scale;
-  
-  c.save();
-  c.imageSmoothingEnabled = false;
-  c.fillStyle = "#22C55E"; // Зеленый цвет для захваченных пикселей
-  
-  // Упрощенный рендер без сложных вычислений
-  for (const pixel of props.capturedPixels) {
-    const sx = Math.round(pixel.x * step + props.view.panX);
-    const sy = Math.round(pixel.y * step + props.view.panY);
-    const size = Math.max(1, Math.round(step));
-    c.fillRect(sx, sy, size, size);
-  }
-  
-  c.restore();
-}
 
 const scheduleRender = () => {
   if (!needsRender) {
@@ -319,8 +344,7 @@ function handlePixelClick(mapX: number, mapY: number) {
   if (found) {
     emit('update:selected-pixel', { ...found });
   } else {
-    // Если пусто — просто заполним координаты (тип по умолчанию)
-    emit('update:selected-pixel', { x: mapX, y: mapY, type: "border" });
+    emit('update:selected-pixel', { x: mapX, y: mapY, type: "sea" });
   }
   scheduleRender();
 }
@@ -461,7 +485,7 @@ onBeforeUnmount(() => {
 });
 
 // Если снаружи полностью заменили массивы, перестроим индексы/чанки/кэш
-watch([() => props.borderPixels, () => props.statePixels, () => props.capturedPixels], () => {
+watch([() => props.borderPixels, () => props.statePixels], () => {
   rebuildIndicesAndChunks();
   scheduleRender();
 }, { deep: true });

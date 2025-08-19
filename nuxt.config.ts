@@ -79,5 +79,11 @@ export default defineNuxtConfig({
     componentDir: './components/ui'
   },
 
+  nitro: {
+    experimental: {
+      websocket: true
+    }
+  },
+
   modules: ['@nuxtjs/color-mode', '@nuxt/icon', '@nuxtjs/device', 'shadcn-nuxt', '@artmizu/yandex-metrika-nuxt'],
 })
