@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import SeasonProgress from "~/components/pixelwars/SeasonProgress.vue";
 import ClanStats from "~/components/pixelwars/ClanStats.vue";
+import PixelWarsWelcome from "~/components/pixelwars/PixelWarsWelcome.vue";
 
 // Props для получения данных от родительского компонента
 const props = defineProps<{
@@ -52,6 +53,8 @@ const getSelectedPixelUser = () => {
 </script>
 
 <template>
+  <PixelWarsWelcome />
+
   <div class="absolute top-1 left-1 flex items-center space-x-3 bg-white/90 backdrop-blur-sm rounded-xl px-4 py-3 shadow-lg border border-white/20">
     <div class="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
       <span class="text-white font-bold text-sm">PW</span>

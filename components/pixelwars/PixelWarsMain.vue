@@ -2,11 +2,14 @@
 import PixelWarsMap from "~/components/pixelwars/PixelWarsMap.vue";
 import ClanStats from "~/components/pixelwars/ClanStats.vue";
 import SeasonProgress from "~/components/pixelwars/SeasonProgress.vue";
-import {computed, nextTick, onMounted, ref} from "vue";
+import PixelWarsCreateClan from "~/components/pixelwars/PixelWarsCreateClan.vue";
+import PixelWarsClans from "~/components/pixelwars/PixelWarsClans.vue";
+import {computed, nextTick, onMounted, onBeforeUnmount, ref} from "vue";
 import {http} from "~/composables/useHttp";
 import type {BasePixel, Clan, GameSeason, Player, ViewState} from "~/types/pixelwars";
 import {toast} from "vue-sonner";
 import PixelWarsUI from "~/components/pixelwars/PixelWarsUI.vue";
+import PixelWarsWelcome from "~/components/pixelwars/PixelWarsWelcome.vue";
 
 const view = ref<ViewState>({
   scale: 0.25,
@@ -363,14 +366,15 @@ onBeforeUnmount(() => {
       />
     </div>
 
-    <PixelWarsUI 
+    <PixelWarsUI
+      v-if="!isLoading"
       :selected-pixel="selectedPixel"
       :view="view"
       :ws-status="wsStatus"
       :message-queue="messageQueue"
       :is-processing-queue="isProcessingQueue"
       :is-capturing="isCapturing"
-      :can-capture-pixel="canCapturePixel"
+      :can-capture-pixel="Boolean(canCapturePixel)"
       :is-selected-pixel-captured="Boolean(isSelectedPixelCaptured)"
       :current-season="currentSeason"
       :current-clan="currentClan"
@@ -381,9 +385,33 @@ onBeforeUnmount(() => {
       @disconnect-websocket="disconnectWebSocket"
       @toggle-clan-stats="toggleClanStats"
     />
+
+    <!-- Модальные окна кланов -->
+    <PixelWarsCreateClan>
+      <ShButton 
+        variant="outline" 
+        class="absolute top-4 right-4 bg-white/80 backdrop-blur-sm border-gray-200 hover:bg-white"
+      >
+        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+        </svg>
+        Создать клан
+      </ShButton>
+    </PixelWarsCreateClan>
+
+    <PixelWarsClans>
+      <ShButton 
+        variant="outline" 
+        class="absolute top-4 right-20 bg-white/80 backdrop-blur-sm border-gray-200 hover:bg-white"
+      >
+        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+        </svg>
+        Список кланов
+      </ShButton>
+    </PixelWarsClans>
   </div>
 </template>
 
 <style scoped>
-/* Дополнительные стили если нужны */
 </style>
