@@ -94,30 +94,35 @@ function rebuildIndicesAndChunks() {
   borderChunkCache.clear();
   stateChunkCache.clear();
 
-  console.log("Перестраиваем индексы:", {
-    borderPixels: props.borderPixels.length,
-    statePixels: props.statePixels.length
-  });
-
-  for (const p of props.borderPixels) {
-    borderIndex.set(keyXY(p.x, p.y), p);
+  // Используем более эффективный способ построения индексов
+  const borderPixels = props.borderPixels;
+  const statePixels = props.statePixels;
+  
+  // Обрабатываем border пиксели
+  for (let i = 0; i < borderPixels.length; i++) {
+    const p = borderPixels[i];
+    const key = keyXY(p.x, p.y);
+    borderIndex.set(key, p);
+    
     const ck = chunkKey(p.x, p.y);
-    if (!borderChunks.has(ck)) borderChunks.set(ck, []);
+    if (!borderChunks.has(ck)) {
+      borderChunks.set(ck, []);
+    }
     borderChunks.get(ck)!.push(p);
   }
-  for (const p of props.statePixels) {
-    stateIndex.set(keyXY(p.x, p.y), p);
+  
+  // Обрабатываем state пиксели
+  for (let i = 0; i < statePixels.length; i++) {
+    const p = statePixels[i];
+    const key = keyXY(p.x, p.y);
+    stateIndex.set(key, p);
+    
     const ck = chunkKey(p.x, p.y);
-    if (!stateChunks.has(ck)) stateChunks.set(ck, []);
+    if (!stateChunks.has(ck)) {
+      stateChunks.set(ck, []);
+    }
     stateChunks.get(ck)!.push(p);
   }
-  
-  console.log("Индексы построены:", {
-    borderChunks: borderChunks.size,
-    stateChunks: stateChunks.size,
-    borderIndex: borderIndex.size,
-    stateIndex: stateIndex.size
-  });
 }
 
 // Инвалидация кэша чанка
@@ -125,6 +130,44 @@ function invalidateChunkCacheForXY(x: number, y: number) {
   const ck = chunkKey(x, y);
   borderChunkCache.delete(ck);
   stateChunkCache.delete(ck);
+}
+
+// Быстрое обновление отдельного пикселя
+function updatePixelQuickly(x: number, y: number, ownerId: number | null) {
+  // Обновляем пиксель в массиве
+  const pixelIndex = props.statePixels.findIndex(p => p.x === x && p.y === y);
+  if (pixelIndex !== -1) {
+    props.statePixels[pixelIndex].ownerId = ownerId;
+  }
+  
+  // Обновляем индекс
+  const key = keyXY(x, y);
+  const existingPixel = stateIndex.get(key);
+  if (existingPixel) {
+    existingPixel.ownerId = ownerId;
+  }
+  
+  // Инвалидируем кэш только для этого чанка
+  invalidateChunkCacheForXY(x, y);
+  
+  // Проверяем, видим ли пиксель на экране
+  const step = CELL_SIZE * props.view.scale;
+  const screenX = x * step + props.view.panX;
+  const screenY = y * step + props.view.panY;
+  
+  // Получаем размеры канваса
+  const canvas = canvasRef.value;
+  if (canvas) {
+    const rect = canvas.getBoundingClientRect();
+    const cssW = rect.width;
+    const cssH = rect.height;
+    
+    // Если пиксель видим на экране, перерисовываем
+    if (screenX >= -step && screenX <= cssW + step && 
+        screenY >= -step && screenY <= cssH + step) {
+      debouncedRender();
+    }
+  }
 }
 
 // Получить/создать отрисованный кэш-канвас чанка
@@ -155,28 +198,19 @@ function getChunkCanvas(
     }
   } else {
     // State пиксели: белые если не захвачены, зеленые если захвачены
-    console.log(`Создаем канвас для state чанка ${ck}:`, {
-      totalPixels: list.length,
-      capturedPixels: list.filter(p => p.user?.id).length,
-      freePixels: list.filter(p => !p.user?.id).length,
-      samplePixel: list[0] ? Object.keys(list[0]) : 'нет пикселей'
-    });
-    
     for (const p of list) {
       const lx = ((p.x % CHUNK_SIZE + CHUNK_SIZE) % CHUNK_SIZE) * CELL_SIZE;
       const ly = ((p.y % CHUNK_SIZE + CHUNK_SIZE) % CHUNK_SIZE) * CELL_SIZE;
       
       // Проверяем различные возможные поля для определения захвата
-      const isCaptured = p.user?.id || (p as any).playerId || (p as any).ownerId || (p as any).captured;
-      
+      const isCaptured = p.ownerId;
+
       if (isCaptured) {
         // Захваченный пиксель - зеленый
         offctx.fillStyle = "#22C55E";
-        console.log(`Пиксель (${p.x}, ${p.y}) - зеленый (захвачен)`, { user: p.user, playerId: (p as any).playerId, ownerId: (p as any).ownerId, captured: (p as any).captured });
       } else {
         // Свободный пиксель - белый
         offctx.fillStyle = "#FFFFFF";
-        console.log(`Пиксель (${p.x}, ${p.y}) - белый (свободен)`, { user: p.user, playerId: (p as any).playerId, ownerId: (p as any).ownerId, captured: (p as any).captured });
       }
       
       offctx.fillRect(lx, ly, CELL_SIZE, CELL_SIZE);
@@ -228,7 +262,7 @@ function renderLayer(chunks: ChunkMap, layer: "border" | "state") {
           c.fillStyle = "#000";
         } else {
           // State пиксели: смешанный цвет в зависимости от захвата
-          const capturedCount = list.filter(p => p.user?.id || (p as any).playerId || (p as any).ownerId || (p as any).captured).length;
+          const capturedCount = list.filter(p => p.ownerId).length;
           const totalCount = list.length;
           
           if (capturedCount === 0) {
@@ -286,11 +320,6 @@ const render = () => {
     drawGrid(c, props.view.scale, props.view.panX, props.view.panY, CELL_SIZE);
   }
 
-  console.log("Рендерим слои:", {
-    borderChunks: borderChunks.size,
-    stateChunks: stateChunks.size
-  });
-
   // Слои
   renderLayer(borderChunks, "border");
   renderLayer(stateChunks, "state");
@@ -318,6 +347,18 @@ const scheduleRender = () => {
       needsRender = false;
     });
   }
+};
+
+// Дебаунсинг для рендера при множественных обновлениях
+let renderTimeout: NodeJS.Timeout | null = null;
+const debouncedRender = () => {
+  if (renderTimeout) {
+    clearTimeout(renderTimeout);
+  }
+  renderTimeout = setTimeout(() => {
+    scheduleRender();
+    renderTimeout = null;
+  }, 16); // ~60fps
 };
 
 const checkScaleLimit = (value: number) => {
@@ -472,7 +513,7 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
-  const canvas = canvasRef.value!;
+  const canvas = canvasRef.value;
   canvas?.removeEventListener("mousedown", onMouseDown);
   window.removeEventListener("mousemove", onMouseMove);
   window.removeEventListener("mouseup", onMouseUp);
@@ -482,6 +523,11 @@ onBeforeUnmount(() => {
   canvas?.removeEventListener("touchstart", onTouchStart);
   canvas?.removeEventListener("touchmove", onTouchMove);
   canvas?.removeEventListener("touchend", onTouchEnd);
+  
+  // Очищаем таймауты
+  if (renderTimeout) {
+    clearTimeout(renderTimeout);
+  }
 });
 
 // Если снаружи полностью заменили массивы, перестроим индексы/чанки/кэш
@@ -489,6 +535,11 @@ watch([() => props.borderPixels, () => props.statePixels], () => {
   rebuildIndicesAndChunks();
   scheduleRender();
 }, { deep: true });
+
+// Экспортируем функцию для быстрого обновления пикселей
+defineExpose({
+  updatePixelQuickly
+});
 </script>
 
 <template>

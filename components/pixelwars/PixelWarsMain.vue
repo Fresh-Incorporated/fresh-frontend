@@ -5,11 +5,12 @@ import SeasonProgress from "~/components/pixelwars/SeasonProgress.vue";
 import {computed, nextTick, onMounted, ref} from "vue";
 import {http} from "~/composables/useHttp";
 import type {BasePixel, Clan, GameSeason, Player, ViewState} from "~/types/pixelwars";
+import {toast} from "vue-sonner";
 
 const view = ref<ViewState>({
-  scale: 1,
-  panX: 0,
-  panY: 0
+  scale: 0.25,
+  panX: -4,
+  panY: 58
 });
 
 const borderPixels = ref<BasePixel[]>([]);
@@ -26,6 +27,57 @@ const isClanStatsExpanded = ref(false);
 // WebSocket
 const ws = ref<WebSocket | null>(null);
 const wsStatus = ref<'connecting' | 'connected' | 'disconnected' | 'error'>('disconnected');
+
+// Очередь сообщений для предотвращения блокировки UI
+const messageQueue = ref<Array<{type: string, x: number, y: number, ownerId?: string}>>([]);
+const isProcessingQueue = ref(false);
+
+// Обработка очереди сообщений
+const processMessageQueue = async () => {
+  if (isProcessingQueue.value || messageQueue.value.length === 0) return;
+  
+  isProcessingQueue.value = true;
+  
+  // Обрабатываем сообщения пакетами для предотвращения блокировки
+  const batchSize = 10;
+  const batch = messageQueue.value.splice(0, batchSize);
+  
+  for (const message of batch) {
+    if (message.type === "pixel_placed") {
+      const pixelIndex = statePixels.value.findIndex(p => p.x === message.x && p.y === message.y);
+      if (pixelIndex !== -1) {
+        const pixel = statePixels.value[pixelIndex];
+        if (pixel) {
+          pixel.ownerId = message.ownerId;
+          
+          // Быстро обновляем пиксель на карте
+          if (mapRef.value) {
+            mapRef.value.updatePixelQuickly(message.x, message.y, pixel.ownerId);
+          }
+        }
+      }
+    }
+    
+    // Небольшая задержка между обработкой сообщений для предотвращения блокировки
+    if (batch.length > 1) {
+      await new Promise(resolve => setTimeout(resolve, 1));
+    }
+  }
+  
+  isProcessingQueue.value = false;
+  
+  // Если в очереди еще есть сообщения, продолжаем обработку
+  if (messageQueue.value.length > 0) {
+    setTimeout(processMessageQueue, 16); // ~60fps
+  }
+};
+
+const canvasRef = ref<HTMLCanvasElement | null>(null);
+const mapRef = ref<InstanceType<typeof PixelWarsMap> | null>(null);
+
+const emit = defineEmits<{
+  'pixel-updated': [data: { x: number; y: number; user: { id: string } | null }];
+}>();
 
 const connectWebSocket = () => {
   try {
@@ -49,13 +101,39 @@ const connectWebSocket = () => {
     };
     
     ws.value.onmessage = (event) => {
-      console.log('WebSocket message received:', event.data);
+      const response = JSON.parse(event.data)
+      console.log('WebSocket message received:', response);
+
+      if (response.type == "error") {
+        toast.error('Произошла ошибка', {
+          description: response?.message,
+          duration: 5000,
+        })
+      } else if (response.type == "pixel_placed") {
+        // Добавляем сообщение в очередь для асинхронной обработки
+        messageQueue.value.push({
+          type: response.type,
+          x: response.x,
+          y: response.y,
+          ownerId: response.ownerId
+        });
+        
+        // Запускаем обработку очереди если она еще не запущена
+        if (!isProcessingQueue.value) {
+          processMessageQueue();
+        }
+      }
     };
   } catch (error) {
     console.error('Failed to create WebSocket:', error);
     wsStatus.value = 'error';
   }
 };
+
+const sendWebsocket = (data: Object) => {
+  if (!ws.value) return;
+  ws.value.send(JSON.stringify(data))
+}
 
 const disconnectWebSocket = () => {
   if (ws.value) {
@@ -80,6 +158,10 @@ const loadMap = async () => {
   try {
     isLoading.value = true;
     const response = await http.get("/pixelwars/map");
+    
+    // Обрабатываем данные асинхронно для предотвращения блокировки UI
+    await nextTick();
+    
     borderPixels.value = response.data.borderPixels || [];
     statePixels.value = response.data.statePixels || [];
 
@@ -89,16 +171,16 @@ const loadMap = async () => {
       console.log("Пример state пикселя:", samplePixel);
       console.log("Поля пикселя:", Object.keys(samplePixel));
       console.log("Есть ли user поле:", 'user' in samplePixel);
-      console.log("Значение user:", samplePixel.user);
+      console.log("Значение user:", samplePixel.ownerId);
     }
-
 
     console.log("Загруженные пиксели:", {
       border: borderPixels.value.length,
       state: statePixels.value.length
     });
 
-    updateStats();
+    // Обновляем статистику асинхронно
+    await nextTick();
   } catch (error) {
     console.error("Failed to load map:", error);
   } finally {
@@ -179,19 +261,6 @@ const loadSeasonData = async () => {
   }
 };
 
-// Обновление статистики с дебаунсингом
-const updateStats = () => {
-  const capturedPixelsCount = statePixels.value.filter(p => p.user?.id).length;
-
-  stats.value = {
-    totalPixels: borderPixels.value.length + statePixels.value.length,
-    borderPixels: borderPixels.value.length,
-    statePixels: statePixels.value.length,
-    capturedPixels: capturedPixelsCount,
-    lastUpdated: new Date()
-  };
-};
-
 // Сброс к начальному виду
 const resetView = () => {
   view.value = {
@@ -217,40 +286,7 @@ const handleCapturePixel = async (pixel: BasePixel) => {
   try {
     isCapturing.value = true;
 
-    // Здесь будет вызов API для захвата пикселя
-    // const response = await http.post("/pixelwars/capture", {
-    //   x: pixel.x,
-    //   y: pixel.y,
-    //   type: pixel.type
-    // });
-
-    console.log("Захватываем пиксель:", pixel);
-
-    // Проверяем, не захвачен ли уже этот пиксель
-    const existingPixelIndex = statePixels.value.findIndex(p => p.x === pixel.x && p.y === pixel.y);
-
-    if (existingPixelIndex >= 0) {
-      // Если пиксель уже существует, обновляем его
-      if (!statePixels.value[existingPixelIndex].user?.id) {
-        statePixels.value[existingPixelIndex].user = {id: "current-user-id"};
-        console.log("Обновили существующий пиксель:", statePixels.value[existingPixelIndex]);
-      }
-    } else {
-      // Создаем новый state пиксель с пользователем
-      const newStatePixel: BasePixel = {
-        x: pixel.x,
-        y: pixel.y,
-        type: "state",
-        user: {id: "current-user-id"} // Здесь будет ID текущего пользователя
-      };
-
-      // Добавляем в statePixels
-      statePixels.value.push(newStatePixel);
-      console.log("Добавили новый пиксель:", newStatePixel);
-    }
-
-    // Обновляем статистику
-    updateStats();
+    sendWebsocket({type: "pixel_place", x: pixel.x, y: pixel.y})
 
     // Принудительно обновляем карту
     await nextTick();
@@ -276,14 +312,14 @@ const canCapturePixel = computed(() => {
 
 const isSelectedPixelCaptured = computed(() => {
   if (!selectedPixel.value) return false;
-  return statePixels.value.some(p => p.x === selectedPixel.value!.x && p.y === selectedPixel.value!.y && p.user?.id);
+  return statePixels.value.some(p => p.x === selectedPixel.value!.x && p.y === selectedPixel.value!.y && p.ownerId);
 });
 
 const getSelectedPixelUser = () => {
   if (!selectedPixel.value || selectedPixel.value.type !== 'state') {
     return null;
   }
-  return selectedPixel.value.user;
+  return selectedPixel.value.ownerId;
 };
 
 // Подключение к WebSocket при монтировании компонента
@@ -299,14 +335,30 @@ onMounted(() => {
 onBeforeUnmount(() => {
   // Отключаемся от WebSocket при размонтировании
   disconnectWebSocket();
+  
+  // Очищаем очередь сообщений
+  messageQueue.value = [];
 });
 </script>
 
 <template>
   <div class="flex flex-col-reverse xl:flex-row xl:grid grid-cols-3 gap-2 p-2 h-[calc(100vh-200px)] ">
-    <div class="w-full flex-1 lg:aspect-video col-span-2 bg-sky-200">
-      <PixelWarsMap v-model:view="view" v-model:selected-pixel="selectedPixel" v-model:border-pixels="borderPixels"
-                    v-model:state-pixels="statePixels"/>
+    <div class="w-full flex-1 lg:aspect-video col-span-2 bg-sky-200 relative">
+      <!-- Индикатор загрузки -->
+      <div v-if="isLoading" class="absolute inset-0 bg-white bg-opacity-75 flex items-center justify-center z-10">
+        <div class="text-center">
+          <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
+          <div class="text-gray-600">Загружаем карту...</div>
+        </div>
+      </div>
+      
+      <PixelWarsMap 
+        ref="mapRef"
+        v-model:view="view" 
+        v-model:selected-pixel="selectedPixel" 
+        v-model:border-pixels="borderPixels"
+        v-model:state-pixels="statePixels"
+      />
     </div>
 
     <!-- Правая панель -->
@@ -325,7 +377,7 @@ onBeforeUnmount(() => {
           <!-- Отладочная информация -->
           <div class="text-xs text-gray-500 bg-gray-100 p-2 rounded">
             <div>Тип: {{ selectedPixel.type }}</div>
-            <div>User: {{ selectedPixel.user ? JSON.stringify(selectedPixel.user) : 'null' }}</div>
+            <div>User: {{ selectedPixel.ownerId ? JSON.stringify(selectedPixel.ownerId) : 'null' }}</div>
             <div>Захвачен: {{ isSelectedPixelCaptured ? 'Да' : 'Нет' }}</div>
           </div>
 
@@ -408,6 +460,13 @@ onBeforeUnmount(() => {
                  wsStatus === 'error' ? 'Ошибка' : 'Отключен' }}
             </span>
           </div>
+          
+          <!-- Индикатор очереди сообщений -->
+          <div v-if="wsStatus === 'connected'" class="text-xs text-gray-500">
+            <div>Очередь: {{ messageQueue.length }} сообщений</div>
+            <div v-if="isProcessingQueue" class="text-blue-600">Обрабатываем...</div>
+          </div>
+          
           <button 
             @click="connectWebSocket" 
             :disabled="wsStatus === 'connecting' || wsStatus === 'connected'"
