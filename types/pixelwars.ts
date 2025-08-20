@@ -2,9 +2,7 @@ export interface BasePixel {
   x: number;
   y: number;
   type: "border" | "state" | "sea";
-  user?: {
-    id: string;
-  } | null;
+  ownerId?: number;
 }
 
 export interface Player {

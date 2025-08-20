@@ -6,6 +6,7 @@ import {computed, nextTick, onMounted, ref} from "vue";
 import {http} from "~/composables/useHttp";
 import type {BasePixel, Clan, GameSeason, Player, ViewState} from "~/types/pixelwars";
 import {toast} from "vue-sonner";
+import PixelWarsUI from "~/components/pixelwars/PixelWarsUI.vue";
 
 const view = ref<ViewState>({
   scale: 0.25,
@@ -48,11 +49,11 @@ const processMessageQueue = async () => {
       if (pixelIndex !== -1) {
         const pixel = statePixels.value[pixelIndex];
         if (pixel) {
-          pixel.ownerId = message.ownerId;
+          pixel.ownerId = message.ownerId ? parseInt(message.ownerId) : undefined;
           
           // Быстро обновляем пиксель на карте
           if (mapRef.value) {
-            mapRef.value.updatePixelQuickly(message.x, message.y, pixel.ownerId);
+            mapRef.value.updatePixelQuickly(message.x, message.y, pixel.ownerId ?? null);
           }
         }
       }
@@ -310,9 +311,10 @@ const canCapturePixel = computed(() => {
   return selectedPixel.value && !isCapturing.value;
 });
 
-const isSelectedPixelCaptured = computed(() => {
+const isSelectedPixelCaptured = computed((): boolean => {
   if (!selectedPixel.value) return false;
-  return statePixels.value.some(p => p.x === selectedPixel.value!.x && p.y === selectedPixel.value!.y && p.ownerId);
+  const found = statePixels.value.some(p => p.x === selectedPixel.value!.x && p.y === selectedPixel.value!.y && p.ownerId);
+  return Boolean(found);
 });
 
 const getSelectedPixelUser = () => {
@@ -342,8 +344,8 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="flex flex-col-reverse xl:flex-row xl:grid grid-cols-3 gap-2 p-2 h-[calc(100vh-200px)] ">
-    <div class="w-full flex-1 lg:aspect-video col-span-2 bg-sky-200 relative">
+  <div class="h-[calc(100vh-56px)] relative">
+    <div class="w-full bg-sky-200 relative">
       <!-- Индикатор загрузки -->
       <div v-if="isLoading" class="absolute inset-0 bg-white bg-opacity-75 flex items-center justify-center z-10">
         <div class="text-center">
@@ -361,140 +363,24 @@ onBeforeUnmount(() => {
       />
     </div>
 
-    <!-- Правая панель -->
-    <div class="grid grid-cols-2 gap-2">
-      <!-- Выбранный пиксель -->
-      <div v-if="selectedPixel" class="bg-white rounded-lg border border-gray-200 p-4">
-        <h4 class="text-sm font-medium text-gray-700 mb-3">Выбранный пиксель</h4>
-        <div class="text-sm text-gray-900 space-y-2">
-          <div>Координаты: ({{ selectedPixel.x }}, {{ selectedPixel.y }})</div>
-          <div>Тип:
-            <span :class="selectedPixel.type === 'border' ? 'text-black' : selectedPixel.type === 'state' ? 'text-green-600' : 'text-sky-600'">
-                {{ selectedPixel.type === 'border' ? 'Граница' : selectedPixel.type === 'state' ? "Территория" : "Вода" }}
-              </span>
-          </div>
-
-          <!-- Отладочная информация -->
-          <div class="text-xs text-gray-500 bg-gray-100 p-2 rounded">
-            <div>Тип: {{ selectedPixel.type }}</div>
-            <div>User: {{ selectedPixel.ownerId ? JSON.stringify(selectedPixel.ownerId) : 'null' }}</div>
-            <div>Захвачен: {{ isSelectedPixelCaptured ? 'Да' : 'Нет' }}</div>
-          </div>
-
-          <!-- Информация о захвате -->
-          <div v-if="selectedPixel.type === 'state'">
-            <div>Статус:
-              <span :class="isSelectedPixelCaptured ? 'text-green-600' : 'text-gray-500'">
-                  {{ isSelectedPixelCaptured ? 'Захвачен' : 'Свободен' }}
-                </span>
-            </div>
-            <div v-if="isSelectedPixelCaptured" class="text-xs text-gray-500">
-              ID пользователя: {{ getSelectedPixelUser()?.id || 'Неизвестно' }}
-            </div>
-          </div>
-
-          <!-- Кнопка захвата -->
-          <button
-              v-if="!isSelectedPixelCaptured"
-              @click="handleCapturePixel(selectedPixel)"
-              :disabled="!canCapturePixel"
-              class="w-full mt-3 px-4 py-2 bg-green-500 text-white rounded-md text-sm font-medium hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center space-x-2"
-          >
-            <svg
-                v-if="isCapturing"
-                class="animate-spin h-4 w-4"
-                fill="none"
-                viewBox="0 0 24 24"
-            >
-              <circle
-                  class="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  stroke-width="4"
-              ></circle>
-              <path
-                  class="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-              ></path>
-            </svg>
-            <span>{{ isCapturing ? 'Захватываем...' : 'Захватить пиксель' }}</span>
-          </button>
-
-          <!-- Индикатор успешного захвата -->
-          <div v-if="isSelectedPixelCaptured"
-               class="mt-2 text-sm text-green-600 flex items-center space-x-1">
-            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-            </svg>
-            <span>Пиксель захвачен!</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Состояние вида -->
-      <div class="bg-white rounded-lg border border-gray-200 p-4">
-        <h4 class="text-sm font-medium text-gray-700 mb-2">Состояние вида</h4>
-        <div class="text-sm text-gray-900 space-y-1">
-          <div>Масштаб: {{ view.scale.toFixed(2) }}x</div>
-          <div>Смещение: ({{ Math.round(view.panX) }}, {{ Math.round(view.panY) }})</div>
-        </div>
-      </div>
-
-      <!-- Статус WebSocket -->
-      <div class="bg-white rounded-lg border border-gray-200 p-4">
-        <h4 class="text-sm font-medium text-gray-700 mb-2">WebSocket статус</h4>
-        <div class="text-sm text-gray-900 space-y-1">
-          <div class="flex items-center space-x-2">
-            <span>Статус:</span>
-            <span :class="{
-              'text-green-600': wsStatus === 'connected',
-              'text-yellow-600': wsStatus === 'connecting',
-              'text-red-600': wsStatus === 'error',
-              'text-gray-600': wsStatus === 'disconnected'
-            }">
-              {{ wsStatus === 'connected' ? 'Подключен' : 
-                 wsStatus === 'connecting' ? 'Подключение...' :
-                 wsStatus === 'error' ? 'Ошибка' : 'Отключен' }}
-            </span>
-          </div>
-          
-          <!-- Индикатор очереди сообщений -->
-          <div v-if="wsStatus === 'connected'" class="text-xs text-gray-500">
-            <div>Очередь: {{ messageQueue.length }} сообщений</div>
-            <div v-if="isProcessingQueue" class="text-blue-600">Обрабатываем...</div>
-          </div>
-          
-          <button 
-            @click="connectWebSocket" 
-            :disabled="wsStatus === 'connecting' || wsStatus === 'connected'"
-            class="px-3 py-1 text-xs bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            Подключиться
-          </button>
-          <button 
-            @click="disconnectWebSocket" 
-            :disabled="wsStatus !== 'connected'"
-            class="px-3 py-1 text-xs bg-red-500 text-white rounded hover:bg-red-600 disabled:opacity-50 disabled:cursor-not-allowed ml-2"
-          >
-            Отключиться
-          </button>
-        </div>
-      </div>
-
-      <!-- Прогресс сезона -->
-      <SeasonProgress :season="currentSeason || undefined"/>
-
-      <!-- Статистика клана -->
-      <ClanStats
-          :clan="currentClan || undefined"
-          :members="clanMembers"
-          :is-expanded="isClanStatsExpanded"
-          @toggle-expand="toggleClanStats"
-      />
-    </div>
+    <PixelWarsUI 
+      :selected-pixel="selectedPixel"
+      :view="view"
+      :ws-status="wsStatus"
+      :message-queue="messageQueue"
+      :is-processing-queue="isProcessingQueue"
+      :is-capturing="isCapturing"
+      :can-capture-pixel="canCapturePixel"
+      :is-selected-pixel-captured="Boolean(isSelectedPixelCaptured)"
+      :current-season="currentSeason"
+      :current-clan="currentClan"
+      :clan-members="clanMembers"
+      :is-clan-stats-expanded="isClanStatsExpanded"
+      @capture-pixel="handleCapturePixel"
+      @connect-websocket="connectWebSocket"
+      @disconnect-websocket="disconnectWebSocket"
+      @toggle-clan-stats="toggleClanStats"
+    />
   </div>
 </template>
 
