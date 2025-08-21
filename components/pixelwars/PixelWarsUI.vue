@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import SeasonProgress from "~/components/pixelwars/SeasonProgress.vue";
-import ClanStats from "~/components/pixelwars/ClanStats.vue";
+import PixelWarsClan from "~/components/pixelwars/PixelWarsClan.vue";
 import PixelWarsWelcome from "~/components/pixelwars/PixelWarsWelcome.vue";
 
 // Props для получения данных от родительского компонента
@@ -38,10 +38,6 @@ const connectWebSocket = () => {
 
 const disconnectWebSocket = () => {
   emit('disconnect-websocket');
-};
-
-const toggleClanStats = () => {
-  emit('toggle-clan-stats');
 };
 
 const getSelectedPixelUser = () => {
@@ -120,7 +116,7 @@ const getSelectedPixelUser = () => {
 
   <!-- Левая панель с информацией о выбранном пикселе -->
   <div v-if="selectedPixel" class="absolute left-1 top-32 pointer-events-auto">
-    <div class="bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-white/20 max-w-xs">
+    <div class="bg-white/90 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-white/20 max-w-xs">
       <div class="flex items-center space-x-2 mb-3">
         <div class="w-3 h-3 rounded-full" :class="{
             'bg-black': selectedPixel.type === 'border',
@@ -205,7 +201,7 @@ const getSelectedPixelUser = () => {
 
   <!-- Правая панель с информацией о виде -->
   <div class="absolute right-1 bottom-1 pointer-events-auto">
-    <div class="bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-white/20">
+    <div class="bg-white/90 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-white/20">
       <h3 class="text-sm font-semibold text-gray-800 mb-3">Навигация</h3>
       <div class="space-y-2 text-sm">
         <div class="flex justify-between">
@@ -228,13 +224,8 @@ const getSelectedPixelUser = () => {
 
   <!-- Нижняя панель со статистикой клана -->
   <div class="absolute bottom-1 left-1 pointer-events-auto">
-    <div class="bg-white/95 backdrop-blur-sm rounded-xl shadow-lg border border-white/20">
-      <ClanStats
-          :clan="currentClan || undefined"
-          :members="clanMembers"
-          :is-expanded="isClanStatsExpanded"
-          @toggle-expand="toggleClanStats"
-      />
+    <div class="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg border border-white/20">
+      <PixelWarsClan />
     </div>
   </div>
 

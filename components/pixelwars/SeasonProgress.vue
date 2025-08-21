@@ -42,14 +42,11 @@ const formatTime = (value: number) => value.toString().padStart(2, '0');
 </script>
 
 <template>
-  <div class="bg-white rounded-lg border border-gray-200 p-4">
+  <div>
     <div class="flex items-center justify-between mb-4">
       <h3 class="text-lg font-semibold text-gray-900">
         {{ season?.name || 'Текущий сезон' }}
       </h3>
-      <div class="text-sm text-gray-500">
-        {{ season?.isActive ? 'Активен' : 'Завершен' }}
-      </div>
     </div>
 
     <div v-if="season && season.isActive" class="space-y-4">
@@ -120,7 +117,7 @@ const formatTime = (value: number) => value.toString().padStart(2, '0');
               <span class="text-xs text-gray-500">место</span>
             </div>
             <div class="text-sm text-gray-600">
-              {{ reward.coins.toLocaleString() }} монет
+              {{ reward.coins.toLocaleString() }} АР
             </div>
           </div>
           <div v-if="season.rewards.length > 3" class="text-xs text-gray-500 text-center">

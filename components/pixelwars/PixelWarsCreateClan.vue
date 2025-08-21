@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { http } from '~/composables/useHttp'
+import {toast} from "vue-sonner";
 
 const formData = ref({
   name: '',
@@ -7,7 +9,10 @@ const formData = ref({
   tag: ''
 })
 
+const {user, pixelwars_clans, updateUser} = useUser()
+
 const isLoading = ref(false)
+const open = ref(false)
 
 const handleSubmit = async () => {
   if (!formData.value.name || !formData.value.description || !formData.value.tag) {
@@ -15,15 +20,24 @@ const handleSubmit = async () => {
   }
   
   isLoading.value = true
-  // Здесь будет логика создания клана
-  setTimeout(() => {
+  try {
+    const response = await http.post("/pixelwars/clan/create", formData.value)
+    pixelwars_clans.value.push(response.data.clan)
+    await updateUser()
     isLoading.value = false
-  }, 1000)
+
+    open.value = false
+    toast.success("Добро пожаловать!", {
+      description: "Клан успешно создан",
+      duration: 5000,
+    });
+  } catch (e) {}
+  isLoading.value = false
 }
 </script>
 
 <template>
-  <ShDialog>
+  <ShDialog v-model:open="open">
     <ShDialogTrigger as-child>
       <slot />
     </ShDialogTrigger>
@@ -63,14 +77,14 @@ const handleSubmit = async () => {
               <ShLabel for="description" class="text-sm font-medium text-gray-700">
                 Описание
               </ShLabel>
-              <ShTextarea
+              <ShInput
                   id="description"
                   v-model="formData.description"
                   placeholder="Расскажите о вашем клане"
-                  class="min-h-[80px] border-gray-200 focus:border-purple-500 focus:ring-purple-500 resize-none"
-                  maxlength="200"
+                  class="border-gray-200 focus:border-purple-500 focus:ring-purple-500 resize-none"
+                  maxlength="64"
               />
-              <p class="text-xs text-gray-500">{{ formData.description.length }}/200 символов</p>
+              <p class="text-xs text-gray-500">{{ formData.description.length }}/64 символов</p>
             </div>
 
             <div class="space-y-2">
@@ -83,15 +97,15 @@ const handleSubmit = async () => {
                     v-model="formData.tag"
                     placeholder="PW"
                     class="h-11 border-gray-200 focus:border-purple-500 focus:ring-purple-500 uppercase tracking-wider font-mono"
-                    maxlength="4"
+                    maxlength="2"
                 />
                 <div class="absolute right-3 top-1/2 -translate-y-1/2">
                   <div class="px-2 py-1 bg-gray-100 rounded text-xs text-gray-600 font-mono">
-                    {{ formData.tag || 'PW' }}
+                    {{ formData.tag.toUpperCase() || 'PW' }}
                   </div>
                 </div>
               </div>
-              <p class="text-xs text-gray-500">Короткий идентификатор клана (2-4 символа)</p>
+              <p class="text-xs text-gray-500">Короткий идентификатор клана (2 символа)</p>
             </div>
           </div>
 
@@ -104,19 +118,21 @@ const handleSubmit = async () => {
               </div>
               <div>
                 <p class="font-medium">Создание клана бесплатно!</p>
-                <p class="text-gray-600">Вы получите базовые возможности и сможете приглашать игроков</p>
+                <p class="text-gray-600">Вы получите базовые возможности и сможете принимать заявки игроков</p>
               </div>
             </div>
           </div>
 
           <ShDialogFooter class="flex gap-3 pt-4">
-            <ShButton
-                type="button"
-                variant="outline"
-                class="flex-1 h-11 border-gray-200 hover:bg-gray-50"
-            >
-              Отмена
-            </ShButton>
+            <ShDialogClose as-child>
+              <ShButton
+                  type="button"
+                  variant="outline"
+                  class="flex-1 h-11 border-gray-200 hover:bg-gray-50"
+              >
+                Отмена
+              </ShButton>
+            </ShDialogClose>
             <ShButton
                 :loading="isLoading"
                 type="submit"

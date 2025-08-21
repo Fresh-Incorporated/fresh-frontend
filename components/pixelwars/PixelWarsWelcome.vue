@@ -1,11 +1,13 @@
 <script setup lang="ts">
-
 import PixelWarsClans from "~/components/pixelwars/PixelWarsClans.vue";
 import PixelWarsCreateClan from "~/components/pixelwars/PixelWarsCreateClan.vue";
+
+const {user} = useUser()
+
 </script>
 
 <template>
-  <ShDialog open>
+  <ShDialog :open="!user?.pwClanId">
     <ShDialogContent remove-close class="sm:max-w-[425px]">
       <ShDialogHeader>
         <ShDialogTitle>Добро пожаловать в PixelWars</ShDialogTitle>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import PixelWarsMap from "~/components/pixelwars/PixelWarsMap.vue";
-import ClanStats from "~/components/pixelwars/ClanStats.vue";
+import PixelWarsClan from "~/components/pixelwars/PixelWarsClan.vue";
 import SeasonProgress from "~/components/pixelwars/SeasonProgress.vue";
 import PixelWarsCreateClan from "~/components/pixelwars/PixelWarsCreateClan.vue";
 import PixelWarsClans from "~/components/pixelwars/PixelWarsClans.vue";
@@ -250,7 +250,6 @@ const loadSeasonData = async () => {
     // Пока используем моковые данные
     currentSeason.value = {
       id: "1",
-      name: "Сезон 1: Начало",
       startDate: new Date("2025-08-01"),
       endDate: new Date("2025-08-31"),
       isActive: true,
@@ -387,22 +386,22 @@ onBeforeUnmount(() => {
     />
 
     <!-- Модальные окна кланов -->
-    <PixelWarsCreateClan>
-      <ShButton 
-        variant="outline" 
-        class="absolute top-4 right-4 bg-white/80 backdrop-blur-sm border-gray-200 hover:bg-white"
-      >
-        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-        </svg>
-        Создать клан
-      </ShButton>
-    </PixelWarsCreateClan>
+<!--    <PixelWarsCreateClan>-->
+<!--      <ShButton -->
+<!--        variant="outline" -->
+<!--        class="absolute top-4 right-4 bg-white/80 backdrop-blur-sm border-gray-200 hover:bg-white"-->
+<!--      >-->
+<!--        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">-->
+<!--          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />-->
+<!--        </svg>-->
+<!--        Создать клан-->
+<!--      </ShButton>-->
+<!--    </PixelWarsCreateClan>-->
 
     <PixelWarsClans>
       <ShButton 
         variant="outline" 
-        class="absolute top-4 right-20 bg-white/80 backdrop-blur-sm border-gray-200 hover:bg-white"
+        class="absolute left-1 bottom-82 bg-white/80 backdrop-blur-sm border-gray-200 hover:bg-white"
       >
         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />

@@ -13,6 +13,8 @@ const balanceHistory = ref<Payment[]>([]);
 const userLoading = ref<boolean>(true);
 const adult = ref<boolean>(false);
 
+const pixelwars_clans = ref([]);
+
 export const useUser = () => {
 
     async function updateUser() {
@@ -103,6 +105,7 @@ export const useUser = () => {
         monthBalance,
         updateMonthBalance,
         getTags,
-        adult
+        adult,
+        pixelwars_clans
     };
 };
