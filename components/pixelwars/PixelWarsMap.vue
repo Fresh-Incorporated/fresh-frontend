@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount, watch, computed } from "vue";
-import { drawGrid, drawPixel } from "~/utils/pixelwars/CanvasUtils";
-import type { BasePixel } from "~/types/pixelwars";
+import {onBeforeUnmount, onMounted, ref, watch} from "vue";
+import {drawGrid, drawPixel} from "~/utils/pixelwars/CanvasUtils";
+import type {BasePixel} from "~/types/pixelwars";
+
+const { pixelwars_clans } = useUser()
 
 const CELL_SIZE = 5;          // размер "пикселя" карты в экранных px при scale=1
 const CHUNK_SIZE = 100;       // размер чанка в клетках
@@ -207,7 +209,7 @@ function getChunkCanvas(
 
       if (isCaptured) {
         // Захваченный пиксель - зеленый
-        offctx.fillStyle = "#22C55E";
+        offctx.fillStyle = getPixelColor(p.ownerId);
       } else {
         // Свободный пиксель - белый
         offctx.fillStyle = "#FFFFFF";
@@ -219,6 +221,11 @@ function getChunkCanvas(
 
   cache.set(ck, off);
   return off;
+}
+
+function getPixelColor(userId: number) {
+  console.log(userId, pixelwars_clans.value, pixelwars_clans.value.find(clan => clan.ownerId == userId))
+  return pixelwars_clans.value.find(clan => clan.ownerId == userId)?.color ?? "#ff0000"
 }
 
 // Адаптивный рендер слоя (LOD + кэш)
@@ -270,10 +277,10 @@ function renderLayer(chunks: ChunkMap, layer: "border" | "state") {
             c.fillStyle = "#FFFFFF";
           } else if (capturedCount === totalCount) {
             // Все захвачены - зеленый
-            c.fillStyle = "#22C55E";
+            c.fillStyle = getPixelColor();
           } else {
             // Смешанные - светло-зеленый
-            c.fillStyle = "#86EFAC";
+            c.fillStyle = "#ff0000";
           }
         }
 

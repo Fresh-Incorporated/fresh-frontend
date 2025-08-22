@@ -88,6 +88,19 @@ export const useUser = () => {
         return tags.value
     }
 
+    async function updatePixelWarsClans() {
+        const response = await http.get("/pixelwars/clan/list")
+        pixelwars_clans.value = response.data.clans
+    }
+
+    async function getPixelWarsClans() {
+        if (pixelwars_clans.value.length == 0) {
+            await updatePixelWarsClans()
+        }
+
+        return pixelwars_clans.value
+    }
+
     return {
         user,
         userLoading,
@@ -106,6 +119,8 @@ export const useUser = () => {
         updateMonthBalance,
         getTags,
         adult,
-        pixelwars_clans
+        pixelwars_clans,
+        updatePixelWarsClans,
+        getPixelWarsClans,
     };
 };

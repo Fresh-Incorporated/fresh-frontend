@@ -11,6 +11,8 @@ import {toast} from "vue-sonner";
 import PixelWarsUI from "~/components/pixelwars/PixelWarsUI.vue";
 import PixelWarsWelcome from "~/components/pixelwars/PixelWarsWelcome.vue";
 
+const { updatePixelWarsClans } = useUser()
+
 const view = ref<ViewState>({
   scale: 0.25,
   panX: -4,
@@ -331,6 +333,7 @@ onMounted(() => {
   loadMap();
   loadClanData();
   loadSeasonData();
+  updatePixelWarsClans();
   
   // Подключаемся к WebSocket
   connectWebSocket();
