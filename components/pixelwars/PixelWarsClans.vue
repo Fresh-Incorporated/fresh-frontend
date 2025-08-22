@@ -2,6 +2,8 @@
 import { ref, computed } from 'vue'
 import PixelWarsCreateClan from "~/components/pixelwars/PixelWarsCreateClan.vue";
 
+const {pixelwars_clans} = useUser()
+
 // Моковые данные для демонстрации
 const clans = ref([
   {
@@ -63,7 +65,7 @@ const sortBy = ref<'level' | 'members' | 'pixels'>('level')
 const sortOrder = ref<'asc' | 'desc'>('desc')
 
 const filteredClans = computed(() => {
-  let filtered = clans.value.filter(clan =>
+  let filtered = pixelwars_clans.value.filter(clan =>
     clan.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
     clan.tag.toLowerCase().includes(searchQuery.value.toLowerCase())
   )
@@ -173,7 +175,7 @@ const getMembersColor = (members: number, max: number) => {
                 </div>
                 <div class="min-w-0 flex-1">
                   <p class="text-xs sm:text-sm text-gray-600 truncate">Всего кланов</p>
-                  <p class="text-lg sm:text-xl font-bold text-gray-900">{{ clans.length }}</p>
+                  <p class="text-lg sm:text-xl font-bold text-gray-900">{{ pixelwars_clans.length }}</p>
                 </div>
               </div>
             </div>
@@ -185,7 +187,7 @@ const getMembersColor = (members: number, max: number) => {
                 </div>
                 <div class="min-w-0 flex-1">
                   <p class="text-xs sm:text-sm text-gray-600 truncate">Активных игроков</p>
-                  <p class="text-lg sm:text-xl font-bold text-gray-900">{{ clans.reduce((sum, clan) => sum + clan.members, 0) }}</p>
+                  <p class="text-lg sm:text-xl font-bold text-gray-900">{{ pixelwars_clans.reduce((sum, clan) => sum + clan.members ?? 0, 0) }}</p>
                 </div>
               </div>
             </div>
@@ -197,7 +199,7 @@ const getMembersColor = (members: number, max: number) => {
                 </div>
                 <div class="min-w-0 flex-1">
                   <p class="text-xs sm:text-sm text-gray-600 truncate">Всего пикселей</p>
-                  <p class="text-lg sm:text-xl font-bold text-gray-900">{{ clans.reduce((sum, clan) => sum + clan.totalPixels, 0).toLocaleString() }}</p>
+                  <p class="text-lg sm:text-xl font-bold text-gray-900">{{ pixelwars_clans.reduce((sum, clan) => sum + clan.totalPixels ?? 0, 0).toLocaleString() }}</p>
                 </div>
               </div>
             </div>
@@ -209,7 +211,7 @@ const getMembersColor = (members: number, max: number) => {
                 </div>
                 <div class="min-w-0 flex-1">
                   <p class="text-xs sm:text-sm text-gray-600 truncate">Всего монет</p>
-                  <p class="text-lg sm:text-xl font-bold text-gray-900">{{ clans.reduce((sum, clan) => sum + clan.totalCoins, 0).toLocaleString() }}</p>
+                  <p class="text-lg sm:text-xl font-bold text-gray-900">{{ pixelwars_clans.reduce((sum, clan) => sum + clan.totalCoins ?? 0, 0).toLocaleString() }}</p>
                 </div>
               </div>
             </div>
@@ -219,7 +221,7 @@ const getMembersColor = (members: number, max: number) => {
           <div class="space-y-3">
             <div class="flex items-center justify-between">
               <h3 class="text-base sm:text-lg font-semibold text-gray-900">Доступные кланы</h3>
-              <p class="text-xs sm:text-sm text-gray-500">{{ filteredClans.length }} из {{ clans.length }}</p>
+              <p class="text-xs sm:text-sm text-gray-500">{{ filteredClans.length }} из {{ pixelwars_clans.length }}</p>
             </div>
 
             <div class="space-y-3">
@@ -264,11 +266,11 @@ const getMembersColor = (members: number, max: number) => {
                       </div>
                       <div class="text-center">
                         <p class="text-xs text-gray-500 mb-1">Пиксели</p>
-                        <p class="text-xs sm:text-sm font-medium text-gray-900">{{ clan.totalPixels.toLocaleString() }}</p>
+                        <p class="text-xs sm:text-sm font-medium text-gray-900">{{ clan?.totalPixels?.toLocaleString() }}</p>
                       </div>
                       <div class="text-center">
                         <p class="text-xs text-gray-500 mb-1">Монеты</p>
-                        <p class="text-xs sm:text-sm font-medium text-gray-900">{{ clan.totalCoins.toLocaleString() }}</p>
+                        <p class="text-xs sm:text-sm font-medium text-gray-900">{{ clan?.totalCoins?.toLocaleString() }}</p>
                       </div>
                     </div>
                   </div>
