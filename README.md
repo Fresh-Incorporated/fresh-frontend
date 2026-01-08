@@ -2,7 +2,7 @@
 
 <p align="center">
     <u><b>ENGLISH</b></u> •
-    <a href="https://github.com/Fresh-Incorporated/fresh-frontend/edit/main/README.ru_RU.md"><b>РУССКИЙ</b></a>
+    <a href="https://github.com/Fresh-Incorporated/fresh-frontend/blob/main/README.ru_RU.md"><b>РУССКИЙ</b></a>
 </p>
 
 **This project is a Frontend for minecraft IT-project - FreshInc.**
