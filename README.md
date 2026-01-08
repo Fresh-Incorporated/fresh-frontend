@@ -67,6 +67,28 @@ Don't forget to give the project a star! Thanks again!
   <img src="https://contrib.rocks/image?repo=Fresh-Incorporated/fresh-frontend" alt="contrib.rocks image" />
 </a>
 
+# 📄 License
+
+This project is licensed under the **GNU Affero General Public License v3.0 (AGPL-3.0)**.
+
+You are free to:
+- use, study, and modify the source code;
+- distribute original or modified versions;
+
+Under the following conditions:
+- the source code of any modified version **must be made publicly available**;
+- modified versions must be released **under the same license (AGPL-3.0)**;
+- copyright and license notices must be preserved;
+- if the project (or a modified version) is used to provide a service over a network,
+  users of that service must have access to the corresponding source code.
+
+This project is provided **"AS IS"**, without warranty of any kind.
+The authors are not liable for any damages or issues arising from its use.
+
+See the [LICENSE](./LICENSE) file for full license text.
+
+Copyright © 2025-2026 zaralX
+
 # 💸 Project Support
 
 Any support helps me dedicate more time to development and accelerate project progress!
