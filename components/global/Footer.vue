@@ -63,8 +63,8 @@
           </div>
         </div>
       </div>
-      <div class="flex justify-center pb-2 text-neutral-300 text-sm md:text-base">
-        <p>© 2025 zaralX Projects™. All Rights Reserved.</p>
+      <div class="flex justify-center pb-2 text-neutral-300 text-sm md:text-base relative z-10">
+        <a href="https://github.com/Fresh-Incorporated/fresh-frontend">© 2024–2026 zaralX. GNU Affero General Public License v3.0</a>
       </div>
     </div>
   </div>
