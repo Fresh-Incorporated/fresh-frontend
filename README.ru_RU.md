@@ -1,7 +1,7 @@
 <div align="center" markdown>
 
 <p align="center">
-    <a href="https://github.com/Fresh-Incorporated/fresh-frontend/edit/main/README.md"><b>ENGLISH</b></a> • 
+    <a href="https://github.com/Fresh-Incorporated/fresh-frontend/blob/main/README.md"><b>ENGLISH</b></a> • 
     <u><b>РУССКИЙ</b></u>
 </p>
 
