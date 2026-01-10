@@ -8,15 +8,15 @@ ENV NODE_ENV=production
 
 WORKDIR /src
 
-FROM base as build
+FROM base AS build
 
 COPY --link package.json package-lock.json ./
-RUN npm ci
+RUN npm install
 
 COPY --link . .
 
 RUN npm run build
-RUN npm prune --omit=dev
+RUN npm prune
 
 FROM base
 
