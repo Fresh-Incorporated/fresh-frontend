@@ -11,12 +11,12 @@ WORKDIR /src
 FROM base as build
 
 COPY --link package.json package-lock.json ./
-RUN npm install
+RUN npm ci
 
 COPY --link . .
 
 RUN npm run build
-RUN npm prune
+RUN npm prune --omit=dev
 
 FROM base
 

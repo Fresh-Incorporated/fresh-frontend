@@ -1,8 +1,7 @@
 services:
   service:
-    build: .
+    image: ghcr.io/fresh-incorporated/fresh-frontend:latest
     restart: unless-stopped
-    pull_policy: build
     env_file:
       - stack.env
     ports:
