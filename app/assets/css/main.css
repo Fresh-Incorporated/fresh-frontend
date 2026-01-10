@@ -1,10 +1,9 @@
-@import 'light.css' layer(base);
-@import 'dark.css' layer(base);
-@import '../../../node_modules/primeicons/primeicons.css' layer(base);
+@import './light.css' layer(base);
+@import './dark.css' layer(base);
+@import 'primeicons/primeicons.css' layer(base);
 
-@import '../../../node_modules/tailwindcss/dist/lib.d.mts';
-
-@import "../../../node_modules/tw-animate-css";
+@import 'tailwindcss';
+@import "tw-animate-css";
 
 @plugin 'tailwindcss-animation-delay';
 @plugin '@designbycode/tailwindcss-text-stroke';
