@@ -45,7 +45,7 @@ const isDev = import.meta.dev;
             <Icon name="lucide:menu" size="16" />
           </ShButton>
         </div>
-        <NuxtLink to="/" class="hidden md:flex items-center h-full gap-1 md:w-60 ml-2 md:ml-0">
+        <NuxtLink to="/public" class="hidden md:flex items-center h-full gap-1 md:w-60 ml-2 md:ml-0">
           <!--          <img class="h-8" src="/logo.svg" alt="">-->
           <p class="absolute font-rubik text-xl blur-xs opacity-0 dark:opacity-50 select-none">Fresh Inc.</p>
           <p class="font-rubik text-xl text-nowrap">Fresh Inc.</p>

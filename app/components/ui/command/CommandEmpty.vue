@@ -4,7 +4,7 @@ import { reactiveOmit } from '@vueuse/core'
 import { Primitive } from 'reka-ui'
 import { computed, type HTMLAttributes } from 'vue'
 import { cn } from '@/lib/utils'
-import { useCommand } from '.'
+import { useCommand } from './index'
 
 const props = defineProps<PrimitiveProps & { class?: HTMLAttributes['class'] }>()
 
