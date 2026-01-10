@@ -3,7 +3,6 @@
 @import 'primeicons/primeicons.css' layer(base);
 
 @import 'tailwindcss';
-
 @import "tw-animate-css";
 
 @plugin 'tailwindcss-animation-delay';

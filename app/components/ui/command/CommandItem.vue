@@ -4,7 +4,7 @@ import { reactiveOmit, useCurrentElement } from '@vueuse/core'
 import { ListboxItem, useForwardPropsEmits, useId } from 'reka-ui'
 import { computed, type HTMLAttributes, onMounted, onUnmounted, ref } from 'vue'
 import { cn } from '@/lib/utils'
-import { useCommand, useCommandGroup } from '.'
+import { useCommand, useCommandGroup } from './index'
 
 const props = defineProps<ListboxItemProps & { class?: HTMLAttributes['class'] }>()
 const emits = defineEmits<ListboxItemEmits>()

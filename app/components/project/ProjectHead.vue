@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {http} from "~/composables/useHttp"
 import AnimatedNumbers from "~/components/goodies/AnimatedNumbers.vue";
+import AnotherSkeleton from "~/components/global/AnotherSkeleton.vue";
 
 const scroll = ():void => {
   window.scrollTo(0, 400)
@@ -26,7 +27,7 @@ onMounted(async () => {
     ></div>
     <div class="h-full hidden lg:block">
       <p class="absolute w-full grid grid-cols-8 grid-rows-1 bottom-9 px-1 py-1 text-xs">Последние покупки</p>
-      <Skeleton v-model="loadingStats" class="bottom-0 h-9 w-full absolute z-10 px-1 my-1" />
+      <AnotherSkeleton v-model="loadingStats" class="bottom-0 h-9 w-full absolute z-10 px-1 my-1" />
       <div class="absolute w-full grid grid-cols-8 grid-rows-1 bottom-0 px-1 py-1 gap-2 overflow-hidden">
         <ShCard v-for="product in stats.lastProducts" class="flex-row gap-1 !p-0 rounded-sm">
           <div class="w-8 h-8 aspect-square">
@@ -48,7 +49,7 @@ onMounted(async () => {
         </p>
 
         <div class="relative">
-          <Skeleton v-model="loadingStats" class="absolute top-0 left-0 z-10 h-4 w-full" />
+          <AnotherSkeleton v-model="loadingStats" class="absolute top-0 left-0 z-10 h-4 w-full" />
           <p class="text-black dark:text-white opacity-90 md:text-nowrap text-[0.7rem] md:text-xs mt-1">
             Всего заказов: <AnimatedNumbers v-model="stats.totalOrders" /> | Заказов за сутки: <AnimatedNumbers v-model="stats.last24hOrders" />
           </p>
