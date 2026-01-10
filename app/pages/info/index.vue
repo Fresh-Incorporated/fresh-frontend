@@ -12,15 +12,21 @@ const {user, userLoading} = useUser()
         <h2 class="text-2xl font-medium">Что такое Fresh Inc?</h2>
         <div class="w-full h-px bg-neutral-300 dark:bg-neutral-700 my-2"></div>
         <p>Fresh Inc. — это инновационный IT-проект, созданный для воплощения самых амбициозных идей и предоставления
-          уникальных решений для пользователей сервера СПм.
+          уникальных решений для игроков.
           <br> Наша миссия — объединить технологии, креативность и практичность, чтобы создавать удобные, современные и
-          полезные инструменты для всех участников экосистемы.</p>
-        <a href="https://www.donationalerts.com/r/zaralx" target="_blank">
-          <ShButton variant="warning" size="xs" class="border border-orange-500">
+          полезные инструменты для всех участников экосистемы.
+          <br> Проект является <a href="https://github.com/Fresh-Incorporated/fresh-frontend" class="underline">Open Source</a> продуктом и вы можете принять участие в его разработке!.</p>
+        <a href="https://yookassa.ru/my/i/aV_CmfK_wqYS/l" target="_blank">
+          <ShButton size="xs" class="border border-blue-500">
             <div class="flex gap-2 items-center">
-            <img src="/DA_Alert_Color.svg" class="w-4" alt="">
-            <p>Поддержать проект</p>
+            <p>Поддержать проект - ЮКасса</p>
           </div></ShButton>
+        </a>
+        <a href="https://t.me/tribute/app?startapp=dDuX" target="_blank">
+          <ShButton size="xs" variant="secondary" class="border">
+            <div class="flex gap-2 items-center">
+              <p>Поддержать проект - Tribute</p>
+            </div></ShButton>
         </a>
       </div>
       <div class="bg-neutral-100 dark:bg-neutral-800/[0.5] rounded-xl p-4 shadow-sm dark:shadow-lg">
@@ -161,7 +167,7 @@ const {user, userLoading} = useUser()
                 используйте сайт Fresh Incorporated.
                 Авторизируясь на сайте вы автоматически соглашаетесь с пользовательским соглашением.
                 Сервис FreshMarket не является настоящим маркетплейсом. FreshMarket — игровая симуляция онлайн магазина.
-                Все платежи осуществляются в игровой валюте на сервере майнкрафт СПм.
+                Все платежи осуществляются в игровой валюте на майнкрафт сервере.
 
                 <h2>СОГЛАШЕНИЕ</h2>
                 Авторизируясь на сайте Fresh Incorporated и используя его сервисы, вы соглашаетесь соблюдать настоящие
@@ -204,7 +210,7 @@ const {user, userLoading} = useUser()
                 <br>
                 -> Быть авторизованным на Платформе и принять все условия и политики;
                 <br>
-                -> Не быть заблокированным на сервере СПм;
+                -> Не быть заблокированным на игровом сервере;
                 <br>
                 Запрещается:
                 -> Использовать любые программы, механизмы, чтобы обойти какие-либо правила, скрыть свою личность и/или

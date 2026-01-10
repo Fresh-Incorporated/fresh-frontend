@@ -36,9 +36,9 @@ export default defineNuxtConfig({
       charset: 'utf-8',
       meta: [
         { name: 'viewport', content: 'width=device-width, initial-scale=1, maximum-scale=5 shrink-to-fit=no' },
-        { name: 'description', content: 'Fresh Inc. — это инновационный IT-проект, созданный для воплощения самых амбициозных идей и предоставления уникальных решений для пользователей сервера СПм.' },
+        { name: 'description', content: 'Fresh Inc. — это инновационный IT-проект, созданный для воплощения самых амбициозных идей и предоставления уникальных решений для игроков.' },
         { property: 'og:title', content: 'Fresh Inc.' },
-        { property: 'og:description', content: 'Fresh Inc. — это инновационный IT-проект, созданный для воплощения самых амбициозных идей и предоставления уникальных решений для пользователей сервера СПм.' },
+        { property: 'og:description', content: 'Fresh Inc. — это инновационный IT-проект, созданный для воплощения самых амбициозных идей и предоставления уникальных решений для игроков.' },
         { property: 'og:site_name', content: 'Fresh Inc.' },
         { property: 'og:locale', content: 'ru_RU' },
         { property: 'og:image', content: 'https://fresh.zaralx.ru/android-chrome-512x512.png' },

@@ -52,7 +52,7 @@ onMounted(async () => {
         <!--          </div>-->
         <!--        </div>-->
         <p class="text-blue-800 dark:text-white opacity-80 md:text-nowrap">
-          Инновационная идея в мире Minecraft!
+          Инновационные идеи в мире Minecraft!
         </p>
         <div class="grid grid-cols-2 text-center mt-2 text-neutral-400 lg:hidden">
           <div>
