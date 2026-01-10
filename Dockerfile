@@ -6,13 +6,14 @@ WORKDIR /src
 FROM base AS build
 
 COPY package.json package-lock.json ./
-RUN npm ci
+RUN npm ci --include=optional
 
 COPY . .
 RUN npm run build
 RUN npm prune --omit=dev
 
-FROM base AS runtime
+FROM node:${NODE_VERSION}-slim AS runtime
+WORKDIR /src
 
 ENV NODE_ENV=production
 ARG PORT=3000
