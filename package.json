@@ -45,6 +45,7 @@
     "zod": "^3.25.57"
   },
   "devDependencies": {
-    "@iconify-json/lucide": "^1.2.47"
+    "@iconify-json/lucide": "^1.2.47",
+    "typescript": "^5.9.2"
   }
 }
