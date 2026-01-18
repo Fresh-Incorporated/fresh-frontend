@@ -3,10 +3,6 @@ services:
     image: ghcr.io/fresh-incorporated/fresh-frontend:latest
     restart: unless-stopped
     env_file:
-      - stack.env
+      - .env
     ports:
       - "${SERVER_PORT:-3000}:${PORT:-3000}"
-    deploy:
-      resources:
-        limits:
-          memory: 300M
