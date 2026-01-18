@@ -24,8 +24,11 @@ onMounted(async () => {
     loginStatus.value = "Отправка запроса";
     const result = await loginDiscord(code)
     if (result.ok) {
+      console.log(result)
+      useCookie("access_token", {maxAge: 60 * 60 * 24 * 7}).value = result.tokens.access_token
+      useCookie("refresh_token", {maxAge: 60 * 60 * 24 * 7}).value = result.tokens.refresh_token
       loginStatus.value = "Успех";
-      window.location = "/";
+      // window.location = "/";
     } else {
       loginStatus.value = result.error;
     }

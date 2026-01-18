@@ -23,28 +23,28 @@ http.interceptors.response.use(
     async (error: AxiosError<{ message: string }>) => {
         if (!error.response) return Promise.reject(error);
         const originalRequest = error.config;
-
-
-        if (error.response.request.responseURL.includes("refresh")) {
-            // skip
-        } else if (error.response.status === 401) {
-            try {
-                await http.post('/users/@me/refresh');
-                return http(originalRequest!);
-            } catch (refreshError) {
-                return Promise.reject(refreshError);
-            }
-        } else if (error.response.data.message) {
-            toast.error('Произошла ошибка', {
-                description: error.response.data?.message,
-                duration: error.response.data?.message.length * 100 + 2000,
-            })
-        } else {
-            toast.error('Произошла ошибка', {
-                description: "Неизвестная ошибка",
-                duration: 5000,
-            })
-        }
+        //
+        //
+        // if (error.response.request.responseURL.includes("refresh")) {
+        //     // skip
+        // } else if (error.response.status === 401) {
+        //     try {
+        //         // await http.post('/users/@me/refresh');
+        //         return http(originalRequest!);
+        //     } catch (refreshError) {
+        //         return Promise.reject(refreshError);
+        //     }
+        // } else if (error.response.data.message) {
+        //     toast.error('Произошла ошибка', {
+        //         description: error.response.data?.message,
+        //         duration: error.response.data?.message.length * 100 + 2000,
+        //     })
+        // } else {
+        //     toast.error('Произошла ошибка', {
+        //         description: "Неизвестная ошибка",
+        //         duration: 5000,
+        //     })
+        // }
 
         return Promise.reject(error);
     }
