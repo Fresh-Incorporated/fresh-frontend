@@ -85,5 +85,5 @@ export default defineNuxtConfig({
     componentName: 'Icon',
   },
 
-  modules: ['@nuxtjs/color-mode', '@nuxt/icon', '@nuxtjs/device', 'shadcn-nuxt', '@artmizu/yandex-metrika-nuxt'],
+  modules: ['@nuxtjs/color-mode', '@nuxt/icon', '@nuxtjs/device', 'shadcn-nuxt', '@pinia/nuxt', '@artmizu/yandex-metrika-nuxt'],
 })
